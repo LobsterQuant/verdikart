@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import Logo from "@/components/Logo";
+import NavBar from "@/components/NavBar";
 import JsonLd from "@/components/JsonLd";
 import PageTransition from "@/components/PageTransition";
 import "./globals.css";
@@ -72,23 +72,7 @@ export default function RootLayout({
             "query-input": "required name=search_term_string"
           }
         }} />
-        <nav className="fixed top-0 left-0 right-0 z-50 border-b border-card-border bg-background/80 backdrop-blur-xl">
-          <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-            <a href="/" className="flex items-center gap-2 min-w-0">
-              <Logo className="h-8 w-8 shrink-0" />
-              <span className="hidden font-bold text-lg tracking-tight text-foreground sm:block">
-                Verdikart
-              </span>
-            </a>
-            <nav className="flex items-center gap-3 text-sm text-text-secondary sm:gap-5">
-              <a href="/by/oslo" className="hover:text-foreground transition-colors whitespace-nowrap hidden sm:block">Oslo</a>
-              <a href="/by/bergen" className="hover:text-foreground transition-colors whitespace-nowrap hidden sm:block">Bergen</a>
-              <a href="/by/trondheim" className="hover:text-foreground transition-colors whitespace-nowrap hidden sm:block">Trondheim</a>
-              <a href="/blog" className="hover:text-foreground transition-colors whitespace-nowrap">Blogg</a>
-              <a href="/om-oss" className="hover:text-foreground transition-colors whitespace-nowrap">Om oss</a>
-            </nav>
-          </div>
-        </nav>
+        <NavBar />
         <main className="pt-14">
           <PageTransition>{children}</PageTransition>
         </main>

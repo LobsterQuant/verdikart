@@ -7,12 +7,29 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { href: "/by/oslo",      label: "Oslo" },
-  { href: "/by/bergen",    label: "Bergen" },
-  { href: "/by/trondheim", label: "Trondheim" },
   { href: "/blog",         label: "Blogg" },
   { href: "/faq",          label: "FAQ" },
+  { href: "/kontakt",      label: "Kontakt" },
   { href: "/om-oss",       label: "Om oss" },
+];
+
+// Mobile-only: all links including city pages
+const mobileLinks = [
+  { href: "/by/oslo",         label: "Oslo" },
+  { href: "/by/bergen",       label: "Bergen" },
+  { href: "/by/trondheim",    label: "Trondheim" },
+  { href: "/by/stavanger",    label: "Stavanger" },
+  { href: "/by/baerum",       label: "Bærum" },
+  { href: "/by/kristiansand", label: "Kristiansand" },
+  { href: "/blog",            label: "Blogg" },
+  { href: "/faq",             label: "FAQ" },
+  { href: "/kontakt",         label: "Kontakt" },
+  { href: "/om-oss",          label: "Om oss" },
+  { href: "/for/forstegangskjoper", label: "Førstegangskjøper" },
+  { href: "/for/boliginvestor",     label: "Boliginvestor" },
+  { href: "/for/barnefamilier",     label: "Barnefamilie" },
+  { href: "/presse",               label: "Presse" },
+  { href: "/changelog",            label: "Endringslogg" },
 ];
 
 export default function NavBar() {
@@ -73,7 +90,7 @@ export default function NavBar() {
       {open && (
         <div className="border-t border-card-border bg-background/95 backdrop-blur-xl sm:hidden">
           <div className="flex flex-col divide-y divide-card-border">
-            {navLinks.map(({ href, label }) => (
+            {mobileLinks.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}

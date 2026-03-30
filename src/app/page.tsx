@@ -371,8 +371,9 @@ export default function HomePage() {
               ["/by/fredrikstad", "Fredrikstad"], ["/by/drammen", "Drammen"], ["/by/tromso", "Tromsø"],
               ["/by/sandnes", "Sandnes"], ["/by/bodoe", "Bodø"], ["/by/skien", "Skien"],
               ["/by/sarpsborg", "Sarpsborg"], ["/by/arendal", "Arendal"], ["/by/hamar", "Hamar"],
+              ["/for/forstegangskjoper", "Førstegangskjøper"], ["/for/boliginvestor", "Investor"], ["/for/barnefamilier", "Barnefamilie"],
               ["/blog", "Blogg"], ["/faq", "FAQ"], ["/changelog", "Endringslogg"],
-              ["/kontakt", "Kontakt"], ["/om-oss", "Om oss"], ["/personvern", "Personvern"], ["/vilkar", "Vilkår"],
+              ["/kontakt", "Kontakt"], ["/presse", "Presse"], ["/om-oss", "Om oss"], ["/personvern", "Personvern"], ["/vilkar", "Vilkår"],
             ].map(([href, label]) => (
               <a key={href} href={href} className="text-sm text-text-secondary transition-colors hover:text-foreground">{label}</a>
             ))}

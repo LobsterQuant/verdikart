@@ -170,7 +170,12 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           style={{
             boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), inset 0 0 20px rgba(99,102,241,0.03)",
           }}
-          autoComplete="off"
+          role="combobox"
+          aria-label="Søk på norsk adresse"
+          aria-autocomplete="list"
+          aria-expanded={isOpen && results.length > 0}
+          aria-haspopup="listbox"
+          autoComplete="street-address"
         />
         {isLoading && (
           <div className="absolute right-5 top-1/2 -translate-y-1/2">
@@ -183,11 +188,15 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
       {isOpen && results.length > 0 && (
         <div
           ref={dropdownRef}
+          role="listbox"
+          aria-label="Adresseforslag"
           className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-card-border bg-card-bg shadow-2xl"
         >
           {results.map((result, index) => (
             <button
               key={`${result.adressetekst}-${index}`}
+              role="option"
+              aria-selected={index === activeIndex}
               onClick={() => handleSelect(result)}
               onMouseEnter={() => setActiveIndex(index)}
               className={`w-full px-6 py-3 text-left text-sm transition-colors ${

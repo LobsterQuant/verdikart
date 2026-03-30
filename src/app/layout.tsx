@@ -30,6 +30,7 @@ export default function RootLayout({
     <html lang="no">
       <head>
         <meta charSet="utf-8" />
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <link
           rel="stylesheet"
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"

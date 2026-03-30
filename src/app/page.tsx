@@ -8,6 +8,7 @@ import ProductDemo from "@/components/ProductDemo";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
 import Logo from "@/components/Logo";
+import SiteFooter from "@/components/SiteFooter";
 import { Bus, TrendingUp, Home } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 import type { RefObject } from "react";
@@ -568,7 +569,7 @@ export default function HomePage() {
         </motion.div>
 
         {/* Staggered headline */}
-        <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+        <h1 className="max-w-3xl text-[1.65rem] font-bold leading-tight tracking-tight xs:text-3xl sm:text-5xl md:text-6xl">
           <motion.span className="block text-gradient headline-shimmer" {...fadeUpProps(0.06)}>
             Er nabolaget verdt prisen?
           </motion.span>
@@ -671,6 +672,26 @@ export default function HomePage() {
         <FeatureCards />
       </section>
 
+      {/* Hvorfor gratis? — monetisation transparency */}
+      <section className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6">
+        <div className="rounded-2xl border border-card-border bg-card-bg p-6 sm:p-8">
+          <h2 className="mb-4 text-lg font-bold">Hvorfor er dette gratis?</h2>
+          <div className="grid gap-4 sm:grid-cols-3 text-sm">
+            {[
+              { icon: "🏗️", title: "Åpen infrastruktur", body: "Data fra SSB, Kartverket og Entur er offentlig tilgjengelig — vi gjør den søkbar og nyttig." },
+              { icon: "🌱", title: "Bygger troverdighet", body: "Vi er i en tidlig fase og ønsker at flest mulig prøver verktøyet og gir tilbakemelding." },
+              { icon: "🔮", title: "Fremtidige planer", body: "Vi planlegger premium-funksjoner som lagrede rapporter og prisvarsel — de grunnleggende funksjonene forblir alltid gratis." },
+            ].map(({ icon, title, body }) => (
+              <div key={title} className="flex flex-col gap-2">
+                <span className="text-2xl">{icon}</span>
+                <p className="font-semibold text-foreground">{title}</p>
+                <p className="leading-relaxed text-text-secondary">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Email capture — reframed as value, not "coming soon" */}
       <section className="border-t border-card-border bg-card-bg px-4 py-14 text-center sm:px-6">
         <div className="mx-auto max-w-md">
@@ -684,7 +705,8 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-card-border px-4 pt-12 pb-8 sm:px-6 sm:pt-14 no-print">
+      <SiteFooter />
+      {false && <footer className="border-t border-card-border px-4 pt-12 pb-8 sm:px-6 sm:pt-14 no-print">
         <div className="mx-auto max-w-5xl">
 
           {/* Top: brand block + inline email */}
@@ -761,7 +783,7 @@ export default function HomePage() {
           </div>
 
         </div>
-      </footer>
+      </footer>}
     </div>
     </LazyMotion>
   );

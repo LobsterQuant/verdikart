@@ -116,12 +116,12 @@ export default function EmailCapture({ address, compact = false }: { address?: s
         {address ? ` prisvarsel for ${address}.` : " markedsoppdateringer om boligpriser."} Vi deler ikke data med tredjeparter.
         Du kan{" "}
         <a
-          href="mailto:kontakt@verdikart.no?subject=Avslutt%20prisvarsler&body=Jeg%20ønsker%20å%20avslutte%20prisvarslene%20mine%20fra%20Verdikart."
+          href="/avmeld"
           className="underline underline-offset-2 hover:text-foreground transition-colors"
         >
-          melde deg av når som helst
-        </a>{" "}
-        ved å sende oss en e-post, eller ved å klikke avmeldingslenken i varselet.
+          melde deg av med ett klikk
+        </a>
+        .
         Se vår{" "}
         <a href="/personvern" className="underline underline-offset-2 hover:text-foreground transition-colors">
           personvernerklæring

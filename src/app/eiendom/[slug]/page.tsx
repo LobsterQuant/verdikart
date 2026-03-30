@@ -7,7 +7,7 @@ import PriceTrendCard from "@/components/PriceTrendCard";
 import ComparableSalesCard from "@/components/ComparableSalesCard";
 import PropertyMap from "@/components/PropertyMap";
 import EmailCapture from "@/components/EmailCapture";
-import Logo from "@/components/Logo";
+import SiteFooter from "@/components/SiteFooter";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 import CardsCascade from "@/components/CardsCascade";
@@ -325,20 +325,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
         </div>
 
         {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-        <footer className="mt-12 border-t border-card-border px-4 py-6 sm:px-6 sm:py-8">
-          <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
-            <a href="/" className="flex items-center gap-2 text-sm text-text-tertiary">
-              <Logo className="h-5 w-5 shrink-0 opacity-60" />
-              <span>&copy; {new Date().getFullYear()} Verdikart &mdash; Data fra SSB, Kartverket og Entur</span>
-            </a>
-            <nav className="flex gap-6">
-              <a href="/" className="text-sm text-text-secondary transition-colors hover:text-foreground">Hjem</a>
-              <a href="/om-oss" className="text-sm text-text-secondary transition-colors hover:text-foreground">Om oss</a>
-              <a href="/personvern" className="text-sm text-text-secondary transition-colors hover:text-foreground">Personvern</a>
-              <a href="/vilkar" className="text-sm text-text-secondary transition-colors hover:text-foreground">Vilkår</a>
-            </nav>
-          </div>
-        </footer>
+        <SiteFooter />
       </div>
     </>
   );

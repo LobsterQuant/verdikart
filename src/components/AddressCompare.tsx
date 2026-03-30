@@ -272,12 +272,61 @@ export default function AddressCompare() {
         </div>
       )}
 
-      {/* Empty state */}
+      {/* Empty state — sample preview */}
       {!slotA.address && !slotB.address && (
-        <div className="flex flex-col items-center gap-3 py-12 text-center">
-          <ArrowLeftRight className="h-10 w-10 text-text-tertiary opacity-30" strokeWidth={1} />
-          <p className="text-text-secondary">Søk på to adresser ovenfor for å sammenligne</p>
-          <p className="text-xs text-text-tertiary">Transport · Boligpris · Støy — side ved side</p>
+        <div className="space-y-4">
+          <p className="text-center text-xs text-text-tertiary uppercase tracking-widest font-semibold">Eksempel på sammenligning</p>
+          {/* Sample comparison cards */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 opacity-60 pointer-events-none select-none">
+            {[
+              {
+                label: "Adresse A",
+                name: "Bogstadveien 45, Oslo",
+                transit: "Utmerket 🟢",
+                nearest: "Majorstuen (180m)",
+                price: "105 400 kr/m²",
+                noise: "Lav støy 🟢",
+              },
+              {
+                label: "Adresse B",
+                name: "Grenseveien 80, Oslo",
+                transit: "Godt 🟡",
+                nearest: "Helsfyr (420m)",
+                price: "82 100 kr/m²",
+                noise: "Moderat støy 🟡",
+              },
+            ].map(s => (
+              <div key={s.label} className="rounded-xl border border-card-border bg-card-bg p-4 space-y-3">
+                <div>
+                  <p className="text-xs font-semibold text-text-tertiary uppercase tracking-widest">{s.label}</p>
+                  <p className="mt-0.5 font-medium text-foreground text-sm">{s.name}</p>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-secondary">🚇 Kollektiv</span>
+                    <span className="font-medium">{s.transit}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-secondary">📍 Nærmeste stopp</span>
+                    <span className="text-text-secondary text-xs">{s.nearest}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-secondary">💰 Boligpris</span>
+                    <span className="font-medium">{s.price}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-secondary">🔊 Støynivå</span>
+                    <span className="font-medium">{s.noise}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/5 px-5 py-3 text-sm opacity-60">
+            <span className="text-green-400">💰</span>
+            <p className="text-text-secondary"><strong className="text-foreground">Grenseveien 80</strong> har lavere kvadratmeterpris (82 100 vs 105 400 kr/m²)</p>
+          </div>
+          <p className="text-center text-xs text-text-tertiary">Søk på to adresser ovenfor for å se ekte data</p>
         </div>
       )}
     </div>

@@ -4,6 +4,7 @@ import TransitCard from "@/components/TransitCard";
 import PriceTrendCard from "@/components/PriceTrendCard";
 import ComparableSalesCard from "@/components/ComparableSalesCard";
 import PropertyMap from "@/components/PropertyMap";
+import EmailCapture from "@/components/EmailCapture";
 import AddressSearch from "@/components/AddressSearch";
 
 interface PageProps {
@@ -98,6 +99,11 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
         <div className="md:col-span-2">
           <PropertyMap lat={latNum} lon={lonNum} address={displayAddress} />
         </div>
+      </div>
+
+      {/* Email capture */}
+      <div className="mt-8">
+        <EmailCapture address={displayAddress} />
       </div>
 
       {/* Data source trust strip */}

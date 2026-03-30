@@ -19,7 +19,7 @@ export interface AreaData {
   faq: Array<{ q: string; a: string }>;
 }
 
-const areas: Record<string, AreaData> = {
+export const areas: Record<string, AreaData> = {
   // ── Oslo bydeler ──
   frogner: {
     slug: "frogner",

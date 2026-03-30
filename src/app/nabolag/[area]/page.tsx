@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { TrendingUp, Train, Home, ChevronRight } from "lucide-react";
-import { getArea, getAllAreaSlugs } from "./areaData";
+import { getArea, getAllAreaSlugs, areas } from "./areaData";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 
@@ -194,6 +194,28 @@ export default function AreaPage({ params }: { params: { area: string } }) {
               </div>
             </section>
           )}
+
+          {/* Sibling nabolag links */}
+          {(() => {
+            const siblings = Object.values(areas).filter(a => a.city === area.city && a.slug !== area.slug);
+            if (siblings.length === 0) return null;
+            return (
+              <div className="rounded-xl border border-card-border bg-card-bg p-5">
+                <p className="mb-3 text-sm font-semibold">Andre nabolag i {area.city}</p>
+                <div className="flex flex-wrap gap-2">
+                  {siblings.map(s => (
+                    <Link
+                      key={s.slug}
+                      href={`/nabolag/${s.slug}`}
+                      className="rounded-lg border border-card-border bg-background px-3 py-1.5 text-sm text-text-secondary transition-colors hover:border-accent/40 hover:text-accent"
+                    >
+                      {s.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* Back to city */}
           <Link href={`/by/${area.citySlug}`}

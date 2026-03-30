@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import NoiseCard from "@/components/NoiseCard";
 import TransitCard from "@/components/TransitCard";
+import SchoolsCard from "@/components/SchoolsCard";
+import CrimeCard from "@/components/CrimeCard";
 import PriceTrendCard from "@/components/PriceTrendCard";
 import ComparableSalesCard from "@/components/ComparableSalesCard";
 import PropertyMap from "@/components/PropertyMap";
@@ -238,6 +240,8 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
           <TransitCard key="transit" lat={latNum} lon={lonNum} address={displayAddress} />,
           <PriceTrendCard key="price" kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} />,
           <ComparableSalesCard key="sales" kommunenummer={kommunenummer} />,
+          ...(latNum && lonNum ? [<SchoolsCard key="schools" lat={latNum} lon={lonNum} />] : []),
+          <CrimeCard key="crime" kommunenummer={kommunenummer} />,
           <div key="map" className="md:col-span-2 no-print">
             <PropertyMap lat={latNum} lon={lonNum} address={displayAddress} />
           </div>,

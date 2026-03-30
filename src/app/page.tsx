@@ -4,6 +4,7 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
 import AddressSearch from "@/components/AddressSearch";
 import ProductPreview from "@/components/ProductPreview";
+import ProductDemo from "@/components/ProductDemo";
 import EmailCapture from "@/components/EmailCapture";
 import Logo from "@/components/Logo";
 import { Bus, TrendingUp, Home } from "lucide-react";
@@ -452,6 +453,11 @@ export default function HomePage() {
           className="mt-7 w-full max-w-lg"
           {...fadeUpProps(0.4)}
         >
+          {/* Live demo widget */}
+          <div className="mx-auto w-full max-w-md">
+            <ProductDemo />
+          </div>
+
           {/* Stats grid — 2×2 on mobile, 4 cols on sm+ */}
           <div className="grid grid-cols-2 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-y divide-card-border sm:grid-cols-4 sm:divide-y-0 sm:divide-x">
             {[

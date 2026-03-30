@@ -2,6 +2,29 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { Clock, X } from "lucide-react";
+
+const RECENT_KEY = "verdikart_recent_v2";
+const MAX_RECENT = 5;
+
+interface RecentEntry {
+  adressetekst: string;
+  slug: string;
+  params: string;
+}
+
+function loadRecent(): RecentEntry[] {
+  try {
+    return JSON.parse(localStorage.getItem(RECENT_KEY) ?? "[]");
+  } catch { return []; }
+}
+
+function saveRecent(entry: RecentEntry) {
+  try {
+    const prev = loadRecent().filter(r => r.slug !== entry.slug);
+    localStorage.setItem(RECENT_KEY, JSON.stringify([entry, ...prev].slice(0, MAX_RECENT)));
+  } catch { /* ignore */ }
+}
 
 interface AddressResult {
   adressetekst: string;
@@ -28,6 +51,12 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
   const [query, setQuery] = useState(initialValue);
   const [results, setResults] = useState<AddressResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [recent, setRecent] = useState<RecentEntry[]>([]);
+  const [showRecent, setShowRecent] = useState(false);
+
+  useEffect(() => {
+    setRecent(loadRecent());
+  }, []);
   const [isLoading, setIsLoading] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -73,24 +102,33 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
   };
 
   const handleSelect = (result: AddressResult) => {
-    // Encode coords + knr into slug so the URL is fully self-contained and shareable
-    // Format: <human-slug>--<lat6>-<lon6>-<knr>
     const humanSlug = toSlug(result.adressetekst);
-    const lat6 = Math.round(result.lat * 1e4); // 4 decimal places → integer
+    const lat6 = Math.round(result.lat * 1e4);
     const lon6 = Math.round(result.lon * 1e4);
     const knr = result.kommunenummer ?? "0000";
     const encodedSlug = `${humanSlug}--${lat6}-${lon6}-${knr}`;
 
-    // Keep adresse + pnr/poststed as query params for display only (non-critical)
     const params = new URLSearchParams();
     params.set("adresse", result.adressetekst);
     if (result.postnummer) params.set("pnr", result.postnummer);
     if (result.poststed) params.set("poststed", result.poststed);
 
+    // Save to recent
+    const entry: RecentEntry = { adressetekst: result.adressetekst, slug: encodedSlug, params: params.toString() };
+    saveRecent(entry);
+    setRecent(loadRecent());
+
     setQuery(result.adressetekst);
     setIsOpen(false);
+    setShowRecent(false);
     router.push(`/eiendom/${encodedSlug}?${params.toString()}`);
   };
+
+  function clearRecent() {
+    localStorage.removeItem(RECENT_KEY);
+    setRecent([]);
+    setShowRecent(false);
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen) return;
@@ -164,7 +202,10 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           value={query}
           onChange={(e) => handleInputChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          onFocus={() => results.length > 0 && setIsOpen(true)}
+          onFocus={() => {
+            if (results.length > 0) setIsOpen(true);
+            else if (!query && recent.length > 0) setShowRecent(true);
+          }}
           placeholder="Søk på en adresse..."
           className="w-full rounded-[15px] border-0 bg-[#0e0e12] px-4 py-3 text-base text-foreground placeholder:text-text-tertiary outline-none transition-all duration-200 sm:px-6 sm:py-4 sm:text-lg"
           style={{
@@ -215,6 +256,37 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
                   {result.postnummer} {result.poststed}
                 </span>
               )}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Recent searches */}
+      {!isOpen && showRecent && recent.length > 0 && (
+        <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-card-border bg-card-bg shadow-2xl">
+          <div className="flex items-center justify-between px-4 py-2 border-b border-card-border">
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-text-tertiary">
+              <Clock className="h-3 w-3" strokeWidth={1.5} />
+              Sist søkt
+            </span>
+            <button onClick={clearRecent} className="text-[10px] text-text-tertiary hover:text-foreground flex items-center gap-0.5">
+              <X className="h-2.5 w-2.5" strokeWidth={2} />
+              Tøm
+            </button>
+          </div>
+          {recent.map((r) => (
+            <button
+              key={r.slug}
+              onClick={() => {
+                setShowRecent(false);
+                router.push(`/eiendom/${r.slug}?${r.params}`);
+              }}
+              className="w-full px-6 py-3 text-left text-sm text-text-secondary transition-colors hover:bg-white/5"
+            >
+              <span className="flex items-center gap-2">
+                <Clock className="h-3.5 w-3.5 shrink-0 text-text-tertiary" strokeWidth={1.5} />
+                <span className="font-medium text-foreground">{r.adressetekst}</span>
+              </span>
             </button>
           ))}
         </div>

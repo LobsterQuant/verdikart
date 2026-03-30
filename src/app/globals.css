@@ -55,33 +55,24 @@ input::placeholder {
 .leaflet-container {
   background: #080810 !important;
   border-radius: 12px;
-  /* Ensure map has a stacking context and tiles render above bg */
+  /* Must fill parent — Leaflet needs explicit 100% to avoid narrow-strip bug */
+  width: 100% !important;
+  height: 100% !important;
+  /* Stacking context so z-index on panes works */
   isolation: isolate;
 }
 
+/* Tile pane must be above the dark background but below controls */
 .leaflet-tile-pane {
   z-index: 2 !important;
+  opacity: 1 !important;
 }
 
-.leaflet-overlay-pane {
-  z-index: 4 !important;
-}
-
-.leaflet-marker-pane {
-  z-index: 6 !important;
-}
-
-.leaflet-tooltip-pane {
-  z-index: 7 !important;
-}
-
-.leaflet-popup-pane {
-  z-index: 8 !important;
-}
-
-/* Force map height in case parent collapses */
-.leaflet-container.h-\[400px\] { height: 400px; }
-.leaflet-container.md\:h-\[500px\] { height: 500px; }
+.leaflet-overlay-pane  { z-index: 4 !important; }
+.leaflet-marker-pane   { z-index: 6 !important; }
+.leaflet-tooltip-pane  { z-index: 7 !important; }
+.leaflet-popup-pane    { z-index: 8 !important; }
+.leaflet-control-container { z-index: 10 !important; }
 
 .leaflet-control-zoom a {
   background: #0f101a !important;

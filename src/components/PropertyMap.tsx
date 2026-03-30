@@ -72,7 +72,7 @@ export default function PropertyMap({
   }
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-0 overflow-hidden">
+    <div className="rounded-xl border border-card-border bg-card-bg overflow-hidden" style={{ height: 400 }}>
       <PropertyMapInner lat={lat} lon={lon} address={address} stops={stops} />
     </div>
   );

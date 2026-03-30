@@ -1,17 +1,23 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import type { TransitStop } from "@/components/PropertyMap";
 
-// Forces map to re-centre when lat/lon are available (guards against stale initial render)
-function MapCentrer({ lat, lon }: { lat: number; lon: number }) {
+// Re-centre + fix narrow-width bug: fires invalidateSize after mount
+function MapReady({ lat, lon }: { lat: number; lon: number }) {
   const map = useMap();
   useEffect(() => {
-    if (lat && lon && !isNaN(lat) && !isNaN(lon)) {
+    // Delay slightly so the parent container has fully painted
+    const t1 = setTimeout(() => {
+      map.invalidateSize({ animate: false });
       map.setView([lat, lon], 16, { animate: false });
-    }
+    }, 80);
+    const t2 = setTimeout(() => {
+      map.invalidateSize({ animate: false });
+    }, 400);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [map, lat, lon]);
   return null;
 }
@@ -19,8 +25,7 @@ function MapCentrer({ lat, lon }: { lat: number; lon: number }) {
 // Fix default marker icon for Leaflet in Next.js
 const defaultIcon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  iconRetinaUrl:
-    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -29,7 +34,7 @@ const defaultIcon = L.icon({
 });
 
 const stopIcon = L.divIcon({
-  html: '<div style="width:10px;height:10px;background:#0066FF;border:2px solid #fff;border-radius:50%;"></div>',
+  html: '<div style="width:10px;height:10px;background:#6366f1;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 3px rgba(99,102,241,0.25)"></div>',
   iconSize: [10, 10],
   iconAnchor: [5, 5],
   className: "",
@@ -42,13 +47,9 @@ interface PropertyMapInnerProps {
   stops: TransitStop[];
 }
 
-export default function PropertyMapInner({
-  lat,
-  lon,
-  address,
-  stops,
-}: PropertyMapInnerProps) {
-  // Guard against undefined lat/lon during hydration
+export default function PropertyMapInner({ lat, lon, address, stops }: PropertyMapInnerProps) {
+  const [tilesLoaded, setTilesLoaded] = useState(false);
+
   if (!lat || !lon || isNaN(lat) || isNaN(lon)) {
     return (
       <div className="flex h-[400px] items-center justify-center bg-card-bg md:h-[500px]">
@@ -58,41 +59,76 @@ export default function PropertyMapInner({
   }
 
   return (
-    <MapContainer
-      center={[lat, lon]}
-      zoom={16}
-      className="h-[400px] w-full md:h-[500px]"
-      zoomControl={true}
-      scrollWheelZoom={true}
-    >
-      <MapCentrer lat={lat} lon={lon} />
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-        subdomains="abcd"
-        maxZoom={20}
-      />
+    <div className="relative h-[400px] w-full md:h-[500px]">
+      {/* Skeleton shown until first tile batch loads */}
+      {!tilesLoaded && (
+        <div
+          className="pointer-events-none absolute inset-0 z-[9999] flex items-center justify-center transition-opacity duration-500"
+          style={{ background: "#080810" }}
+        >
+          {/* Faint grid to look like a map placeholder */}
+          <svg
+            className="absolute inset-0 h-full w-full opacity-[0.06]"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <pattern id="map-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#818cf8" strokeWidth="0.5"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#map-grid)" />
+          </svg>
+          {/* Pulsing dot in centre */}
+          <div className="relative flex h-10 w-10 items-center justify-center">
+            <div className="absolute h-10 w-10 animate-ping rounded-full bg-accent opacity-20" />
+            <div className="h-4 w-4 rounded-full bg-accent" />
+          </div>
+        </div>
+      )}
 
-      <Marker position={[lat, lon]} icon={defaultIcon}>
-        <Popup>
-          <span style={{ color: "#111", fontWeight: 500 }}>{address}</span>
-        </Popup>
-      </Marker>
+      <MapContainer
+        center={[lat, lon]}
+        zoom={16}
+        className="h-full w-full"
+        zoomControl={true}
+        scrollWheelZoom={true}
+        // Prevent Leaflet from guessing size before mount
+        preferCanvas={false}
+      >
+        <MapReady lat={lat} lon={lon} />
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          subdomains="abcd"
+          maxZoom={20}
+          eventHandlers={{
+            load: () => setTilesLoaded(true),
+            // Also dismiss skeleton if tiles are loading (first tile received)
+            tileload: () => setTilesLoaded(true),
+          }}
+        />
 
-      {stops.map((stop, i) => (
-        <Marker key={i} position={[stop.lat, stop.lon]} icon={stopIcon}>
+        <Marker position={[lat, lon]} icon={defaultIcon}>
           <Popup>
-            <span style={{ color: "#111", fontSize: "13px" }}>
-              {stop.name}
-              {stop.distance !== undefined && (
-                <span style={{ color: "#666", display: "block", fontSize: "11px" }}>
-                  {stop.distance} m unna
-                </span>
-              )}
-            </span>
+            <span style={{ color: "#111", fontWeight: 500 }}>{address}</span>
           </Popup>
         </Marker>
-      ))}
-    </MapContainer>
+
+        {stops.map((stop, i) => (
+          <Marker key={i} position={[stop.lat, stop.lon]} icon={stopIcon}>
+            <Popup>
+              <span style={{ color: "#111", fontSize: "13px" }}>
+                {stop.name}
+                {stop.distance !== undefined && (
+                  <span style={{ color: "#666", display: "block", fontSize: "11px" }}>
+                    {stop.distance} m unna
+                  </span>
+                )}
+              </span>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </div>
   );
 }

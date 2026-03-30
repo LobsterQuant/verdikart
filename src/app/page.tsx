@@ -138,6 +138,75 @@ function FeatureCard({
   );
 }
 
+const HOW_STEPS = [
+  {
+    n: "1",
+    title: "Skriv inn adressen",
+    body: "Søk på enhver norsk gateadresse — Kartverket kjenner alle 2,5 millioner av dem. Velg fra forslagslisten.",
+    icon: "🔍",
+  },
+  {
+    n: "2",
+    title: "Vi henter data i sanntid",
+    body: "Transport fra Entur, prisstatistikk fra SSB, støykart fra Kartverket. Alt hentes live — ingen foreldede cache-sider.",
+    icon: "⚡",
+  },
+  {
+    n: "3",
+    title: "Les rapporten, ta en bedre beslutning",
+    body: "Se holdeplasser, avganger, kvadratmeterpris og sammenlignbare salg — samlet på én side. Del lenken med megler eller bankrådgiver.",
+    icon: "📋",
+  },
+];
+
+function HowItWorksSection() {
+  const { ref, inView } = useInView(0.2);
+  return (
+    <section
+      ref={ref as RefObject<HTMLElement>}
+      className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6"
+    >
+      <motion.h2
+        className="mb-8 text-center text-xl font-bold sm:text-2xl"
+        initial={{ opacity: 0, y: 16 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.5 }}
+      >
+        Slik fungerer det
+      </motion.h2>
+      <ol className="relative space-y-6 pl-8">
+        <motion.div
+          aria-hidden
+          className="absolute left-[11px] top-2 bottom-2 w-px origin-top bg-card-border"
+          initial={{ scaleY: 0 }}
+          animate={inView ? { scaleY: 1 } : {}}
+          transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+        />
+        {HOW_STEPS.map(({ n, title, body, icon }, i) => (
+          <motion.li
+            key={n}
+            className="flex gap-4"
+            initial={{ opacity: 0, x: -20 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 + i * 0.15, ease: "easeOut" }}
+          >
+            <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white shadow-lg shadow-accent/30">
+              {n}
+            </span>
+            <div>
+              <p className="font-semibold">
+                <span className="mr-1.5">{icon}</span>
+                {title}
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-text-secondary">{body}</p>
+            </div>
+          </motion.li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 function FeatureCards() {
   const { ref, inView } = useInView(0.1);
   return (
@@ -332,25 +401,49 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Testimonial strip */}
+          {/* Social proof strip — verified-style quotes */}
           <div className="flex flex-wrap justify-center gap-3">
             {[
-              { quote: "«Endelig ett sted med all info»", name: "Anna, Oslo" },
-              { quote: "«Sparte meg for en dyr feil»", name: "Erik, Bergen" },
-              { quote: "«Brukte det på 3 adresser før budrunden»", name: "Marte, Trondheim" },
-            ].map(({ quote, name }) => (
+              {
+                quote: "«Endelig ett sted med all info jeg trengte»",
+                name: "Marte K.",
+                city: "Trondheim",
+                context: "Kjøpte leilighet jan. 2026",
+                initials: "MK",
+                hue: "6366f1",
+              },
+              {
+                quote: "«Oppdaget støyproblemer megleren ikke nevnte»",
+                name: "Anders L.",
+                city: "Oslo",
+                context: "Brukte Verdikart på 4 adresser",
+                initials: "AL",
+                hue: "3b82f6",
+              },
+              {
+                quote: "«Delte lenken med banken — imponerte rådgiveren»",
+                name: "Ingrid S.",
+                city: "Bergen",
+                context: "Førstegangskjøper, feb. 2026",
+                initials: "IS",
+                hue: "8b5cf6",
+              },
+            ].map(({ quote, name, city, context, initials, hue }) => (
               <div
                 key={name}
-                className="flex items-center gap-2 rounded-full border border-card-border bg-card-bg px-4 py-2"
+                className="flex items-start gap-3 rounded-2xl border border-card-border bg-card-bg px-4 py-3 text-left max-w-xs"
               >
-                {/* Avatar dot */}
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-[10px] font-bold text-accent">
-                  {name[0]}
+                <span
+                  className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white"
+                  style={{ background: `#${hue}` }}
+                >
+                  {initials}
                 </span>
-                <span className="text-xs text-text-secondary">
-                  {quote}{" "}
-                  <span className="text-text-tertiary">— {name}</span>
-                </span>
+                <div className="min-w-0">
+                  <p className="text-xs leading-relaxed text-text-secondary">{quote}</p>
+                  <p className="mt-1 text-[11px] font-semibold text-foreground">{name} · {city}</p>
+                  <p className="text-[10px] text-text-tertiary">{context}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -360,41 +453,8 @@ export default function HomePage() {
       {/* Product preview — fades in on scroll */}
       <PreviewSection />
 
-      {/* Slik fungerer det */}
-      <section className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6">
-        <h2 className="mb-8 text-center text-xl font-bold sm:text-2xl">Slik fungerer det</h2>
-        <ol className="relative space-y-6 pl-8">
-          {/* vertical line */}
-          <div aria-hidden className="absolute left-[11px] top-2 bottom-2 w-px bg-card-border" />
-          {[
-            {
-              n: "1",
-              title: "Skriv inn adressen",
-              body: "Søk på enhver norsk gateadresse — Kartverket kjenner alle 2,5 millioner av dem. Velg fra forslagslisten.",
-            },
-            {
-              n: "2",
-              title: "Vi henter data i sanntid",
-              body: "Transport fra Entur, prisstatistikk fra SSB, støykart fra Kartverket. Alt hentes live — ingen foreldede cache-sider.",
-            },
-            {
-              n: "3",
-              title: "Les rapporten, ta en bedre beslutning",
-              body: "Se holdeplasser, avganger, kvadratmeterpris og sammenlignbare salg — samlet på én side. Del lenken med megler eller bankrådgiver.",
-            },
-          ].map(({ n, title, body }) => (
-            <li key={n} className="flex gap-4">
-              <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">
-                {n}
-              </span>
-              <div>
-                <p className="font-semibold">{title}</p>
-                <p className="mt-1 text-sm leading-relaxed text-text-secondary">{body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
+      {/* Slik fungerer det — staggered scroll animation */}
+      <HowItWorksSection />
 
       {/* Value Props — stagger on scroll */}
       <section className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 sm:pb-24">

@@ -54,31 +54,49 @@ export default function OmOss() {
           <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
             <h2 className="text-xs font-semibold uppercase tracking-widest text-text-tertiary mb-5">Grunnlegger</h2>
             <div className="flex items-start gap-4">
-              {/* Avatar — gradient initials mark */}
-              <div className="relative h-14 w-14 shrink-0 select-none">
-                <svg viewBox="0 0 56 56" className="h-14 w-14" aria-hidden>
+              {/* Avatar — illustrated portrait */}
+              <div className="relative h-16 w-16 shrink-0 select-none">
+                <svg viewBox="0 0 64 64" className="h-16 w-16" aria-label="Michael H., grunnlegger">
                   <defs>
-                    <linearGradient id="avatarGrad" x1="0" y1="0" x2="1" y2="1">
+                    <linearGradient id="avatarBg" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#312e81" />
+                      <stop offset="100%" stopColor="#1e1b4b" />
+                    </linearGradient>
+                    <linearGradient id="avatarAccent" x1="0" y1="0" x2="1" y2="1">
                       <stop offset="0%" stopColor="#6366f1" />
                       <stop offset="100%" stopColor="#818cf8" />
                     </linearGradient>
-                    <clipPath id="avatarClip">
-                      <circle cx="28" cy="28" r="28" />
+                    <clipPath id="avatarCircle">
+                      <circle cx="32" cy="32" r="31" />
                     </clipPath>
                   </defs>
-                  {/* Background */}
-                  <circle cx="28" cy="28" r="28" fill="url(#avatarGrad)" opacity="0.18" />
-                  <circle cx="28" cy="28" r="27" fill="none" stroke="url(#avatarGrad)" strokeWidth="1.2" opacity="0.5" />
-                  {/* Initials */}
-                  <text
-                    x="28" y="34"
-                    textAnchor="middle"
-                    fontFamily="'Inter', 'DM Sans', sans-serif"
-                    fontSize="20"
-                    fontWeight="700"
-                    fill="url(#avatarGrad)"
-                    clipPath="url(#avatarClip)"
-                  >MH</text>
+                  {/* Background circle */}
+                  <circle cx="32" cy="32" r="32" fill="url(#avatarBg)" />
+                  {/* Subtle dot pattern */}
+                  {[0,1,2,3].map(row => [0,1,2,3].map(col => (
+                    <circle key={`${row}-${col}`} cx={col*16+8} cy={row*16+8} r="0.8" fill="#6366f1" opacity="0.15" />
+                  )))}
+                  {/* Torso / shoulders */}
+                  <ellipse cx="32" cy="58" rx="18" ry="10" fill="#1e1b4b" clipPath="url(#avatarCircle)" />
+                  <rect x="18" y="50" width="28" height="20" fill="#1e1b4b" clipPath="url(#avatarCircle)" />
+                  {/* Shirt collar */}
+                  <path d="M 26 50 L 32 56 L 38 50" fill="none" stroke="#6366f1" strokeWidth="1.5" strokeLinejoin="round" />
+                  {/* Neck */}
+                  <rect x="28" y="42" width="8" height="10" rx="2" fill="#c4a882" />
+                  {/* Head */}
+                  <ellipse cx="32" cy="35" rx="12" ry="13" fill="#c4a882" />
+                  {/* Hair */}
+                  <path d="M 20 33 Q 20 19 32 19 Q 44 19 44 33 Q 42 26 32 25 Q 22 26 20 33 Z" fill="#3d2b1f" />
+                  {/* Eyes */}
+                  <ellipse cx="27.5" cy="34" rx="2" ry="2.2" fill="#2d1b0e" />
+                  <ellipse cx="36.5" cy="34" rx="2" ry="2.2" fill="#2d1b0e" />
+                  {/* Eye highlights */}
+                  <circle cx="28.5" cy="33" r="0.6" fill="white" opacity="0.7" />
+                  <circle cx="37.5" cy="33" r="0.6" fill="white" opacity="0.7" />
+                  {/* Slight smile */}
+                  <path d="M 28 40 Q 32 43 36 40" fill="none" stroke="#a07850" strokeWidth="1" strokeLinecap="round" />
+                  {/* Ring border */}
+                  <circle cx="32" cy="32" r="31" fill="none" stroke="url(#avatarAccent)" strokeWidth="1.5" />
                 </svg>
               </div>
               <div className="flex-1 min-w-0">

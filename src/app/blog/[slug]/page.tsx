@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronRight, Clock, ArrowLeft } from "lucide-react";
 import { getPost, getAllSlugs } from "../posts";
 import JsonLd from "@/components/JsonLd";
+import BlogHeroIllustration from "@/components/BlogHeroIllustration";
 import ShareButtons from "@/components/ShareButtons";
 
 export async function generateStaticParams() {
@@ -113,21 +114,20 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
           {/* Header */}
           <header className="mb-10">
-            {/* Hero image placeholder — gradient cover with category label */}
-            <div
-              className="mb-6 flex h-48 w-full items-end rounded-xl p-5 sm:h-56"
-              style={{
-                background: "linear-gradient(135deg, rgba(99,102,241,0.25) 0%, rgba(59,130,246,0.15) 50%, rgba(8,8,16,0.9) 100%), #0f101a",
-                border: "1px solid rgba(99,102,241,0.2)",
-              }}
-            >
-              <div>
-                <span className="mb-2 inline-block rounded-full bg-accent/20 px-3 py-1 text-xs font-semibold text-accent">
-                  {post.category ?? "Boligmarkedet"}
-                </span>
-                <p className="text-xs text-text-tertiary">
-                  {formatDate(post.publishedAt)} · {post.readingMinutes} min lesetid
-                </p>
+            {/* Hero illustration — SVG per category */}
+            <div className="relative mb-6">
+              <BlogHeroIllustration category={post.category ?? "Boligmarkedet"} title={post.title} />
+              {/* Overlaid metadata */}
+              <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between rounded-b-xl px-5 pb-4 pt-12"
+                style={{ background: "linear-gradient(to top, rgba(8,8,16,0.85) 0%, transparent 100%)" }}>
+                <div>
+                  <span className="mb-1 inline-block rounded-full bg-accent/20 px-3 py-1 text-xs font-semibold text-accent backdrop-blur-sm">
+                    {post.category ?? "Boligmarkedet"}
+                  </span>
+                  <p className="text-xs text-text-tertiary">
+                    {formatDate(post.publishedAt)} · {post.readingMinutes} min lesetid
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -137,16 +137,36 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
             {/* Author row */}
             <div className="mb-4 flex items-center gap-3">
-              <svg viewBox="0 0 36 36" className="h-9 w-9 shrink-0" aria-hidden>
+              <svg viewBox="0 0 36 36" className="h-9 w-9 shrink-0" aria-label="Michael H.">
                 <defs>
-                  <linearGradient id="blogAvatarGrad" x1="0" y1="0" x2="1" y2="1">
+                  <linearGradient id="blogAvatarBg" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#312e81" />
+                    <stop offset="100%" stopColor="#1e1b4b" />
+                  </linearGradient>
+                  <linearGradient id="blogAvatarRing" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stopColor="#6366f1" />
                     <stop offset="100%" stopColor="#818cf8" />
                   </linearGradient>
+                  <clipPath id="blogAvatarClip"><circle cx="18" cy="18" r="17" /></clipPath>
                 </defs>
-                <circle cx="18" cy="18" r="18" fill="url(#blogAvatarGrad)" opacity="0.18" />
-                <circle cx="18" cy="18" r="17" fill="none" stroke="url(#blogAvatarGrad)" strokeWidth="1" opacity="0.5" />
-                <text x="18" y="23" textAnchor="middle" fontFamily="Inter,sans-serif" fontSize="13" fontWeight="700" fill="url(#blogAvatarGrad)">MH</text>
+                <circle cx="18" cy="18" r="18" fill="url(#blogAvatarBg)" />
+                {/* Torso */}
+                <ellipse cx="18" cy="32" rx="10" ry="6" fill="#1e1b4b" clipPath="url(#blogAvatarClip)" />
+                {/* Neck */}
+                <rect x="15.5" y="23" width="5" height="6" rx="1.5" fill="#c4a882" clipPath="url(#blogAvatarClip)" />
+                {/* Head */}
+                <ellipse cx="18" cy="19" rx="7" ry="7.5" fill="#c4a882" />
+                {/* Hair */}
+                <path d="M11 17.5 Q11 10.5 18 10.5 Q25 10.5 25 17.5 Q24 13 18 13 Q12 13 11 17.5 Z" fill="#3d2b1f" />
+                {/* Eyes */}
+                <ellipse cx="15.5" cy="19.5" rx="1.2" ry="1.3" fill="#2d1b0e" />
+                <ellipse cx="20.5" cy="19.5" rx="1.2" ry="1.3" fill="#2d1b0e" />
+                <circle cx="16" cy="19" r="0.4" fill="white" opacity="0.7" />
+                <circle cx="21" cy="19" r="0.4" fill="white" opacity="0.7" />
+                {/* Smile */}
+                <path d="M15.5 23 Q18 25 20.5 23" fill="none" stroke="#a07850" strokeWidth="0.7" strokeLinecap="round" />
+                {/* Ring */}
+                <circle cx="18" cy="18" r="17" fill="none" stroke="url(#blogAvatarRing)" strokeWidth="1" />
               </svg>
               <div>
                 <p className="text-sm font-medium">Michael H.</p>

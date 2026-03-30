@@ -23,11 +23,19 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
-  const address = searchParams.adresse ||
-    decodeURIComponent(params.slug)
-      .replace(/--\d+-\d+-\d{4}$/, "")
-      .replace(/-+/g, " ")
-      .trim();
+  let address = searchParams.adresse;
+  if (!address) {
+    const slugParsed = parseSlug(params.slug);
+    if (slugParsed.lat && slugParsed.lon) {
+      address = (await reverseGeocode(slugParsed.lat, slugParsed.lon)) ?? undefined;
+    }
+    if (!address) {
+      address = decodeURIComponent(params.slug)
+        .replace(/--\d+-\d+-\d{4}$/, "")
+        .replace(/-+/g, " ")
+        .trim();
+    }
+  }
   const title = `${address} — Verdikart`;
   const description = `Kollektivtransport, prisutvikling og markedsdata for ${address}. Få full eiendomsinnsikt på Verdikart.`;
   // Canonical strips query params — the slug alone is the stable URL
@@ -79,7 +87,23 @@ function parseSlug(slug: string): { lat: number | null; lon: number | null; knr:
   return { lat: null, lon: null, knr: "" };
 }
 
-export default function EiendomPage({ params, searchParams }: PageProps) {
+async function reverseGeocode(lat: number, lon: number): Promise<string | null> {
+  try {
+    const url = `https://ws.geonorge.no/adresser/v1/punktsok?lat=${lat}&lon=${lon}&radius=50&utkoordsys=4258&treffPerSide=1`;
+    const res = await fetch(url, { next: { revalidate: 86400 } });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const hit = data?.adresser?.[0];
+    if (!hit) return null;
+    // Build display string: "Bygdøy allé 2, Oslo"
+    const parts = [hit.adressetekst, hit.poststed].filter(Boolean);
+    return parts.join(", ");
+  } catch {
+    return null;
+  }
+}
+
+export default async function EiendomPage({ params, searchParams }: PageProps) {
   const { lat, lon, knr, adresse } = searchParams;
 
   // Try query params first (legacy / direct navigation), then decode from slug
@@ -87,10 +111,27 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
   const latNum = lat ? parseFloat(lat) : slugParsed.lat;
   const lonNum = lon ? parseFloat(lon) : slugParsed.lon;
   const kommunenummer = knr || slugParsed.knr || "";
-  const displayAddress = adresse || decodeURIComponent(params.slug)
-    .replace(/--\d+-\d+-\d{4}$/, "")   // strip encoded coords
-    .replace(/-+/g, " ")
-    .trim();
+
+  // Address display priority:
+  //   1. ?adresse= query param (always set on normal navigation)
+  //   2. reverse-geocode from slug lat/lon (shared URLs without query params)
+  //   3. lossy slug decode (last resort — known to strip Norwegian chars)
+  let displayAddress: string;
+  if (adresse) {
+    displayAddress = adresse;
+  } else if (latNum && lonNum) {
+    displayAddress =
+      (await reverseGeocode(latNum, lonNum)) ??
+      decodeURIComponent(params.slug)
+        .replace(/--\d+-\d+-\d{4}$/, "")
+        .replace(/-+/g, " ")
+        .trim();
+  } else {
+    displayAddress = decodeURIComponent(params.slug)
+      .replace(/--\d+-\d+-\d{4}$/, "")
+      .replace(/-+/g, " ")
+      .trim();
+  }
 
   if (!latNum || !lonNum) {
     return (

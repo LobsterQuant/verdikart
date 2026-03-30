@@ -21,7 +21,10 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
-  const address = searchParams.adresse || decodeURIComponent(params.slug);
+  const address = searchParams.adresse ||
+    decodeURIComponent(params.slug)
+      .replace(/--\d+-\d+-\d{4}$/, "")
+      .replace(/-/g, " ");
   const title = `${address} — Verdikart`;
   const description = `Kollektivtransport, prisutvikling og markedsdata for ${address}. Få full eiendomsinnsikt på Verdikart.`;
   // Canonical strips query params — the slug alone is the stable URL
@@ -59,10 +62,34 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   };
 }
 
+/** Parse lat/lon/knr from slug encoded as: <human-slug>--<lat4>-<lon4>-<knr> */
+function parseSlug(slug: string): { lat: number | null; lon: number | null; knr: string } {
+  // New format: ends with --<lat>-<lon>-<knr>
+  const match = slug.match(/--(-?\d+)-(-?\d+)-(\d{4})$/);
+  if (match) {
+    return {
+      lat: parseInt(match[1], 10) / 1e4,
+      lon: parseInt(match[2], 10) / 1e4,
+      knr: match[3],
+    };
+  }
+  return { lat: null, lon: null, knr: "" };
+}
+
 export default function EiendomPage({ params, searchParams }: PageProps) {
   const { lat, lon, knr, adresse } = searchParams;
 
-  if (!lat || !lon) {
+  // Try query params first (legacy / direct navigation), then decode from slug
+  const slugParsed = parseSlug(params.slug);
+  const latNum = lat ? parseFloat(lat) : slugParsed.lat;
+  const lonNum = lon ? parseFloat(lon) : slugParsed.lon;
+  const kommunenummer = knr || slugParsed.knr || "";
+  const displayAddress = adresse || decodeURIComponent(params.slug)
+    .replace(/--\d+-\d+-\d{4}$/, "")   // strip encoded coords from display name
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase()); // title-case fallback
+
+  if (!latNum || !lonNum) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
         <h1 className="text-2xl font-bold">Ingen adresse valgt</h1>
@@ -76,11 +103,6 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
       </div>
     );
   }
-
-  const latNum = parseFloat(lat);
-  const lonNum = parseFloat(lon);
-  const kommunenummer = knr || "";
-  const displayAddress = adresse || decodeURIComponent(params.slug);
 
   return (
     <div className="flex min-h-screen flex-col">

@@ -73,18 +73,23 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
   };
 
   const handleSelect = (result: AddressResult) => {
-    const slug = toSlug(result.adressetekst);
+    // Encode coords + knr into slug so the URL is fully self-contained and shareable
+    // Format: <human-slug>--<lat6>-<lon6>-<knr>
+    const humanSlug = toSlug(result.adressetekst);
+    const lat6 = Math.round(result.lat * 1e4); // 4 decimal places → integer
+    const lon6 = Math.round(result.lon * 1e4);
+    const knr = result.kommunenummer ?? "0000";
+    const encodedSlug = `${humanSlug}--${lat6}-${lon6}-${knr}`;
+
+    // Keep adresse + pnr/poststed as query params for display only (non-critical)
     const params = new URLSearchParams();
     params.set("adresse", result.adressetekst);
-    params.set("lat", String(result.lat));
-    params.set("lon", String(result.lon));
-    if (result.kommunenummer) params.set("knr", result.kommunenummer);
     if (result.postnummer) params.set("pnr", result.postnummer);
     if (result.poststed) params.set("poststed", result.poststed);
 
     setQuery(result.adressetekst);
     setIsOpen(false);
-    router.push(`/eiendom/${slug}?${params.toString()}`);
+    router.push(`/eiendom/${encodedSlug}?${params.toString()}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

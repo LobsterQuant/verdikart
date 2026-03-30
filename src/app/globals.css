@@ -38,7 +38,7 @@ input::placeholder {
 }
 
 .leaflet-tile-pane {
-  filter: brightness(0.7) contrast(1.1) saturate(0.3);
+  /* CartoDB DarkMatter tiles are natively dark — no filter needed */
 }
 
 .leaflet-control-zoom a {

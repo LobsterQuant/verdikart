@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#6366f1",
 };
 
 export default function RootLayout({
@@ -31,6 +32,7 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+        <link rel="manifest" href="/manifest.json" />
         <link
           rel="stylesheet"
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -73,8 +75,15 @@ export default function RootLayout({
             "query-input": "required name=search_term_string"
           }
         }} />
+        {/* Skip-to-content — visible on keyboard focus only */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:outline-none"
+        >
+          Hopp til innhold
+        </a>
         <NavBar />
-        <main className="pt-14">
+        <main id="main-content" className="pt-14">
           <PageTransition>{children}</PageTransition>
         </main>
       </body>

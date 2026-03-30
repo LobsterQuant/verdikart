@@ -154,3 +154,76 @@ input::placeholder {
   animation: shimmer 1.5s ease-in-out infinite;
   border-radius: 8px;
 }
+
+/* ── Print styles — property result pages ── */
+@media print {
+  /* Reset background to white */
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+  }
+
+  /* Hide nav, footer, email capture, map (canvas can't print), animations */
+  nav,
+  footer,
+  .no-print,
+  [class*="hero-orb"],
+  [class*="animate-"],
+  .leaflet-container {
+    display: none !important;
+  }
+
+  /* Remove pt-14 offset */
+  main { padding-top: 0 !important; }
+
+  /* Cards: flat borders, white bg */
+  [class*="bg-card-bg"],
+  [class*="bg-background"] {
+    background: #fff !important;
+    border-color: #ccc !important;
+  }
+
+  /* Text colours */
+  [class*="text-text-secondary"],
+  [class*="text-text-tertiary"] {
+    color: #444 !important;
+  }
+  [class*="text-foreground"],
+  [class*="text-accent"] {
+    color: #000 !important;
+  }
+
+  /* Page header */
+  .print-header {
+    display: block !important;
+    font-size: 10pt;
+    color: #666;
+    margin-bottom: 8pt;
+  }
+
+  /* Avoid breaking cards across pages */
+  [class*="rounded-xl"] {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Add URL after links */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #666;
+  }
+
+  /* Add "Verdikart.no" watermark at bottom */
+  body::after {
+    content: "Generert av verdikart.no";
+    display: block;
+    text-align: center;
+    font-size: 8pt;
+    color: #999;
+    margin-top: 24pt;
+    border-top: 1px solid #eee;
+    padding-top: 8pt;
+  }
+}

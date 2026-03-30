@@ -183,14 +183,14 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
           <TransitCard key="transit" lat={latNum} lon={lonNum} address={displayAddress} />,
           <PriceTrendCard key="price" kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} />,
           <ComparableSalesCard key="sales" kommunenummer={kommunenummer} />,
-          <div key="map" className="md:col-span-2">
+          <div key="map" className="md:col-span-2 no-print">
             <PropertyMap lat={latNum} lon={lonNum} address={displayAddress} />
           </div>,
         ]}
       </CardsCascade>
 
       {/* Email capture */}
-      <div className="mt-8">
+      <div className="mt-8 no-print">
         <EmailCapture address={displayAddress} />
       </div>
 

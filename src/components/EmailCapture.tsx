@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { CheckCircle, Bell } from "lucide-react";
 
-export default function EmailCapture({ address }: { address?: string }) {
+export default function EmailCapture({ address, compact = false }: { address?: string; compact?: boolean }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -25,6 +25,14 @@ export default function EmailCapture({ address }: { address?: string }) {
   }
 
   if (status === "success") {
+    if (compact) {
+      return (
+        <div className="flex items-center gap-2 text-sm text-green-400">
+          <CheckCircle className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+          <span>Du er påmeldt!</span>
+        </div>
+      );
+    }
     return (
       <div className="rounded-xl border border-accent/30 bg-card-bg px-4 py-5 sm:px-6">
         <div className="flex items-center gap-3">
@@ -46,6 +54,28 @@ export default function EmailCapture({ address }: { address?: string }) {
           </div>
         </div>
       </div>
+    );
+  }
+
+  if (compact) {
+    return (
+      <form onSubmit={handleSubmit} className="flex gap-2">
+        <input
+          type="email"
+          required
+          placeholder="din@epost.no"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="min-w-0 flex-1 rounded-lg border border-card-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-text-tertiary outline-none transition-colors focus:border-accent"
+        />
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className="shrink-0 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-80 disabled:opacity-50"
+        >
+          {status === "loading" ? "…" : "OK"}
+        </button>
+      </form>
     );
   }
 

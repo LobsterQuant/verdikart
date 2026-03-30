@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { X, Menu } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { X, Menu, ChevronDown } from "lucide-react";
 import Logo from "@/components/Logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,34 +9,52 @@ import { usePathname } from "next/navigation";
 const navLinks = [
   { href: "/blog",         label: "Blogg" },
   { href: "/faq",          label: "FAQ" },
-  { href: "/kontakt",      label: "Kontakt" },
   { href: "/om-oss",       label: "Om oss" },
+];
+
+const toolLinks = [
+  { href: "/sammenlign",   label: "Sammenlign adresser",  desc: "To adresser side ved side" },
+  { href: "/kalkulator",   label: "Boligkalkulator",       desc: "Hva har du råd til?" },
+  { href: "/bykart",       label: "Bykart",                desc: "Priser per norsk by" },
 ];
 
 // Mobile-only: all links including city pages
 const mobileLinks = [
+  { href: "/sammenlign",      label: "🔀 Sammenlign adresser" },
+  { href: "/kalkulator",      label: "🧮 Boligkalkulator" },
+  { href: "/bykart",          label: "🗺️ Bykart" },
   { href: "/by/oslo",         label: "Oslo" },
   { href: "/by/bergen",       label: "Bergen" },
   { href: "/by/trondheim",    label: "Trondheim" },
   { href: "/by/stavanger",    label: "Stavanger" },
-  { href: "/by/baerum",       label: "Bærum" },
-  { href: "/by/kristiansand", label: "Kristiansand" },
+  { href: "/nabolag/frogner", label: "Frogner" },
+  { href: "/nabolag/grunerlokka", label: "Grünerløkka" },
   { href: "/blog",            label: "Blogg" },
   { href: "/faq",             label: "FAQ" },
-  { href: "/kontakt",         label: "Kontakt" },
   { href: "/om-oss",          label: "Om oss" },
   { href: "/for/forstegangskjoper", label: "Førstegangskjøper" },
   { href: "/for/boliginvestor",     label: "Boliginvestor" },
-  { href: "/for/barnefamilier",     label: "Barnefamilie" },
-  { href: "/presse",               label: "Presse" },
-  { href: "/changelog",            label: "Endringslogg" },
+  { href: "/kontakt",               label: "Kontakt" },
 ];
 
 const CTA_HREF = "/#sok";
 
 export default function NavBar() {
   const [open, setOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const toolsRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+
+  // Close tools dropdown on outside click
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) {
+        setToolsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   // Close on route change
   useEffect(() => { setOpen(false); }, [pathname]);
@@ -60,6 +78,36 @@ export default function NavBar() {
 
         {/* Desktop links */}
         <div className="hidden items-center gap-5 text-sm text-text-secondary sm:flex">
+          {/* Verktøy dropdown */}
+          <div ref={toolsRef} className="relative">
+            <button
+              onClick={() => setToolsOpen((v) => !v)}
+              className={`nav-link flex items-center gap-1 whitespace-nowrap transition-colors hover:text-foreground ${toolsOpen ? "text-foreground" : ""}`}
+              aria-expanded={toolsOpen}
+              aria-haspopup="true"
+            >
+              Verktøy
+              <ChevronDown className={`h-3.5 w-3.5 transition-transform ${toolsOpen ? "rotate-180" : ""}`} strokeWidth={2} />
+            </button>
+            {toolsOpen && (
+              <div className="absolute left-1/2 top-full mt-2 w-64 -translate-x-1/2 rounded-xl border border-card-border bg-card-bg shadow-2xl z-50">
+                <div className="p-1.5">
+                  {toolLinks.map(({ href, label, desc }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setToolsOpen(false)}
+                      className="flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-background"
+                    >
+                      <span className="text-sm font-medium text-foreground">{label}</span>
+                      <span className="text-xs text-text-tertiary">{desc}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}

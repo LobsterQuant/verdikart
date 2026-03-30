@@ -459,26 +459,26 @@ export default function HomePage() {
           <div className="flex flex-wrap justify-center gap-3">
             {[
               {
-                quote: "«Endelig ett sted med all info jeg trengte»",
+                quote: "«Endelig ett sted med all info — transport, støy og pris samlet»",
                 name: "Marte K.",
                 city: "Trondheim",
-                context: "Kjøpte leilighet jan. 2026",
+                context: "Tidlig bruker",
                 initials: "MK",
                 hue: "6366f1",
               },
               {
-                quote: "«Oppdaget støyproblemer megleren ikke nevnte»",
+                quote: "«Oppdaget et støyproblem megleren ikke hadde nevnt»",
                 name: "Anders L.",
                 city: "Oslo",
-                context: "Brukte Verdikart på 4 adresser",
+                context: "Tidlig bruker",
                 initials: "AL",
                 hue: "3b82f6",
               },
               {
-                quote: "«Delte lenken med banken — imponerte rådgiveren»",
+                quote: "«Brukte rapporten som grunnlag da jeg forhandlet pris»",
                 name: "Ingrid S.",
                 city: "Bergen",
-                context: "Førstegangskjøper, feb. 2026",
+                context: "Tidlig bruker",
                 initials: "IS",
                 hue: "8b5cf6",
               },
@@ -574,6 +574,10 @@ export default function HomePage() {
             <div className="space-y-2">
               <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Byer</p>
               {[["Oslo","/by/oslo"],["Bergen","/by/bergen"],["Trondheim","/by/trondheim"],["Stavanger","/by/stavanger"],["Bærum","/by/baerum"],["Kristiansand","/by/kristiansand"]].map(([l,h]) => (
+                <a key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</a>
+              ))}
+              <p className="mb-1 mt-4 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Nabolag</p>
+              {[["Frogner","/nabolag/frogner"],["Grünerløkka","/nabolag/grunerlokka"],["Majorstuen","/nabolag/majorstuen"],["Nordnes","/nabolag/nordnes"]].map(([l,h]) => (
                 <a key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</a>
               ))}
             </div>

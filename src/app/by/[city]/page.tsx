@@ -157,14 +157,33 @@ export default function CityPage({ params }: { params: { city: string } }) {
             <p className="mb-4 leading-relaxed text-text-secondary">{city.marketText}</p>
 
             <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
-              {city.topNeighbourhoods.map((n) => (
-                <div
-                  key={n}
-                  className="rounded-lg border border-card-border bg-card-bg px-3 py-2 text-sm font-medium text-text-secondary"
-                >
-                  {n}
-                </div>
-              ))}
+              {city.topNeighbourhoods.map((n) => {
+                // Link to dedicated nabolag page where it exists
+                const slugMap: Record<string, string> = {
+                  "Frogner": "frogner",
+                  "Grünerløkka": "grunerlokka",
+                  "Majorstuen": "majorstuen",
+                  "Nordnes": "nordnes",
+                };
+                const areaSlug = slugMap[n];
+                return areaSlug ? (
+                  <a
+                    key={n}
+                    href={`/nabolag/${areaSlug}`}
+                    className="rounded-lg border border-card-border bg-card-bg px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:border-accent/40 hover:text-accent flex items-center justify-between group"
+                  >
+                    {n}
+                    <ChevronRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={2} />
+                  </a>
+                ) : (
+                  <div
+                    key={n}
+                    className="rounded-lg border border-card-border bg-card-bg px-3 py-2 text-sm font-medium text-text-secondary"
+                  >
+                    {n}
+                  </div>
+                );
+              })}
             </div>
           </section>
 

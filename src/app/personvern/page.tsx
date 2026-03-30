@@ -23,7 +23,9 @@ export default function Personvern() {
             inn gjennom dette nettstedet.
           </p>
           <ul className="space-y-1 text-sm text-text-secondary">
-            <li><strong className="text-foreground">Virksomhet:</strong> Verdikart</li>
+            <li><strong className="text-foreground">Virksomhet:</strong> Verdikart (enkeltpersonforetak under etablering)</li>
+            <li><strong className="text-foreground">Ansvarlig:</strong> Michael Hansen</li>
+            <li><strong className="text-foreground">Land:</strong> Norge</li>
             <li><strong className="text-foreground">E-post:</strong>{" "}
               <a href="mailto:kontakt@verdikart.no" className="text-accent hover:underline">
                 kontakt@verdikart.no
@@ -31,7 +33,7 @@ export default function Personvern() {
             </li>
           </ul>
           <p className="mt-3 text-xs text-text-tertiary">
-            Organisasjonsnummer vil bli oppgitt når virksomheten er registrert i Brønnøysundregistrene.
+            Tjenesten drives som enkeltpersonforetak. Organisasjonsnummer registreres i Brønnøysundregistrene i takt med kommersiell oppstart — dette er et krav ved omsetning over kr 50 000. All behandling av personopplysninger skjer i tråd med GDPR uavhengig av registreringsstatus.
           </p>
         </section>
 

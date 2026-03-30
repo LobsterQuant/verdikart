@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bus, MapPin, Clock } from "lucide-react";
+import { Bus, Clock } from "lucide-react";
 
 interface Leg {
   mode: string;

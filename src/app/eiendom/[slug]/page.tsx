@@ -99,6 +99,30 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
           <PropertyMap lat={latNum} lon={lonNum} address={displayAddress} />
         </div>
       </div>
+
+      {/* Data source trust strip */}
+      <div className="mt-8 flex flex-wrap items-center gap-2 rounded-xl border border-card-border bg-card-bg px-4 py-3">
+        <span className="text-xs text-text-tertiary mr-1">Basert på data fra</span>
+        {[
+          { label: "SSB", href: "https://www.ssb.no", title: "Statistisk sentralbyrå — boligpriser" },
+          { label: "Kartverket", href: "https://kartverket.no", title: "Kartverket — adresse og eiendomsdata" },
+          { label: "Entur", href: "https://entur.no", title: "Entur — kollektivtransport" },
+        ].map(({ label, href, title }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={title}
+            className="inline-flex items-center rounded-full border border-card-border bg-background px-3 py-1 text-xs font-medium text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
+          >
+            {label}
+          </a>
+        ))}
+        <span className="ml-auto text-xs text-text-tertiary hidden sm:block">
+          Oppdatert løpende
+        </span>
+      </div>
     </div>
 
     <footer className="mt-12 border-t border-card-border px-4 py-6 sm:px-6 sm:py-8">

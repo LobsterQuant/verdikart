@@ -9,6 +9,9 @@ import Logo from "@/components/Logo";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 import CardsCascade from "@/components/CardsCascade";
+import PropertyShareBar from "@/components/PropertyShareBar";
+import NearbyProperties from "@/components/NearbyProperties";
+import AISummary from "@/components/AISummary";
 
 interface PageProps {
   params: { slug: string };
@@ -209,12 +212,23 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
     <div className="flex min-h-screen flex-col">
     <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:py-10">
       <header className="mb-8">
+        {/* Breadcrumb */}
+        <nav className="mb-4 flex items-center gap-1.5 text-xs text-text-tertiary" aria-label="Brødsmule">
+          <a href="/" className="hover:text-foreground transition-colors">Hjem</a>
+          <svg className="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="m9 18 6-6-6-6"/></svg>
+          <span className="max-w-[240px] truncate text-text-secondary">{displayAddress}</span>
+        </nav>
+
         <h1 className="break-words text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
           {displayAddress}
         </h1>
-        <p className="mt-2 mb-6 text-text-secondary">
+        <p className="mt-1 mb-5 text-text-secondary">
           Eiendomsoversikt og områdesdata
         </p>
+
+        {/* Share bar */}
+        <PropertyShareBar address={displayAddress} url={`https://verdikart.no/eiendom/${params.slug}?adresse=${encodeURIComponent(displayAddress)}`} />
+
         <AddressSearch initialValue={displayAddress} />
       </header>
 
@@ -229,6 +243,26 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
           </div>,
         ]}
       </CardsCascade>
+
+      {/* AI Summary */}
+      {latNum && lonNum && (
+        <AISummary
+          address={displayAddress}
+          kommunenummer={kommunenummer}
+          lat={latNum}
+          lon={lonNum}
+        />
+      )}
+
+      {/* Nearby properties */}
+      {latNum && lonNum && (
+        <NearbyProperties
+          lat={latNum}
+          lon={lonNum}
+          kommunenummer={kommunenummer}
+          currentAddress={displayAddress}
+        />
+      )}
 
       {/* Email capture */}
       <div className="mt-8 no-print">

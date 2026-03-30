@@ -34,6 +34,15 @@ export default function EmailCapture({ address }: { address?: string }) {
             <p className="text-sm text-text-secondary">
               Vi varsler deg hvis prisene i dette området endrer seg.
             </p>
+            <p className="mt-1 text-xs text-text-tertiary">
+              For å melde deg av:{" "}
+              <a
+                href="mailto:kontakt@verdikart.no?subject=Avslutt%20prisvarsler&body=Jeg%20ønsker%20å%20avslutte%20prisvarslene%20mine%20fra%20Verdikart."
+                className="underline underline-offset-2 hover:text-foreground transition-colors"
+              >
+                kontakt@verdikart.no
+              </a>
+            </p>
           </div>
         </div>
       </div>
@@ -71,8 +80,23 @@ export default function EmailCapture({ address }: { address?: string }) {
       {status === "error" && (
         <p className="mt-2 text-xs text-red-400">Noe gikk galt. Prøv igjen.</p>
       )}
-      <p className="mt-3 text-xs text-text-tertiary">
-        Ingen spam. Kun relevante prisoppdateringer. Avslutt når som helst.
+      {/* GDPR consent + unsubscribe — required at point of collection (GDPR Art. 7 + 13) */}
+      <p className="mt-3 text-xs text-text-tertiary leading-relaxed">
+        Ved å melde deg på godtar du at vi lagrer e-postadressen din for å sende
+        prisvarsel for den valgte adressen. Vi deler ikke data med tredjeparter.
+        Du kan{" "}
+        <a
+          href="mailto:kontakt@verdikart.no?subject=Avslutt%20prisvarsler&body=Jeg%20ønsker%20å%20avslutte%20prisvarslene%20mine%20fra%20Verdikart."
+          className="underline underline-offset-2 hover:text-foreground transition-colors"
+        >
+          melde deg av når som helst
+        </a>{" "}
+        ved å sende oss en e-post, eller ved å klikke avmeldingslenken i varselet.
+        Se vår{" "}
+        <a href="/personvern" className="underline underline-offset-2 hover:text-foreground transition-colors">
+          personvernerklæring
+        </a>
+        .
       </p>
     </div>
   );

@@ -175,6 +175,7 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           aria-autocomplete="list"
           aria-expanded={isOpen && results.length > 0}
           aria-haspopup="listbox"
+          aria-controls="address-listbox"
           autoComplete="street-address"
         />
         {isLoading && (
@@ -188,6 +189,7 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
       {isOpen && results.length > 0 && (
         <div
           ref={dropdownRef}
+          id="address-listbox"
           role="listbox"
           aria-label="Adresseforslag"
           className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-card-border bg-card-bg shadow-2xl"

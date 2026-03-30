@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Download, Mail, ExternalLink } from "lucide-react";
+import { Mail, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Presse og media | Verdikart",
@@ -66,7 +66,7 @@ export default function PressePage() {
         {/* Quote */}
         <section className="mb-10 rounded-xl border border-accent/20 bg-accent/5 p-6">
           <blockquote className="text-base leading-relaxed text-foreground">
-            "Boligkjøp er den største finansielle beslutningen de fleste nordmenn tar — og allikevel er tilgangen til relevant data fragmentert, utdatert eller gjemt bak betalingsmurer. Verdikart ble laget for å endre det."
+            &ldquo;Boligkjøp er den største finansielle beslutningen de fleste nordmenn tar — og allikevel er tilgangen til relevant data fragmentert, utdatert eller gjemt bak betalingsmurer. Verdikart ble laget for å endre det.&rdquo;
           </blockquote>
           <p className="mt-3 text-sm text-text-secondary">— Michael H., grunnlegger av Verdikart</p>
         </section>

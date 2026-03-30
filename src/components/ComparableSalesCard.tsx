@@ -3,35 +3,45 @@
 import { useEffect, useState } from "react";
 import { BarChart2 } from "lucide-react";
 
-interface ComparableSalesData {
-  averagePricePerSqm: number;
-  period: string;
-  count?: number;
+interface HousingTypeRow {
+  type: string;
+  pricePerSqm: number;
+  transactions: number;
 }
 
-export default function ComparableSalesCard({
-  kommunenummer,
-}: {
-  kommunenummer: string;
-}) {
+interface ComparableSalesData {
+  kommuneAvg: number | null;
+  totalTransactions: number | null;
+  byType: HousingTypeRow[];
+  period: string;
+  kommuneName: string;
+}
+
+const TYPE_ICONS: Record<string, string> = {
+  "Eneboliger":       "🏠",
+  "Småhus":           "🏘",
+  "Blokkleiligheter": "🏢",
+};
+
+// Max price across types — used to draw relative bar widths
+function maxPrice(rows: HousingTypeRow[]) {
+  return Math.max(...rows.map((r) => r.pricePerSqm), 1);
+}
+
+export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: string }) {
   const [data, setData] = useState<ComparableSalesData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!kommunenummer) {
-      setLoading(false);
-      setError(true);
-      return;
-    }
+    if (!kommunenummer) { setLoading(false); setError(true); return; }
 
     async function fetchSales() {
       try {
-        const res = await fetch(
-          `/api/comparable-sales?kommunenummer=${kommunenummer}`
-        );
+        const res = await fetch(`/api/comparable-sales?kommunenummer=${kommunenummer}`);
         if (!res.ok) throw new Error("Failed");
         const json = await res.json();
+        if (!json.kommuneAvg) throw new Error("No data");
         setData(json);
       } catch {
         setError(true);
@@ -46,8 +56,10 @@ export default function ComparableSalesCard({
     return (
       <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
         <div className="skeleton mb-4 h-5 w-40" />
-        <div className="skeleton mb-2 h-10 w-48" />
-        <div className="skeleton h-4 w-32" />
+        <div className="skeleton mb-3 h-10 w-48" />
+        <div className="skeleton mb-2 h-8 w-full" />
+        <div className="skeleton mb-2 h-8 w-full" />
+        <div className="skeleton h-8 w-full" />
       </div>
     );
   }
@@ -66,28 +78,71 @@ export default function ComparableSalesCard({
     );
   }
 
+  const peak = maxPrice(data.byType);
+
   return (
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+      {/* Header */}
       <div className="mb-4 flex items-center gap-2">
         <BarChart2 className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Sammenlignbare salg</h3>
+        <span className="ml-auto text-xs text-text-tertiary">{data.period}</span>
       </div>
 
-      <p className="break-words text-3xl font-bold tabular-nums leading-tight">
-        <span className="text-text-secondary text-xl font-medium">Snitt </span>
-        <span className="text-accent">
-          {(data.averagePricePerSqm ?? 0).toLocaleString("nb-NO")}
-        </span>{" "}
-        <span className="text-lg font-medium text-text-secondary">kr/m²</span>
+      {/* Kommunesnitt hero */}
+      <div className="mb-1 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+        <span className="text-3xl font-bold tabular-nums">
+          {(data.kommuneAvg ?? 0).toLocaleString("nb-NO")}
+        </span>
+        <span className="text-base font-medium text-text-secondary">kr/m²</span>
+      </div>
+      <p className="mb-4 text-xs text-text-tertiary">
+        Snitt for {data.kommuneName || `kommune ${kommunenummer}`}
+        {data.totalTransactions
+          ? ` · ${data.totalTransactions.toLocaleString("nb-NO")} transaksjoner`
+          : ""}
       </p>
 
-      <p className="mt-2 text-sm text-text-secondary">{data.period}</p>
-
-      {data.count !== undefined && (
-        <p className="mt-1 text-xs text-text-tertiary">
-          Basert på {data.count} salg i området
-        </p>
+      {/* By housing type */}
+      {data.byType.length > 0 && (
+        <div className="space-y-3">
+          <p className="text-xs font-medium uppercase tracking-wider text-text-tertiary">
+            Fordeling per boligtype
+          </p>
+          {data.byType.map((row) => {
+            const pct = Math.round((row.pricePerSqm / peak) * 100);
+            return (
+              <div key={row.type}>
+                <div className="mb-1 flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-1.5 text-sm">
+                    <span>{TYPE_ICONS[row.type] ?? "🏠"}</span>
+                    <span>{row.type}</span>
+                  </span>
+                  <div className="flex items-center gap-3 text-right">
+                    <span className="text-sm font-semibold tabular-nums">
+                      {row.pricePerSqm.toLocaleString("nb-NO")} kr/m²
+                    </span>
+                    {row.transactions > 0 && (
+                      <span className="hidden text-xs text-text-tertiary sm:block tabular-nums whitespace-nowrap">
+                        {row.transactions.toLocaleString("nb-NO")} salg
+                      </span>
+                    )}
+                  </div>
+                </div>
+                {/* Relative bar */}
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-background">
+                  <div
+                    className="h-full rounded-full bg-accent/60 transition-all"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )}
+
+      <p className="mt-4 text-xs text-text-tertiary">Kilde: SSB tabell 06035</p>
     </div>
   );
 }

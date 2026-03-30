@@ -249,3 +249,23 @@ input::placeholder {
 .animate-fade-in {
   animation: fade-in 0.25s ease-out both;
 }
+
+/* ── Card depth: subtle radial gradient top-left + colored box-shadow ── */
+.bg-card-bg {
+  background-image: radial-gradient(ellipse at 0% 0%, rgba(99,102,241,0.04) 0%, transparent 60%);
+}
+
+/* ── Hover-lift for interactive cards ── */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(99,102,241,0.15);
+  border-color: rgba(99,102,241,0.25) !important;
+}
+
+/* ── Search bar glow on focus ── */
+.search-glow:focus-within {
+  box-shadow: 0 0 0 2px rgba(99,102,241,0.35), 0 4px 24px rgba(99,102,241,0.12);
+}

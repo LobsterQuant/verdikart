@@ -1,7 +1,7 @@
 "use client";
 
 import { m as motion, useMotionValue, useTransform, LazyMotion, domAnimation } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import AddressSearch from "@/components/AddressSearch";
 import ProductPreview from "@/components/ProductPreview";
 import ProductDemo from "@/components/ProductDemo";
@@ -33,6 +33,26 @@ const valueProps = [
 ];
 
 const EASE = "easeOut" as const;
+
+// Count-up hook — runs once when active flips true
+function useCountUp(target: number, duration = 1200, active = false) {
+  const [val, setVal] = useState(0);
+  const raf = useRef<number | null>(null);
+  useEffect(() => {
+    if (!active) return;
+    setVal(0);
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+      setVal(Math.round(ease * target));
+      if (t < 1) raf.current = requestAnimationFrame(tick);
+    };
+    raf.current = requestAnimationFrame(tick);
+    return () => { if (raf.current) cancelAnimationFrame(raf.current); };
+  }, [active, target, duration]);
+  return val;
+}
 
 function fadeUpProps(delay = 0) {
   return {
@@ -81,7 +101,7 @@ function FeatureCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="group relative rounded-xl border bg-card-bg p-6 cursor-default overflow-hidden"
+      className="group relative rounded-xl border bg-card-bg p-6 cursor-default overflow-hidden card-hover"
       style={{
         rotateX,
         rotateY,
@@ -282,12 +302,13 @@ function ComparisonSection() {
         ))}
       </div>
 
-      {/* Feature rows */}
-      <div className="rounded-xl border border-card-border overflow-hidden">
+      {/* Feature rows — horizontally scrollable on mobile */}
+      <div className="overflow-x-auto rounded-xl border border-card-border">
+        <div className="min-w-[520px]">
         {COMPARISON_ROWS.map(({ feature, icon, verdikart, finn, google }, i) => (
           <motion.div
             key={feature}
-            className={`grid grid-cols-[1fr_repeat(3,_80px)] sm:grid-cols-[1fr_repeat(3,_100px)] items-center gap-0 border-b border-card-border last:border-b-0 ${
+            className={`grid grid-cols-[1fr_repeat(3,_100px)] items-center gap-0 border-b border-card-border last:border-b-0 ${
               i % 2 === 0 ? "bg-background" : "bg-card-bg"
             }`}
             initial={{ opacity: 0 }}
@@ -324,7 +345,11 @@ function ComparisonSection() {
             </div>
           </motion.div>
         ))}
+        </div>
       </div>
+
+      {/* Mobile scroll hint */}
+      <p className="mt-2 text-center text-[10px] text-text-tertiary sm:hidden">← Sveip for å se alle kolonner →</p>
     </motion.section>
   );
 }
@@ -412,6 +437,53 @@ function PreviewSection() {
     >
       <ProductPreview />
     </motion.section>
+  );
+}
+
+function StatsGrid() {
+  const { ref, inView } = useInView(0.3);
+  const addr = useCountUp(2500000, 1400, inView);
+  const cities = useCountUp(15, 800, inView);
+  const sources = useCountUp(4, 600, inView);
+
+  return (
+    <div
+      ref={ref as RefObject<HTMLDivElement>}
+      className="grid grid-cols-2 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-y divide-card-border sm:grid-cols-4 sm:divide-y-0 sm:divide-x"
+    >
+      {/* Free */}
+      <div className="flex flex-col items-center justify-center px-3 py-4 text-center border-r border-card-border sm:border-r-0">
+        <span className="flex items-center gap-1.5 text-base font-bold text-foreground leading-tight sm:text-sm">
+          <span className="relative inline-flex h-2 w-2 shrink-0">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+          </span>
+          Gratis
+        </span>
+        <span className="mt-1 text-xs leading-tight text-text-tertiary">Ingen registrering</span>
+      </div>
+      {/* Addresses */}
+      <div className="flex flex-col items-center justify-center px-3 py-4 text-center">
+        <span className="text-base font-bold text-foreground leading-tight tabular-nums sm:text-sm">
+          {inView ? `${(addr / 1000000).toFixed(1).replace(".", ",")}M+` : "2,5M+"}
+        </span>
+        <span className="mt-1 text-xs leading-tight text-text-tertiary">norske adresser</span>
+      </div>
+      {/* Cities */}
+      <div className="flex flex-col items-center justify-center px-3 py-4 text-center border-r border-card-border sm:border-r-0">
+        <span className="text-base font-bold text-foreground leading-tight tabular-nums sm:text-sm">
+          {inView ? cities : 0}
+        </span>
+        <span className="mt-1 text-xs leading-tight text-text-tertiary">byer dekket</span>
+      </div>
+      {/* Sources */}
+      <div className="flex flex-col items-center justify-center px-3 py-4 text-center">
+        <span className="text-base font-bold text-foreground leading-tight tabular-nums sm:text-sm">
+          {inView ? sources : 0}
+        </span>
+        <span className="mt-1 text-xs leading-tight text-text-tertiary">datakilder</span>
+      </div>
+    </div>
   );
 }
 
@@ -507,6 +579,23 @@ export default function HomePage() {
           {...fadeUpProps(0.32)}
         >
           <AddressSearch />
+          {/* Quick-start example addresses */}
+          <div className="mt-2.5 flex flex-wrap items-center justify-center gap-1.5">
+            <span className="text-[11px] text-text-tertiary">Prøv:</span>
+            {[
+              ["Bogstadveien 45, Oslo", "bogstadveien-45-oslo--598991-106726-0301"],
+              ["Bryggen 1, Bergen",     "bryggen-1-bergen--60374-52187-4601"],
+              ["Torget 2, Trondheim",   "torget-2-trondheim--633436-103892-5001"],
+            ].map(([label, slug]) => (
+              <a
+                key={label}
+                href={`/eiendom/${slug}?adresse=${encodeURIComponent(label)}`}
+                className="rounded-full border border-card-border bg-card-bg/60 px-2.5 py-1 text-[11px] text-text-secondary transition-colors hover:border-accent/40 hover:text-accent"
+              >
+                {label}
+              </a>
+            ))}
+          </div>
         </motion.div>
 
         {/* Social proof strip — above the fold */}
@@ -519,31 +608,8 @@ export default function HomePage() {
             <ProductDemo />
           </div>
 
-          {/* Stats grid — 2×2 on mobile, 4 cols on sm+ */}
-          <div className="grid grid-cols-2 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-y divide-card-border sm:grid-cols-4 sm:divide-y-0 sm:divide-x">
-            {[
-              { value: "Gratis", label: "Ingen registrering", dot: true },
-              { value: "2,5M+", label: "norske adresser" },
-              { value: "15", label: "byer dekket" },
-              { value: "3", label: "datakilder" },
-            ].map(({ value, label, dot }, i) => (
-              <div
-                key={label}
-                className={`flex flex-col items-center justify-center px-3 py-4 text-center${i % 2 === 0 ? " border-r border-card-border sm:border-r-0" : ""}`}
-              >
-                <span className="flex items-center gap-1.5 text-base font-bold text-foreground leading-tight sm:text-sm">
-                  {dot && (
-                    <span className="relative inline-flex h-2 w-2 shrink-0">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-60" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
-                    </span>
-                  )}
-                  {value}
-                </span>
-                <span className="mt-1 text-xs leading-tight text-text-tertiary">{label}</span>
-              </div>
-            ))}
-          </div>
+          {/* Stats grid — animated count-up on scroll */}
+          <StatsGrid />
         </motion.div>
 
         {/* Data source trust strip */}

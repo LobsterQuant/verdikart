@@ -195,7 +195,7 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           });
         }}
       >
-      <div className="relative rounded-[15px] overflow-hidden">
+      <div className="relative rounded-[15px] overflow-hidden search-glow transition-shadow duration-200">
         <input
           ref={inputRef}
           type="text"

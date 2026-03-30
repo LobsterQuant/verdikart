@@ -6,6 +6,10 @@ interface NoiseData {
   road?: number;
   air?: number;
   rail?: number;
+  // API field names from /api/noise
+  veinoise?: number;
+  flynoise?: number;
+  jernbanenoise?: number;
 }
 
 function getNoiseColor(db: number): string {
@@ -31,7 +35,12 @@ export default function NoiseCard({ lat, lon }: { lat: number; lon: number }) {
         const res = await fetch(`/api/noise?lat=${lat}&lon=${lon}`);
         if (!res.ok) throw new Error("Failed");
         const json = await res.json();
-        setData(json);
+        // Normalise API field names → component field names
+        setData({
+          road: json.road ?? json.veinoise ?? undefined,
+          air: json.air ?? json.flynoise ?? undefined,
+          rail: json.rail ?? json.jernbanenoise ?? undefined,
+        });
       } catch {
         setError(true);
       } finally {

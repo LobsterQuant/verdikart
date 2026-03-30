@@ -1,15 +1,13 @@
-"use client";
-
-import { useEffect, useState } from "react";
+// NOTE: This file must ONLY be imported via dynamic(() => import(...), { ssr: false })
+// Never import it directly — Leaflet requires window/document at module evaluation time.
+import { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import L from "leaflet";
 import type { TransitStop } from "@/components/PropertyMap";
 
 // Re-centre + fix narrow-width bug: fires invalidateSize after mount
 function MapReady({ lat, lon }: { lat: number; lon: number }) {
   const map = useMap();
   useEffect(() => {
-    // Delay slightly so the parent container has fully painted
     const t1 = setTimeout(() => {
       map.invalidateSize({ animate: false });
       map.setView([lat, lon], 16, { animate: false });
@@ -22,24 +20,6 @@ function MapReady({ lat, lon }: { lat: number; lon: number }) {
   return null;
 }
 
-// Fix default marker icon for Leaflet in Next.js
-const defaultIcon = L.icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-const stopIcon = L.divIcon({
-  html: '<div style="width:10px;height:10px;background:#6366f1;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 3px rgba(99,102,241,0.25)"></div>',
-  iconSize: [10, 10],
-  iconAnchor: [5, 5],
-  className: "",
-});
-
 interface PropertyMapInnerProps {
   lat: number;
   lon: number;
@@ -49,6 +29,32 @@ interface PropertyMapInnerProps {
 
 export default function PropertyMapInner({ lat, lon, address, stops }: PropertyMapInnerProps) {
   const [tilesLoaded, setTilesLoaded] = useState(false);
+  // Icons created lazily inside render (client-only, after dynamic import)
+  const iconsRef = useRef<{ defaultIcon: L.Icon; stopIcon: L.DivIcon } | null>(null);
+
+  if (!iconsRef.current) {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const L = require("leaflet") as typeof import("leaflet");
+    iconsRef.current = {
+      defaultIcon: L.icon({
+        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41],
+      }),
+      stopIcon: L.divIcon({
+        html: '<div style="width:10px;height:10px;background:#6366f1;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 3px rgba(99,102,241,0.25)"></div>',
+        iconSize: [10, 10],
+        iconAnchor: [5, 5],
+        className: "",
+      }),
+    };
+  }
+
+  const { defaultIcon, stopIcon } = iconsRef.current;
 
   if (!lat || !lon || isNaN(lat) || isNaN(lon)) {
     return (
@@ -66,7 +72,6 @@ export default function PropertyMapInner({ lat, lon, address, stops }: PropertyM
           className="pointer-events-none absolute inset-0 z-[9999] flex items-center justify-center transition-opacity duration-500"
           style={{ background: "#080810" }}
         >
-          {/* Faint grid to look like a map placeholder */}
           <svg
             className="absolute inset-0 h-full w-full opacity-[0.06]"
             xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +83,6 @@ export default function PropertyMapInner({ lat, lon, address, stops }: PropertyM
             </defs>
             <rect width="100%" height="100%" fill="url(#map-grid)" />
           </svg>
-          {/* Pulsing dot in centre */}
           <div className="relative flex h-10 w-10 items-center justify-center">
             <div className="absolute h-10 w-10 animate-ping rounded-full bg-accent opacity-20" />
             <div className="h-4 w-4 rounded-full bg-accent" />
@@ -92,7 +96,6 @@ export default function PropertyMapInner({ lat, lon, address, stops }: PropertyM
         className="h-full w-full"
         zoomControl={true}
         scrollWheelZoom={true}
-        // Prevent Leaflet from guessing size before mount
         preferCanvas={false}
       >
         <MapReady lat={lat} lon={lon} />
@@ -103,7 +106,6 @@ export default function PropertyMapInner({ lat, lon, address, stops }: PropertyM
           maxZoom={20}
           eventHandlers={{
             load: () => setTilesLoaded(true),
-            // Also dismiss skeleton if tiles are loading (first tile received)
             tileload: () => setTilesLoaded(true),
           }}
         />

@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Personvern — Verdikart",
+  description: "Personvernerklæring for Verdikart. Les om hvordan vi behandler personopplysninger.",
+  alternates: { canonical: "https://verdikart.no/personvern" },
+};
+
 export default function Personvern() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-background text-foreground px-6 py-24">

@@ -23,13 +23,16 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const address = searchParams.adresse || decodeURIComponent(params.slug);
   const title = `${address} — Verdikart`;
   const description = `Kollektivtransport, prisutvikling og markedsdata for ${address}. Få full eiendomsinnsikt på Verdikart.`;
-  const pageUrl = `https://verdikart.no/eiendom/${params.slug}${
-    searchParams.lat ? `?lat=${searchParams.lat}&lon=${searchParams.lon}` : ""
-  }`;
+  // Canonical strips query params — the slug alone is the stable URL
+  const canonicalUrl = `https://verdikart.no/eiendom/${params.slug}`;
+  const pageUrl = `https://verdikart.no/eiendom/${params.slug}`;
 
   return {
     title,
     description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title,
       description,

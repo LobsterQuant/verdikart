@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Om Verdikart",
+  description: "Verdikart gir boligkjøpere innsikt i transport, priser og markedsdata for norske adresser.",
+  alternates: { canonical: "https://verdikart.no/om-oss" },
+};
+
 export default function OmOss() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-background text-foreground px-6 py-24">

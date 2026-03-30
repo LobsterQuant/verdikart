@@ -3,10 +3,14 @@ import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://verdikart.no"),
   title: "Verdikart — Forstå boligen. Ikke bare se den.",
   description:
     "Norges smarteste verktøy for boligkjøpere. Kollektivtransport, prisutvikling og markedsdata — alt på ett sted.",
   keywords: "bolig, eiendom, kollektivtransport, prisutvikling, Norge",
+  alternates: {
+    canonical: "https://verdikart.no",
+  },
 };
 
 export const viewport: Viewport = {

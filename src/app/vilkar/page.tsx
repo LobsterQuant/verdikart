@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Vilkår for bruk — Verdikart",
+  description: "Vilkår for bruk av Verdikart. Les om rettigheter, ansvarsbegrensning og datakilder.",
+  alternates: { canonical: "https://verdikart.no/vilkar" },
+};
+
 export default function Vilkar() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-background text-foreground px-6 py-24">

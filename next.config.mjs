@@ -13,6 +13,13 @@ const nextConfig = {
         destination: "/eiendom/bygdoy-alle-2--599151-107152-0301?adresse=Bygd%C3%B8y+all%C3%A9+2%2C+Oslo&lat=59.91506&lon=10.71522&knr=0301",
         permanent: false,
       },
+      // Tool aliases
+      { source: "/sammenligning",    destination: "/sammenlign",  permanent: false },
+      { source: "/compare",          destination: "/sammenlign",  permanent: false },
+      { source: "/calculator",       destination: "/kalkulator",  permanent: false },
+      { source: "/kalkulator-bolig", destination: "/kalkulator",  permanent: false },
+      { source: "/kart",             destination: "/bykart",      permanent: false },
+      { source: "/map",              destination: "/bykart",      permanent: false },
       // Norwegian slug aliases → canonical English slugs
       { source: "/endringslogg",           destination: "/changelog",            permanent: true },
       { source: "/data-og-metodologi",     destination: "/data",                 permanent: true },

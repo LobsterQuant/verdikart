@@ -76,7 +76,7 @@ export default function NavBar() {
             href="/#sok"
             className="ml-1 rounded-lg bg-accent px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-80 whitespace-nowrap"
           >
-            Søk adresse →
+            Prøv nå →
           </Link>
         </div>
 
@@ -85,7 +85,7 @@ export default function NavBar() {
           href={CTA_HREF}
           className="mr-2 rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-white transition-opacity hover:opacity-80 sm:hidden"
         >
-          Søk
+          Prøv nå
         </Link>
 
         {/* Mobile hamburger */}

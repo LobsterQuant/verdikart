@@ -24,7 +24,8 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const address = searchParams.adresse ||
     decodeURIComponent(params.slug)
       .replace(/--\d+-\d+-\d{4}$/, "")
-      .replace(/-/g, " ");
+      .replace(/-+/g, " ")
+      .trim();
   const title = `${address} — Verdikart`;
   const description = `Kollektivtransport, prisutvikling og markedsdata for ${address}. Få full eiendomsinnsikt på Verdikart.`;
   // Canonical strips query params — the slug alone is the stable URL
@@ -85,9 +86,9 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
   const lonNum = lon ? parseFloat(lon) : slugParsed.lon;
   const kommunenummer = knr || slugParsed.knr || "";
   const displayAddress = adresse || decodeURIComponent(params.slug)
-    .replace(/--\d+-\d+-\d{4}$/, "")   // strip encoded coords from display name
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase()); // title-case fallback
+    .replace(/--\d+-\d+-\d{4}$/, "")   // strip encoded coords
+    .replace(/-+/g, " ")
+    .trim();
 
   if (!latNum || !lonNum) {
     return (

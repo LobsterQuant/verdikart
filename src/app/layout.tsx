@@ -48,20 +48,17 @@ export default function RootLayout({
       <body className="font-sans bg-background text-foreground min-h-screen">
         <nav className="fixed top-0 left-0 right-0 z-50 border-b border-card-border bg-background/80 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-            <a href="/" className="flex items-center gap-2">
+            <a href="/" className="flex items-center gap-2 min-w-0">
               <Logo className="h-8 w-8 shrink-0" />
-              <span className="font-bold text-lg tracking-tight text-foreground">
+              <span className="hidden font-bold text-lg tracking-tight text-foreground sm:block">
                 Verdikart
               </span>
             </a>
-            <div className="flex items-center gap-6 text-sm text-text-secondary">
-              <a
-                href="/om-oss"
-                className="hover:text-foreground transition-colors"
-              >
+            <nav className="flex items-center gap-4 text-sm text-text-secondary sm:gap-6">
+              <a href="/om-oss" className="hover:text-foreground transition-colors whitespace-nowrap">
                 Om oss
               </a>
-            </div>
+            </nav>
           </div>
         </nav>
         <main className="pt-14">{children}</main>

@@ -16,7 +16,7 @@ const config: Config = {
         "card-bg": "#111111",
         "card-border": "#1A1A1A",
         "text-secondary": "#888888",
-        "text-tertiary": "#555555",
+        "text-tertiary": "#7a7a7a",
         "noise-green": "#22C55E",
         "noise-yellow": "#EAB308",
         "noise-red": "#EF4444",

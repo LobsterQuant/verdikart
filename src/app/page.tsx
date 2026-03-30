@@ -1,4 +1,5 @@
 import AddressSearch from "@/components/AddressSearch";
+import ProductPreview from "@/components/ProductPreview";
 import { Bus, TrendingUp, Home } from "lucide-react";
 
 const valueProps = [
@@ -40,7 +41,17 @@ export default function HomePage() {
         <div className="mt-8 w-full max-w-xl sm:mt-10">
           <AddressSearch />
         </div>
+
+        <p className="mt-4 flex items-center gap-1.5 text-sm text-text-tertiary">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
+          Gratis å bruke · Ingen registrering
+        </p>
       </main>
+
+      {/* Product preview */}
+      <section className="mx-auto w-full max-w-2xl px-4 pb-16 sm:px-6">
+        <ProductPreview />
+      </section>
 
       {/* Value Props */}
       <section className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 sm:pb-24">

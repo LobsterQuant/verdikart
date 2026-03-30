@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronRight, Clock, ArrowLeft } from "lucide-react";
 import { getPost, getAllSlugs } from "../posts";
 import JsonLd from "@/components/JsonLd";
+import ShareButtons from "@/components/ShareButtons";
 
 export async function generateStaticParams() {
   return getAllSlugs();
@@ -98,17 +99,55 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
           {/* Header */}
           <header className="mb-10">
+            {/* Hero image placeholder — gradient cover with category label */}
+            <div
+              className="mb-6 flex h-48 w-full items-end rounded-xl p-5 sm:h-56"
+              style={{
+                background: "linear-gradient(135deg, rgba(99,102,241,0.25) 0%, rgba(59,130,246,0.15) 50%, rgba(8,8,16,0.9) 100%), #0f101a",
+                border: "1px solid rgba(99,102,241,0.2)",
+              }}
+            >
+              <div>
+                <span className="mb-2 inline-block rounded-full bg-accent/20 px-3 py-1 text-xs font-semibold text-accent">
+                  {post.category ?? "Boligmarkedet"}
+                </span>
+                <p className="text-xs text-text-tertiary">
+                  {formatDate(post.publishedAt)} · {post.readingMinutes} min lesetid
+                </p>
+              </div>
+            </div>
+
             <h1 className="mb-4 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
               {post.title}
             </h1>
-            <div className="flex items-center gap-4 text-xs text-text-tertiary">
-              <span>{formatDate(post.publishedAt)}</span>
-              <span className="flex items-center gap-1">
+
+            {/* Author row */}
+            <div className="mb-4 flex items-center gap-3">
+              <svg viewBox="0 0 36 36" className="h-9 w-9 shrink-0" aria-hidden>
+                <defs>
+                  <linearGradient id="blogAvatarGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#6366f1" />
+                    <stop offset="100%" stopColor="#818cf8" />
+                  </linearGradient>
+                </defs>
+                <circle cx="18" cy="18" r="18" fill="url(#blogAvatarGrad)" opacity="0.18" />
+                <circle cx="18" cy="18" r="17" fill="none" stroke="url(#blogAvatarGrad)" strokeWidth="1" opacity="0.5" />
+                <text x="18" y="23" textAnchor="middle" fontFamily="Inter,sans-serif" fontSize="13" fontWeight="700" fill="url(#blogAvatarGrad)">MH</text>
+              </svg>
+              <div>
+                <p className="text-sm font-medium">Michael H.</p>
+                <p className="text-xs text-text-tertiary">Grunnlegger, Verdikart</p>
+              </div>
+              <div className="ml-auto flex items-center gap-1 text-xs text-text-tertiary">
                 <Clock className="h-3 w-3" strokeWidth={1.5} />
-                {post.readingMinutes} min lesetid
-              </span>
+                {post.readingMinutes} min
+              </div>
             </div>
-            <p className="mt-4 text-base leading-relaxed text-text-secondary">{post.description}</p>
+
+            <p className="text-base leading-relaxed text-text-secondary">{post.description}</p>
+
+            {/* Share buttons */}
+            <ShareButtons url={url} title={post.title} />
           </header>
 
           {/* Article body */}

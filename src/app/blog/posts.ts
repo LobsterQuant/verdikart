@@ -5,6 +5,7 @@ export interface BlogPost {
   publishedAt: string; // ISO date
   updatedAt?: string;
   readingMinutes: number;
+  category?: string;
   sections: Section[];
 }
 
@@ -24,6 +25,7 @@ export const posts: BlogPost[] = [
       "En komplett sjekkliste for boligkjøp i 2026. Fra kollektivtransport og støynivå til prishistorikk og fellesgjeld — her er alt du bør undersøke før du legger inn bud.",
     publishedAt: "2026-03-20",
     readingMinutes: 6,
+    category: "Kjøperguide",
     sections: [
       {
         body: "Boligkjøp er den største finansielle beslutningen de fleste nordmenn tar. Likevel er det mange som legger inn bud uten å ha sjekket alt som egentlig betyr noe — og det kan koste deg dyrt. Her er en praktisk sjekkliste med 12 punkter du bør gå gjennom før visning, og helst igjen før budet.",
@@ -119,6 +121,7 @@ export const posts: BlogPost[] = [
       "Nærhet til T-bane og trikk er en av de sterkeste prisdriver-faktorene i norske byer. Vi ser på sammenhengen mellom kollektivdekning og boligpris, og hva du faktisk bør sjekke.",
     publishedAt: "2026-03-24",
     readingMinutes: 5,
+    category: "Markedsanalyse",
     sections: [
       {
         body: "Det er vel kjent at beliggenhet er den viktigste faktoren for boligpris. Men beliggenhet er ikke bare adresse — det handler i stor grad om tilgjengelighet. Og tilgjengelighet handler om kollektivtransport.",
@@ -187,6 +190,7 @@ export const posts: BlogPost[] = [
       "Hva koster bolig i Oslo i 2026? Vi gir deg en oversikt over kvadratmeterpris, prisutvikling og hva som driver prisnivået i alle Oslos bydeler — fra Frogner til Stovner.",
     publishedAt: "2026-03-28",
     readingMinutes: 7,
+    category: "Prisanalyse",
     sections: [
       {
         body: "Oslo er Norges dyreste boligmarked, men prisene varierer enormt mellom bydeler. Kvadratmeterprisen i Frogner er mer enn dobbelt så høy som i Stovner — og gapet har økt de siste fem årene. Her er en fullstendig oversikt over boligprisene i Oslo 2026.",

@@ -360,6 +360,42 @@ export default function HomePage() {
       {/* Product preview — fades in on scroll */}
       <PreviewSection />
 
+      {/* Slik fungerer det */}
+      <section className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6">
+        <h2 className="mb-8 text-center text-xl font-bold sm:text-2xl">Slik fungerer det</h2>
+        <ol className="relative space-y-6 pl-8">
+          {/* vertical line */}
+          <div aria-hidden className="absolute left-[11px] top-2 bottom-2 w-px bg-card-border" />
+          {[
+            {
+              n: "1",
+              title: "Skriv inn adressen",
+              body: "Søk på enhver norsk gateadresse — Kartverket kjenner alle 2,5 millioner av dem. Velg fra forslagslisten.",
+            },
+            {
+              n: "2",
+              title: "Vi henter data i sanntid",
+              body: "Transport fra Entur, prisstatistikk fra SSB, støykart fra Kartverket. Alt hentes live — ingen foreldede cache-sider.",
+            },
+            {
+              n: "3",
+              title: "Les rapporten, ta en bedre beslutning",
+              body: "Se holdeplasser, avganger, kvadratmeterpris og sammenlignbare salg — samlet på én side. Del lenken med megler eller bankrådgiver.",
+            },
+          ].map(({ n, title, body }) => (
+            <li key={n} className="flex gap-4">
+              <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">
+                {n}
+              </span>
+              <div>
+                <p className="font-semibold">{title}</p>
+                <p className="mt-1 text-sm leading-relaxed text-text-secondary">{body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       {/* Value Props — stagger on scroll */}
       <section className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 sm:pb-24">
         <FeatureCards />
@@ -368,10 +404,10 @@ export default function HomePage() {
       {/* Email capture */}
       <section className="border-t border-card-border bg-card-bg px-4 py-14 text-center sm:px-6">
         <div className="mx-auto max-w-md">
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-accent">Beta</p>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-accent">Tidlig tilgang</p>
           <h2 className="mb-3 text-2xl font-bold">Få varsel når nye funksjoner lanseres</h2>
           <p className="mb-6 text-sm leading-relaxed text-text-secondary">
-            Vi jobber med prisvarslinger, AI-sammendrag og historiske salgskart. Registrer deg for å høre om det først.
+            Verdikart er i aktiv utvikling — dataene og rapportene fungerer fullt ut i dag. Vi jobber med prisvarslinger, AI-sammendrag og historiske salgskart. Registrer deg for å høre om det først.
           </p>
           <EmailCapture />
         </div>

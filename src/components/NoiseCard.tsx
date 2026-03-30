@@ -54,26 +54,10 @@ export default function NoiseCard({ lat, lon }: { lat: number; lon: number }) {
     );
   }
 
-  if (error) {
-    return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-6">
-        <h3 className="mb-2 text-lg font-semibold">Støynivå</h3>
-        <p className="text-sm text-text-secondary">Data ikke tilgjengelig</p>
-      </div>
-    );
-  }
+  const hasData = data && (data.road != null || data.air != null || data.rail != null);
 
-  const hasData = data && (data.road !== undefined || data.air !== undefined || data.rail !== undefined);
-
-  if (!hasData) {
-    return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-6">
-        <h3 className="mb-2 text-lg font-semibold">Støynivå</h3>
-        <p className="text-sm text-text-secondary">
-          Ingen støydata tilgjengelig for denne adressen
-        </p>
-      </div>
-    );
+  if (error || !hasData) {
+    return null;
   }
 
   const sources = [
@@ -93,13 +77,13 @@ export default function NoiseCard({ lat, lon }: { lat: number; lon: number }) {
           return (
             <div
               key={source.label}
-              className="flex items-center justify-between rounded-lg bg-background px-4 py-3"
+              className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-background px-4 py-3"
             >
               <span className="text-sm text-text-secondary">
                 {source.label}
               </span>
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-medium">
+              <div className="flex shrink-0 items-center gap-2">
+                <span className="text-sm font-medium tabular-nums">
                   {source.value} dB
                 </span>
                 <span

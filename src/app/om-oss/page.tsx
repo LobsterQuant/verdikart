@@ -55,11 +55,18 @@ export default function OmOss() {
         </section>
 
         <section className="rounded-xl border border-card-border bg-card-bg p-6">
-          <h2 className="text-xl font-semibold mb-3">MVP</h2>
+          <h2 className="text-xl font-semibold mb-3">I utvikling</h2>
           <p className="text-sm leading-relaxed text-text-secondary">
-            Verdikart er for øyeblikket en MVP (Minimum Viable Product). Vi jobber
-            kontinuerlig med å forbedre verktøyet og legge til nye funksjoner.
-            Har du tilbakemeldinger eller forslag? Vi hører gjerne fra deg.
+            Vi jobber kontinuerlig med å forbedre Verdikart og legge til nye
+            funksjoner. Har du tilbakemeldinger eller forslag? Vi hører gjerne
+            fra deg på{" "}
+            <a
+              href="mailto:kontakt@verdikart.no"
+              className="text-accent hover:underline"
+            >
+              kontakt@verdikart.no
+            </a>
+            .
           </p>
         </section>
       </div>

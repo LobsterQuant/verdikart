@@ -17,6 +17,7 @@ interface QuarterData {
 interface PriceTrendData {
   data: QuarterData[];
   yoyChange: number;
+  source?: "kommune" | "national";
 }
 
 function formatQuarterLabel(q: string): string {
@@ -57,6 +58,7 @@ export default function PriceTrendCard({
               price: json.values[i] ?? 0,
             })),
             yoyChange: json.yoyChange ?? 0,
+            source: json.source ?? "national",
           };
           setData(normalized);
         } else {
@@ -101,7 +103,7 @@ export default function PriceTrendCard({
     <div className="rounded-xl border border-card-border bg-card-bg p-6">
       <h3 className="mb-4 text-lg font-semibold">Prisutvikling</h3>
 
-      <div className="mb-4 flex items-center gap-3">
+      <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1">
         <span
           className="text-2xl font-bold"
           style={{ color: isPositive ? "#22C55E" : "#EF4444" }}
@@ -110,6 +112,11 @@ export default function PriceTrendCard({
           {Math.abs(data.yoyChange).toFixed(1)}%
         </span>
         <span className="text-sm text-text-secondary">siste 12 mnd</span>
+        {data.source === "national" && (
+          <span className="text-xs text-text-tertiary italic">
+            Nasjonalt snitt
+          </span>
+        )}
       </div>
 
       <div className="h-44 w-full">

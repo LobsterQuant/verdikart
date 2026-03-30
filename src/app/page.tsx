@@ -67,7 +67,7 @@ export default function Home() {
           </span>
           <nav className="flex gap-6">
             <a
-              href="/om"
+              href="/om-oss"
               className="text-sm text-text-secondary transition-colors hover:text-foreground"
             >
               Om oss

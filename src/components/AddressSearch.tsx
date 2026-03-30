@@ -24,8 +24,8 @@ function toSlug(text: string): string {
     .replace(/^-|-$/g, "");
 }
 
-export default function AddressSearch() {
-  const [query, setQuery] = useState("");
+export default function AddressSearch({ initialValue = "" }: { initialValue?: string }) {
+  const [query, setQuery] = useState(initialValue);
   const [results, setResults] = useState<AddressResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

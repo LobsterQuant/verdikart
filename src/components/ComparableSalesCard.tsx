@@ -64,8 +64,8 @@ export default function ComparableSalesCard({
     <div className="rounded-xl border border-card-border bg-card-bg p-6">
       <h3 className="mb-4 text-lg font-semibold">Sammenlignbare salg</h3>
 
-      <p className="text-3xl font-bold tabular-nums">
-        Snitt{" "}
+      <p className="break-words text-3xl font-bold tabular-nums leading-tight">
+        <span className="text-text-secondary text-xl font-medium">Snitt </span>
         <span className="text-accent">
           {(data.averagePricePerSqm ?? 0).toLocaleString("nb-NO")}
         </span>{" "}

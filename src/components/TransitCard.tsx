@@ -49,7 +49,7 @@ function getModeIcon(mode: string): string {
   }
 }
 
-export default function TransitCard({ lat, lon }: { lat: number; lon: number }) {
+export default function TransitCard({ lat, lon, address = "" }: { lat: number; lon: number; address?: string }) {
   const [data, setData] = useState<TransitData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -96,11 +96,11 @@ export default function TransitCard({ lat, lon }: { lat: number; lon: number }) 
     <div className="rounded-xl border border-card-border bg-card-bg p-6">
       <h3 className="mb-4 text-lg font-semibold">Kollektivtransport</h3>
 
-      <div className="mb-4 flex items-end gap-3">
+      <div className="mb-4 flex flex-wrap items-end gap-x-3 gap-y-1">
         <span className="text-4xl font-bold tabular-nums">
           {data.durationMinutes}
         </span>
-        <span className="mb-1 text-text-secondary">min til Oslo S</span>
+        <span className="mb-1 min-w-0 break-words text-text-secondary">min til {data.destination}</span>
       </div>
 
       <span
@@ -129,7 +129,7 @@ export default function TransitCard({ lat, lon }: { lat: number; lon: number }) 
                   {leg.line ? ` ${leg.line}` : ""}
                 </span>
                 <span className="truncate">
-                  {leg.from} &rarr; {leg.to}
+                  {(leg.from === "Origin" ? (address || "Startpunkt") : leg.from)} &rarr; {leg.to}
                 </span>
                 <span className="ml-auto shrink-0 text-xs tabular-nums">
                   {leg.duration} min

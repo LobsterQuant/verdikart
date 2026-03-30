@@ -207,61 +207,121 @@ const HOW_STEPS = [
 ];
 
 const COMPARISON_ROWS = [
-  { feature: "Kollektivtransport og gangavstand",   verdikart: true,  finn: false, google: false },
-  { feature: "Støykart per adresse",                verdikart: true,  finn: false, google: false },
-  { feature: "SSB prisstatistikk per bydel",        verdikart: true,  finn: false, google: false },
-  { feature: "Sammenlignbare salg i nabolaget",     verdikart: true,  finn: true,  google: false },
-  { feature: "Del-lenke til rapport",               verdikart: true,  finn: false, google: false },
-  { feature: "Ingen registrering nødvendig",        verdikart: true,  finn: false, google: true  },
+  { feature: "Kollektivtransport og gangavstand",   icon: "🚇", verdikart: true,  finn: false, google: false },
+  { feature: "Støykart per adresse",                icon: "🔊", verdikart: true,  finn: false, google: false },
+  { feature: "SSB prisstatistikk per bydel",        icon: "📊", verdikart: true,  finn: false, google: false },
+  { feature: "Sammenlignbare salg i nabolaget",     icon: "🏘️", verdikart: true,  finn: true,  google: false },
+  { feature: "Skoler og barnehager",                icon: "🏫", verdikart: true,  finn: false, google: false },
+  { feature: "Kriminalitetsnivå (SSB)",             icon: "🛡️", verdikart: true,  finn: false, google: false },
+  { feature: "Del-lenke til rapport",               icon: "🔗", verdikart: true,  finn: false, google: false },
+  { feature: "Ingen registrering nødvendig",        icon: "✨", verdikart: true,  finn: false, google: true  },
   { feature: "Gratis",                              verdikart: true,  finn: true,  google: true  },
 ];
 
 function ComparisonSection() {
-  const { ref, inView } = useInView(0.15);
+  const { ref, inView } = useInView(0.1);
+
+  const competitors = [
+    {
+      name: "Verdikart",
+      tagline: "Kontekst + data",
+      accent: true,
+      logo: (
+        <span className="text-base font-bold text-accent">V</span>
+      ),
+    },
+    {
+      name: "Finn.no",
+      tagline: "Annonser + pris",
+      accent: false,
+      logo: <span className="text-base font-bold text-text-tertiary">F</span>,
+    },
+    {
+      name: "Google Maps",
+      tagline: "Kart + bilder",
+      accent: false,
+      logo: <span className="text-base font-bold text-text-tertiary">G</span>,
+    },
+  ];
+
   return (
     <motion.section
       ref={ref as RefObject<HTMLElement>}
-      className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6"
+      className="mx-auto w-full max-w-4xl px-4 pb-20 sm:px-6"
       initial={{ opacity: 0, y: 32 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6 }}
     >
       <h2 className="mb-2 text-center text-xl font-bold sm:text-2xl">Hvorfor Verdikart?</h2>
-      <p className="mb-8 text-center text-sm text-text-secondary">
+      <p className="mb-10 text-center text-sm text-text-secondary max-w-lg mx-auto">
         Google forteller deg hva boligen ser ut som. Finn.no viser prisen. Verdikart forklarer <em>konteksten</em>.
       </p>
-      <div className="overflow-hidden rounded-xl border border-card-border">
-        {/* Header */}
-        <div className="grid grid-cols-4 border-b border-card-border bg-card-bg px-4 py-3 text-xs font-semibold">
-          <span className="col-span-1 text-text-tertiary">Funksjon</span>
-          <span className="text-center text-accent">Verdikart</span>
-          <span className="text-center text-text-tertiary">Finn.no</span>
-          <span className="text-center text-text-tertiary">Google Maps</span>
-        </div>
-        {COMPARISON_ROWS.map(({ feature, verdikart, finn, google }, i) => (
+
+      {/* 3-column product comparison cards */}
+      <div className="grid grid-cols-3 gap-3 mb-0">
+        {competitors.map(({ name, tagline, accent, logo }) => (
+          <div
+            key={name}
+            className={`rounded-xl border p-4 text-center transition-all ${
+              accent
+                ? "border-accent/40 bg-accent/5 shadow-lg shadow-accent/5"
+                : "border-card-border bg-card-bg opacity-60"
+            }`}
+          >
+            <div className={`mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full border ${accent ? "border-accent/30 bg-accent/10" : "border-card-border bg-background"}`}>
+              {logo}
+            </div>
+            <p className={`text-sm font-bold ${accent ? "text-foreground" : "text-text-secondary"}`}>{name}</p>
+            <p className="text-[11px] text-text-tertiary mt-0.5">{tagline}</p>
+            {accent && (
+              <div className="mt-2 inline-block rounded-full bg-accent/20 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                Anbefalt
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Feature rows */}
+      <div className="rounded-xl border border-card-border overflow-hidden">
+        {COMPARISON_ROWS.map(({ feature, icon, verdikart, finn, google }, i) => (
           <motion.div
             key={feature}
-            className={`grid grid-cols-4 items-center px-4 py-3 text-xs ${i % 2 === 0 ? "bg-background" : "bg-card-bg"}`}
-            initial={{ opacity: 0, x: -12 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.4, delay: 0.1 + i * 0.06 }}
+            className={`grid grid-cols-[1fr_repeat(3,_80px)] sm:grid-cols-[1fr_repeat(3,_100px)] items-center gap-0 border-b border-card-border last:border-b-0 ${
+              i % 2 === 0 ? "bg-background" : "bg-card-bg"
+            }`}
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.3, delay: 0.15 + i * 0.05 }}
           >
-            <span className="col-span-1 text-text-secondary pr-2">{feature}</span>
-            <span className="flex justify-center">
-              {verdikart
-                ? <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent/15 text-accent font-bold">✓</span>
-                : <span className="text-text-tertiary opacity-30">—</span>}
-            </span>
-            <span className="flex justify-center">
-              {finn
-                ? <span className="text-text-secondary">✓</span>
-                : <span className="text-text-tertiary opacity-30">—</span>}
-            </span>
-            <span className="flex justify-center">
-              {google
-                ? <span className="text-text-secondary">✓</span>
-                : <span className="text-text-tertiary opacity-30">—</span>}
-            </span>
+            <div className="flex items-center gap-2.5 px-4 py-3.5">
+              <span className="text-base shrink-0" aria-hidden>{icon}</span>
+              <span className="text-xs text-text-secondary leading-snug">{feature}</span>
+            </div>
+            {/* Verdikart — highlighted */}
+            <div className={`flex items-center justify-center py-3.5 ${verdikart ? "bg-accent/5" : ""}`}>
+              {verdikart ? (
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-white text-[11px] font-bold shadow-sm shadow-accent/30">✓</span>
+              ) : (
+                <span className="h-4 w-px bg-card-border inline-block opacity-40" />
+              )}
+            </div>
+            {/* Finn */}
+            <div className="flex items-center justify-center py-3.5">
+              {finn ? (
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-card-border text-text-secondary text-[11px]">✓</span>
+              ) : (
+                <span className="h-4 w-px bg-card-border inline-block opacity-30" />
+              )}
+            </div>
+            {/* Google */}
+            <div className="flex items-center justify-center py-3.5">
+              {google ? (
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-card-border text-text-secondary text-[11px]">✓</span>
+              ) : (
+                <span className="h-4 w-px bg-card-border inline-block opacity-30" />
+              )}
+            </div>
           </motion.div>
         ))}
       </div>

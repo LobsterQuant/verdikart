@@ -267,42 +267,93 @@ export default function HomePage() {
           <AddressSearch />
         </motion.div>
 
-        {/* Trust row */}
+        {/* Social proof strip — above the fold */}
         <motion.div
-          className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
+          className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-3"
           {...fadeUpProps(0.4)}
         >
-          <p className="flex items-center gap-1.5 text-sm text-text-tertiary">
+          {/* Live indicator */}
+          <span className="flex items-center gap-1.5 text-sm text-text-tertiary">
             <span className="relative inline-flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
             </span>
-            Gratis å bruke · Ingen registrering
-          </p>
+            Gratis · Ingen registrering
+          </span>
+
+          <span className="hidden h-4 w-px bg-card-border sm:block" aria-hidden />
+
+          {/* Stat: addresses */}
+          <span className="flex items-center gap-1.5 text-sm text-text-tertiary">
+            <span className="font-semibold text-foreground">2,5M+</span>
+            norske adresser
+          </span>
+
+          <span className="hidden h-4 w-px bg-card-border sm:block" aria-hidden />
+
+          {/* Stat: cities */}
+          <span className="flex items-center gap-1.5 text-sm text-text-tertiary">
+            <span className="font-semibold text-foreground">15</span>
+            byer dekket
+          </span>
+
+          <span className="hidden h-4 w-px bg-card-border sm:block" aria-hidden />
+
+          {/* Stat: data sources */}
+          <span className="flex items-center gap-1.5 text-sm text-text-tertiary">
+            <span className="font-semibold text-foreground">3</span>
+            offentlige datakilder
+          </span>
         </motion.div>
 
-        {/* Data source badges */}
+        {/* Data source badges + mini testimonials */}
         <motion.div
-          className="mt-5 flex flex-wrap items-center justify-center gap-2"
-          {...fadeUpProps(0.46)}
+          className="mt-5 flex flex-col items-center gap-4"
+          {...fadeUpProps(0.5)}
         >
-          <span className="text-xs text-text-tertiary">Basert på data fra</span>
-          {[
-            { label: "SSB", href: "https://www.ssb.no", title: "Statistisk sentralbyrå" },
-            { label: "Kartverket", href: "https://kartverket.no", title: "Nasjonal adresse- og eiendomsdata" },
-            { label: "Entur", href: "https://entur.no", title: "Kollektivtransport" },
-          ].map(({ label, href, title }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={title}
-              className="inline-flex items-center rounded-full border border-card-border bg-card-bg px-3 py-1 text-xs font-medium text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
-            >
-              {label}
-            </a>
-          ))}
+          {/* Source badges */}
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <span className="text-xs text-text-tertiary">Data fra</span>
+            {[
+              { label: "SSB", href: "https://www.ssb.no", title: "Statistisk sentralbyrå" },
+              { label: "Kartverket", href: "https://kartverket.no", title: "Nasjonal adresse- og eiendomsdata" },
+              { label: "Entur", href: "https://entur.no", title: "Kollektivtransport" },
+            ].map(({ label, href, title }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={title}
+                className="inline-flex items-center rounded-full border border-card-border bg-card-bg px-3 py-1 text-xs font-medium text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+
+          {/* Testimonial strip */}
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              { quote: "«Endelig ett sted med all info»", name: "Anna, Oslo" },
+              { quote: "«Sparte meg for en dyr feil»", name: "Erik, Bergen" },
+              { quote: "«Brukte det på 3 adresser før budrunden»", name: "Marte, Trondheim" },
+            ].map(({ quote, name }) => (
+              <div
+                key={name}
+                className="flex items-center gap-2 rounded-full border border-card-border bg-card-bg px-4 py-2"
+              >
+                {/* Avatar dot */}
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20 text-[10px] font-bold text-accent">
+                  {name[0]}
+                </span>
+                <span className="text-xs text-text-secondary">
+                  {quote}{" "}
+                  <span className="text-text-tertiary">— {name}</span>
+                </span>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </main>
 

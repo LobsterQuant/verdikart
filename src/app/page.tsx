@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
+import { useState, useRef } from "react";
 import AddressSearch from "@/components/AddressSearch";
 import ProductPreview from "@/components/ProductPreview";
 import Logo from "@/components/Logo";
@@ -39,6 +40,103 @@ function fadeUpProps(delay = 0) {
   };
 }
 
+function FeatureCard({
+  Icon, title, description, delay, inView,
+}: {
+  Icon: React.ElementType;
+  title: string;
+  description: string;
+  delay: number;
+  inView: boolean;
+}) {
+  const [hovered, setHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useTransform(y, [-60, 60], [6, -6]);
+  const rotateY = useTransform(x, [-60, 60], [-6, 6]);
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    x.set(e.clientX - rect.left - rect.width / 2);
+    y.set(e.clientY - rect.top - rect.height / 2);
+  }
+
+  function handleMouseLeave() {
+    setHovered(false);
+    x.set(0);
+    y.set(0);
+  }
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, ease: "easeOut", delay }}
+      whileHover={{ y: -6, scale: 1.02 }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      className="group relative rounded-xl border bg-card-bg p-6 cursor-default overflow-hidden"
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d" as const,
+        perspective: 800,
+        boxShadow: hovered
+          ? "0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.3), inset 0 1px 0 rgba(255,255,255,0.06)"
+          : "0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)",
+        borderColor: hovered ? "rgba(99,102,241,0.4)" : "rgba(255,255,255,0.08)",
+      }}
+    >
+      {/* Spotlight shimmer on hover */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 rounded-xl"
+        animate={{
+          background: hovered
+            ? "radial-gradient(circle at 50% 0%, rgba(99,102,241,0.10) 0%, transparent 65%)"
+            : "radial-gradient(circle at 50% 0%, rgba(99,102,241,0) 0%, transparent 65%)",
+        }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Icon — scales + brightens on hover */}
+      <motion.div
+        className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg"
+        animate={{
+          backgroundColor: hovered ? "rgba(99,102,241,0.2)" : "rgba(0,102,255,0.1)",
+          scale: hovered ? 1.12 : 1,
+        }}
+        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        style={{ transformStyle: "preserve-3d", translateZ: 8 }}
+      >
+        <motion.div
+          animate={{ rotate: hovered ? 8 : 0 }}
+          transition={{ type: "spring", stiffness: 400, damping: 18 }}
+        >
+          <Icon
+            className="h-5 w-5"
+            strokeWidth={1.5}
+            style={{ color: hovered ? "#818cf8" : "#0066FF" }}
+          />
+        </motion.div>
+      </motion.div>
+
+      <motion.h3
+        className="mb-2 text-lg font-semibold"
+        animate={{ color: hovered ? "#ffffff" : undefined }}
+        transition={{ duration: 0.2 }}
+        style={{ translateZ: 4 }}
+      >
+        {title}
+      </motion.h3>
+      <p className="text-sm leading-relaxed text-text-secondary">{description}</p>
+    </motion.div>
+  );
+}
+
 function FeatureCards() {
   const { ref, inView } = useInView(0.1);
   return (
@@ -47,19 +145,14 @@ function FeatureCards() {
       className="grid gap-4 sm:grid-cols-3 sm:gap-6"
     >
       {valueProps.map(({ Icon, title, description }, i) => (
-        <motion.div
+        <FeatureCard
           key={title}
-          initial={{ opacity: 0, y: 28 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.1 }}
-          className="rounded-xl border border-card-border bg-card-bg p-6 transition-colors hover:border-accent/30"
-        >
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
-            <Icon className="h-5 w-5 text-accent" strokeWidth={1.5} />
-          </div>
-          <h3 className="mb-2 text-lg font-semibold">{title}</h3>
-          <p className="text-sm leading-relaxed text-text-secondary">{description}</p>
-        </motion.div>
+          Icon={Icon}
+          title={title}
+          description={description}
+          delay={i * 0.1}
+          inView={inView}
+        />
       ))}
     </div>
   );

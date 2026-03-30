@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { m as motion, useMotionValue, useTransform, LazyMotion, domAnimation } from "framer-motion";
 import { useState, useRef } from "react";
 import AddressSearch from "@/components/AddressSearch";
 import ProductPreview from "@/components/ProductPreview";
@@ -330,7 +330,7 @@ function ComparisonSection() {
 }
 
 function HowItWorksSection() {
-  const { ref, inView } = useInView(0.2);
+  const { ref, inView } = useInView(0.05);
   return (
     <section
       ref={ref as RefObject<HTMLElement>}
@@ -356,9 +356,9 @@ function HowItWorksSection() {
           <motion.li
             key={n}
             className="flex gap-4"
-            initial={{ opacity: 0, x: -20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 + i * 0.15, ease: "easeOut" }}
+            initial={{ opacity: 0, x: -16 }}
+            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0.4, x: 0 }}
+            transition={{ duration: 0.45, delay: 0.1 + i * 0.1, ease: "easeOut" }}
           >
             <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white shadow-lg shadow-accent/30 mt-0.5">
               {n}
@@ -417,6 +417,7 @@ function PreviewSection() {
 
 export default function HomePage() {
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
       <main className="hero-noise relative flex flex-1 flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden">
@@ -545,78 +546,32 @@ export default function HomePage() {
           </div>
         </motion.div>
 
-        {/* Data source badges + mini testimonials */}
+        {/* Data source trust strip */}
         <motion.div
-          className="mt-5 flex flex-col items-center gap-4"
+          className="mt-5 flex flex-wrap items-center justify-center gap-2"
           {...fadeUpProps(0.5)}
         >
-          {/* Source badges */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <span className="text-xs text-text-tertiary">Data fra</span>
-            {[
-              { label: "SSB", href: "https://www.ssb.no", title: "Statistisk sentralbyrå" },
-              { label: "Kartverket", href: "https://kartverket.no", title: "Nasjonal adresse- og eiendomsdata" },
-              { label: "Entur", href: "https://entur.no", title: "Kollektivtransport" },
-            ].map(({ label, href, title }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={title}
-                className="inline-flex items-center rounded-full border border-card-border bg-card-bg px-3 py-1 text-xs font-medium text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
-              >
-                {label}
-              </a>
-            ))}
-          </div>
-
-          {/* Social proof strip — verified-style quotes */}
-          <div className="flex flex-wrap justify-center gap-3">
-            {[
-              {
-                quote: "«Endelig ett sted med all info — transport, støy og pris samlet»",
-                name: "Marte K.",
-                city: "Trondheim",
-                context: "Tidlig bruker",
-                initials: "MK",
-                hue: "6366f1",
-              },
-              {
-                quote: "«Oppdaget et støyproblem megleren ikke hadde nevnt»",
-                name: "Anders L.",
-                city: "Oslo",
-                context: "Tidlig bruker",
-                initials: "AL",
-                hue: "3b82f6",
-              },
-              {
-                quote: "«Brukte rapporten som grunnlag da jeg forhandlet pris»",
-                name: "Ingrid S.",
-                city: "Bergen",
-                context: "Tidlig bruker",
-                initials: "IS",
-                hue: "8b5cf6",
-              },
-            ].map(({ quote, name, city, context, initials, hue }) => (
-              <div
-                key={name}
-                className="flex items-start gap-3 rounded-2xl border border-card-border bg-card-bg px-4 py-3 text-left max-w-xs"
-              >
-                <span
-                  className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white"
-                  style={{ background: `#${hue}` }}
-                >
-                  {initials}
-                </span>
-                <div className="min-w-0">
-                  <p className="text-xs leading-relaxed text-text-secondary">{quote}</p>
-                  <p className="mt-1 text-[11px] font-semibold text-foreground">{name} · {city}</p>
-                  <p className="text-[10px] text-text-tertiary">{context}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <span className="text-xs text-text-tertiary">Åpne data fra</span>
+          {[
+            { label: "SSB", href: "https://www.ssb.no", title: "Statistisk sentralbyrå — boligpriser og statistikk" },
+            { label: "Kartverket", href: "https://kartverket.no", title: "Nasjonal adresse- og eiendomsdata" },
+            { label: "Entur", href: "https://entur.no", title: "Nasjonal kollektivtransportdata" },
+            { label: "OpenStreetMap", href: "https://openstreetmap.org", title: "Skoler, barnehager og POI" },
+          ].map(({ label, href, title }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={title}
+              className="inline-flex items-center gap-1 rounded-full border border-card-border bg-card-bg px-3 py-1 text-xs font-medium text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
+            >
+              {label}
+              <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 opacity-40" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+                <path d="M2.5 9.5 L9.5 2.5M5.5 2.5h4v4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+          ))}
         </motion.div>
       </main>
 
@@ -726,5 +681,6 @@ export default function HomePage() {
         </div>
       </footer>
     </div>
+    </LazyMotion>
   );
 }

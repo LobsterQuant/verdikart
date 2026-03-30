@@ -113,7 +113,7 @@ export default function EmailCapture({ address, compact = false }: { address?: s
       {/* GDPR consent + unsubscribe — required at point of collection (GDPR Art. 7 + 13) */}
       <p className="mt-3 text-xs text-text-tertiary leading-relaxed">
         Ved å melde deg på godtar du at vi lagrer e-postadressen din for å sende
-        prisvarsel for den valgte adressen. Vi deler ikke data med tredjeparter.
+        {address ? ` prisvarsel for ${address}.` : " markedsoppdateringer om boligpriser."} Vi deler ikke data med tredjeparter.
         Du kan{" "}
         <a
           href="mailto:kontakt@verdikart.no?subject=Avslutt%20prisvarsler&body=Jeg%20ønsker%20å%20avslutte%20prisvarslene%20mine%20fra%20Verdikart."

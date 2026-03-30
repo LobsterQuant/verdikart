@@ -80,6 +80,24 @@ export default function BoliginvestorPage() {
           </div>
         </section>
 
+        {/* FAQ */}
+        <section className="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
+          <h2 className="mb-6 text-xl font-semibold">Vanlige spørsmål for boliginvestorer</h2>
+          <div className="space-y-3">
+            {[
+              { q: "Hva er en god direkteavkastning for utleieboliger i Norge?", a: "Direkteavkastning (leieinntekt / kjøpspris) på 3–5% anses som normalt i Oslo. Utenfor de store byene kan du oppnå 5–7%. Husk å trekke fra fellesutgifter, eiendomsskatt og vedlikehold." },
+              { q: "Hva bør jeg sjekke i et nabolag for utleiepotensial?", a: "Kollektivdekning, gangavstand til høyskole/universitet, støynivå og prisutvikling. Verdikart gir deg disse dataene direkte for enhver adresse." },
+              { q: "Hva er sekundærboligskatten?", a: "Fra 2023 beskattes sekundærbolig som 100% av markedsverdi i formuesskatten (mot 25% for primærbolig). I tillegg betales 22% skatt på netto leieinntekter etter fradrag." },
+              { q: "Er det lønnsomt å kjøpe i randsone utenfor Oslo?", a: "Byer som Lillestrøm, Ski og Drammen har lavere inngangspris og høyere direkteavkastning enn Oslo sentrum. Sjekk tog-/busstilbud til Oslo S — det er den sterkeste prisdriveren i randsonene." },
+            ].map(({ q, a }) => (
+              <details key={q} className="group rounded-xl border border-card-border bg-card-bg">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 text-sm font-semibold list-none">{q}<span className="shrink-0 text-text-tertiary transition-transform group-open:rotate-45">+</span></summary>
+                <p className="px-5 pb-4 pt-0 text-sm leading-relaxed text-text-secondary">{a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
         <section className="border-t border-card-border bg-card-bg px-4 py-10 sm:px-6">
           <div className="mx-auto max-w-3xl text-center">
             <p className="mb-4 text-sm text-text-secondary">Verdikart er også nyttig for:</p>

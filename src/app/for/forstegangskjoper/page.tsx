@@ -49,9 +49,20 @@ export default function FørstegangskjøperPage() {
     },
   };
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "Hva er BSU og hvordan bruker jeg det?", acceptedAnswer: { "@type": "Answer", text: "BSU (Boligsparing for Ungdom) er en skattefavorisert sparekonto for deg under 34 år. Du kan spare inntil 27 500 kr/år og få 10% skattefradrag. Maks saldo 300 000 kr, kun til boligkjøp." } },
+      { "@type": "Question", name: "Hva mener banken med 85%-regelen?", acceptedAnswer: { "@type": "Answer", text: "Banken kan normalt ikke gi lån over 85% av boligens verdi. Du må stille med minst 15% egenkapital." } },
+      { "@type": "Question", name: "Hva er fellesgjeld og hvorfor er det viktig?", acceptedAnswer: { "@type": "Answer", text: "Fellesgjeld er borettslagets andel av felles lån. Totalpris = kjøpspris + fellesgjeld. Høy fellesgjeld gir sårbarhet for renteøkninger." } },
+    ],
+  };
+
   return (
     <>
       <JsonLd schema={schema} />
+      <JsonLd schema={faqSchema} />
       <div className="min-h-screen bg-background text-foreground">
 
         {/* Hero */}
@@ -102,6 +113,43 @@ export default function FørstegangskjøperPage() {
                 </Link>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
+          <h2 className="mb-6 text-xl font-semibold">Vanlige spørsmål for førstegangskjøpere</h2>
+          <div className="space-y-3">
+            {[
+              {
+                q: "Hva er BSU og hvordan bruker jeg det?",
+                a: "BSU (Boligsparing for Ungdom) er en skattefavorisert sparekonto for deg under 34 år. Du kan spare inntil 27 500 kr/år (2024) og få 10% av innskuddet som skattefradrag. Midlene kan kun brukes til boligkjøp eller nedbetaling av boliglån. Maks saldo: 300 000 kr."
+              },
+              {
+                q: "Hva mener banken med 85%-regelen?",
+                a: "Banken kan normalt ikke gi deg lån som overstiger 85% av boligens verdi (eller 60% for sekundærbolig). Du må altså stille med minst 15% egenkapital. For Oslo kan dette bety 500 000–800 000 kr i egenkapital for en gjennomsnittlig leilighet."
+              },
+              {
+                q: "Hva er fellesgjeld og hvorfor er det viktig?",
+                a: "Fellesgjeld er borettslaget eller eierseksjonssameiet sin andel av felles lån. Høy fellesgjeld betyr at månedlige felleskostnader kan stige kraftig hvis renten øker. Sjekk alltid 'andel fellesgjeld' i prospektet og beregn totalpris = kjøpspris + fellesgjeld."
+              },
+              {
+                q: "Bør jeg bruke verdikart.no på visning?",
+                a: "Ja — Verdikart er designet for mobilbruk på visning. Søk på adressen og sjekk kollektivavganger, støynivå og prisstatistikk direkte fra mobilen. Du ser ting megleren ikke vil fortelle deg."
+              },
+              {
+                q: "Hva er dokumentavgift?",
+                a: "Dokumentavgift er 2,5% av kjøpesummen og betales til staten ved overføring av eiendom. For en leilighet til 4 millioner betyr det 100 000 kr ekstra. Merk: borettslag og aksjeleiligheter har ikke dokumentavgift — kun selveierboliger."
+              },
+            ].map(({ q, a }) => (
+              <details key={q} className="group rounded-xl border border-card-border bg-card-bg">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 text-sm font-semibold list-none">
+                  {q}
+                  <span className="shrink-0 text-text-tertiary transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="px-5 pb-4 pt-0 text-sm leading-relaxed text-text-secondary">{a}</p>
+              </details>
+            ))}
           </div>
         </section>
 

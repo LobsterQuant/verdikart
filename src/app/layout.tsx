@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://verdikart.no"),
   title: "Verdikart — Forstå boligen. Ikke bare se den.",
   description:
-    "Norges smarteste verktøy for boligkjøpere. Kollektivtransport, prisutvikling og markedsdata — alt på ett sted.",
+    "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå for enhver adresse — data fra SSB, Kartverket og Entur.",
   keywords: "bolig, eiendom, kollektivtransport, prisutvikling, Norge",
   alternates: {
     canonical: "https://verdikart.no",

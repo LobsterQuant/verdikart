@@ -4,7 +4,7 @@ import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Om Verdikart — Hvem vi er og hva vi bygger",
-  description: "Verdikart er bygget av Michael H., en Oslo-basert teknologi- og datautvikler. Vi gjør boligmarkedet mer transparent for norske kjøpere.",
+  description: "Verdikart er bygget av Michael Hansen, en Oslo-basert teknologi- og datautvikler. Vi gjør boligmarkedet mer transparent for norske kjøpere.",
   alternates: { canonical: "https://verdikart.no/om-oss" },
 };
 
@@ -12,7 +12,7 @@ export default function OmOss() {
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Michael H.",
+    name: "Michael Hansen",
     jobTitle: "Grunnlegger, Verdikart",
     url: "https://verdikart.no/om-oss",
     sameAs: [
@@ -26,7 +26,7 @@ export default function OmOss() {
     "@type": "Organization",
     name: "Verdikart",
     url: "https://verdikart.no",
-    founder: { "@type": "Person", name: "Michael H." },
+    founder: { "@type": "Person", name: "Michael Hansen" },
     foundingDate: "2026",
     description: "Norsk eiendomsintelligens-verktøy for boligkjøpere.",
     contactPoint: {
@@ -101,7 +101,7 @@ export default function OmOss() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <p className="font-semibold text-lg">Michael H.</p>
+                  <p className="font-semibold text-lg">Michael Hansen</p>
                   <div className="flex items-center gap-2">
                     <a
                       href="https://www.linkedin.com/in/michael-h-7723993bb/"
@@ -123,9 +123,10 @@ export default function OmOss() {
                     </a>
                   </div>
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                  Oslo-basert utvikler med bakgrunn innen fintech og dataanalyse. Bygger verktøy der komplekse datasett møter enkle brukeropplevelser — Verdikart er det seneste.
-                  Opptatt av at viktig informasjon skal være åpen og tilgjengelig, ikke forbeholdt de som vet hvor de skal lete.
+                <p className="text-xs text-text-tertiary mt-0.5 mb-2">Grunnlegger · Oslo</p>
+                <p className="text-sm leading-relaxed text-text-secondary">
+                  Utvikler og dataentusiast med bakgrunn innen fintech og systemutvikling. Bygger verktøy der komplekse offentlige datasett møter enkle brukeropplevelser.
+                  Verdikart startet som et personlig prosjekt etter å ha kjøpt bolig og innsett hvor fragmentert tilgjengelig informasjon faktisk var.
                 </p>
               </div>
             </div>

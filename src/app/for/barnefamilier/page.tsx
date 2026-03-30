@@ -80,6 +80,24 @@ export default function BarnefamilierPage() {
           </div>
         </section>
 
+        {/* FAQ */}
+        <section className="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
+          <h2 className="mb-6 text-xl font-semibold">Vanlige spørsmål for barnefamilier</h2>
+          <div className="space-y-3">
+            {[
+              { q: "Hvordan finner jeg nærmeste skole for en adresse?", a: "Verdikart henter skoler og barnehager fra OpenStreetMap for enhver adresse, inkludert gangavstand. Søk på adressen og se SchoolsCard direkte i rapporten." },
+              { q: "Hva er støynivå og hvor mye bør det bekymre meg?", a: "Over 55 dB utendørs på soveromsfasaden er EUs grenseverdi for søvnforstyrrelser. Norske retningslinjer (T-1442) anbefaler maks 55 dB (Lden) for boliger. Verdikart viser støynivå fra Kartverket for nøyaktig adresse." },
+              { q: "Hva betyr 'skolerute' for boligvalg?", a: "Oslo opererer med skolekretser — du må sende barna til nærskolen i din krets. Noen kretser har bedre omdømme enn andre. Sjekk Oslo kommunes skolekart på oslo.kommune.no før du kjøper." },
+              { q: "Hva bør gangavstand til barnehage være?", a: "Ideelt under 500 meter — det er ca. 7 minutter å gå. Barnehager er ikke søkbare på Verdikart ennå, men OSM-dataene vi henter inkluderer nærmeste barnehager i rapporten." },
+            ].map(({ q, a }) => (
+              <details key={q} className="group rounded-xl border border-card-border bg-card-bg">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 text-sm font-semibold list-none">{q}<span className="shrink-0 text-text-tertiary transition-transform group-open:rotate-45">+</span></summary>
+                <p className="px-5 pb-4 pt-0 text-sm leading-relaxed text-text-secondary">{a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
         <section className="border-t border-card-border bg-card-bg px-4 py-10 sm:px-6">
           <div className="mx-auto max-w-3xl text-center">
             <p className="mb-4 text-sm text-text-secondary">Verdikart er også nyttig for:</p>

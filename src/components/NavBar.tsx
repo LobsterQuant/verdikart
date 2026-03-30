@@ -33,7 +33,7 @@ export default function NavBar() {
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         {/* Wordmark */}
         <Link href="/" className="flex items-center gap-2 min-w-0">
-          <Logo className="h-8 w-8 shrink-0" />
+          <Logo className="h-8 w-8 shrink-0 logo-pulse" />
           <span className="hidden font-bold text-lg tracking-tight text-foreground sm:block">
             Verdikart
           </span>
@@ -45,8 +45,8 @@ export default function NavBar() {
             <Link
               key={href}
               href={href}
-              className={`whitespace-nowrap transition-colors hover:text-foreground ${
-                pathname === href ? "text-foreground font-medium" : ""
+              className={`nav-link whitespace-nowrap transition-colors hover:text-foreground ${
+                pathname === href ? "text-foreground font-medium nav-link-active" : ""
               }`}
             >
               {label}

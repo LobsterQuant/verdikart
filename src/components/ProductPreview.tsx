@@ -33,7 +33,7 @@ function useCountUp(target: number, decimals = 0, duration = 1400, active = fals
 
 // Static mockup of a real result page — Bygdøy allé 2, Oslo (Frogner)
 export default function ProductPreview() {
-  const { ref, inView } = useInView(0.2);
+  const { ref, inView } = useInView(0.5);
 
   const chartPoints = [82, 87, 91, 95, 100, 108, 118, 128];
   const maxVal = Math.max(...chartPoints);

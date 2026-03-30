@@ -4,6 +4,7 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
 import AddressSearch from "@/components/AddressSearch";
 import ProductPreview from "@/components/ProductPreview";
+import EmailCapture from "@/components/EmailCapture";
 import Logo from "@/components/Logo";
 import { Bus, TrendingUp, Home } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
@@ -163,9 +164,10 @@ function PreviewSection() {
   return (
     <motion.section
       ref={ref as RefObject<HTMLElement>}
-      initial={{ opacity: 0, y: 32 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 48, rotateX: 8, scale: 0.97 }}
+      animate={inView ? { opacity: 1, y: 0, rotateX: 0, scale: 1 } : {}}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      style={{ perspective: 1200, transformStyle: "preserve-3d" }}
       className="mx-auto w-full max-w-2xl px-4 pb-16 sm:px-6"
     >
       <ProductPreview />
@@ -242,7 +244,7 @@ export default function HomePage() {
 
         {/* Staggered headline */}
         <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
-          <motion.span className="block text-gradient" {...fadeUpProps(0)}>
+          <motion.span className="block text-gradient headline-shimmer" {...fadeUpProps(0)}>
             Forstå boligen.
           </motion.span>
           <motion.span className="block text-text-secondary" {...fadeUpProps(0.12)}>
@@ -271,7 +273,10 @@ export default function HomePage() {
           {...fadeUpProps(0.4)}
         >
           <p className="flex items-center gap-1.5 text-sm text-text-tertiary">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
+            <span className="relative inline-flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+            </span>
             Gratis å bruke · Ingen registrering
           </p>
         </motion.div>
@@ -307,6 +312,18 @@ export default function HomePage() {
       {/* Value Props — stagger on scroll */}
       <section className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 sm:pb-24">
         <FeatureCards />
+      </section>
+
+      {/* Email capture */}
+      <section className="border-t border-card-border bg-card-bg px-4 py-14 text-center sm:px-6">
+        <div className="mx-auto max-w-md">
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-accent">Beta</p>
+          <h2 className="mb-3 text-2xl font-bold">Få varsel når nye funksjoner lanseres</h2>
+          <p className="mb-6 text-sm leading-relaxed text-text-secondary">
+            Vi jobber med prisvarslinger, AI-sammendrag og historiske salgskart. Registrer deg for å høre om det først.
+          </p>
+          <EmailCapture />
+        </div>
       </section>
 
       {/* Footer */}
@@ -349,16 +366,13 @@ export default function HomePage() {
           {/* Nav links */}
           <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 sm:justify-start">
             {[
-              ["/by/oslo", "Oslo"],
-              ["/by/bergen", "Bergen"],
-              ["/by/trondheim", "Trondheim"],
-              ["/blog", "Blogg"],
-              ["/faq", "FAQ"],
-              ["/changelog", "Endringslogg"],
-              ["/kontakt", "Kontakt"],
-              ["/om-oss", "Om oss"],
-              ["/personvern", "Personvern"],
-              ["/vilkar", "Vilkår"],
+              ["/by/oslo", "Oslo"], ["/by/bergen", "Bergen"], ["/by/trondheim", "Trondheim"],
+              ["/by/stavanger", "Stavanger"], ["/by/baerum", "Bærum"], ["/by/kristiansand", "Kristiansand"],
+              ["/by/fredrikstad", "Fredrikstad"], ["/by/drammen", "Drammen"], ["/by/tromso", "Tromsø"],
+              ["/by/sandnes", "Sandnes"], ["/by/bodoe", "Bodø"], ["/by/skien", "Skien"],
+              ["/by/sarpsborg", "Sarpsborg"], ["/by/arendal", "Arendal"], ["/by/hamar", "Hamar"],
+              ["/blog", "Blogg"], ["/faq", "FAQ"], ["/changelog", "Endringslogg"],
+              ["/kontakt", "Kontakt"], ["/om-oss", "Om oss"], ["/personvern", "Personvern"], ["/vilkar", "Vilkår"],
             ].map(([href, label]) => (
               <a key={href} href={href} className="text-sm text-text-secondary transition-colors hover:text-foreground">{label}</a>
             ))}

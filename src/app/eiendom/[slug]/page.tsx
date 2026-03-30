@@ -8,6 +8,7 @@ import EmailCapture from "@/components/EmailCapture";
 import Logo from "@/components/Logo";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
+import CardsCascade from "@/components/CardsCascade";
 
 interface PageProps {
   params: { slug: string };
@@ -176,15 +177,17 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
         <AddressSearch initialValue={displayAddress} />
       </header>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 [&>*:last-child:nth-child(odd)]:md:col-span-2">
-        <NoiseCard lat={latNum} lon={lonNum} />
-        <TransitCard lat={latNum} lon={lonNum} address={displayAddress} />
-        <PriceTrendCard kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} />
-        <ComparableSalesCard kommunenummer={kommunenummer} />
-        <div className="md:col-span-2">
-          <PropertyMap lat={latNum} lon={lonNum} address={displayAddress} />
-        </div>
-      </div>
+      <CardsCascade className="grid grid-cols-1 gap-6 md:grid-cols-2 [&>*:last-child:nth-child(odd)]:md:col-span-2">
+        {[
+          <NoiseCard key="noise" lat={latNum} lon={lonNum} />,
+          <TransitCard key="transit" lat={latNum} lon={lonNum} address={displayAddress} />,
+          <PriceTrendCard key="price" kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} />,
+          <ComparableSalesCard key="sales" kommunenummer={kommunenummer} />,
+          <div key="map" className="md:col-span-2">
+            <PropertyMap lat={latNum} lon={lonNum} address={displayAddress} />
+          </div>,
+        ]}
+      </CardsCascade>
 
       {/* Email capture */}
       <div className="mt-8">

@@ -21,6 +21,7 @@ interface PriceTrendData {
   yoyChange: number;
   source?: "bydel" | "kommune" | "national";
   sourceLabel?: string;
+  lastUpdated?: string | null;
 }
 
 function formatQuarterLabel(q: string): string {
@@ -68,6 +69,7 @@ export default function PriceTrendCard({
             yoyChange: json.yoyChange ?? 0,
             source: json.source ?? "national",
             sourceLabel: json.sourceLabel ?? "",
+            lastUpdated: json.lastUpdated ?? null,
           };
           setData(normalized);
         } else {
@@ -134,6 +136,11 @@ export default function PriceTrendCard({
         {data.sourceLabel && (
           <span className="text-xs text-text-tertiary italic">
             {data.sourceLabel}
+          </span>
+        )}
+        {data.lastUpdated && (
+          <span className="ml-auto text-xs text-text-tertiary" title="Siste tilgjengelige data fra SSB">
+            Sist oppdatert: {data.lastUpdated}
           </span>
         )}
       </div>

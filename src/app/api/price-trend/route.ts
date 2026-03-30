@@ -6,6 +6,7 @@ interface PriceTrendResult {
   yoyChange: number | null;
   source: "bydel" | "kommune" | "national";
   sourceLabel: string;
+  lastUpdated: string | null;
 }
 
 const EMPTY: PriceTrendResult = {
@@ -14,6 +15,7 @@ const EMPTY: PriceTrendResult = {
   yoyChange: null,
   source: "national",
   sourceLabel: "Nasjonalt snitt",
+  lastUpdated: null,
 };
 
 // Oslo bydel price index relative to Oslo municipality average (=1.0)
@@ -258,7 +260,7 @@ async function fetchKommuneData(kommunenummer: string): Promise<PriceTrendResult
     if (prev > 0) yoyChange = parseFloat((((cur - prev) / prev) * 100).toFixed(1));
   }
 
-  return { quarters, values, yoyChange, source: "kommune", sourceLabel: "" };
+  return { quarters, values, yoyChange, source: "kommune", sourceLabel: "", lastUpdated: quarters[quarters.length - 1] ?? null };
 }
 
 async function fetchNationalData(): Promise<PriceTrendResult> {
@@ -294,7 +296,7 @@ async function fetchNationalData(): Promise<PriceTrendResult> {
     if (yearAgo > 0) yoyChange = parseFloat((((current - yearAgo) / yearAgo) * 100).toFixed(1));
   }
 
-  return { quarters, values, yoyChange, source: "national", sourceLabel: "Nasjonalt snitt" };
+  return { quarters, values, yoyChange, source: "national", sourceLabel: "Nasjonalt snitt", lastUpdated: quarters[quarters.length - 1] ?? null };
 }
 
 export async function GET(request: NextRequest) {
@@ -332,6 +334,7 @@ export async function GET(request: NextRequest) {
           yoyChange,
           source: "bydel",
           sourceLabel: bydel.name,
+          lastUpdated: kommuneData.quarters[kommuneData.quarters.length - 1] ?? null,
         } satisfies PriceTrendResult);
       }
     }

@@ -300,6 +300,7 @@ export default function HomePage() {
               ["/by/oslo", "Oslo"],
               ["/by/bergen", "Bergen"],
               ["/by/trondheim", "Trondheim"],
+              ["/blog", "Blogg"],
               ["/faq", "FAQ"],
               ["/changelog", "Endringslogg"],
               ["/kontakt", "Kontakt"],

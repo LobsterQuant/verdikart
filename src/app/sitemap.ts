@@ -1,9 +1,17 @@
 import type { MetadataRoute } from "next";
 import { allCitySlugs } from "./by/[city]/cityData";
+import { posts } from "./blog/posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://verdikart.no";
   const now = new Date();
+
+  const blogPosts: MetadataRoute.Sitemap = posts.map((p) => ({
+    url: `${base}/blog/${p.slug}`,
+    lastModified: new Date(p.updatedAt ?? p.publishedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
 
   const cityPages: MetadataRoute.Sitemap = allCitySlugs.map((slug) => ({
     url: `${base}/by/${slug}`,
@@ -19,6 +27,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1.0,
     },
+    {
+      url: `${base}/blog`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    ...blogPosts,
     ...cityPages,
     {
       url: `${base}/om-oss`,

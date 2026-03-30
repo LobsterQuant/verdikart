@@ -84,6 +84,7 @@ export default function RootLayout({
               <a href="/by/oslo" className="hover:text-foreground transition-colors whitespace-nowrap hidden sm:block">Oslo</a>
               <a href="/by/bergen" className="hover:text-foreground transition-colors whitespace-nowrap hidden sm:block">Bergen</a>
               <a href="/by/trondheim" className="hover:text-foreground transition-colors whitespace-nowrap hidden sm:block">Trondheim</a>
+              <a href="/blog" className="hover:text-foreground transition-colors whitespace-nowrap">Blogg</a>
               <a href="/om-oss" className="hover:text-foreground transition-colors whitespace-nowrap">Om oss</a>
             </nav>
           </div>

@@ -23,9 +23,12 @@ interface PriceTrendData {
 }
 
 function formatQuarterLabel(q: string): string {
-  // Expects format like "2024Q1" -> "K1 2024"
-  const match = q.match(/(\d{4})Q(\d)/);
-  if (match) return `K${match[2]} ${match[1]}`;
+  // SSB 06035 returns annual years ("2024"), 07241 returns quarters ("2024K1")
+  const qMatch = q.match(/(\d{4})K(\d)/);
+  if (qMatch) return `K${qMatch[2]}'${qMatch[1].slice(2)}`;
+  // Annual — just the year
+  const yMatch = q.match(/(\d{4})/);
+  if (yMatch) return yMatch[1];
   return q;
 }
 
@@ -128,7 +131,7 @@ export default function PriceTrendCard({
 
       <div className="h-36 w-full overflow-hidden sm:h-44">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData}>
+          <AreaChart data={chartData} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#0066FF" stopOpacity={0.3} />
@@ -143,28 +146,34 @@ export default function PriceTrendCard({
               interval="preserveStartEnd"
             />
             <YAxis
-              tick={{ fill: "#555555", fontSize: 10 }}
+              tick={{ fill: "#666666", fontSize: 10 }}
               axisLine={false}
               tickLine={false}
-              tickFormatter={(v) =>
+              tickFormatter={(v: number) =>
                 v >= 1000 ? `${Math.round(v / 1000)}k` : String(v)
               }
-              width={36}
-              domain={["auto", "auto"]}
+              width={40}
+              tickCount={5}
+              domain={([min, max]: readonly [number, number]) => {
+                const pad = (max - min) * 0.1 || 5000;
+                return [Math.floor((min - pad) / 1000) * 1000, Math.ceil((max + pad) / 1000) * 1000] as [number, number];
+              }}
             />
             <Tooltip
               contentStyle={{
                 backgroundColor: "#111111",
-                border: "1px solid #1A1A1A",
+                border: "1px solid #333333",
                 borderRadius: "8px",
                 color: "#FFFFFF",
                 fontSize: "13px",
+                padding: "8px 12px",
               }}
+              cursor={{ stroke: "#333333", strokeWidth: 1 }}
               formatter={(value) => [
                 `${Number(value).toLocaleString("nb-NO")} kr/m²`,
                 "Kvadratmeterpris",
               ]}
-              labelFormatter={(label) => `År: ${label}`}
+              labelFormatter={(label) => label}
             />
             <Area
               type="monotone"

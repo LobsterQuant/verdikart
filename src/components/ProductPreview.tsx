@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import Link from "next/link";
 import { Bus, TrendingUp, BarChart2, Clock } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 import type { RefObject } from "react";
@@ -86,10 +87,14 @@ export default function ProductPreview() {
   const sqm = useCountUp(151900, 0, 1500, inView);
 
   const urlText = useTypewriter(
-    "verdikart.no/eiendom/bygdoy-alle-2-oslo",
+    "verdikart.no/eiendom/bygdoy-alle-2",
     30,
     inView,
   );
+
+  const DEMO_HREF =
+    "/eiendom/bygdoy-alle-2--599151-107152-0301" +
+    "?adresse=Bygd%C3%B8y+all%C3%A9+2%2C+Oslo&lat=59.91506&lon=10.71522&knr=0301";
 
   const sparkRef = useRef<SVGPolylineElement>(null);
   const [pathLength, setPathLength] = useState(0);
@@ -144,11 +149,15 @@ export default function ProductPreview() {
             <div className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
             <div className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
           </div>
-          {/* Typewriter URL bar */}
-          <div className="mx-auto min-w-0 flex-1 max-w-xs rounded-md border border-card-border bg-card-bg px-3 py-1 text-center text-[11px] text-text-tertiary font-mono truncate">
+          {/* Typewriter URL bar — links to live demo */}
+          <Link
+            href={DEMO_HREF}
+            className="mx-auto min-w-0 flex-1 max-w-xs rounded-md border border-card-border bg-card-bg px-3 py-1 text-center text-[11px] text-text-tertiary font-mono truncate transition-colors hover:border-accent/40 hover:text-accent"
+            title="Åpne live eksempel"
+          >
             {urlText}
             <span className="animate-pulse">|</span>
-          </div>
+          </Link>
         </div>
 
         {/* Page header inside mockup */}
@@ -330,7 +339,11 @@ export default function ProductPreview() {
       </div>
 
       <p className="mt-3 text-center text-xs text-text-tertiary">
-        Eksempel: Bygdøy allé 2, Oslo — data fra SSB, Kartverket og Entur
+        Eksempel:{" "}
+        <Link href={DEMO_HREF} className="text-accent hover:underline">
+          Bygdøy allé 2, Oslo
+        </Link>{" "}
+        — data fra SSB, Kartverket og Entur
       </p>
     </div>
   );

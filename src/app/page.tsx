@@ -1,7 +1,12 @@
+"use client";
+
+import { motion } from "framer-motion";
 import AddressSearch from "@/components/AddressSearch";
 import ProductPreview from "@/components/ProductPreview";
 import Logo from "@/components/Logo";
 import { Bus, TrendingUp, Home } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
+import type { RefObject } from "react";
 
 const valueProps = [
   {
@@ -24,27 +29,102 @@ const valueProps = [
   },
 ];
 
+const EASE = "easeOut" as const;
+
+function fadeUpProps(delay = 0) {
+  return {
+    initial: { opacity: 0, y: 24 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.55, ease: EASE, delay },
+  };
+}
+
+function FeatureCards() {
+  const { ref, inView } = useInView(0.1);
+  return (
+    <div
+      ref={ref as RefObject<HTMLDivElement>}
+      className="grid gap-4 sm:grid-cols-3 sm:gap-6"
+    >
+      {valueProps.map(({ Icon, title, description }, i) => (
+        <motion.div
+          key={title}
+          initial={{ opacity: 0, y: 28 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.1 }}
+          className="rounded-xl border border-card-border bg-card-bg p-6 transition-colors hover:border-accent/30"
+        >
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
+            <Icon className="h-5 w-5 text-accent" strokeWidth={1.5} />
+          </div>
+          <h3 className="mb-2 text-lg font-semibold">{title}</h3>
+          <p className="text-sm leading-relaxed text-text-secondary">{description}</p>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+function PreviewSection() {
+  const { ref, inView } = useInView(0.1);
+  return (
+    <motion.section
+      ref={ref as RefObject<HTMLElement>}
+      initial={{ opacity: 0, y: 32 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="mx-auto w-full max-w-2xl px-4 pb-16 sm:px-6"
+    >
+      <ProductPreview />
+    </motion.section>
+  );
+}
+
 export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
-      <main className="flex flex-1 flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24">
+      <main className="relative flex flex-1 flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden">
+        {/* Radial glow background */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.08) 0%, transparent 70%)",
+          }}
+        />
+
+        {/* Staggered headline */}
         <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
-          Forstå boligen.{" "}
-          <br />
-          <span className="text-text-secondary">Ikke bare se den.</span>
+          <motion.span className="block" {...fadeUpProps(0)}>
+            Forstå boligen.
+          </motion.span>
+          <motion.span className="block text-text-secondary" {...fadeUpProps(0.12)}>
+            Ikke bare se den.
+          </motion.span>
         </h1>
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-text-secondary sm:mt-6 sm:text-lg">
+
+        <motion.p
+          className="mt-4 max-w-xl text-base leading-relaxed text-text-secondary sm:mt-6 sm:text-lg"
+          {...fadeUpProps(0.22)}
+        >
           Verdikart gir deg innsikten du trenger før du kjøper bolig.
           Transport, prisutvikling og markedsdata — alt på ett sted.
-        </p>
+        </motion.p>
 
-        <div className="mt-8 w-full max-w-xl sm:mt-10">
+        <motion.div
+          className="mt-8 w-full max-w-xl sm:mt-10"
+          {...fadeUpProps(0.32)}
+        >
           <AddressSearch />
-        </div>
+        </motion.div>
 
         {/* Trust row */}
-        <div className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+        <motion.div
+          className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center"
+          {...fadeUpProps(0.4)}
+        >
           <p className="flex items-center gap-1.5 text-sm text-text-tertiary">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
             Gratis å bruke · Ingen registrering
@@ -55,10 +135,13 @@ export default function HomePage() {
             <span className="font-semibold text-foreground">500+</span>{" "}
             adresser i Norge
           </p>
-        </div>
+        </motion.div>
 
         {/* Data source badges */}
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+        <motion.div
+          className="mt-5 flex flex-wrap items-center justify-center gap-2"
+          {...fadeUpProps(0.46)}
+        >
           <span className="text-xs text-text-tertiary">Basert på data fra</span>
           {[
             { label: "SSB", href: "https://www.ssb.no", title: "Statistisk sentralbyrå" },
@@ -76,32 +159,15 @@ export default function HomePage() {
               {label}
             </a>
           ))}
-        </div>
+        </motion.div>
       </main>
 
-      {/* Product preview */}
-      <section className="mx-auto w-full max-w-2xl px-4 pb-16 sm:px-6">
-        <ProductPreview />
-      </section>
+      {/* Product preview — fades in on scroll */}
+      <PreviewSection />
 
-      {/* Value Props */}
+      {/* Value Props — stagger on scroll */}
       <section className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 sm:pb-24">
-        <div className="grid gap-4 sm:grid-cols-3 sm:gap-6">
-          {valueProps.map(({ Icon, title, description }) => (
-            <div
-              key={title}
-              className="rounded-xl border border-card-border bg-card-bg p-6 transition-colors hover:border-accent/30"
-            >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
-                <Icon className="h-5 w-5 text-accent" strokeWidth={1.5} />
-              </div>
-              <h3 className="mb-2 text-lg font-semibold">{title}</h3>
-              <p className="text-sm leading-relaxed text-text-secondary">
-                {description}
-              </p>
-            </div>
-          ))}
-        </div>
+        <FeatureCards />
       </section>
 
       {/* Footer */}

@@ -141,7 +141,15 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           onKeyDown={handleKeyDown}
           onFocus={() => results.length > 0 && setIsOpen(true)}
           placeholder="Søk på en adresse..."
-          className="w-full rounded-2xl border border-card-border bg-card-bg px-4 py-3 text-base text-foreground placeholder:text-text-tertiary outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent sm:px-6 sm:py-4 sm:text-lg"
+          className="w-full rounded-2xl border border-card-border bg-card-bg px-4 py-3 text-base text-foreground placeholder:text-text-tertiary outline-none transition-all duration-300 focus:border-indigo-500 sm:px-6 sm:py-4 sm:text-lg"
+          style={{ boxShadow: "none" }}
+          onFocusCapture={(e) => {
+            e.currentTarget.style.boxShadow =
+              "0 0 0 2px rgba(99,102,241,0.4), 0 0 20px rgba(99,102,241,0.15)";
+          }}
+          onBlurCapture={(e) => {
+            e.currentTarget.style.boxShadow = "none";
+          }}
           autoComplete="off"
         />
         {isLoading && (

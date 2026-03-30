@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import Logo from "@/components/Logo";
 import JsonLd from "@/components/JsonLd";
+import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -86,7 +87,9 @@ export default function RootLayout({
             </nav>
           </div>
         </nav>
-        <main className="pt-14">{children}</main>
+        <main className="pt-14">
+          <PageTransition>{children}</PageTransition>
+        </main>
       </body>
     </html>
   );

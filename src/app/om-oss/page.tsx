@@ -1,84 +1,150 @@
 import type { Metadata } from "next";
+import { Database, Shield, ExternalLink } from "lucide-react";
+import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Om Verdikart",
-  description: "Verdikart gir boligkjøpere innsikt i transport, priser og markedsdata for norske adresser.",
+  title: "Om Verdikart — Hvem vi er og hva vi bygger",
+  description: "Verdikart er bygget av Michael H., en Oslo-basert teknologi- og datautvikler. Vi gjør boligmarkedet mer transparent for norske kjøpere.",
   alternates: { canonical: "https://verdikart.no/om-oss" },
 };
 
 export default function OmOss() {
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Michael H.",
+    jobTitle: "Grunnlegger, Verdikart",
+    url: "https://verdikart.no/om-oss",
+    sameAs: [
+      "https://www.linkedin.com/in/micaready/",
+      "https://x.com/micareadyeu",
+    ],
+  };
+
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Verdikart",
+    url: "https://verdikart.no",
+    founder: { "@type": "Person", name: "Michael H." },
+    foundingDate: "2026",
+    description: "Norsk eiendomsintelligens-verktøy for boligkjøpere.",
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "kontakt@verdikart.no",
+      contactType: "customer support",
+      availableLanguage: "Norwegian",
+    },
+  };
+
   return (
-    <div className="flex min-h-screen flex-col items-center bg-background text-foreground px-6 py-24">
-      <div className="w-full max-w-2xl">
-        <h1 className="text-4xl font-bold tracking-tight mb-4">Om Verdikart</h1>
-        <p className="text-lg text-text-secondary leading-relaxed mb-12">
-          Norges smarteste verktøy for boligkjøpere. Vi samler data fra offentlige
-          kilder slik at du kan ta informerte beslutninger før du kjøper bolig.
-        </p>
+    <>
+      <JsonLd schema={personSchema} />
+      <JsonLd schema={orgSchema} />
 
-        <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-3">Hva er Verdikart?</h2>
-          <p className="text-sm leading-relaxed text-text-secondary">
-            Verdikart er et eiendomsintelligens-verktøy bygget for norske
-            boligkjøpere. Vi gir deg innsikt i kollektivtransport,
-            prisutvikling, markedsdata og mer — samlet på ett sted, slik at du
-            kan forstå boligen og området før du tar en av livets største
-            beslutninger.
-          </p>
-        </section>
+      <div className="flex min-h-screen flex-col items-center bg-background text-foreground px-4 py-16 sm:px-6 sm:py-24">
+        <div className="w-full max-w-2xl">
 
-        <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-3">Hvorfor Verdikart?</h2>
-          <p className="text-sm leading-relaxed text-text-secondary">
-            Boligkjøp er en stor investering, og mange kjøpere mangler tilgang til
-            viktig informasjon om området de vurderer. Verdikart ble laget for å
-            gjøre denne informasjonen tilgjengelig, oversiktlig og lett å forstå
-            — slik at du kan ta bedre beslutninger.
+          <h1 className="text-3xl font-bold tracking-tight mb-3 sm:text-4xl">Om Verdikart</h1>
+          <p className="text-lg text-text-secondary leading-relaxed mb-12">
+            Vi gjør boligmarkedet mer transparent. Ingen løsrevne datasett, ingen betalingsmurer — bare den informasjonen du faktisk trenger, samlet på ett sted.
           </p>
-        </section>
 
-        <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-3">Datakilder</h2>
-          <p className="text-sm leading-relaxed text-text-secondary mb-4">
-            Verdikart bruker kun åpne og offentlig tilgjengelige data fra
-            troverdige norske kilder:
-          </p>
-          <ul className="space-y-2 text-sm text-text-secondary">
-            <li className="flex items-start gap-2">
-              <span className="text-accent font-bold mt-0.5">-</span>
-              <span><strong className="text-foreground">Kartverket</strong> — Adressedata og eiendomsinformasjon</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-accent font-bold mt-0.5">-</span>
-              <span><strong className="text-foreground">Entur</strong> — Kollektivtransport og holdeplasser</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-accent font-bold mt-0.5">-</span>
-              <span><strong className="text-foreground">SSB</strong> — Statistikk og prisutvikling</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-accent font-bold mt-0.5">-</span>
-              <span><strong className="text-foreground">Geonorge / Kartverket</strong> — Geografiske data og eiendomsinformasjon</span>
-            </li>
-          </ul>
-        </section>
+          {/* Founder */}
+          <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-text-tertiary mb-5">Grunnlegger</h2>
+            <div className="flex items-start gap-4">
+              {/* Avatar placeholder */}
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-card-border bg-background text-xl font-bold text-accent select-none">
+                M
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <p className="font-semibold text-lg">Michael H.</p>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href="https://www.linkedin.com/in/micaready/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 rounded-md border border-card-border bg-background px-2 py-0.5 text-xs text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
+                    >
+                      <ExternalLink className="h-3 w-3" strokeWidth={1.5} />
+                      LinkedIn
+                    </a>
+                    <a
+                      href="https://x.com/micareadyeu"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 rounded-md border border-card-border bg-background px-2 py-0.5 text-xs text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
+                    >
+                      <ExternalLink className="h-3 w-3" strokeWidth={1.5} />
+                      X
+                    </a>
+                  </div>
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                  Oslo-basert utvikler med bakgrunn innen fintech og dataanalyse. Bygger verktøy der komplekse datasett møter enkle brukeropplevelser — Verdikart er det seneste.
+                  Opptatt av at viktig informasjon skal være åpen og tilgjengelig, ikke forbeholdt de som vet hvor de skal lete.
+                </p>
+              </div>
+            </div>
+          </section>
 
-        <section className="rounded-xl border border-card-border bg-card-bg p-6">
-          <h2 className="text-xl font-semibold mb-3">I utvikling</h2>
-          <p className="text-sm leading-relaxed text-text-secondary">
-            Vi jobber kontinuerlig med å forbedre Verdikart og legge til nye
-            funksjoner. Har du tilbakemeldinger eller forslag? Vi hører gjerne
-            fra deg på{" "}
-            <a
-              href="mailto:kontakt@verdikart.no"
-              className="text-accent hover:underline"
-            >
-              kontakt@verdikart.no
-            </a>
-            .
-          </p>
-        </section>
+          {/* Mission */}
+          <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-3">Hvorfor Verdikart?</h2>
+            <p className="text-sm leading-relaxed text-text-secondary">
+              Boligkjøp er den største finansielle beslutningen de fleste nordmenn tar — og allikevel er tilgangen til relevant data fragmentert, utdatert eller gjemt bak betalingsmurer. Eiendomsmeglere har én agenda. Bankene har en annen. Verdikart har ingen: vi henter data direkte fra Kartverket, Entur og SSB og presenterer den uten filter.
+            </p>
+          </section>
+
+          {/* Data sources */}
+          <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
+            <h2 className="flex items-center gap-2 text-xl font-semibold mb-4">
+              <Database className="h-5 w-5 text-accent" strokeWidth={1.5} />
+              Datakilder
+            </h2>
+            <div className="space-y-3">
+              {[
+                { name: "Kartverket", desc: "Alle norske adresser og eiendomsdata — Norges offisielle matrikkel." },
+                { name: "Entur", desc: "Sanntids kollektivdata for hele landet. Avganger, holdeplasser og linjer." },
+                { name: "SSB", desc: "Statistisk sentralbyrå — boligprisindeks og omsetningsdata per kommune." },
+              ].map(({ name, desc }) => (
+                <div key={name} className="flex items-start gap-3">
+                  <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-accent/60" />
+                  <p className="text-sm text-text-secondary">
+                    <strong className="text-foreground">{name}</strong> — {desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Privacy */}
+          <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
+            <h2 className="flex items-center gap-2 text-xl font-semibold mb-3">
+              <Shield className="h-5 w-5 text-accent" strokeWidth={1.5} />
+              Personvern
+            </h2>
+            <p className="text-sm leading-relaxed text-text-secondary">
+              Vi lagrer ikke adressene du søker på. Ingen brukerkontoer, ingen sporing av individuelle søk. Analytics er anonym (Plausible) og vi bruker Microsoft Clarity kun for aggregert UX-analyse. Les hele{" "}
+              <a href="/personvern" className="text-accent hover:underline">personvernerklæringen</a>.
+            </p>
+          </section>
+
+          {/* Contact */}
+          <section className="rounded-xl border border-card-border bg-card-bg p-6">
+            <h2 className="text-xl font-semibold mb-3">Kontakt</h2>
+            <p className="text-sm leading-relaxed text-text-secondary">
+              Spørsmål, feilmeldinger eller forslag? Se{" "}
+              <a href="/kontakt" className="text-accent hover:underline">kontaktsiden</a>{" "}
+              eller send en e-post til{" "}
+              <a href="mailto:kontakt@verdikart.no" className="text-accent hover:underline">kontakt@verdikart.no</a>.
+            </p>
+          </section>
+
+        </div>
       </div>
-    </div>
+    </>
   );
 }

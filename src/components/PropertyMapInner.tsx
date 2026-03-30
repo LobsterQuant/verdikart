@@ -1,8 +1,20 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import type { TransitStop } from "@/components/PropertyMap";
+
+// Forces map to re-centre when lat/lon are available (guards against stale initial render)
+function MapCentrer({ lat, lon }: { lat: number; lon: number }) {
+  const map = useMap();
+  useEffect(() => {
+    if (lat && lon && !isNaN(lat) && !isNaN(lon)) {
+      map.setView([lat, lon], 16, { animate: false });
+    }
+  }, [map, lat, lon]);
+  return null;
+}
 
 // Fix default marker icon for Leaflet in Next.js
 const defaultIcon = L.icon({
@@ -48,11 +60,12 @@ export default function PropertyMapInner({
   return (
     <MapContainer
       center={[lat, lon]}
-      zoom={15}
+      zoom={16}
       className="h-[400px] w-full md:h-[500px]"
       zoomControl={true}
       scrollWheelZoom={true}
     >
+      <MapCentrer lat={lat} lon={lon} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

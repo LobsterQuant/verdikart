@@ -65,8 +65,19 @@ export default function NavBar() {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-card-border bg-background/80 backdrop-blur-xl">
+    <nav className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
+      scrolled
+        ? "border-card-border bg-background/90 backdrop-blur-2xl shadow-lg shadow-black/20"
+        : "border-transparent bg-transparent backdrop-blur-none"
+    }`}>
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         {/* Wordmark */}
         <Link href="/" className="flex items-center gap-2 min-w-0">
@@ -122,7 +133,7 @@ export default function NavBar() {
           {/* Primary CTA */}
           <Link
             href="/#sok"
-            className="ml-1 rounded-lg bg-accent px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-80 whitespace-nowrap"
+            className="ml-1 rounded-lg bg-accent px-4 py-1.5 text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-105 whitespace-nowrap btn-glow"
           >
             Prøv nå →
           </Link>

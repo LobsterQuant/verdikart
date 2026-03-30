@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://verdikart.no",
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large" },
+  },
   openGraph: {
     type: "website",
     locale: "nb_NO",
@@ -88,6 +93,17 @@ export default function RootLayout({
         `}</Script>
       </head>
       <body className="font-sans bg-background text-foreground min-h-screen">
+        <JsonLd schema={{
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "Verdikart",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NOK" },
+          "url": "https://verdikart.no",
+          "description": "Gratis verktøy for norske boligkjøpere. Transport, prisutvikling og nabolagsdata for enhver adresse.",
+          "inLanguage": "nb-NO",
+        }} />
         <JsonLd schema={{
           "@context": "https://schema.org",
           "@type": "WebSite",

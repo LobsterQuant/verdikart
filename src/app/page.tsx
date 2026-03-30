@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import AddressSearch from "@/components/AddressSearch";
 import ProductPreview from "@/components/ProductPreview";
 import ProductDemo from "@/components/ProductDemo";
+import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
 import Logo from "@/components/Logo";
 import { Bus, TrendingUp, Home } from "lucide-react";
@@ -555,28 +556,40 @@ export default function HomePage() {
           }}
         />
 
+        {/* Badge */}
+        <motion.div className="mb-4" {...fadeUpProps(0)}>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-medium text-accent">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+            </span>
+            Gratis · Ingen registrering · Norske offentlige data
+          </span>
+        </motion.div>
+
         {/* Staggered headline */}
         <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
-          <motion.span className="block text-gradient headline-shimmer" {...fadeUpProps(0)}>
-            Forstå boligen.
+          <motion.span className="block text-gradient headline-shimmer" {...fadeUpProps(0.06)}>
+            Er nabolaget verdt prisen?
           </motion.span>
-          <motion.span className="block text-text-secondary" {...fadeUpProps(0.12)}>
-            Ikke&nbsp;bare se&nbsp;den.
+          <motion.span className="block text-foreground/80" {...fadeUpProps(0.15)}>
+            Finn svaret på&nbsp;10&nbsp;sekunder.
           </motion.span>
         </h1>
 
         <motion.p
           className="mt-4 max-w-xl text-base leading-relaxed text-text-secondary sm:mt-6 sm:text-lg"
-          {...fadeUpProps(0.22)}
+          {...fadeUpProps(0.24)}
         >
-          Verdikart gir deg innsikten du trenger før du kjøper bolig.
-          Transport, prisutvikling og markedsdata — alt på ett sted.
+          Søk på hvilken som helst norsk adresse og få full rapport om
+          kollektivtransport, boligprisutvikling, støynivå og nabolagsdata —
+          direkte fra SSB, Kartverket og Entur.
         </motion.p>
 
         <motion.div
           id="sok"
           className="mt-8 w-full max-w-xl sm:mt-10"
-          {...fadeUpProps(0.32)}
+          {...fadeUpProps(0.34)}
         >
           <AddressSearch />
           {/* Quick-start example addresses */}
@@ -643,6 +656,9 @@ export default function HomePage() {
 
       {/* Product preview — fades in on scroll */}
       <PreviewSection />
+
+      {/* Social proof: report counter + use-case carousel */}
+      <SocialProofStrip />
 
       {/* Slik fungerer det — staggered scroll animation */}
       <HowItWorksSection />

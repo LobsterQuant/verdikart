@@ -82,9 +82,11 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
 
   if (error || !data) {
     return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-6">
+      <div className="rounded-xl border border-red-900/40 bg-card-bg p-6">
         <h3 className="mb-2 text-lg font-semibold">Kollektivtransport</h3>
-        <p className="text-sm text-text-secondary">Data ikke tilgjengelig</p>
+        <p className="text-sm text-text-secondary">
+          Kunne ikke hente rutedata. Prøv å laste siden på nytt.
+        </p>
       </div>
     );
   }
@@ -129,7 +131,9 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
                   {leg.line ? ` ${leg.line}` : ""}
                 </span>
                 <span className="truncate">
-                  {(leg.from === "Origin" ? (address || "Startpunkt") : leg.from)} &rarr; {leg.to}
+                  {leg.from === "Origin" ? (address || "Startpunkt") : leg.from}
+                  {" \u2192 "}
+                  {leg.to === "Destination" ? data.destination : leg.to}
                 </span>
                 <span className="ml-auto shrink-0 text-xs tabular-nums">
                   {leg.duration} min

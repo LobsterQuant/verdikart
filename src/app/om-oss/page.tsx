@@ -12,9 +12,10 @@ export default function OmOss() {
           <h2 className="text-xl font-semibold mb-3">Hva er Verdikart?</h2>
           <p className="text-sm leading-relaxed text-text-secondary">
             Verdikart er et eiendomsintelligens-verktøy bygget for norske
-            boligkjøpere. Vi gir deg innsikt i støynivå, kollektivtransport,
-            prisutvikling og mer — samlet på ett sted, slik at du kan forstå
-            boligen og området før du tar en av livets største beslutninger.
+            boligkjøpere. Vi gir deg innsikt i kollektivtransport,
+            prisutvikling, markedsdata og mer — samlet på ett sted, slik at du
+            kan forstå boligen og området før du tar en av livets største
+            beslutninger.
           </p>
         </section>
 
@@ -49,7 +50,7 @@ export default function OmOss() {
             </li>
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">-</span>
-              <span><strong className="text-foreground">Geonorge</strong> — Støykart og geografiske data</span>
+              <span><strong className="text-foreground">Geonorge / Kartverket</strong> — Geografiske data og eiendomsinformasjon</span>
             </li>
           </ul>
         </section>

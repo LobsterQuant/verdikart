@@ -2,12 +2,6 @@ import AddressSearch from "@/components/AddressSearch";
 
 const valueProps = [
   {
-    icon: "🔇",
-    title: "Støynivå",
-    description:
-      "Se detaljert støykart for vei-, tog- og flytrafikk. Forstå hvordan støy påvirker hverdagen før du kjøper.",
-  },
-  {
     icon: "🚌",
     title: "Kollektivtransport",
     description:
@@ -17,7 +11,13 @@ const valueProps = [
     icon: "📈",
     title: "Prisutvikling",
     description:
-      "Følg boligprisene i området over tid. Se trender og sammenlign med resten av kommunen.",
+      "Følg boligprisene i kommunen over tid. Se trender og sammenlign med resten av landet.",
+  },
+  {
+    icon: "🏠",
+    title: "Sammenlignbare salg",
+    description:
+      "Se gjennomsnittlig kvadratmeterpris for din kommune. Forstå hva lignende boliger faktisk omsettes for.",
   },
 ];
 
@@ -32,8 +32,8 @@ export default function Home() {
           <span className="text-text-secondary">Ikke bare se den.</span>
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-text-secondary">
-          Verdikart gir deg innsikten du trenger før du kjøper bolig. Støy,
-          transport, prisutvikling — alt på ett sted.
+          Verdikart gir deg innsikten du trenger før du kjøper bolig.
+          Transport, prisutvikling og markedsdata — alt på ett sted.
         </p>
 
         <div className="mt-10 w-full max-w-xl">

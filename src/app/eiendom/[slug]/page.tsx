@@ -92,7 +92,7 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 [&>*:last-child:nth-child(odd)]:md:col-span-2">
         <NoiseCard lat={latNum} lon={lonNum} />
         <TransitCard lat={latNum} lon={lonNum} address={displayAddress} />
-        <PriceTrendCard kommunenummer={kommunenummer} />
+        <PriceTrendCard kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} />
         <ComparableSalesCard kommunenummer={kommunenummer} />
         <div className="md:col-span-2">
           <PropertyMap lat={latNum} lon={lonNum} address={displayAddress} />

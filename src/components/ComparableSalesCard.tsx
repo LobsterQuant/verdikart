@@ -53,9 +53,11 @@ export default function ComparableSalesCard({
 
   if (error || !data) {
     return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-6">
+      <div className="rounded-xl border border-red-900/40 bg-card-bg p-6">
         <h3 className="mb-2 text-lg font-semibold">Sammenlignbare salg</h3>
-        <p className="text-sm text-text-secondary">Data ikke tilgjengelig</p>
+        <p className="text-sm text-text-secondary">
+          Ingen omsetningsdata tilgjengelig for denne kommunen.
+        </p>
       </div>
     );
   }

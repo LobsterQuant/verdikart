@@ -109,6 +109,7 @@ export async function GET(request: NextRequest) {
           "ET-Client-Name": "verdikart-mvp",
         },
         body: JSON.stringify({ query }),
+        signal: AbortSignal.timeout(8000),
       }
     );
 

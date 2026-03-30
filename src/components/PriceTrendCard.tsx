@@ -5,6 +5,7 @@ import {
   AreaChart,
   Area,
   XAxis,
+  YAxis,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
@@ -17,7 +18,8 @@ interface QuarterData {
 interface PriceTrendData {
   data: QuarterData[];
   yoyChange: number;
-  source?: "kommune" | "national";
+  source?: "bydel" | "kommune" | "national";
+  sourceLabel?: string;
 }
 
 function formatQuarterLabel(q: string): string {
@@ -29,8 +31,10 @@ function formatQuarterLabel(q: string): string {
 
 export default function PriceTrendCard({
   kommunenummer,
+  postnummer = "",
 }: {
   kommunenummer: string;
+  postnummer?: string;
 }) {
   const [data, setData] = useState<PriceTrendData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -46,7 +50,7 @@ export default function PriceTrendCard({
     async function fetchPriceTrend() {
       try {
         const res = await fetch(
-          `/api/price-trend?kommunenummer=${kommunenummer}`
+          `/api/price-trend?kommunenummer=${kommunenummer}${postnummer ? `&postnummer=${postnummer}` : ""}`
         );
         if (!res.ok) throw new Error("Failed");
         const json = await res.json();
@@ -59,6 +63,7 @@ export default function PriceTrendCard({
             })),
             yoyChange: json.yoyChange ?? 0,
             source: json.source ?? "national",
+            sourceLabel: json.sourceLabel ?? "",
           };
           setData(normalized);
         } else {
@@ -71,7 +76,7 @@ export default function PriceTrendCard({
       }
     }
     fetchPriceTrend();
-  }, [kommunenummer]);
+  }, [kommunenummer, postnummer]);
 
   if (loading) {
     return (
@@ -85,9 +90,11 @@ export default function PriceTrendCard({
 
   if (error || !data || !data.data || data.data.length === 0) {
     return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-6">
+      <div className="rounded-xl border border-red-900/40 bg-card-bg p-6">
         <h3 className="mb-2 text-lg font-semibold">Prisutvikling</h3>
-        <p className="text-sm text-text-secondary">Data ikke tilgjengelig</p>
+        <p className="text-sm text-text-secondary">
+          Kunne ikke hente prisdata fra SSB. Prøv igjen senere.
+        </p>
       </div>
     );
   }
@@ -112,9 +119,9 @@ export default function PriceTrendCard({
           {Math.abs(data.yoyChange).toFixed(1)}%
         </span>
         <span className="text-sm text-text-secondary">siste 12 mnd</span>
-        {data.source === "national" && (
+        {data.sourceLabel && (
           <span className="text-xs text-text-tertiary italic">
-            Nasjonalt snitt
+            {data.sourceLabel}
           </span>
         )}
       </div>
@@ -135,6 +142,16 @@ export default function PriceTrendCard({
               tickLine={false}
               interval="preserveStartEnd"
             />
+            <YAxis
+              tick={{ fill: "#555555", fontSize: 10 }}
+              axisLine={false}
+              tickLine={false}
+              tickFormatter={(v) =>
+                v >= 1000 ? `${Math.round(v / 1000)}k` : String(v)
+              }
+              width={36}
+              domain={["auto", "auto"]}
+            />
             <Tooltip
               contentStyle={{
                 backgroundColor: "#111111",
@@ -145,8 +162,9 @@ export default function PriceTrendCard({
               }}
               formatter={(value) => [
                 `${Number(value).toLocaleString("nb-NO")} kr/m²`,
-                "Pris",
+                "Kvadratmeterpris",
               ]}
+              labelFormatter={(label) => `År: ${label}`}
             />
             <Area
               type="monotone"

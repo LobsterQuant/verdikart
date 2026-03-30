@@ -10,17 +10,20 @@ export default function Personvern() {
 
         <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
           <h2 className="text-xl font-semibold mb-3">Behandlingsansvarlig</h2>
-          <p className="text-sm leading-relaxed text-text-secondary">
+          <p className="text-sm leading-relaxed text-text-secondary mb-3">
             Verdikart er behandlingsansvarlig for personopplysninger som samles
-            inn gjennom dette nettstedet. Har du spørsmål om personvern, kan du
-            kontakte oss på{" "}
-            <a
-              href="mailto:kontakt@verdikart.no"
-              className="text-accent hover:underline"
-            >
-              kontakt@verdikart.no
-            </a>
-            .
+            inn gjennom dette nettstedet.
+          </p>
+          <ul className="space-y-1 text-sm text-text-secondary">
+            <li><strong className="text-foreground">Virksomhet:</strong> Verdikart</li>
+            <li><strong className="text-foreground">E-post:</strong>{" "}
+              <a href="mailto:kontakt@verdikart.no" className="text-accent hover:underline">
+                kontakt@verdikart.no
+              </a>
+            </li>
+          </ul>
+          <p className="mt-3 text-xs text-text-tertiary">
+            Organisasjonsnummer vil bli oppgitt når virksomheten er registrert i Brønnøysundregistrene.
           </p>
         </section>
 

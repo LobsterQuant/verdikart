@@ -33,7 +33,7 @@ async function fetchNoiseLayer(
   });
 
   const url = `https://wms.geonorge.no/skwms1/wms.stoy?${params.toString()}`;
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
 
   if (!res.ok) {
     return null;

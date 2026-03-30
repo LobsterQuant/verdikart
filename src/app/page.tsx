@@ -264,10 +264,20 @@ export default function HomePage() {
             <Logo className="h-6 w-6 shrink-0 opacity-60" />
             <span className="text-sm text-text-tertiary">&copy; 2026 Verdikart</span>
           </a>
-          <nav className="flex gap-6">
-            <a href="/om-oss" className="text-sm text-text-secondary transition-colors hover:text-foreground">Om oss</a>
-            <a href="/personvern" className="text-sm text-text-secondary transition-colors hover:text-foreground">Personvern</a>
-            <a href="/vilkar" className="text-sm text-text-secondary transition-colors hover:text-foreground">Vilkår</a>
+          <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 sm:justify-end">
+            {[
+              ["/by/oslo", "Oslo"],
+              ["/by/bergen", "Bergen"],
+              ["/by/trondheim", "Trondheim"],
+              ["/faq", "FAQ"],
+              ["/changelog", "Endringslogg"],
+              ["/kontakt", "Kontakt"],
+              ["/om-oss", "Om oss"],
+              ["/personvern", "Personvern"],
+              ["/vilkar", "Vilkår"],
+            ].map(([href, label]) => (
+              <a key={href} href={href} className="text-sm text-text-secondary transition-colors hover:text-foreground">{label}</a>
+            ))}
           </nav>
         </div>
       </footer>

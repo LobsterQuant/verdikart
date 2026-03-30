@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import Logo from "@/components/Logo";
+import JsonLd from "@/components/JsonLd";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -46,6 +47,22 @@ export default function RootLayout({
         `}</Script>
       </head>
       <body className="font-sans bg-background text-foreground min-h-screen">
+        <JsonLd schema={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Verdikart",
+          "url": "https://verdikart.no",
+          "description": "Norges smarteste verktøy for boligkjøpere. Kollektivtransport, prisutvikling og markedsdata — alt på ett sted.",
+          "inLanguage": "nb-NO",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://verdikart.no/?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        }} />
         <nav className="fixed top-0 left-0 right-0 z-50 border-b border-card-border bg-background/80 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
             <a href="/" className="flex items-center gap-2 min-w-0">

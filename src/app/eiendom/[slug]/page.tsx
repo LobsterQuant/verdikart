@@ -6,6 +6,7 @@ import ComparableSalesCard from "@/components/ComparableSalesCard";
 import PropertyMap from "@/components/PropertyMap";
 import EmailCapture from "@/components/EmailCapture";
 import Logo from "@/components/Logo";
+import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 
 interface PageProps {
@@ -105,7 +106,62 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
     );
   }
 
+    const canonicalUrl = `https://verdikart.no/eiendom/${params.slug}`;
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Hjem",
+        "item": "https://verdikart.no"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": displayAddress,
+        "item": canonicalUrl
+      }
+    ]
+  };
+
+  const realEstateSchema = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    "name": displayAddress,
+    "url": canonicalUrl,
+    "description": `Kollektivtransport, prisutvikling og markedsdata for ${displayAddress}. Få full eiendomsinnsikt på Verdikart.`,
+    "inLanguage": "nb-NO",
+    "provider": {
+      "@type": "Organization",
+      "name": "Verdikart",
+      "url": "https://verdikart.no"
+    },
+    ...(latNum && lonNum ? {
+      "locationCreatedIn": {
+        "@type": "Place",
+        "name": displayAddress,
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": latNum,
+          "longitude": lonNum
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": displayAddress,
+          "addressCountry": "NO",
+          ...(kommunenummer ? { "addressRegion": kommunenummer } : {})
+        }
+      }
+    } : {})
+  };
+
   return (
+    <>
+      <JsonLd schema={breadcrumbSchema} />
+      <JsonLd schema={realEstateSchema} />
     <div className="flex min-h-screen flex-col">
     <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:py-10">
       <header className="mb-8">
@@ -175,5 +231,6 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
       </div>
     </footer>
     </div>
+    </>
   );
 }

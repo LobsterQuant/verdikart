@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
-import { HelpCircle } from "lucide-react";
-import JsonLd from "@/components/JsonLd";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Vanlige spørsmål – FAQ | Verdikart",
-  description: "Svar på de vanligste spørsmålene om Verdikart — hva det er, hvordan det fungerer, hvem dataen kommer fra og hvem det passer for.",
-  alternates: { canonical: "https://verdikart.no/faq" },
-};
+import { useState } from "react";
+import { HelpCircle, ChevronDown } from "lucide-react";
+import JsonLd from "@/components/JsonLd";
 
 const faqs = [
   {
@@ -35,7 +31,7 @@ const faqs = [
   },
   {
     q: "Lagrer dere persondata?",
-    a: "Vi lagrer ikke adresser du søker på eller noen annen aktivitetsdata. Vi bruker Plausible Analytics for anonym statistikk (ingen cookies, ingen fingerprinting) og Microsoft Clarity for anonym brukeropplevelsesanalyse. Se vår personvernerklæring for detaljer.",
+    a: "Vi lagrer ikke adresser du søker på eller noen annen aktivitetsdata. Vi bruker Plausible Analytics for anonym statistikk (ingen cookies, ingen fingerprinting) og anonyme brukeropplevelsesanalyse. Se vår personvernerklæring for detaljer.",
   },
   {
     q: "Kan jeg dele en adresserapport med andre?",
@@ -51,7 +47,32 @@ const faqs = [
   },
 ];
 
+function AccordionItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean; onToggle: () => void }) {
+  return (
+    <div className="rounded-xl border border-card-border bg-card-bg overflow-hidden">
+      <button
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left"
+        aria-expanded={open}
+      >
+        <h2 className="text-sm font-semibold leading-snug">{q}</h2>
+        <ChevronDown
+          className={`h-4 w-4 shrink-0 text-text-tertiary transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          strokeWidth={1.5}
+        />
+      </button>
+      {open && (
+        <div className="border-t border-card-border px-5 pb-5 pt-4">
+          <p className="text-sm leading-relaxed text-text-secondary">{a}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function FaqPage() {
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -72,15 +93,18 @@ export default function FaqPage() {
               <HelpCircle className="h-5 w-5 text-accent" strokeWidth={1.5} />
             </div>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Vanlige spørsmål</h1>
-            <p className="mt-3 text-text-secondary">Alt du lurer på om Verdikart — samlet på ett sted.</p>
+            <p className="mt-3 text-text-secondary">Alt du lurer på om Verdikart — klikk for å åpne.</p>
           </div>
 
-          <div className="space-y-3">
-            {faqs.map(({ q, a }) => (
-              <div key={q} className="rounded-xl border border-card-border bg-card-bg p-5">
-                <h2 className="mb-2 font-semibold">{q}</h2>
-                <p className="text-sm leading-relaxed text-text-secondary">{a}</p>
-              </div>
+          <div className="space-y-2">
+            {faqs.map(({ q, a }, i) => (
+              <AccordionItem
+                key={q}
+                q={q}
+                a={a}
+                open={openIdx === i}
+                onToggle={() => setOpenIdx(openIdx === i ? null : i)}
+              />
             ))}
           </div>
 

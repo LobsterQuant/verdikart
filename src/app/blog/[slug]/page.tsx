@@ -185,21 +185,29 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           </header>
 
           {/* Article body */}
-          <article className="space-y-8 text-sm leading-relaxed">
+          <article className="space-y-0 text-sm leading-relaxed">
             {post.sections.map((section, i) => (
-              <section key={i}>
+              <section key={i} className="mb-8">
                 {section.heading && (
-                  <h2 className="mb-3 text-lg font-semibold text-foreground">{section.heading}</h2>
+                  <div className="mb-3 flex items-center gap-3">
+                    {/* Section number badge */}
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">
+                      {i + 1}
+                    </span>
+                    <h2 className="text-lg font-semibold text-foreground">{section.heading}</h2>
+                  </div>
                 )}
                 {section.body.split("\n").filter(Boolean).map((para, j) => (
                   <p key={j} className="mb-3 text-text-secondary">{para}</p>
                 ))}
                 {section.list && (
-                  <ul className="mb-3 space-y-1.5 pl-1">
-                    {section.list.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-text-secondary">
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent/60" />
-                        {item}
+                  <ul className="mb-3 rounded-xl border border-card-border bg-card-bg p-4 space-y-2">
+                    {section.list.map((item, li) => (
+                      <li key={item} className="flex items-start gap-3 text-text-secondary">
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/10 text-[10px] font-bold text-accent">
+                          {li + 1}
+                        </span>
+                        <span>{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -208,8 +216,17 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   <p className="mb-3 text-text-secondary">{section.body2}</p>
                 )}
                 {section.tip && (
-                  <div className="mt-3 rounded-lg border border-accent/20 bg-accent/5 px-4 py-3 text-xs text-text-secondary">
-                    <strong className="text-accent">Tips: </strong>{section.tip}
+                  <div className="mt-3 flex items-start gap-3 rounded-xl border border-accent/20 bg-accent/5 px-4 py-3 text-xs">
+                    <span className="mt-0.5 text-base leading-none">💡</span>
+                    <p className="text-text-secondary"><strong className="text-accent font-semibold">Tips: </strong>{section.tip}</p>
+                  </div>
+                )}
+                {/* Divider between sections (not after last) */}
+                {i < post.sections.length - 1 && (
+                  <div className="mt-8 flex items-center gap-3">
+                    <div className="h-px flex-1 bg-card-border" />
+                    <div className="h-1 w-1 rounded-full bg-accent/40" />
+                    <div className="h-px flex-1 bg-card-border" />
                   </div>
                 )}
               </section>

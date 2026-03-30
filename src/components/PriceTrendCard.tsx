@@ -134,10 +134,20 @@ export default function PriceTrendCard({
         </span>
         <span className="text-sm text-text-secondary">siste 12 mnd</span>
         {data.sourceLabel && (
-          <span className="text-xs text-text-tertiary italic">
-            {data.sourceLabel}
-          </span>
+          <span className="text-xs text-text-tertiary italic">{data.sourceLabel}</span>
         )}
+        <a
+          href="https://www.ssb.no/bygg-bolig-og-eiendom/eiendom/statistikk/eiendomsomsetninger"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Kilde: SSB — Statistisk sentralbyrå, kvartalsvis"
+          className="ml-auto inline-flex items-center gap-1 rounded-full border border-card-border bg-background px-2 py-0.5 text-[10px] font-medium text-text-tertiary transition-colors hover:border-accent/30 hover:text-accent"
+        >
+          SSB
+          <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+            <path d="M2.5 9.5 L9.5 2.5M5.5 2.5h4v4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </a>
         {data.lastUpdated && (
           <span className="ml-auto text-xs text-text-tertiary" title="Siste tilgjengelige data fra SSB">
             Sist oppdatert: {data.lastUpdated}

@@ -578,7 +578,7 @@ export default function HomePage() {
               ))}
             </div>
             <div className="space-y-2">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Byer</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Flere byer</p>
               {[["Fredrikstad","/by/fredrikstad"],["Drammen","/by/drammen"],["Tromsø","/by/tromso"],["Sandnes","/by/sandnes"],["Bodø","/by/bodoe"],["Skien","/by/skien"],["Sarpsborg","/by/sarpsborg"],["Arendal","/by/arendal"],["Hamar","/by/hamar"]].map(([l,h]) => (
                 <a key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</a>
               ))}

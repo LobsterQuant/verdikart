@@ -132,7 +132,32 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
 
   return (
     <div className="relative w-full max-w-xl mx-auto">
-      <div className="relative">
+      {/* Gradient border wrapper — 1px padding reveals the gradient as a border */}
+      <div
+        className="rounded-2xl p-px transition-all duration-300"
+        style={{
+          background: "linear-gradient(135deg, rgba(99,102,241,0.6) 0%, rgba(59,130,246,0.4) 50%, rgba(99,102,241,0.2) 100%)",
+          boxShadow: "0 0 24px rgba(99,102,241,0.12), 0 2px 8px rgba(0,0,0,0.4)",
+        }}
+        ref={(el) => {
+          // Brighten gradient border on focus
+          const input = el?.querySelector("input");
+          if (!input) return;
+          input.addEventListener("focus", () => {
+            if (el) {
+              el.style.background = "linear-gradient(135deg, rgba(99,102,241,0.9) 0%, rgba(59,130,246,0.7) 50%, rgba(139,92,246,0.6) 100%)";
+              el.style.boxShadow = "0 0 32px rgba(99,102,241,0.25), 0 0 64px rgba(99,102,241,0.1), 0 2px 8px rgba(0,0,0,0.4)";
+            }
+          });
+          input.addEventListener("blur", () => {
+            if (el) {
+              el.style.background = "linear-gradient(135deg, rgba(99,102,241,0.6) 0%, rgba(59,130,246,0.4) 50%, rgba(99,102,241,0.2) 100%)";
+              el.style.boxShadow = "0 0 24px rgba(99,102,241,0.12), 0 2px 8px rgba(0,0,0,0.4)";
+            }
+          });
+        }}
+      >
+      <div className="relative rounded-[15px] overflow-hidden">
         <input
           ref={inputRef}
           type="text"
@@ -141,14 +166,9 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           onKeyDown={handleKeyDown}
           onFocus={() => results.length > 0 && setIsOpen(true)}
           placeholder="Søk på en adresse..."
-          className="w-full rounded-2xl border border-card-border bg-card-bg px-4 py-3 text-base text-foreground placeholder:text-text-tertiary outline-none transition-all duration-300 focus:border-indigo-500 sm:px-6 sm:py-4 sm:text-lg"
-          style={{ boxShadow: "none" }}
-          onFocusCapture={(e) => {
-            e.currentTarget.style.boxShadow =
-              "0 0 0 2px rgba(99,102,241,0.4), 0 0 20px rgba(99,102,241,0.15)";
-          }}
-          onBlurCapture={(e) => {
-            e.currentTarget.style.boxShadow = "none";
+          className="w-full rounded-[15px] border-0 bg-[#0e0e12] px-4 py-3 text-base text-foreground placeholder:text-text-tertiary outline-none transition-all duration-200 sm:px-6 sm:py-4 sm:text-lg"
+          style={{
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), inset 0 0 20px rgba(99,102,241,0.03)",
           }}
           autoComplete="off"
         />
@@ -157,7 +177,8 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
             <div className="h-5 w-5 animate-spin rounded-full border-2 border-text-tertiary border-t-accent" />
           </div>
         )}
-      </div>
+      </div>{/* end inner rounded div */}
+      </div>{/* end gradient border wrapper */}
 
       {isOpen && results.length > 0 && (
         <div

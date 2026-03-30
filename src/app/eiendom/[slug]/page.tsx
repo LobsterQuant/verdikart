@@ -93,15 +93,17 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
 
   if (!latNum || !lonNum) {
     return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
-        <h1 className="text-2xl font-bold">Ingen adresse valgt</h1>
-        <p className="mt-3 text-text-secondary">
-          Vennligst søk etter en adresse fra{" "}
-          <a href="/" className="text-accent hover:underline">
-            forsiden
-          </a>{" "}
-          for å se eiendomsdata.
-        </p>
+      <div className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
+        <div className="mx-auto w-full max-w-xl">
+          <h1 className="mb-2 text-2xl font-bold">Søk på en adresse</h1>
+          <p className="mb-8 text-text-secondary">
+            Skriv inn adressen du vil sjekke — transport, priser og nabolagsdata hentes automatisk.
+          </p>
+          <AddressSearch initialValue={displayAddress !== "eiendom" ? displayAddress : ""} />
+          <p className="mt-4 text-xs text-text-tertiary">
+            Eksempel: <span className="font-mono">Karl Johans gate 1, Oslo</span>
+          </p>
+        </div>
       </div>
     );
   }

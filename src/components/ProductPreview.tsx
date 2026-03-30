@@ -90,7 +90,7 @@ export default function ProductPreview() {
             <div className="h-3 w-3 rounded-full bg-[#28C840]" />
           </div>
           <div className="mx-auto flex-1 max-w-xs rounded-md bg-card-bg border border-card-border px-3 py-1 text-center text-xs text-text-tertiary">
-            verdikart.no/eiendom/Bygdøy-allé-2
+            verdikart.no/eiendom/bygdoy-alle-2--598748-106163-0301
           </div>
         </div>
 

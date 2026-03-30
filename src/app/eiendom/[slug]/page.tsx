@@ -78,7 +78,8 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
   const displayAddress = adresse || decodeURIComponent(params.slug);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
+    <div className="flex min-h-screen flex-col">
+    <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:py-10">
       <header className="mb-8">
         <h1 className="break-words text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
           {displayAddress}
@@ -98,6 +99,21 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
           <PropertyMap lat={latNum} lon={lonNum} address={displayAddress} />
         </div>
       </div>
+    </div>
+
+    <footer className="mt-12 border-t border-card-border px-4 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
+        <span className="text-sm text-text-tertiary">
+          &copy; {new Date().getFullYear()} Verdikart &mdash; Data fra SSB, Kartverket og Entur
+        </span>
+        <nav className="flex gap-6">
+          <a href="/" className="text-sm text-text-secondary transition-colors hover:text-foreground">Hjem</a>
+          <a href="/om-oss" className="text-sm text-text-secondary transition-colors hover:text-foreground">Om oss</a>
+          <a href="/personvern" className="text-sm text-text-secondary transition-colors hover:text-foreground">Personvern</a>
+          <a href="/vilkar" className="text-sm text-text-secondary transition-colors hover:text-foreground">Vilkår</a>
+        </nav>
+      </div>
+    </footer>
     </div>
   );
 }

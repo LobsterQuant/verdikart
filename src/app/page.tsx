@@ -29,7 +29,7 @@ export default function HomePage() {
       {/* Hero */}
       <main className="flex flex-1 flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24">
         <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
-          Forstå boligen.
+          Forstå boligen.{" "}
           <br />
           <span className="text-text-secondary">Ikke bare se den.</span>
         </h1>

@@ -90,7 +90,7 @@ export default function PressePage() {
           <div className="space-y-2">
             {[
               { label: "verdikart.no", href: "https://verdikart.no", icon: ExternalLink },
-              { label: "Michael H. — LinkedIn", href: "https://www.linkedin.com/in/micaready/", icon: ExternalLink },
+              { label: "Verdikart — LinkedIn", href: "https://www.linkedin.com/in/michael-h-7723993bb/", icon: ExternalLink },
               { label: "X / Twitter: @Verdikart", href: "https://x.com/Verdikart", icon: ExternalLink },
             ].map(({ label, href, icon: Icon }) => (
               <a key={href} href={href} target="_blank" rel="noopener noreferrer"

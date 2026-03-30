@@ -16,7 +16,7 @@ export default function OmOss() {
     jobTitle: "Grunnlegger, Verdikart",
     url: "https://verdikart.no/om-oss",
     sameAs: [
-      "https://www.linkedin.com/in/micaready/",
+      "https://www.linkedin.com/in/michael-h-7723993bb/",
       "https://x.com/Verdikart",
     ],
   };
@@ -63,7 +63,7 @@ export default function OmOss() {
                   <p className="font-semibold text-lg">Michael H.</p>
                   <div className="flex items-center gap-2">
                     <a
-                      href="https://www.linkedin.com/in/micaready/"
+                      href="https://www.linkedin.com/in/michael-h-7723993bb/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 rounded-md border border-card-border bg-background px-2 py-0.5 text-xs text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"

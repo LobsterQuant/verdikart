@@ -54,9 +54,32 @@ export default function OmOss() {
           <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
             <h2 className="text-xs font-semibold uppercase tracking-widest text-text-tertiary mb-5">Grunnlegger</h2>
             <div className="flex items-start gap-4">
-              {/* Avatar placeholder */}
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-card-border bg-background text-xl font-bold text-accent select-none">
-                M
+              {/* Avatar — gradient initials mark */}
+              <div className="relative h-14 w-14 shrink-0 select-none">
+                <svg viewBox="0 0 56 56" className="h-14 w-14" aria-hidden>
+                  <defs>
+                    <linearGradient id="avatarGrad" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#6366f1" />
+                      <stop offset="100%" stopColor="#818cf8" />
+                    </linearGradient>
+                    <clipPath id="avatarClip">
+                      <circle cx="28" cy="28" r="28" />
+                    </clipPath>
+                  </defs>
+                  {/* Background */}
+                  <circle cx="28" cy="28" r="28" fill="url(#avatarGrad)" opacity="0.18" />
+                  <circle cx="28" cy="28" r="27" fill="none" stroke="url(#avatarGrad)" strokeWidth="1.2" opacity="0.5" />
+                  {/* Initials */}
+                  <text
+                    x="28" y="34"
+                    textAnchor="middle"
+                    fontFamily="'Inter', 'DM Sans', sans-serif"
+                    fontSize="20"
+                    fontWeight="700"
+                    fill="url(#avatarGrad)"
+                    clipPath="url(#avatarClip)"
+                  >MH</text>
+                </svg>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 flex-wrap">

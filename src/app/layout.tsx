@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import NavBar from "@/components/NavBar";
+import CookieBanner from "@/components/CookieBanner";
 import JsonLd from "@/components/JsonLd";
 import PageTransition from "@/components/PageTransition";
 import "./globals.css";
@@ -49,13 +50,23 @@ export default function RootLayout({
           window.plausible.init=window.plausible.init||function(i){window.plausible.o=i||{}};
           window.plausible.init();
         `}</Script>
-        {/* Microsoft Clarity — heatmaps + session recordings */}
+        {/* Microsoft Clarity — loads ONLY after cookie consent (GDPR) */}
         <Script id="clarity-init" strategy="afterInteractive">{`
-          (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window,document,"clarity","script","w3tjokm73m");
+          (function(){
+            var stored = null;
+            try { stored = localStorage.getItem('verdikart_cookie_consent'); } catch(e){}
+            function loadClarity(){
+              (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+              })(window,document,"clarity","script","w3tjokm73m");
+            }
+            if(stored === 'accepted') { loadClarity(); }
+            window.addEventListener('verdikart:consent', function(){
+              try { if(localStorage.getItem('verdikart_cookie_consent')==='accepted') loadClarity(); } catch(e){}
+            });
+          })();
         `}</Script>
       </head>
       <body className="font-sans bg-background text-foreground min-h-screen">
@@ -86,6 +97,7 @@ export default function RootLayout({
         <main id="main-content" className="pt-14">
           <PageTransition>{children}</PageTransition>
         </main>
+        <CookieBanner />
       </body>
     </html>
   );

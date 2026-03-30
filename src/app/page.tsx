@@ -177,24 +177,24 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
-      <main className="relative flex flex-1 flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden">
+      <main className="hero-noise relative flex flex-1 flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden">
         {/* Radial glow background */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.08) 0%, transparent 70%)",
+              "radial-gradient(ellipse at 50% -10%, rgba(99,102,241,0.18) 0%, rgba(59,130,246,0.06) 40%, transparent 70%)",
           }}
         />
 
         {/* Staggered headline */}
         <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
-          <motion.span className="block" {...fadeUpProps(0)}>
+          <motion.span className="block text-gradient" {...fadeUpProps(0)}>
             Forstå boligen.
           </motion.span>
           <motion.span className="block text-text-secondary" {...fadeUpProps(0.12)}>
-            Ikke bare se den.
+            Ikke&nbsp;bare se&nbsp;den.
           </motion.span>
         </h1>
 

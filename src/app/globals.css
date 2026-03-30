@@ -14,7 +14,7 @@ html {
 }
 
 body {
-  background-color: #0A0A0A;
+  background-color: #080810;
   color: #FFFFFF;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -23,8 +23,28 @@ body {
 }
 
 ::selection {
-  background-color: rgba(0, 102, 255, 0.3);
+  background-color: rgba(99, 102, 241, 0.35);
   color: #FFFFFF;
+}
+
+/* Gradient headline utility */
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 45%, #818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero noise texture overlay */
+.hero-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 0;
 }
 
 input::placeholder {
@@ -33,7 +53,7 @@ input::placeholder {
 
 /* Leaflet overrides */
 .leaflet-container {
-  background: #0A0A0A !important;
+  background: #080810 !important;
   border-radius: 12px;
 }
 
@@ -42,9 +62,9 @@ input::placeholder {
 }
 
 .leaflet-control-zoom a {
-  background: #111111 !important;
+  background: #0f101a !important;
   color: #FFFFFF !important;
-  border-color: #1A1A1A !important;
+  border-color: #1e2035 !important;
 }
 
 .leaflet-control-attribution {

@@ -222,12 +222,6 @@ export default function HomePage() {
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
             Gratis å bruke · Ingen registrering
           </p>
-          <span className="hidden text-text-tertiary sm:block">·</span>
-          <p className="text-sm text-text-tertiary">
-            Allerede brukt på{" "}
-            <span className="font-semibold text-foreground">500+</span>{" "}
-            adresser i Norge
-          </p>
         </motion.div>
 
         {/* Data source badges */}

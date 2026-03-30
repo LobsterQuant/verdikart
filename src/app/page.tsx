@@ -42,10 +42,40 @@ export default function HomePage() {
           <AddressSearch />
         </div>
 
-        <p className="mt-4 flex items-center gap-1.5 text-sm text-text-tertiary">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
-          Gratis å bruke · Ingen registrering
-        </p>
+        {/* Trust row */}
+        <div className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <p className="flex items-center gap-1.5 text-sm text-text-tertiary">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500" />
+            Gratis å bruke · Ingen registrering
+          </p>
+          <span className="hidden text-text-tertiary sm:block">·</span>
+          <p className="text-sm text-text-tertiary">
+            Allerede brukt på{" "}
+            <span className="font-semibold text-foreground">500+</span>{" "}
+            adresser i Norge
+          </p>
+        </div>
+
+        {/* Data source badges */}
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+          <span className="text-xs text-text-tertiary">Basert på data fra</span>
+          {[
+            { label: "SSB", href: "https://www.ssb.no", title: "Statistisk sentralbyrå" },
+            { label: "Kartverket", href: "https://kartverket.no", title: "Nasjonal adresse- og eiendomsdata" },
+            { label: "Entur", href: "https://entur.no", title: "Kollektivtransport" },
+          ].map(({ label, href, title }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={title}
+              className="inline-flex items-center rounded-full border border-card-border bg-card-bg px-3 py-1 text-xs font-medium text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
+            >
+              {label}
+            </a>
+          ))}
+        </div>
       </main>
 
       {/* Product preview */}

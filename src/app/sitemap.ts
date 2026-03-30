@@ -84,6 +84,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.4,
     },
     {
+      url: `${base}/for/selger`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: `${base}/data`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    // Neighbourhood pages
+    ...[
+      "frogner", "grunerlokka", "majorstuen", "nordnes",
+    ].map((area) => ({
+      url: `${base}/nabolag/${area}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    {
       url: `${base}/personvern`,
       lastModified: now,
       changeFrequency: "yearly",

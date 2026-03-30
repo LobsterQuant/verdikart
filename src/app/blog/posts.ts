@@ -277,6 +277,173 @@ export const posts: BlogPost[] = [
       },
     ],
   },
+
+  // ── Post 4 ──────────────────────────────────────────────────────────────
+  {
+    slug: "boligkjop-feil-nybegynnere",
+    title: "7 vanlige feil førstegangskjøpere gjør — og hvordan du unngår dem",
+    description: "Boligkjøp er den største finansielle beslutningen de fleste tar. Vi har samlet de syv vanligste tabbene og hva du kan gjøre for å unngå dem.",
+    category: "Boligkjøp",
+    readingMinutes: 6,
+    publishedAt: "2026-03-01",
+    sections: [
+      {
+        heading: "Å hoppe over visningsrunden",
+        body: "Mange førstegangskjøpere rekker ikke alle visninger de vil — men å kjøpe bolig basert på bilder alene er et klassisk eksempel på FOMO-kjøp. Bildene er alltid stylet. Lukt, støy og lysforhold er usynlig på nett.",
+        tip: "Bruk Verdikart til å sjekke støynivå og kollektivtilbud FØR du setter av tid til visning. Slik prioriterer du riktig.",
+      },
+      {
+        heading: "Undervurdere totalkostnaden",
+        body: "Kjøpesummen er bare starten. Husk å budsjettere for:",
+        list: [
+          "Dokumentavgift (2,5% av kjøpesum for selveier)",
+          "Tinglysingsgebyr (~875 kr)",
+          "Eierskifteforsikring (3 000–8 000 kr)",
+          "Oppussingsbuffer — sett av 5% av kjøpesummen",
+          "Fellesgjeld i borettslag som ikke vises i prisantydning",
+        ],
+        body2: "En leilighet til 4 millioner kan koste nærmere 4,4 millioner totalt.",
+      },
+      {
+        heading: "Ikke sjekke reguleringsplanen",
+        body: "Det vakre utsiktet kan forsvinne. Naboeiendommen kan bli 10 etasjer høy. Reguleringsplaner er offentlig tilgjengelig via kommunens innsynsportal — og megler er ikke forpliktet til å nevne planlagte prosjekter i nærheten.",
+      },
+      {
+        heading: "Stole blindt på meglers prisvurdering",
+        body: "Meglers takst er et salgsverktøy, ikke en nøytral analyse. Sammenlign med faktiske kvadratmeterpriser fra SSB for samme postnummer — noe du får gratis på Verdikart.",
+      },
+      {
+        heading: "Budgivning uten maksgrense",
+        body: "Mange setter ikke et hardt tak på hva de vil betale. Budrunder er stressende, og det er lett å bli revet med. Bestem deg på forhånd — skriv ned beløpet og hold deg til det.",
+        tip: "Bruk Verdikart Boligkalkulator til å beregne din reelle kjøpekraft inkl. stresstest (+5pp rente) før du begynner å by.",
+      },
+      {
+        heading: "Glemme sameiets økonomi",
+        body: "For borettslag og sameier: sjekk alltid årsregnskap, vedlikeholdsplan og om det er planlagte rehabiliteringer. En pipe-rehab eller løfting av kloakk kan koste 100 000–300 000 kr per enhet.",
+      },
+      {
+        heading: "Ikke bruke fagfolk",
+        body: "Bygningssakkyndig gjennomgang koster 5 000–15 000 kr og avdekker feil som ikke synes ved visning. Det er billig forsikring mot kjøp av en bolig med skjulte skader.",
+        tip: "Er du i tvil om et nabolag: sjekk Verdikart for støynivå, bussfrekvens og nærliggende salg. Gratis, og tar 3 minutter.",
+      },
+    ],
+  },
+
+  // ── Post 5 ──────────────────────────────────────────────────────────────
+  {
+    slug: "hva-er-en-god-kollektivscore",
+    title: "Hva betyr egentlig en god kollektivscore — og hvorfor er det viktig for boligprisen?",
+    description: "Nærhet til kollektivtransport er en av de sterkeste prisdriverne i norske byer. Her er hva tallene faktisk betyr og hva du bør se etter.",
+    category: "Analyse",
+    readingMinutes: 5,
+    publishedAt: "2026-03-10",
+    sections: [
+      {
+        heading: "Gangavstand er alt",
+        body: "Boligforskning fra NTNU og Eiendomsverdi viser at tommelfingerregelen er enkel: for hver 100 meter du beveger deg fra en T-banestasjon i Oslo, faller boligprisen med 0,3–0,8%. Det virker lite, men 500 meter utgjør opp mot 4% — det er 160 000 kr på en 4 millioners leilighet.",
+      },
+      {
+        heading: "Hva vi måler på Verdikart",
+        body: "Verdikart henter data fra Entur — Norges nasjonale trafikkdatabank — og beregner:",
+        list: [
+          "Antall holdeplasser innen 300m, 500m og 1000m",
+          "Avganger per time på rushtid (07–09 og 15–17)",
+          "Transportmidler: T-bane, buss, trikk, tog, bysykkel",
+          "Gjennomsnittlig ventetid mellom avganger",
+        ],
+      },
+      {
+        heading: "Hva er en god score?",
+        body: "Vi bruker fire nivåer basert på nærmeste holdeplass og avganger:\n",
+        list: [
+          "🟢 Utmerket: Holdeplass under 300m + minst 4 avganger/time",
+          "🟡 Godt: 300–600m + 2–4 avganger/time",
+          "🟠 Middels: 600–1000m eller sjeldnere avganger",
+          "🔴 Begrenset: Over 1000m eller under 1 avgang/time",
+        ],
+        body2: "I Oslo sentrum er 'Utmerket' normen. I Bærum og Groruddalen varierer det kraftig mellom nabolag.",
+      },
+      {
+        heading: "Fremtidig utbygging teller",
+        body: "Fornebubanen åpner i 2027 og vil endre prisbildet langs hele Lysaker–Fornebu-korridoren dramatisk. Oslonavet (ny togstasjon under Nationaltheatret) forventes ferdig 2034. Kjøper du nær fremtidige stasjoner i dag, priser du deg inn i en infrastrukturinvestering.",
+        tip: "Sjekk naboadresser på Verdikart og sammenlign kollektivscore — selv 200 meters forskjell kan gi et meningsfylt prisutslag.",
+      },
+    ],
+  },
+
+  // ── Post 6 ──────────────────────────────────────────────────────────────
+  {
+    slug: "boligpris-per-kvm-norge-2026",
+    title: "Boligpriser per kvadratmeter i norske byer 2026 — komplett oversikt",
+    description: "Oppdatert oversikt over kvadratmeterpriser i Norges 15 største byer basert på SSB-data. Fra Oslo på topp til Skien i bunn.",
+    category: "Markedsdata",
+    readingMinutes: 4,
+    publishedAt: "2026-03-18",
+    sections: [
+      {
+        heading: "Oslo er fortsatt dyrest",
+        body: "Oslo kommune har en gjennomsnittlig kvadratmeterpris på 94 200 kr/m² per Q1 2026 — en prisvekst på 5,1% siste 12 måneder. Innenfor Oslo er spredningen enorm: Frogner ligger på 151 900 kr/m², mens Søndre Nordstrand er nede på 43 000 kr/m².",
+      },
+      {
+        heading: "Prisutvikling 2025–2026",
+        body: "De norske byene med sterkest prisvekst siste 12 måneder er:",
+        list: [
+          "Stavanger: +7,4% (olje-relatert etterspørsel + begrenset nybygg)",
+          "Sandnes: +6,8%",
+          "Trondheim: +6,2% (studentvekst + ny T-bane planlagt)",
+          "Bodø: +6,5% (ny by-investering + Nord-Norge-effekt)",
+          "Fredrikstad: +6,1% (pendleravstand til Oslo)",
+        ],
+        body2: "Oslo, Bergen og Tromsø vokser mer moderat — men fra et mye høyere prisnivå.",
+      },
+      {
+        heading: "Byer under 45 000 kr/m²",
+        body: "For kjøpere med begrenset egenkapital eller lav inntekt er Skien (28 900 kr/m²), Sarpsborg (32 400 kr/m²) og Fredrikstad (36 900 kr/m²) de mest tilgjengelige markedene med togforbindelse til Oslo.",
+        tip: "Sjekk kollektivscore på Verdikart for konkrete adresser i disse byene — pendlertid til Oslo er en kritisk variabel for langsiktig prisvekst.",
+      },
+      {
+        heading: "Slik bruker du dataene",
+        body: "SSB publiserer kommunenivå-data hvert kvartal via tabell 06035. Verdikart henter disse dataene i sanntid og viser dem kontekstualisert for den spesifikke adressen du søker på — inkludert sammenlignbare salg og prisvekst.",
+      },
+    ],
+  },
+
+  // ── Post 7 ──────────────────────────────────────────────────────────────
+  {
+    slug: "sammenligne-boliger-sjekkliste",
+    title: "Slik sammenligner du to boliger objektivt — en praktisk sjekkliste",
+    description: "Visning av to boliger på én dag og vet ikke hvilken du skal velge? Denne sjekklisten hjelper deg å sammenligne objektivt — med data, ikke magefølelse.",
+    category: "Boligkjøp",
+    readingMinutes: 5,
+    publishedAt: "2026-03-25",
+    sections: [
+      {
+        heading: "Start med faktaene, ikke følelsene",
+        body: "Det er lett å bli forelsket i en bolig med bra styling og bad lys — og se bort fra støy, dårlig kollektivtilbud eller høy fellesgjeld. En strukturert sammenligningsmodell hjelper deg å skille hva som faktisk er bedre fra hva som bare ser bedre ut.",
+      },
+      {
+        heading: "De 5 viktigste faktorene å sammenligne",
+        body: "For hver bolig: noter en score fra 1–5 på disse punktene:",
+        list: [
+          "Pris per kvadratmeter (inkl. fellesgjeld) — bruk SSB-tall for postnummeret",
+          "Kollektivscore — næreste holdeplass og avganger per time",
+          "Støynivå — veitrafikkstøy er den viktigste langsiktige faktoren",
+          "Byggeår og vedlikeholdshistorikk — ask om siste pipe/kloakk-rehab",
+          "Sollys og planløsning — lysforhold endres gjennom dagen; besøk på ulike tidspunkt",
+        ],
+        body2: "Legg til en sjette kolonne for 'magefølelse' — men la den veie maks 20% av totalscoren.",
+      },
+      {
+        heading: "Bruk Verdikart Sammenlign",
+        body: "På verdikart.no/sammenlign kan du søke på begge adressene og se transport, pris og støy side ved side. Det tar 2 minutter og erstatter 30 minutter med Google-søk.",
+        tip: "Del sammenligningslenken med partneren eller foreldrene dine — det er lettere å ta en felles beslutning når dataene er synlige for alle.",
+      },
+      {
+        heading: "Når du er i tvil",
+        body: "Hvis scorene er omtrent like, velg boligen i nabolaget med best langsiktig prisvekst-potensial. Kollektivinvesteringer (T-bane, bybane) er den sterkeste enkeltindikatoren — sjekk kommunens arealplaner.",
+      },
+    ],
+  },
 ];
 
 export function getAllSlugs() {

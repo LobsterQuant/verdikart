@@ -142,20 +142,66 @@ const HOW_STEPS = [
   {
     n: "1",
     title: "Skriv inn adressen",
-    body: "Søk på enhver norsk gateadresse — Kartverket kjenner alle 2,5 millioner av dem. Velg fra forslagslisten.",
+    body: "Søk på enhver norsk gateadresse — Kartverket kjenner alle 2,5 millioner av dem. Velg fra forslagslisten og trykk Enter.",
     icon: "🔍",
+    preview: (
+      <div className="mt-3 rounded-lg border border-card-border bg-background px-3 py-2.5 text-xs">
+        <div className="flex items-center gap-2 rounded-md border border-accent/40 bg-card-bg px-3 py-2">
+          <svg className="h-3.5 w-3.5 text-text-tertiary shrink-0" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35" strokeLinecap="round"/></svg>
+          <span className="text-text-secondary">Bygdøy allé 34, Oslo</span>
+          <span className="ml-auto h-3.5 w-px animate-pulse bg-accent" />
+        </div>
+        <div className="mt-1.5 divide-y divide-card-border rounded-md border border-card-border bg-card-bg">
+          {["Bygdøy allé 34, 0265 Oslo", "Bygdøy allé 36, 0265 Oslo"].map((s, i) => (
+            <div key={i} className={`px-3 py-1.5 text-[11px] ${i === 0 ? "text-foreground bg-accent/8" : "text-text-tertiary"}`}>{s}</div>
+          ))}
+        </div>
+      </div>
+    ),
   },
   {
     n: "2",
     title: "Vi henter data i sanntid",
     body: "Transport fra Entur, prisstatistikk fra SSB, støykart fra Kartverket. Alt hentes live — ingen foreldede cache-sider.",
     icon: "⚡",
+    preview: (
+      <div className="mt-3 grid grid-cols-3 gap-1.5 text-[11px]">
+        {[
+          { src: "Entur", label: "Transport", color: "bg-blue-500/15 border-blue-500/25 text-blue-400" },
+          { src: "SSB", label: "Boligpris", color: "bg-green-500/15 border-green-500/25 text-green-400" },
+          { src: "Kart.", label: "Støykart", color: "bg-purple-500/15 border-purple-500/25 text-purple-400" },
+        ].map(({ src, label, color }) => (
+          <div key={src} className={`rounded-lg border px-2 py-2 text-center ${color}`}>
+            <div className="font-bold">{src}</div>
+            <div className="text-[10px] opacity-70">{label}</div>
+            <div className="mt-1 flex justify-center">
+              <span className="relative inline-flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 bg-current"/><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-current"/></span>
+            </div>
+          </div>
+        ))}
+      </div>
+    ),
   },
   {
     n: "3",
     title: "Les rapporten, ta en bedre beslutning",
     body: "Se holdeplasser, avganger, kvadratmeterpris og sammenlignbare salg — samlet på én side. Del lenken med megler eller bankrådgiver.",
     icon: "📋",
+    preview: (
+      <div className="mt-3 space-y-1.5 text-[11px]">
+        {[
+          { label: "🚇  T-bane 50m", value: "Nationalteatret", good: true },
+          { label: "📊  Kvadratmeterpris", value: "94 200 kr/m²", good: true },
+          { label: "🔊  Støynivå vei", value: "52 dB — Moderat", good: null },
+          { label: "🏘️  Sammenlignbare salg", value: "47 i nabolaget", good: true },
+        ].map(({ label, value, good }) => (
+          <div key={label} className="flex items-center justify-between rounded-md border border-card-border bg-background px-2.5 py-1.5">
+            <span className="text-text-secondary">{label}</span>
+            <span className={`font-semibold ${good === true ? "text-green-400" : good === false ? "text-red-400" : "text-amber-400"}`}>{value}</span>
+          </div>
+        ))}
+      </div>
+    ),
   },
 ];
 
@@ -245,7 +291,7 @@ function HowItWorksSection() {
           animate={inView ? { scaleY: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
         />
-        {HOW_STEPS.map(({ n, title, body, icon }, i) => (
+        {HOW_STEPS.map(({ n, title, body, icon, preview }, i) => (
           <motion.li
             key={n}
             className="flex gap-4"
@@ -253,15 +299,16 @@ function HowItWorksSection() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 + i * 0.15, ease: "easeOut" }}
           >
-            <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white shadow-lg shadow-accent/30">
+            <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white shadow-lg shadow-accent/30 mt-0.5">
               {n}
             </span>
-            <div>
+            <div className="flex-1 min-w-0">
               <p className="font-semibold">
                 <span className="mr-1.5">{icon}</span>
                 {title}
               </p>
               <p className="mt-1 text-sm leading-relaxed text-text-secondary">{body}</p>
+              {preview}
             </div>
           </motion.li>
         ))}
@@ -405,25 +452,28 @@ export default function HomePage() {
           className="mt-7 w-full max-w-lg"
           {...fadeUpProps(0.4)}
         >
-          {/* Stats grid — 4 cols always, no wrapping chaos */}
-          <div className="grid grid-cols-4 gap-0 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-x divide-card-border">
+          {/* Stats grid — 2×2 on mobile, 4 cols on sm+ */}
+          <div className="grid grid-cols-2 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-y divide-card-border sm:grid-cols-4 sm:divide-y-0 sm:divide-x">
             {[
               { value: "Gratis", label: "Ingen registrering", dot: true },
               { value: "2,5M+", label: "norske adresser" },
               { value: "15", label: "byer dekket" },
               { value: "3", label: "datakilder" },
-            ].map(({ value, label, dot }) => (
-              <div key={label} className="flex flex-col items-center justify-center px-2 py-2.5 text-center">
-                <span className="flex items-center gap-1 text-sm font-bold text-foreground leading-tight">
+            ].map(({ value, label, dot }, i) => (
+              <div
+                key={label}
+                className={`flex flex-col items-center justify-center px-3 py-4 text-center${i % 2 === 0 ? " border-r border-card-border sm:border-r-0" : ""}`}
+              >
+                <span className="flex items-center gap-1.5 text-base font-bold text-foreground leading-tight sm:text-sm">
                   {dot && (
-                    <span className="relative inline-flex h-1.5 w-1.5 shrink-0">
+                    <span className="relative inline-flex h-2 w-2 shrink-0">
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-60" />
-                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
                     </span>
                   )}
                   {value}
                 </span>
-                <span className="mt-0.5 text-[10px] leading-tight text-text-tertiary">{label}</span>
+                <span className="mt-1 text-xs leading-tight text-text-tertiary">{label}</span>
               </div>
             ))}
           </div>

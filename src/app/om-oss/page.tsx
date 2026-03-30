@@ -17,7 +17,7 @@ export default function OmOss() {
     url: "https://verdikart.no/om-oss",
     sameAs: [
       "https://www.linkedin.com/in/micaready/",
-      "https://x.com/micareadyeu",
+      "https://x.com/Verdikart",
     ],
   };
 
@@ -72,7 +72,7 @@ export default function OmOss() {
                       LinkedIn
                     </a>
                     <a
-                      href="https://x.com/micareadyeu"
+                      href="https://x.com/Verdikart"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 rounded-md border border-card-border bg-background px-2 py-0.5 text-xs text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"

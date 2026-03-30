@@ -393,7 +393,7 @@ export default function HomePage() {
                 Norges åpne boligverktøy. Vi tar ingen provisjon, selger ingen boliger og har ingen agenda — bare data.
               </p>
               <div className="mt-4 flex items-center gap-2">
-                <a href="https://x.com/micareadyeu" target="_blank" rel="noopener noreferrer" aria-label="X"
+                <a href="https://x.com/Verdikart" target="_blank" rel="noopener noreferrer" aria-label="X"
                   className="flex h-8 w-8 items-center justify-center rounded-lg border border-card-border bg-card-bg text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground">
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor" aria-hidden>
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />

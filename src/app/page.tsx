@@ -178,13 +178,65 @@ export default function HomePage() {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
       <main className="hero-noise relative flex flex-1 flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden">
-        {/* Radial glow background */}
+
+        {/* ── Background layer stack ── */}
+        {/* 1. Dot grid */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.18]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, rgba(148,163,184,0.5) 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+          }}
+        />
+        {/* 2. Vignette fade over grid */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(ellipse at 50% -10%, rgba(99,102,241,0.18) 0%, rgba(59,130,246,0.06) 40%, transparent 70%)",
+              "radial-gradient(ellipse at 50% 50%, transparent 30%, #080810 80%)",
+          }}
+        />
+        {/* 3. Primary indigo glow — top-center */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 50% at 50% -5%, rgba(99,102,241,0.22) 0%, rgba(59,130,246,0.08) 50%, transparent 75%)",
+          }}
+        />
+        {/* 4. Floating orb — left */}
+        <div
+          aria-hidden
+          className="hero-orb-left pointer-events-none absolute -z-10 h-[420px] w-[420px] rounded-full"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+            top: "10%",
+            left: "-12%",
+          }}
+        />
+        {/* 5. Floating orb — right */}
+        <div
+          aria-hidden
+          className="hero-orb-right pointer-events-none absolute -z-10 h-[360px] w-[360px] rounded-full"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%)",
+            top: "20%",
+            right: "-10%",
+          }}
+        />
+        {/* 6. Bottom accent wash */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-0 left-0 right-0 -z-10 h-32"
+          style={{
+            background:
+              "linear-gradient(to top, #080810 0%, transparent 100%)",
           }}
         />
 

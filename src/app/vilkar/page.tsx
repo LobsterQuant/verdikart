@@ -11,8 +11,8 @@ export default function Vilkar() {
           <h2 className="text-xl font-semibold mb-3">1. Om tjenesten</h2>
           <p className="text-sm leading-relaxed text-text-secondary">
             Verdikart er et informasjonsverktøy for norske boligkjøpere. Tjenesten
-            sammenstiller offentlig tilgjengelig data om støy, kollektivtransport
-            og prisutvikling for å gi deg bedre beslutningsgrunnlag ved boligkjøp.
+            sammenstiller offentlig tilgjengelig data om kollektivtransport,
+            prisutvikling og markedsdata for å gi deg bedre beslutningsgrunnlag ved boligkjøp.
             Verdikart er ikke en eiendomsmegler og gir ikke finansiell rådgivning.
           </p>
         </section>

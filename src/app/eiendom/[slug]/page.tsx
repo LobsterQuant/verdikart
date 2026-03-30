@@ -21,7 +21,7 @@ interface PageProps {
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const address = searchParams.adresse || decodeURIComponent(params.slug);
   const title = `${address} — Verdikart`;
-  const description = `Støy, kollektivtransport og prisutvikling for ${address}. Få full eiendomsinnsikt på Verdikart.`;
+  const description = `Kollektivtransport, prisutvikling og markedsdata for ${address}. Få full eiendomsinnsikt på Verdikart.`;
   const pageUrl = `https://verdikart.no/eiendom/${params.slug}${
     searchParams.lat ? `?lat=${searchParams.lat}&lon=${searchParams.lon}` : ""
   }`;

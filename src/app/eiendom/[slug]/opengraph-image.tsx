@@ -87,7 +87,7 @@ export default function OgImage({ params }: Props) {
         </div>
         {/* Feature chips */}
         <div style={{ display: "flex", gap: "16px" }}>
-          {["🔇 Støynivå", "🚌 Kollektivtransport", "📈 Prisutvikling"].map((item) => (
+          {["🚌 Kollektivtransport", "📈 Prisutvikling", "🏠 Markedsdata"].map((item) => (
             <div
               key={item}
               style={{

@@ -75,7 +75,7 @@ export default function OgImage() {
           Ikke bare se den.
         </div>
         <div style={{ display: "flex", gap: "32px" }}>
-          {["🔇 Støy", "🚌 Transport", "📈 Priser"].map((item) => (
+          {["🚌 Transport", "📈 Priser", "🏠 Markedsdata"].map((item) => (
             <div
               key={item}
               style={{

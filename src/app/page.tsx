@@ -159,6 +159,69 @@ const HOW_STEPS = [
   },
 ];
 
+const COMPARISON_ROWS = [
+  { feature: "Kollektivtransport og gangavstand",   verdikart: true,  finn: false, google: false },
+  { feature: "Støykart per adresse",                verdikart: true,  finn: false, google: false },
+  { feature: "SSB prisstatistikk per bydel",        verdikart: true,  finn: false, google: false },
+  { feature: "Sammenlignbare salg i nabolaget",     verdikart: true,  finn: true,  google: false },
+  { feature: "Del-lenke til rapport",               verdikart: true,  finn: false, google: false },
+  { feature: "Ingen registrering nødvendig",        verdikart: true,  finn: false, google: true  },
+  { feature: "Gratis",                              verdikart: true,  finn: true,  google: true  },
+];
+
+function ComparisonSection() {
+  const { ref, inView } = useInView(0.15);
+  return (
+    <motion.section
+      ref={ref as RefObject<HTMLElement>}
+      className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6"
+      initial={{ opacity: 0, y: 32 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+    >
+      <h2 className="mb-2 text-center text-xl font-bold sm:text-2xl">Hvorfor Verdikart?</h2>
+      <p className="mb-8 text-center text-sm text-text-secondary">
+        Google forteller deg hva boligen ser ut som. Finn.no viser prisen. Verdikart forklarer <em>konteksten</em>.
+      </p>
+      <div className="overflow-hidden rounded-xl border border-card-border">
+        {/* Header */}
+        <div className="grid grid-cols-4 border-b border-card-border bg-card-bg px-4 py-3 text-xs font-semibold">
+          <span className="col-span-1 text-text-tertiary">Funksjon</span>
+          <span className="text-center text-accent">Verdikart</span>
+          <span className="text-center text-text-tertiary">Finn.no</span>
+          <span className="text-center text-text-tertiary">Google Maps</span>
+        </div>
+        {COMPARISON_ROWS.map(({ feature, verdikart, finn, google }, i) => (
+          <motion.div
+            key={feature}
+            className={`grid grid-cols-4 items-center px-4 py-3 text-xs ${i % 2 === 0 ? "bg-background" : "bg-card-bg"}`}
+            initial={{ opacity: 0, x: -12 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.4, delay: 0.1 + i * 0.06 }}
+          >
+            <span className="col-span-1 text-text-secondary pr-2">{feature}</span>
+            <span className="flex justify-center">
+              {verdikart
+                ? <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent/15 text-accent font-bold">✓</span>
+                : <span className="text-text-tertiary opacity-30">—</span>}
+            </span>
+            <span className="flex justify-center">
+              {finn
+                ? <span className="text-text-secondary">✓</span>
+                : <span className="text-text-tertiary opacity-30">—</span>}
+            </span>
+            <span className="flex justify-center">
+              {google
+                ? <span className="text-text-secondary">✓</span>
+                : <span className="text-text-tertiary opacity-30">—</span>}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+    </motion.section>
+  );
+}
+
 function HowItWorksSection() {
   const { ref, inView } = useInView(0.2);
   return (
@@ -330,6 +393,7 @@ export default function HomePage() {
         </motion.p>
 
         <motion.div
+          id="sok"
           className="mt-8 w-full max-w-xl sm:mt-10"
           {...fadeUpProps(0.32)}
         >
@@ -338,41 +402,31 @@ export default function HomePage() {
 
         {/* Social proof strip — above the fold */}
         <motion.div
-          className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-3"
+          className="mt-7 w-full max-w-lg"
           {...fadeUpProps(0.4)}
         >
-          {/* Live indicator */}
-          <span className="flex items-center gap-1.5 text-sm text-text-tertiary">
-            <span className="relative inline-flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
-            </span>
-            Gratis · Ingen registrering
-          </span>
-
-          <span className="hidden h-4 w-px bg-card-border sm:block" aria-hidden />
-
-          {/* Stat: addresses */}
-          <span className="flex items-center gap-1.5 text-sm text-text-tertiary">
-            <span className="font-semibold text-foreground">2,5M+</span>
-            norske adresser
-          </span>
-
-          <span className="hidden h-4 w-px bg-card-border sm:block" aria-hidden />
-
-          {/* Stat: cities */}
-          <span className="flex items-center gap-1.5 text-sm text-text-tertiary">
-            <span className="font-semibold text-foreground">15</span>
-            byer dekket
-          </span>
-
-          <span className="hidden h-4 w-px bg-card-border sm:block" aria-hidden />
-
-          {/* Stat: data sources */}
-          <span className="flex items-center gap-1.5 text-sm text-text-tertiary">
-            <span className="font-semibold text-foreground">3</span>
-            offentlige datakilder
-          </span>
+          {/* Stats grid — 4 cols always, no wrapping chaos */}
+          <div className="grid grid-cols-4 gap-0 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-x divide-card-border">
+            {[
+              { value: "Gratis", label: "Ingen registrering", dot: true },
+              { value: "2,5M+", label: "norske adresser" },
+              { value: "15", label: "byer dekket" },
+              { value: "3", label: "datakilder" },
+            ].map(({ value, label, dot }) => (
+              <div key={label} className="flex flex-col items-center justify-center px-2 py-2.5 text-center">
+                <span className="flex items-center gap-1 text-sm font-bold text-foreground leading-tight">
+                  {dot && (
+                    <span className="relative inline-flex h-1.5 w-1.5 shrink-0">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-60" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
+                    </span>
+                  )}
+                  {value}
+                </span>
+                <span className="mt-0.5 text-[10px] leading-tight text-text-tertiary">{label}</span>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
         {/* Data source badges + mini testimonials */}
@@ -456,18 +510,21 @@ export default function HomePage() {
       {/* Slik fungerer det — staggered scroll animation */}
       <HowItWorksSection />
 
+      {/* Competitor comparison */}
+      <ComparisonSection />
+
       {/* Value Props — stagger on scroll */}
       <section className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 sm:pb-24">
         <FeatureCards />
       </section>
 
-      {/* Email capture */}
+      {/* Email capture — reframed as value, not "coming soon" */}
       <section className="border-t border-card-border bg-card-bg px-4 py-14 text-center sm:px-6">
         <div className="mx-auto max-w-md">
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-accent">Tidlig tilgang</p>
-          <h2 className="mb-3 text-2xl font-bold">Få varsel når nye funksjoner lanseres</h2>
+          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-accent">Hold deg oppdatert</p>
+          <h2 className="mb-3 text-2xl font-bold">Få markedsinnsikt rett i innboksen</h2>
           <p className="mb-6 text-sm leading-relaxed text-text-secondary">
-            Verdikart er i aktiv utvikling — dataene og rapportene fungerer fullt ut i dag. Vi jobber med prisvarslinger, AI-sammendrag og historiske salgskart. Registrer deg for å høre om det først.
+            Vi sender månedlige oppdateringer om boligprisutvikling per bydel, nye datakilder og tips til boligkjøpere. Ingen spam — kun tall som faktisk betyr noe.
           </p>
           <EmailCapture />
         </div>

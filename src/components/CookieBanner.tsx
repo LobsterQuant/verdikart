@@ -48,9 +48,9 @@ export default function CookieBanner() {
       aria-label="Informasjonskapsler"
       className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-lg rounded-xl border border-card-border bg-card-bg p-4 shadow-2xl shadow-black/60 sm:left-auto sm:right-6 sm:max-w-sm"
     >
-      <p className="mb-1 text-sm font-semibold text-foreground">Vi bruker informasjonskapsler</p>
+      <p className="mb-1 text-sm font-semibold text-foreground">Bruksanalyse</p>
       <p className="mb-4 text-xs leading-relaxed text-text-secondary">
-        Vi bruker Microsoft Clarity for å forstå hvordan nettsiden brukes (varmekart, sesjonsopptak). Dette krever ditt samtykke etter GDPR.{" "}
+        Vi bruker anonymiserte analyseverktøy for å forbedre nettsiden. Ingen personopplysninger deles med tredjeparter.{" "}
         <Link href="/personvern" className="text-accent hover:underline">Les mer</Link>.
       </p>
       <div className="flex gap-2">
@@ -64,7 +64,7 @@ export default function CookieBanner() {
           onClick={handleDecline}
           className="flex-1 rounded-lg border border-card-border bg-background px-4 py-2 text-xs font-medium text-text-secondary transition-colors hover:border-accent/30 hover:text-foreground"
         >
-          Avslå
+          Ikke nå
         </button>
       </div>
     </div>

@@ -32,6 +32,8 @@ const mobileLinks = [
   { href: "/changelog",            label: "Endringslogg" },
 ];
 
+const CTA_HREF = "/#sok";
+
 export default function NavBar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -69,7 +71,22 @@ export default function NavBar() {
               {label}
             </Link>
           ))}
+          {/* Primary CTA */}
+          <Link
+            href="/#sok"
+            className="ml-1 rounded-lg bg-accent px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-80 whitespace-nowrap"
+          >
+            Søk adresse →
+          </Link>
         </div>
+
+        {/* Mobile CTA */}
+        <Link
+          href={CTA_HREF}
+          className="mr-2 rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-white transition-opacity hover:opacity-80 sm:hidden"
+        >
+          Søk
+        </Link>
 
         {/* Mobile hamburger */}
         <button

@@ -78,7 +78,7 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
   const displayAddress = adresse || decodeURIComponent(params.slug);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:py-10">
       <header className="mb-8">
         <h1 className="break-words text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
           {displayAddress}

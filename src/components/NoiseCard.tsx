@@ -43,7 +43,7 @@ export default function NoiseCard({ lat, lon }: { lat: number; lon: number }) {
 
   if (loading) {
     return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-6">
+      <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
         <div className="skeleton mb-4 h-5 w-24" />
         <div className="space-y-3">
           <div className="skeleton h-10 w-full" />
@@ -67,7 +67,7 @@ export default function NoiseCard({ lat, lon }: { lat: number; lon: number }) {
   ];
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-6">
+    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <h3 className="mb-4 text-lg font-semibold">Støynivå</h3>
       <div className="space-y-3">
         {sources.map((source) => {

@@ -72,7 +72,7 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
 
   if (loading) {
     return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-6">
+      <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
         <div className="skeleton mb-4 h-5 w-36" />
         <div className="skeleton mb-3 h-12 w-32" />
         <div className="skeleton h-4 w-48" />
@@ -82,7 +82,7 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
 
   if (error || !data) {
     return (
-      <div className="rounded-xl border border-red-900/40 bg-card-bg p-6">
+      <div className="rounded-xl border border-red-900/40 bg-card-bg p-4 sm:p-6">
         <h3 className="mb-2 text-lg font-semibold">Kollektivtransport</h3>
         <p className="text-sm text-text-secondary">
           Kunne ikke hente rutedata. Prøv å laste siden på nytt.
@@ -95,7 +95,7 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
   const scoreColor = getScoreColor(data.durationMinutes);
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-6">
+    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <h3 className="mb-4 text-lg font-semibold">Kollektivtransport</h3>
 
       <div className="mb-4 flex flex-wrap items-end gap-x-3 gap-y-1">

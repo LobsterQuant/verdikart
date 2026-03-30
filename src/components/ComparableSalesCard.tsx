@@ -43,7 +43,7 @@ export default function ComparableSalesCard({
 
   if (loading) {
     return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-6">
+      <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
         <div className="skeleton mb-4 h-5 w-40" />
         <div className="skeleton mb-2 h-10 w-48" />
         <div className="skeleton h-4 w-32" />
@@ -53,7 +53,7 @@ export default function ComparableSalesCard({
 
   if (error || !data) {
     return (
-      <div className="rounded-xl border border-red-900/40 bg-card-bg p-6">
+      <div className="rounded-xl border border-red-900/40 bg-card-bg p-4 sm:p-6">
         <h3 className="mb-2 text-lg font-semibold">Sammenlignbare salg</h3>
         <p className="text-sm text-text-secondary">
           Ingen omsetningsdata tilgjengelig for denne kommunen.
@@ -63,7 +63,7 @@ export default function ComparableSalesCard({
   }
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-6">
+    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <h3 className="mb-4 text-lg font-semibold">Sammenlignbare salg</h3>
 
       <p className="break-words text-3xl font-bold tabular-nums leading-tight">

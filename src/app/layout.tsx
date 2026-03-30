@@ -5,8 +5,13 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Verdikart — Forstå boligen. Ikke bare se den.",
   description:
-    "Norges smarteste verktøy for boligkjøpere. Støynivå, kollektivtransport, prisutvikling og mer — alt på ett sted.",
-  keywords: "bolig, eiendom, støy, kollektivtransport, prisutvikling, Norge",
+    "Norges smarteste verktøy for boligkjøpere. Kollektivtransport, prisutvikling og markedsdata — alt på ett sted.",
+  keywords: "bolig, eiendom, kollektivtransport, prisutvikling, Norge",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
 };
 
 export default function RootLayout({

@@ -80,7 +80,7 @@ export default function PriceTrendCard({
 
   if (loading) {
     return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-6">
+      <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
         <div className="skeleton mb-4 h-5 w-32" />
         <div className="skeleton mb-3 h-8 w-40" />
         <div className="skeleton h-40 w-full" />
@@ -90,7 +90,7 @@ export default function PriceTrendCard({
 
   if (error || !data || !data.data || data.data.length === 0) {
     return (
-      <div className="rounded-xl border border-red-900/40 bg-card-bg p-6">
+      <div className="rounded-xl border border-red-900/40 bg-card-bg p-4 sm:p-6">
         <h3 className="mb-2 text-lg font-semibold">Prisutvikling</h3>
         <p className="text-sm text-text-secondary">
           Kunne ikke hente prisdata fra SSB. Prøv igjen senere.
@@ -107,7 +107,7 @@ export default function PriceTrendCard({
   const isPositive = data.yoyChange >= 0;
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-6">
+    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <h3 className="mb-4 text-lg font-semibold">Prisutvikling</h3>
 
       <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -126,7 +126,7 @@ export default function PriceTrendCard({
         )}
       </div>
 
-      <div className="h-44 w-full">
+      <div className="h-36 w-full overflow-hidden sm:h-44">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData}>
             <defs>

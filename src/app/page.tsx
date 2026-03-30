@@ -25,25 +25,25 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
-      <main className="flex flex-1 flex-col items-center justify-center px-6 pb-16 pt-24 text-center">
-        <h1 className="max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
+      <main className="flex flex-1 flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24">
+        <h1 className="max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
           Forstå boligen.
           <br />
           <span className="text-text-secondary">Ikke bare se den.</span>
         </h1>
-        <p className="mt-6 max-w-xl text-lg leading-relaxed text-text-secondary">
+        <p className="mt-4 max-w-xl text-base leading-relaxed text-text-secondary sm:mt-6 sm:text-lg">
           Verdikart gir deg innsikten du trenger før du kjøper bolig.
           Transport, prisutvikling og markedsdata — alt på ett sted.
         </p>
 
-        <div className="mt-10 w-full max-w-xl">
+        <div className="mt-8 w-full max-w-xl sm:mt-10">
           <AddressSearch />
         </div>
       </main>
 
       {/* Value Props */}
-      <section className="mx-auto w-full max-w-5xl px-6 pb-24">
-        <div className="grid gap-6 sm:grid-cols-3">
+      <section className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 sm:pb-24">
+        <div className="grid gap-4 sm:grid-cols-3 sm:gap-6">
           {valueProps.map((prop) => (
             <div
               key={prop.title}
@@ -60,7 +60,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-card-border px-6 py-8">
+      <footer className="border-t border-card-border px-4 py-6 sm:px-6 sm:py-8">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 sm:flex-row">
           <span className="text-sm text-text-tertiary">
             &copy; 2026 Verdikart

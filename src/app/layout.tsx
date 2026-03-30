@@ -80,10 +80,11 @@ export default function RootLayout({
                 Verdikart
               </span>
             </a>
-            <nav className="flex items-center gap-4 text-sm text-text-secondary sm:gap-6">
-              <a href="/om-oss" className="hover:text-foreground transition-colors whitespace-nowrap">
-                Om oss
-              </a>
+            <nav className="flex items-center gap-3 text-sm text-text-secondary sm:gap-5">
+              <a href="/by/oslo" className="hover:text-foreground transition-colors whitespace-nowrap hidden sm:block">Oslo</a>
+              <a href="/by/bergen" className="hover:text-foreground transition-colors whitespace-nowrap hidden sm:block">Bergen</a>
+              <a href="/by/trondheim" className="hover:text-foreground transition-colors whitespace-nowrap hidden sm:block">Trondheim</a>
+              <a href="/om-oss" className="hover:text-foreground transition-colors whitespace-nowrap">Om oss</a>
             </nav>
           </div>
         </nav>

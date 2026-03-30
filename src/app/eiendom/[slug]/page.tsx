@@ -5,6 +5,7 @@ import PriceTrendCard from "@/components/PriceTrendCard";
 import ComparableSalesCard from "@/components/ComparableSalesCard";
 import PropertyMap from "@/components/PropertyMap";
 import EmailCapture from "@/components/EmailCapture";
+import Logo from "@/components/Logo";
 import AddressSearch from "@/components/AddressSearch";
 
 interface PageProps {
@@ -137,7 +138,10 @@ export default function EiendomPage({ params, searchParams }: PageProps) {
     <footer className="mt-12 border-t border-card-border px-4 py-6 sm:px-6 sm:py-8">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 sm:flex-row">
         <span className="text-sm text-text-tertiary">
-          &copy; {new Date().getFullYear()} Verdikart &mdash; Data fra SSB, Kartverket og Entur
+          <a href="/" className="flex items-center gap-2">
+            <Logo className="h-5 w-5 shrink-0 opacity-60" />
+            <span>&copy; {new Date().getFullYear()} Verdikart &mdash; Data fra SSB, Kartverket og Entur</span>
+          </a>
         </span>
         <nav className="flex gap-6">
           <a href="/" className="text-sm text-text-secondary transition-colors hover:text-foreground">Hjem</a>

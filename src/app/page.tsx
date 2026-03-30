@@ -1,5 +1,6 @@
 import AddressSearch from "@/components/AddressSearch";
 import ProductPreview from "@/components/ProductPreview";
+import Logo from "@/components/Logo";
 import { Bus, TrendingUp, Home } from "lucide-react";
 
 const valueProps = [
@@ -106,9 +107,10 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="border-t border-card-border px-4 py-6 sm:px-6 sm:py-8">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 sm:flex-row">
-          <span className="text-sm text-text-tertiary">
-            &copy; 2026 Verdikart
-          </span>
+          <a href="/" className="flex items-center gap-2">
+            <Logo className="h-6 w-6 shrink-0 opacity-60" />
+            <span className="text-sm text-text-tertiary">&copy; 2026 Verdikart</span>
+          </a>
           <nav className="flex gap-6">
             <a href="/om-oss" className="text-sm text-text-secondary transition-colors hover:text-foreground">Om oss</a>
             <a href="/personvern" className="text-sm text-text-secondary transition-colors hover:text-foreground">Personvern</a>

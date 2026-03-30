@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import Logo from "@/components/Logo";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -48,7 +49,8 @@ export default function RootLayout({
         <nav className="fixed top-0 left-0 right-0 z-50 border-b border-card-border bg-background/80 backdrop-blur-xl">
           <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
             <a href="/" className="flex items-center gap-2">
-              <span className="text-accent font-bold text-lg tracking-tight">
+              <Logo className="h-8 w-8 shrink-0" />
+              <span className="font-bold text-lg tracking-tight text-foreground">
                 Verdikart
               </span>
             </a>

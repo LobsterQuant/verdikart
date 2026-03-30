@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CheckCircle, Bell } from "lucide-react";
 
 export default function EmailCapture({ address }: { address?: string }) {
   const [email, setEmail] = useState("");
@@ -27,7 +28,7 @@ export default function EmailCapture({ address }: { address?: string }) {
     return (
       <div className="rounded-xl border border-accent/30 bg-card-bg px-4 py-5 sm:px-6">
         <div className="flex items-center gap-3">
-          <span className="text-xl">✓</span>
+          <CheckCircle className="h-5 w-5 shrink-0 text-green-500" strokeWidth={1.5} />
           <div>
             <p className="font-medium text-foreground">Du er påmeldt</p>
             <p className="text-sm text-text-secondary">
@@ -42,7 +43,10 @@ export default function EmailCapture({ address }: { address?: string }) {
   return (
     <div className="rounded-xl border border-card-border bg-card-bg px-4 py-5 sm:px-6">
       <div className="mb-4">
-        <h3 className="font-semibold text-foreground">Få varsler om prisendringer</h3>
+        <div className="flex items-center gap-2 mb-1">
+          <Bell className="h-4 w-4 text-accent" strokeWidth={1.5} />
+          <h3 className="font-semibold text-foreground">Få varsler om prisendringer</h3>
+        </div>
         <p className="mt-1 text-sm text-text-secondary">
           Vi sender deg en e-post hvis boligprisene{address ? ` i dette området` : ""} endrer seg betydelig.
         </p>

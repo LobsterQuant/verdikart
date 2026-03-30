@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { BarChart2 } from "lucide-react";
 
 interface ComparableSalesData {
   averagePricePerSqm: number;
@@ -54,7 +55,10 @@ export default function ComparableSalesCard({
   if (error || !data) {
     return (
       <div className="rounded-xl border border-red-900/40 bg-card-bg p-4 sm:p-6">
-        <h3 className="mb-2 text-lg font-semibold">Sammenlignbare salg</h3>
+        <div className="mb-2 flex items-center gap-2">
+          <BarChart2 className="h-4 w-4 text-accent" strokeWidth={1.5} />
+          <h3 className="text-lg font-semibold">Sammenlignbare salg</h3>
+        </div>
         <p className="text-sm text-text-secondary">
           Ingen omsetningsdata tilgjengelig for denne kommunen.
         </p>
@@ -64,7 +68,10 @@ export default function ComparableSalesCard({
 
   return (
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
-      <h3 className="mb-4 text-lg font-semibold">Sammenlignbare salg</h3>
+      <div className="mb-4 flex items-center gap-2">
+        <BarChart2 className="h-4 w-4 text-accent" strokeWidth={1.5} />
+        <h3 className="text-lg font-semibold">Sammenlignbare salg</h3>
+      </div>
 
       <p className="break-words text-3xl font-bold tabular-nums leading-tight">
         <span className="text-text-secondary text-xl font-medium">Snitt </span>

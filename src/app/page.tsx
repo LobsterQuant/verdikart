@@ -1,27 +1,28 @@
 import AddressSearch from "@/components/AddressSearch";
+import { Bus, TrendingUp, Home } from "lucide-react";
 
 const valueProps = [
   {
-    icon: "🚌",
+    Icon: Bus,
     title: "Kollektivtransport",
     description:
       "Finn nærmeste holdeplasser, avganger og reisetid til sentrum. Alt du trenger for å vurdere beliggenheten.",
   },
   {
-    icon: "📈",
+    Icon: TrendingUp,
     title: "Prisutvikling",
     description:
       "Følg boligprisene i kommunen over tid. Se trender og sammenlign med resten av landet.",
   },
   {
-    icon: "🏠",
+    Icon: Home,
     title: "Sammenlignbare salg",
     description:
       "Se gjennomsnittlig kvadratmeterpris for din kommune. Forstå hva lignende boliger faktisk omsettes for.",
   },
 ];
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
@@ -44,15 +45,17 @@ export default function Home() {
       {/* Value Props */}
       <section className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 sm:pb-24">
         <div className="grid gap-4 sm:grid-cols-3 sm:gap-6">
-          {valueProps.map((prop) => (
+          {valueProps.map(({ Icon, title, description }) => (
             <div
-              key={prop.title}
+              key={title}
               className="rounded-xl border border-card-border bg-card-bg p-6 transition-colors hover:border-accent/30"
             >
-              <div className="mb-4 text-3xl">{prop.icon}</div>
-              <h3 className="mb-2 text-lg font-semibold">{prop.title}</h3>
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
+                <Icon className="h-5 w-5 text-accent" strokeWidth={1.5} />
+              </div>
+              <h3 className="mb-2 text-lg font-semibold">{title}</h3>
               <p className="text-sm leading-relaxed text-text-secondary">
-                {prop.description}
+                {description}
               </p>
             </div>
           ))}
@@ -66,24 +69,9 @@ export default function Home() {
             &copy; 2026 Verdikart
           </span>
           <nav className="flex gap-6">
-            <a
-              href="/om-oss"
-              className="text-sm text-text-secondary transition-colors hover:text-foreground"
-            >
-              Om oss
-            </a>
-            <a
-              href="/personvern"
-              className="text-sm text-text-secondary transition-colors hover:text-foreground"
-            >
-              Personvern
-            </a>
-            <a
-              href="/vilkar"
-              className="text-sm text-text-secondary transition-colors hover:text-foreground"
-            >
-              Vilkår
-            </a>
+            <a href="/om-oss" className="text-sm text-text-secondary transition-colors hover:text-foreground">Om oss</a>
+            <a href="/personvern" className="text-sm text-text-secondary transition-colors hover:text-foreground">Personvern</a>
+            <a href="/vilkar" className="text-sm text-text-secondary transition-colors hover:text-foreground">Vilkår</a>
           </nav>
         </div>
       </footer>

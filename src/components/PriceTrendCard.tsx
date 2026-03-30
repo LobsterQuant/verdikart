@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { TrendingUp, TrendingDown } from "lucide-react";
 import {
   AreaChart,
   Area,
@@ -94,7 +95,10 @@ export default function PriceTrendCard({
   if (error || !data || !data.data || data.data.length === 0) {
     return (
       <div className="rounded-xl border border-red-900/40 bg-card-bg p-4 sm:p-6">
-        <h3 className="mb-2 text-lg font-semibold">Prisutvikling</h3>
+        <div className="mb-2 flex items-center gap-2">
+          <TrendingUp className="h-4 w-4 text-accent" strokeWidth={1.5} />
+          <h3 className="text-lg font-semibold">Prisutvikling</h3>
+        </div>
         <p className="text-sm text-text-secondary">
           Kunne ikke hente prisdata fra SSB. Prøv igjen senere.
         </p>
@@ -111,14 +115,19 @@ export default function PriceTrendCard({
 
   return (
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
-      <h3 className="mb-4 text-lg font-semibold">Prisutvikling</h3>
+      <div className="mb-4 flex items-center gap-2">
+        <TrendingUp className="h-4 w-4 text-accent" strokeWidth={1.5} />
+        <h3 className="text-lg font-semibold">Prisutvikling</h3>
+      </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1">
         <span
-          className="text-2xl font-bold"
+          className="flex items-center gap-1 text-2xl font-bold"
           style={{ color: isPositive ? "#22C55E" : "#EF4444" }}
         >
-          {isPositive ? "\u2191" : "\u2193"}{" "}
+          {isPositive
+            ? <TrendingUp className="h-5 w-5" strokeWidth={2} />
+            : <TrendingDown className="h-5 w-5" strokeWidth={2} />}
           {Math.abs(data.yoyChange).toFixed(1)}%
         </span>
         <span className="text-sm text-text-secondary">siste 12 mnd</span>

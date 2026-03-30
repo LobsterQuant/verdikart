@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Bus, MapPin, Clock } from "lucide-react";
 
 interface Leg {
   mode: string;
@@ -83,7 +84,10 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
   if (error || !data) {
     return (
       <div className="rounded-xl border border-red-900/40 bg-card-bg p-4 sm:p-6">
-        <h3 className="mb-2 text-lg font-semibold">Kollektivtransport</h3>
+        <div className="mb-2 flex items-center gap-2">
+          <Bus className="h-4 w-4 text-accent" strokeWidth={1.5} />
+          <h3 className="text-lg font-semibold">Kollektivtransport</h3>
+        </div>
         <p className="text-sm text-text-secondary">
           Kunne ikke hente rutedata. Prøv å laste siden på nytt.
         </p>
@@ -96,9 +100,13 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
 
   return (
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
-      <h3 className="mb-4 text-lg font-semibold">Kollektivtransport</h3>
+      <div className="mb-4 flex items-center gap-2">
+        <Bus className="h-4 w-4 text-accent" strokeWidth={1.5} />
+        <h3 className="text-lg font-semibold">Kollektivtransport</h3>
+      </div>
 
       <div className="mb-4 flex flex-wrap items-end gap-x-3 gap-y-1">
+        <Clock className="mb-1 h-5 w-5 text-text-tertiary" strokeWidth={1.5} />
         <span className="text-4xl font-bold tabular-nums">
           {data.durationMinutes}
         </span>

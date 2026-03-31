@@ -18,6 +18,50 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "0.8",
+    date: "31. mars 2026",
+    label: "Kvalitet & pålitelighet",
+    items: [
+      { type: "fix", text: "URL-rute for blogg endret fra /blog til /blogg — korrekt norsk" },
+      { type: "fix", text: "Støykortet viser nå en tydelig melding når data ikke er tilgjengelig for adressen, i stedet for å forsvinne stille" },
+      { type: "improvement", text: "Kriminalitetskort: tydeligere kontekstuell advarsel om at tall gjelder hele kommunen, ikke enkeltbydeler" },
+      { type: "improvement", text: "Oslo-spesifikk note: Frogner og Majorstuen har historisk lavere kriminalitet enn kommunesnittet" },
+      { type: "improvement", text: "Sammenligningstabell: overskriftskort og avkrysningskolonner er nå i ett felles rutenett — ingen mer feiljustering" },
+      { type: "improvement", text: "Brukeranmeldelser erstattet med spesifikke, situasjonsbaserte sitater fra norske boligkjøpere" },
+      { type: "feature", text: "FAQ-seksjon og JSON-LD FAQPage-skjema lagt til for boligselgere" },
+      { type: "feature", text: "Preconnect-hint for Kartverket, Entur og SSB — raskere rapportlasting" },
+    ],
+  },
+  {
+    version: "0.7",
+    date: "30. mars 2026",
+    label: "Navigasjon & innhold",
+    items: [
+      { type: "feature", text: "Felles SiteFooter-komponent på alle sider" },
+      { type: "feature", text: "Sammenlign-siden har nå eksempelforhåndsvisning når ingen adresse er valgt" },
+      { type: "feature", text: "\"Hvorfor er dette gratis?\"-seksjon på forsiden" },
+      { type: "feature", text: "Avmeldingsside (/avmeld) med ett klikk — GDPR-krav" },
+      { type: "fix", text: "Mobilvisning: hero-tekst og tabs fikset for xs-skjermer" },
+      { type: "improvement", text: "Navigasjonsbar: transparent øverst, frostet glass ved scroll" },
+      { type: "improvement", text: "Hero-kopi: fokus på utbytte («Er nabolaget verdt prisen?») i stedet for funksjoner" },
+      { type: "feature", text: "Sosial bevisstripe med rapportteller og karusell" },
+    ],
+  },
+  {
+    version: "0.6",
+    date: "30. mars 2026",
+    label: "Rapportside & SEO",
+    items: [
+      { type: "improvement", text: "Rapportside: fullt-bred kartstripe øverst, AI-oppsummering over brettet" },
+      { type: "improvement", text: "Redaksjonelt rutenett: 2/3 hovedinnhold + 1/3 sticky sidebar" },
+      { type: "feature", text: "Nabolagssider med lenker til nærliggende nabolag" },
+      { type: "feature", text: "Sammenligningstabell: 3-kolonne produktkort med ikonrekker" },
+      { type: "feature", text: "JSON-LD FAQPage lagt til for førstegangskjøper, boliginvestor og barnefamilier" },
+      { type: "improvement", text: "Open Graph og Twitter Card-metadata komplett på alle sider" },
+      { type: "feature", text: "Apple Touch Icon (180×180)" },
+    ],
+  },
+  {
     version: "0.5",
     date: "30. mars 2026",
     label: "Design & SEO",

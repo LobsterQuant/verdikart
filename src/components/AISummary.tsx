@@ -12,6 +12,36 @@ interface Props {
   lon: number;
 }
 
+interface ContextData {
+  sqmPrice?: number;
+  yoyChange?: number;
+  priceLabel?: string;
+  transitMinutes?: number | null;
+  transitDestination?: string;
+}
+
+async function fetchContext(kommunenummer: string, lat: number, lon: number): Promise<ContextData> {
+  const ctx: ContextData = {};
+  try {
+    const [priceRes, transitRes] = await Promise.allSettled([
+      fetch(`/api/price-trend?knr=${kommunenummer}&pnr=`),
+      fetch(`/api/transit?lat=${lat}&lon=${lon}`),
+    ]);
+    if (priceRes.status === "fulfilled" && priceRes.value.ok) {
+      const p = await priceRes.value.json();
+      if (p.values?.length) ctx.sqmPrice = Math.round(p.values[p.values.length - 1]);
+      if (p.yoyChange != null) ctx.yoyChange = p.yoyChange;
+      if (p.sourceLabel) ctx.priceLabel = p.sourceLabel;
+    }
+    if (transitRes.status === "fulfilled" && transitRes.value.ok) {
+      const t = await transitRes.value.json();
+      ctx.transitMinutes = t.durationMinutes ?? null;
+      ctx.transitDestination = t.destination ?? "";
+    }
+  } catch { /* context is best-effort */ }
+  return ctx;
+}
+
 export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
   const [status, setStatus] = useState<Status>("idle");
   const [summary, setSummary] = useState("");
@@ -27,10 +57,13 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
     abortRef.current = new AbortController();
 
     try {
+      // Fetch context data client-side — avoids self-referencing in edge runtime
+      const contextData = await fetchContext(kommunenummer, lat, lon);
+
       const res = await fetch("/api/ai-summary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ address, kommunenummer, lat, lon }),
+        body: JSON.stringify({ address, kommunenummer, lat, lon, contextData }),
         signal: abortRef.current.signal,
       });
 
@@ -41,19 +74,17 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let full = "";
-      let buf = ""; // SSE buffer — events can span multiple chunks
+      let buf = "";
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         buf += decoder.decode(value, { stream: true });
-        // Split on double-newline (SSE event boundary), keep last incomplete fragment
         const events = buf.split("\n\n");
         buf = events.pop() ?? "";
         for (const event of events) {
           for (const line of event.split("\n")) {
             if (!line.startsWith("data: ")) continue;
-            // Slice exactly 6 chars — preserve all spacing in the text
             const token = line.slice(6);
             if (token === "[DONE]") continue;
             if (!token) continue;
@@ -62,7 +93,6 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
           }
         }
       }
-      // Flush remaining
       if (buf.startsWith("data: ")) {
         const token = buf.slice(6);
         if (token && token !== "[DONE]") { full += token; setSummary(full); }
@@ -80,7 +110,6 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
 
   return (
     <div className="mt-8 rounded-xl border border-accent/25 bg-card-bg no-print">
-      {/* Header — always visible */}
       <button
         onClick={status === "idle" ? generate : () => setOpen((o) => !o)}
         className="flex w-full items-center gap-3 px-5 py-4 text-left"
@@ -118,7 +147,6 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
         )}
       </button>
 
-      {/* Content */}
       {(status === "loading" || status === "streaming" || status === "done" || status === "error") && open && (
         <div className="border-t border-card-border px-5 pb-5 pt-4">
           {status === "loading" && (

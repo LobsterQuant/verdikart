@@ -237,7 +237,7 @@ const COMPARISON_ROWS = [
   { feature: "Kriminalitetsnivå (SSB)",             icon: "🛡️", verdikart: true,  finn: false, google: false },
   { feature: "Del-lenke til rapport",               icon: "🔗", verdikart: true,  finn: false, google: false },
   { feature: "Ingen registrering nødvendig",        icon: "✨", verdikart: true,  finn: false, google: true  },
-  { feature: "Gratis",                              verdikart: true,  finn: true,  google: true  },
+  { feature: "Gratis",                icon: "💰", verdikart: true,  finn: true,  google: true  },
 ];
 
 function ComparisonSection() {

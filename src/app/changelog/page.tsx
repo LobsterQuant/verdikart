@@ -64,7 +64,7 @@ const changelog: ChangeEntry[] = [
       { type: "feature", text: "Nærmeste holdeplasser med linje­numre, transportmode og avganger per time" },
       { type: "improvement", text: "Holdeplasser uten avganger filtreres ut automatisk" },
       { type: "improvement", text: "Linjesortering: metro → jernbane → trikk → buss → båt" },
-      { type: "feature", text: "Formspree e-postabonnement koblet til truenordiccapital@gmail.com" },
+      { type: "feature", text: "Formspree e-postabonnement for prisvarsler og nyhetsbrev" },
     ],
   },
   {

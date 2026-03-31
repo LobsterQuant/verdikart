@@ -66,7 +66,17 @@ export default function NoiseCard({ lat, lon }: { lat: number; lon: number }) {
   const hasData = data && (data.road != null || data.air != null || data.rail != null);
 
   if (error || !hasData) {
-    return null;
+    return (
+      <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+        <h3 className="mb-2 text-lg font-semibold">Støynivå</h3>
+        <p className="text-sm text-text-secondary">
+          Ingen støydata tilgjengelig for denne adressen fra Kartverkets støykart.
+        </p>
+        <p className="mt-1 text-xs text-text-tertiary">
+          Kilde: Kartverket / Geonorge (Veg_Lden, Fly_Lden, Jernbane_Lden)
+        </p>
+      </div>
+    );
   }
 
   const sources = [

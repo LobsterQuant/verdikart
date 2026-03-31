@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 
 const STORAGE_KEY = "verdikart_cookie_consent_v2";
@@ -70,10 +70,38 @@ export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [analyticsOn, setAnalyticsOn] = useState(true);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setVisible(shouldShowBanner());
   }, []);
+
+  // Focus trap: keep Tab/Shift+Tab inside the banner while visible
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key !== "Tab" || !dialogRef.current) return;
+    const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!visible) return;
+    document.addEventListener("keydown", handleKeyDown);
+    // Auto-focus the dialog when it appears
+    const timer = setTimeout(() => {
+      const first = dialogRef.current?.querySelector<HTMLElement>("button");
+      first?.focus();
+    }, 100);
+    return () => { document.removeEventListener("keydown", handleKeyDown); clearTimeout(timer); };
+  }, [visible, handleKeyDown]);
 
   function handleAcceptAll() {
     savePrefs({ analytics: true });
@@ -94,8 +122,10 @@ export default function CookieBanner() {
 
   return (
     <div
+      ref={dialogRef}
       role="dialog"
       aria-live="polite"
+      aria-modal="true"
       aria-label="Informasjonskapsler og personvern"
       className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-lg rounded-xl border border-card-border bg-card-bg p-4 shadow-2xl shadow-black/60 sm:left-auto sm:right-6 sm:max-w-sm"
     >

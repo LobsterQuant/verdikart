@@ -32,8 +32,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Upstream failed" }, { status: 502 });
       }
     } else {
-      // No Formspree ID configured — log for now, still return 200 to user
-      console.log(`[subscribe] email=${email} address=${address ?? "—"}`);
+      // No Formspree ID configured — still return 200 to user
     }
 
     return NextResponse.json({ ok: true });

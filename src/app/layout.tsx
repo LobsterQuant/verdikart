@@ -82,18 +82,22 @@ export default function RootLayout({
         {/* Microsoft Clarity — loads ONLY after cookie consent (GDPR) */}
         <Script id="clarity-init" strategy="afterInteractive">{`
           (function(){
-            var stored = null;
-            try { stored = localStorage.getItem('verdikart_cookie_consent'); } catch(e){}
+            var loaded = false;
             function loadClarity(){
+              if (loaded) return;
+              loaded = true;
               (function(c,l,a,r,i,t,y){
                 c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
                 t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
                 y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
               })(window,document,"clarity","script","w3tjokm73m");
             }
-            if(stored === 'accepted') { loadClarity(); }
-            window.addEventListener('verdikart:consent', function(){
-              try { if(localStorage.getItem('verdikart_cookie_consent')==='accepted') loadClarity(); } catch(e){}
+            try {
+              var stored = localStorage.getItem('verdikart_cookie_consent_v2');
+              if (stored) { var p = JSON.parse(stored); if (p && p.analytics) loadClarity(); }
+            } catch(e){}
+            window.addEventListener('verdikart:consent', function(e){
+              if (e.detail && e.detail.analytics) loadClarity();
             });
           })();
         `}</Script>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Send, CheckCircle } from "lucide-react";
 
 type Status = "idle" | "sending" | "success" | "error";
@@ -17,9 +17,14 @@ const SUBJECTS = [
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [form, setForm] = useState({ name: "", email: "", subject: SUBJECTS[0], message: "" });
+  const [honeypot, setHoneypot] = useState("");
+  const successRef = useRef<HTMLDivElement>(null);
+  const errorRef = useRef<HTMLParagraphElement>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    // Honeypot: if filled, silently "succeed" without sending
+    if (honeypot) { setStatus("success"); return; }
     setStatus("sending");
     try {
       const res = await fetch("https://formspree.io/f/xjgpwkyz", {
@@ -35,17 +40,20 @@ export default function ContactForm() {
       });
       if (res.ok) {
         setStatus("success");
+        setTimeout(() => successRef.current?.focus(), 100);
       } else {
         setStatus("error");
+        setTimeout(() => errorRef.current?.focus(), 100);
       }
     } catch {
       setStatus("error");
+      setTimeout(() => errorRef.current?.focus(), 100);
     }
   }
 
   if (status === "success") {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/5 p-8 text-center">
+      <div ref={successRef} tabIndex={-1} className="flex flex-col items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/5 p-8 text-center outline-none">
         <CheckCircle className="h-10 w-10 text-green-400" strokeWidth={1.5} />
         <p className="font-semibold text-lg">Takk for meldingen!</p>
         <p className="text-sm text-text-secondary">Vi svarer deg innen 1–2 virkedager på <strong>{form.email}</strong>.</p>
@@ -121,8 +129,22 @@ export default function ContactForm() {
         />
       </div>
 
+      {/* Honeypot field — hidden from real users, catches bots */}
+      <div className="absolute -left-[9999px]" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
+
       {status === "error" && (
-        <p className="text-sm text-red-400">Noe gikk galt. Prøv igjen, eller send e-post direkte til kontakt@verdikart.no.</p>
+        <p ref={errorRef} tabIndex={-1} role="alert" className="text-sm text-red-400 outline-none">Noe gikk galt. Prøv igjen, eller send e-post direkte til kontakt@verdikart.no.</p>
       )}
 
       <button

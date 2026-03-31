@@ -116,6 +116,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Neighbourhood pages
     ...[
       "frogner", "grunerlokka", "majorstuen", "nordnes",
+      "bakklandet", "lade", "moholt", "fana", "sandviken",
     ].map((area) => ({
       url: `${base}/nabolag/${area}`,
       lastModified: now,

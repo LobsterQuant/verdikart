@@ -20,7 +20,7 @@ const config: Config = {
         "card-bg": "#0f101a",
         "card-border": "#1e2035",
         "text-secondary": "#94a3b8",
-        "text-tertiary": "#64748b",
+        "text-tertiary": "#7a8494",
         "noise-green": "#22C55E",
         "noise-yellow": "#EAB308",
         "noise-red": "#EF4444",

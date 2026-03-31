@@ -119,7 +119,7 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 min-w-0">
-            <p className="text-sm font-semibold whitespace-nowrap">AI-oppsummering</p>
+            <h3 className="text-sm font-semibold whitespace-nowrap">AI-oppsummering</h3>
             {status === "idle" && (
               <span className="shrink-0 rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent whitespace-nowrap">
                 Gratis

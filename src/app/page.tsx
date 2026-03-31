@@ -516,7 +516,7 @@ export default function HomePage() {
           <div className="mt-2.5 flex flex-wrap items-center justify-center gap-1.5">
             <span className="text-[11px] text-text-tertiary">Prøv:</span>
             {[
-              ["Bogstadveien 45, Oslo", "bogstadveien-45-oslo--598991-106726-0301"],
+              ["Karl Johans gate 1, Oslo", "karl-johans-gate-1--599114-107494-0301"],
               ["Bryggen 1, Bergen",     "bryggen-1-bergen--603893-53320-4601"],
               ["Torget 2, Trondheim",   "torget-2-trondheim--633436-103892-5001"],
             ].map(([label, slug]) => (

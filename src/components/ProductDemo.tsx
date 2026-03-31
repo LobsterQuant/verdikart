@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // Simulates a user typing an address and getting results
-const ADDRESS = "Bogstadveien 45, Oslo";
+const ADDRESS = "Karl Johans gate 1, Oslo";
 const DEMO_STEPS = [
   { delay: 600,  phase: "typing",   chars: 3 },
   { delay: 200,  phase: "typing",   chars: 6 },
@@ -60,7 +60,7 @@ export default function ProductDemo() {
   const showCursor = phase === "typing" || phase === "idle";
 
   const resultCards = [
-    { icon: "🚇", label: "Kollektiv", value: "Bogstadveien 300m", badge: "Utmerket", color: "#22C55E" },
+    { icon: "🚇", label: "Kollektiv", value: "Nationaltheatret 3 min", badge: "Utmerket", color: "#22C55E" },
     { icon: "📊", label: "Boligpris", value: "94 200 kr/m²", badge: "+5.1% siste år", color: "#6366F1" },
     { icon: "🔊", label: "Støynivå", value: "52 dB vei", badge: "Moderat", color: "#EAB308" },
   ];
@@ -106,7 +106,7 @@ export default function ProductDemo() {
         {/* Dropdown */}
         {phase === "dropdown" && (
           <div className="mt-1 rounded-xl border border-card-border bg-card-bg shadow-xl overflow-hidden">
-            {[ADDRESS, "Bogstadveien 47, Oslo"].map((a, i) => (
+            {[ADDRESS, "Karl Johans gate 3, Oslo"].map((a, i) => (
               <div key={a} className={`px-4 py-2.5 text-sm ${i === 0 ? "bg-accent/10 text-foreground font-medium" : "text-text-secondary"}`}>
                 {a}
                 {i === 0 && <span className="ml-2 text-[10px] text-accent">↵</span>}

@@ -36,7 +36,7 @@ export default function NotFound() {
           Hjem
         </Link>
         <Link
-          href="/blog"
+          href="/blogg"
           className="flex items-center gap-1.5 rounded-lg border border-card-border bg-card-bg px-4 py-2 text-sm text-text-secondary transition-colors hover:border-accent/30 hover:text-foreground"
         >
           Blogg

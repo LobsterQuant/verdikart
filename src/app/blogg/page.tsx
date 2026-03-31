@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Blogg — Boligkjøp og eiendomsdata i Norge | Verdikart",
   description:
     "Artikler om boligkjøp i Norge: sjekklister, prisutvikling, kollektivtransport og hvordan du leser eiendomsdata. Gratis og uavhengig.",
-  alternates: { canonical: "https://verdikart.no/blog" },
+  alternates: { canonical: "https://verdikart.no/bloggg" },
 };
 
 function formatDate(iso: string) {
@@ -24,7 +24,7 @@ export default function BlogIndex() {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "Verdikart Blogg",
-    url: "https://verdikart.no/blog",
+    url: "https://verdikart.no/bloggg",
     description: "Artikler om boligkjøp, eiendomsdata og boligmarkedet i Norge.",
     publisher: {
       "@type": "Organization",
@@ -34,7 +34,7 @@ export default function BlogIndex() {
     blogPost: posts.map((p) => ({
       "@type": "BlogPosting",
       headline: p.title,
-      url: `https://verdikart.no/blog/${p.slug}`,
+      url: `https://verdikart.no/bloggg/${p.slug}`,
       datePublished: p.publishedAt,
       description: p.description,
     })),
@@ -76,7 +76,7 @@ export default function BlogIndex() {
               <div className="space-y-4">
                 {/* Featured post */}
                 <Link
-                  href={`/blog/${featured.slug}`}
+                  href={`/blogg/${featured.slug}`}
                   className="group block rounded-xl border border-accent/20 bg-accent/5 p-5 transition-all hover:border-accent/40 card-hover"
                 >
                   <div className="mb-2 flex items-center gap-2">
@@ -104,7 +104,7 @@ export default function BlogIndex() {
                   return (
                     <Link
                       key={post.slug}
-                      href={`/blog/${post.slug}`}
+                      href={`/blogg/${post.slug}`}
                       className="group flex items-start gap-4 rounded-xl border border-card-border bg-card-bg p-5 transition-all hover:border-accent/30 card-hover"
                     >
                       {/* Category colour stripe */}

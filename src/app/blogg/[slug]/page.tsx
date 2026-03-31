@@ -18,7 +18,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const post = getPost(params.slug);
   if (!post) return {};
-  const url = `https://verdikart.no/blog/${post.slug}`;
+  const url = `https://verdikart.no/bloggg/${post.slug}`;
   return {
     title: `${post.title} | Verdikart`,
     description: post.description,
@@ -34,7 +34,7 @@ export async function generateMetadata({
       modifiedTime: post.updatedAt ?? post.publishedAt,
       images: [
         {
-          url: `https://verdikart.no/blog/${post.slug}/opengraph-image`,
+          url: `https://verdikart.no/bloggg/${post.slug}/opengraph-image`,
           width: 1200,
           height: 630,
           alt: post.title,
@@ -45,7 +45,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: [`https://verdikart.no/blog/${post.slug}/opengraph-image`],
+      images: [`https://verdikart.no/bloggg/${post.slug}/opengraph-image`],
     },
   };
 }
@@ -62,7 +62,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = getPost(params.slug);
   if (!post) notFound();
 
-  const url = `https://verdikart.no/blog/${post.slug}`;
+  const url = `https://verdikart.no/bloggg/${post.slug}`;
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -90,7 +90,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Hjem", item: "https://verdikart.no" },
-      { "@type": "ListItem", position: 2, name: "Blogg", item: "https://verdikart.no/blog" },
+      { "@type": "ListItem", position: 2, name: "Blogg", item: "https://verdikart.no/bloggg" },
       { "@type": "ListItem", position: 3, name: post.title, item: url },
     ],
   };
@@ -107,7 +107,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
           <nav className="mb-8 flex items-center gap-1.5 text-xs text-text-tertiary">
             <Link href="/" className="hover:text-foreground transition-colors">Hjem</Link>
             <ChevronRight className="h-3 w-3" />
-            <Link href="/blog" className="hover:text-foreground transition-colors">Blogg</Link>
+            <Link href="/blogg" className="hover:text-foreground transition-colors">Blogg</Link>
             <ChevronRight className="h-3 w-3" />
             <span className="truncate text-text-secondary max-w-[180px]">{post.title}</span>
           </nav>
@@ -247,7 +247,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
           {/* Back */}
           <div className="mt-8">
-            <Link href="/blog" className="flex items-center gap-1.5 text-sm text-text-secondary hover:text-foreground transition-colors">
+            <Link href="/blogg" className="flex items-center gap-1.5 text-sm text-text-secondary hover:text-foreground transition-colors">
               <ArrowLeft className="h-4 w-4" strokeWidth={1.5} />
               Tilbake til blogg
             </Link>

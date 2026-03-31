@@ -74,7 +74,7 @@ export default function BarnefamilierPage() {
           <div className="mt-8 rounded-xl border border-accent/20 bg-accent/5 p-5">
             <h3 className="mb-2 font-semibold">Sjekkliste for boligkjøp</h3>
             <p className="mb-3 text-sm text-text-secondary">12 ting du bør undersøke før bud — inkludert radon, teknisk tilstand og fellesgjeld.</p>
-            <Link href="/blog/hva-sjekke-for-boligkjop" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
+            <Link href="/blogg/hva-sjekke-for-boligkjop" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
               Les sjekklisten <ChevronRight className="h-3.5 w-3.5" />
             </Link>
           </div>

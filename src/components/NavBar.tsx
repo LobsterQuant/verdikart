@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { href: "/blog",         label: "Blogg" },
+  { href: "/blogg",         label: "Blogg" },
   { href: "/faq",          label: "FAQ" },
   { href: "/om-oss",       label: "Om oss" },
 ];
@@ -29,7 +29,7 @@ const mobileLinks = [
   { href: "/by/stavanger",    label: "Stavanger" },
   { href: "/nabolag/frogner", label: "Frogner" },
   { href: "/nabolag/grunerlokka", label: "Grünerløkka" },
-  { href: "/blog",            label: "Blogg" },
+  { href: "/blogg",            label: "Blogg" },
   { href: "/faq",             label: "FAQ" },
   { href: "/om-oss",          label: "Om oss" },
   { href: "/for/forstegangskjoper", label: "Førstegangskjøper" },

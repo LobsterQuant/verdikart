@@ -108,7 +108,7 @@ export default function FørstegangskjøperPage() {
               <div>
                 <h3 className="mb-1 font-semibold">Les vår sjekkliste for boligkjøp</h3>
                 <p className="mb-3 text-sm text-text-secondary">12 ting du MÅ undersøke før du legger inn bud — fra fellesgjeld til radon.</p>
-                <Link href="/blog/hva-sjekke-for-boligkjop" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
+                <Link href="/blogg/hva-sjekke-for-boligkjop" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
                   Les sjekklisten <ChevronRight className="h-3.5 w-3.5" />
                 </Link>
               </div>

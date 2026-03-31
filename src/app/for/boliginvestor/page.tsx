@@ -74,7 +74,7 @@ export default function BoliginvestorPage() {
           <div className="mt-8 rounded-xl border border-accent/20 bg-accent/5 p-5">
             <h3 className="mb-2 font-semibold">Les mer om T-bane og boligpriser</h3>
             <p className="mb-3 text-sm text-text-secondary">Vår analyse av sammenhengen mellom kollektivtransport og boligpris i norske byer.</p>
-            <Link href="/blog/kollektivtransport-og-boligpris" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
+            <Link href="/blogg/kollektivtransport-og-boligpris" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
               Les artikkelen <ChevronRight className="h-3.5 w-3.5" />
             </Link>
           </div>

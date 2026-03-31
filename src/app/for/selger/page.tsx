@@ -150,7 +150,7 @@ export default function SelgerPage() {
           <div className="rounded-xl border border-accent/20 bg-accent/5 p-6">
             <h3 className="mb-2 font-semibold">Sjekkliste for boligsalg</h3>
             <p className="mb-3 text-sm text-text-secondary">Les om hva kjøpere sjekker — og hva du bør forberede deg på.</p>
-            <Link href="/blog/hva-sjekke-for-boligkjop" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
+            <Link href="/blogg/hva-sjekke-for-boligkjop" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
               Les artikkelen <ChevronRight className="h-3.5 w-3.5" />
             </Link>
           </div>

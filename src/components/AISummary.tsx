@@ -41,20 +41,29 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let full = "";
+      let buf = ""; // SSE buffer — events may span multiple chunks
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        // SSE: data: <text>\n\n
-        for (const line of chunk.split("\n")) {
-          if (line.startsWith("data: ")) {
-            const token = line.slice(6);
-            if (token === "[DONE]") continue;
-            full += token;
-            setSummary(full);
-          }
+        buf += decoder.decode(value, { stream: true });
+        // Process complete lines (split on \n, keep remainder in buf)
+        const lines = buf.split("\n");
+        buf = lines.pop() ?? ""; // last element may be incomplete
+        for (const line of lines) {
+          const trimmed = line.trimEnd();
+          if (!trimmed.startsWith("data: ")) continue;
+          const token = trimmed.slice(6);
+          if (token === "[DONE]") continue;
+          if (!token) continue;
+          full += token;
+          setSummary(full);
         }
+      }
+      // Flush any remaining buffer
+      if (buf.startsWith("data: ")) {
+        const token = buf.slice(6).trimEnd();
+        if (token && token !== "[DONE]") { full += token; setSummary(full); }
       }
       setStatus("done");
     } catch (e: unknown) {

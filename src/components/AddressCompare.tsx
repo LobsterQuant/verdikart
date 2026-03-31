@@ -293,24 +293,25 @@ export default function AddressCompare() {
       {!slotA.address && !slotB.address && (
         <div className="space-y-4">
           <p className="text-center text-xs text-text-tertiary uppercase tracking-widest font-semibold">Eksempel på sammenligning</p>
+          <p className="text-center text-[11px] text-text-tertiary/70">Illustrativt — søk på ekte adresser for å se faktiske data</p>
           {/* Sample comparison cards */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 opacity-60 pointer-events-none select-none">
             {[
               {
                 label: "Adresse A",
-                name: "Bogstadveien 45, Oslo",
+                name: "Parkveien 12, Oslo (eks.)",
                 transit: "Utmerket 🟢",
-                nearest: "Majorstuen (180m)",
-                price: "105 400 kr/m²",
-                noise: "Lav støy 🟢",
+                nearest: "Nationaltheatret (200m)",
+                price: "112 000 kr/m²",
+                noise: "Moderat støy 🟡",
               },
               {
                 label: "Adresse B",
-                name: "Grenseveien 80, Oslo",
+                name: "Fossveien 20, Oslo (eks.)",
                 transit: "Godt 🟡",
-                nearest: "Helsfyr (420m)",
-                price: "82 100 kr/m²",
-                noise: "Moderat støy 🟡",
+                nearest: "Grünerløkka (380m)",
+                price: "78 500 kr/m²",
+                noise: "Lav støy 🟢",
               },
             ].map(s => (
               <div key={s.label} className="rounded-xl border border-card-border bg-card-bg p-4 space-y-3">

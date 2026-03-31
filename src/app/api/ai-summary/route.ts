@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
       "X-Title": "Verdikart",
     },
     body: JSON.stringify({
-      model: "google/gemini-2.0-flash-lite-001",
+      model: "openai/gpt-oss-20b:free",
       stream: true,
       max_tokens: 220,
       messages: [{ role: "user", content: prompt }],

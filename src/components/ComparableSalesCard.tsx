@@ -69,7 +69,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
       <div className="rounded-xl border border-red-900/40 bg-card-bg p-4 sm:p-6">
         <div className="mb-2 flex items-center gap-2">
           <BarChart2 className="h-4 w-4 text-accent" strokeWidth={1.5} />
-          <h3 className="text-lg font-semibold">Sammenlignbare salg</h3>
+          <h3 className="text-lg font-semibold">Kommunalt prissnitt</h3>
         </div>
         <p className="text-sm text-text-secondary">
           Ingen omsetningsdata tilgjengelig for denne kommunen.
@@ -85,7 +85,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
       {/* Header */}
       <div className="mb-4 flex items-center gap-2">
         <BarChart2 className="h-4 w-4 text-accent" strokeWidth={1.5} />
-        <h3 className="text-lg font-semibold">Sammenlignbare salg</h3>
+        <h3 className="text-lg font-semibold">Kommunalt prissnitt</h3>
         <span className="ml-auto text-xs text-text-tertiary" title="SSB publiserer årsdata for boligomsetninger. Siste tilgjengelige data er alltid forrige kalenderår.">{data.period}</span>
       </div>
 

@@ -23,7 +23,7 @@ const features = [
   },
   {
     icon: MapPin,
-    title: "Sammenlignbare salg (kommunenivå)",
+    title: "Kommunalt prissnitt (SSB)",
     body: "Se hva lignende boliger faktisk er solgt for i nærområdet. Bruk dette som grunnlag i dialogen med megleren din.",
   },
 ];

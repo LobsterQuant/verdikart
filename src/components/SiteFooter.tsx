@@ -75,7 +75,7 @@ export default function SiteFooter() {
 
         {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between gap-2 border-t border-card-border pt-6 text-xs text-text-tertiary sm:flex-row">
-          <span>&copy; {new Date().getFullYear()} Verdikart. Data fra SSB, Kartverket og Entur.</span>
+          <span suppressHydrationWarning>&copy; {new Date().getFullYear()} Verdikart. Data fra SSB, Kartverket og Entur.</span>
           <span>Laget i Oslo 🇳🇴</span>
         </div>
 

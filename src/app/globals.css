@@ -27,6 +27,20 @@ body {
   color: #FFFFFF;
 }
 
+/* ── Global focus-visible indicator (WCAG 2.1 AA) ── */
+/* Applies to all interactive elements when navigated by keyboard.
+   Uses :focus-visible so mouse clicks don't show the ring. */
+:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.85);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Suppress outline on mouse/touch — only show for keyboard nav */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Gradient headline utility */
 .text-gradient {
   background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 30%, #818cf8 60%, #6366f1 100%);

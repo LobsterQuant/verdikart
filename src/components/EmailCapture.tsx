@@ -62,6 +62,8 @@ export default function EmailCapture({ address, compact = false }: { address?: s
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="email"
+          name="email"
+          autoComplete="email"
           required
           placeholder="din@epost.no"
           value={email}
@@ -93,6 +95,8 @@ export default function EmailCapture({ address, compact = false }: { address?: s
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:flex-row">
         <input
           type="email"
+          name="email"
+          autoComplete="email"
           required
           placeholder="din@epost.no"
           value={email}

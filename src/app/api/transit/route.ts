@@ -84,7 +84,8 @@ export async function GET(request: NextRequest) {
   trip(
     from: { coordinates: { latitude: ${fromLat}, longitude: ${fromLon} } }
     to: { coordinates: { latitude: ${city.lat}, longitude: ${city.lon} } }
-    numTripPatterns: 1
+    numTripPatterns: 3
+    searchWindow: 1800
   ) {
     tripPatterns {
       duration
@@ -124,9 +125,18 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ durationMinutes: null, destination: city.name, legs: [] } satisfies TransitResult);
     }
 
-    const pattern = patterns[0];
+    // Take the fastest trip pattern among the returned options
+    const pattern = patterns.reduce((best: { duration: number }, p: { duration: number }) =>
+      p.duration < best.duration ? p : best, patterns[0]);
     const durationSeconds: number = pattern.duration ?? 0;
     const durationMinutes = Math.round(durationSeconds / 60);
+
+    // Sanity check: if address is within 1.5km of city centre but routing says >30min,
+    // Entur is routing the long way. Return null so the client shows "Sentrum".
+    const directDistKm = haversineKm(fromLat, fromLon, city.lat, city.lon);
+    if (directDistKm < 1.5 && durationMinutes > 30) {
+      return NextResponse.json({ durationMinutes: null, destination: city.name, legs: [] } satisfies TransitResult);
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const legs: Leg[] = (pattern.legs ?? []).map((leg: any) => ({
       mode: leg.mode,

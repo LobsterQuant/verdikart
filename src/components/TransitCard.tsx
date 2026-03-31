@@ -132,8 +132,11 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
     );
   }
 
-  const scoreLabel = getScoreLabel(transit.durationMinutes);
-  const scoreColor = getScoreColor(transit.durationMinutes);
+  // When durationMinutes is null the address is too close to the city centre for Entur to route
+  const displayMinutes = transit.durationMinutes ?? 0;
+  const isInCentre = transit.durationMinutes === null || transit.durationMinutes === 0;
+  const scoreLabel = isInCentre ? "Midt i sentrum" : getScoreLabel(displayMinutes);
+  const scoreColor = isInCentre ? "#22C55E" : getScoreColor(displayMinutes);
 
   return (
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -146,10 +149,16 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
       {/* Journey time hero */}
       <div className="mb-3 flex flex-wrap items-end gap-x-3 gap-y-1">
         <Clock className="mb-1 h-5 w-5 text-text-tertiary" strokeWidth={1.5} />
-        <span className="text-4xl font-bold tabular-nums">{transit.durationMinutes}</span>
-        <span className="mb-1 min-w-0 break-words text-text-secondary">
-          min til {transit.destination}
-        </span>
+        {isInCentre ? (
+          <span className="text-2xl font-bold text-noise-green">Sentrum</span>
+        ) : (
+          <>
+            <span className="text-4xl font-bold tabular-nums">{displayMinutes}</span>
+            <span className="mb-1 min-w-0 break-words text-text-secondary">
+              min til {transit.destination}
+            </span>
+          </>
+        )}
       </div>
 
       <span

@@ -231,7 +231,7 @@ const HOW_STEPS = [
 
 const COMPARISON_ROWS = [
   { feature: "Kollektivtransport",      icon: "🚇", verdikart: true,  finn: false, google: false },
-  { feature: "Støykart (beta)",         icon: "🔊", verdikart: true,  finn: false, google: false },
+  { feature: "Støykart — der data fins", icon: "🔊", verdikart: true,  finn: false, google: false },
   { feature: "SSB prisstatistikk",      icon: "📊", verdikart: true,  finn: false, google: false },
   { feature: "Kommunalt prissnitt",      icon: "🏘️", verdikart: true,  finn: false, google: false },
   { feature: "Skoler og barnehager",    icon: "🏫", verdikart: true,  finn: false, google: false },

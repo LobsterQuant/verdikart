@@ -1,23 +1,12 @@
 "use client";
 
-import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
-import { usePathname } from "next/navigation";
-
+// Framer Motion `initial` on a server-rendered wrapper causes React hydration error #418
+// because the server outputs opacity:0 inline style but the client hydrates to opacity:1.
+// Fix: use a CSS-only page-enter animation via a className — zero JS, no hydration mismatch.
 export default function PageTransition({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
   return (
-    <LazyMotion features={domAnimation}>
-      <AnimatePresence mode="wait">
-        <m.div
-          key={pathname}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {children}
-        </m.div>
-      </AnimatePresence>
-    </LazyMotion>
+    <div className="animate-page-enter">
+      {children}
+    </div>
   );
 }

@@ -34,7 +34,11 @@ function getLabel(rate: number, kommunenummer?: string): { label: string; color:
   const ratio = rate / NATIONAL_AVG;
   if (ratio < 0.6) return { label: "Lavt", color: "#22C55E", bg: "rgba(34,197,94,0.1)", isUrbanContext: false };
   if (ratio < 0.9) return { label: "Under snitt", color: "#86EFAC", bg: "rgba(134,239,172,0.1)", isUrbanContext: false };
-  if (ratio < 1.1) return { label: "Rundt snitt", color: "#EAB308", bg: "rgba(234,179,8,0.1)", isUrbanContext: false };
+  if (ratio < 1.1) {
+    // Urban cities near national average get informational (ℹ️) context, not warning (⚠️)
+    if (isUrban) return { label: "Storbysnitt", color: "#60A5FA", bg: "rgba(96,165,250,0.1)", isUrbanContext: true };
+    return { label: "Rundt snitt", color: "#EAB308", bg: "rgba(234,179,8,0.1)", isUrbanContext: false };
+  }
   if (ratio < 1.8) {
     // Urban communes: soften to neutral blue instead of alarming orange
     if (isUrban) return { label: "Storbysnitt", color: "#60A5FA", bg: "rgba(96,165,250,0.1)", isUrbanContext: true };

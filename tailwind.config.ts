@@ -29,6 +29,20 @@ const config: Config = {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         mono: ['JetBrains Mono', 'SF Mono', 'monospace'],
       },
+      keyframes: {
+        "page-enter": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "card-enter": {
+          "0%": { opacity: "0", transform: "translateY(24px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "page-enter": "page-enter 0.25s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "card-enter": "card-enter 0.45s ease-out both",
+      },
     },
   },
   plugins: [],

@@ -46,7 +46,7 @@ const faqs = [
 const selgerFaqs = [
   { q: "Hva koster det å bruke Verdikart?", a: "Verdikart er helt gratis å bruke. Ingen registrering, ingen skjult betaling." },
   { q: "Hvor nøyaktige er boligprisdataene?", a: "Prisdata hentes direkte fra SSB og oppdateres kvartalsvis. De viser gjennomsnittlig kvadratmeterpris for din kommune basert på faktiske salg." },
-  { q: "Kan jeg se hva naboen solgte boligen sin for?", a: "Vi viser aggregerte prisstatistikker fra SSB. Individuelle salg vises i ComparableSales-seksjonen basert på tilgjengelig data." },
+  { q: "Kan jeg se hva naboen solgte boligen sin for?", a: "Individuelle transaksjonsdata er ikke tilgjengelig via åpent API. Vi viser kommunale kvadratmeterpriser fra SSB som gjenspeiler prisnivået i ditt område." },
   { q: "Er dette en erstatning for en meglervurdering?", a: "Nei — Verdikart gir deg faktabasert markedsdata slik at du kan stille bedre spørsmål til megler og forstå prisbildet. Det erstatter ikke en profesjonell verditakst." },
 ];
 

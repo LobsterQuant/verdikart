@@ -30,7 +30,7 @@ function getLabel(rate: number): { label: string; color: string; bg: string } {
   if (ratio < 0.6) return { label: "Lavt", color: "#22C55E", bg: "rgba(34,197,94,0.1)" };
   if (ratio < 0.9) return { label: "Under snitt", color: "#86EFAC", bg: "rgba(134,239,172,0.1)" };
   if (ratio < 1.1) return { label: "Rundt snitt", color: "#EAB308", bg: "rgba(234,179,8,0.1)" };
-  if (ratio < 1.5) return { label: "Over snitt", color: "#F97316", bg: "rgba(249,115,22,0.1)" };
+  if (ratio < 1.8) return { label: "Over snitt", color: "#F97316", bg: "rgba(249,115,22,0.1)" };
   return { label: "Høyt", color: "#EF4444", bg: "rgba(239,68,68,0.1)" };
 }
 
@@ -49,7 +49,18 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex items-center gap-2">
         <Shield className="h-4 w-4 text-accent" strokeWidth={1.5} />
-        <h3 className="text-lg font-semibold">Kriminalitetsnivå</h3>
+        <h3 className="text-lg font-semibold">Kriminalitetsnivå (kommunenivå)</h3>
+      </div>
+
+      {/* Kommune-level disclaimer */}
+      <div className="mb-4 flex items-start gap-2 rounded-lg border border-amber-400/30 bg-amber-50 px-3 py-2 dark:bg-amber-900/20">
+        <span className="mt-0.5 text-base leading-none" aria-hidden>⚠️</span>
+        <p className="text-xs leading-relaxed text-amber-800 dark:text-amber-200">
+          Tallene gjelder hele kommunen, ikke enkeltbydeler.
+          {kommunenummer === "0301" && (
+            <> Merk: Oslo-gjennomsnittet inkluderer alle bydeler. Frogner og Majorstuen har historisk lavere kriminalitet enn snittet.</>
+          )}
+        </p>
       </div>
 
       {/* Hero badge */}

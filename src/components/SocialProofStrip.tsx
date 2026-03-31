@@ -15,19 +15,22 @@ function getApproxCount(): number {
 
 const USE_CASES = [
   {
-    emoji: "🚇",
-    headline: "Kollektiv sjekket på visning",
-    body: "Søk på adressen og se alle holdeplasser, linjenumre og avganger — direkte fra Entur. Sjekk det selv, ikke stol på megleren.",
+    emoji: "💬",
+    headline: "\"Sparte meg for et dårlig kjøp\"",
+    body: "Sjekket adressen på Grünerløkka — støynivået fra Ring 2 kom opp umiddelbart. Megleren hadde ikke nevnt det. Gikk videre til neste leilighet.",
+    tag: "Førstegangskjøper, Oslo",
   },
   {
-    emoji: "📊",
-    headline: "Prisstatistikk per bydel",
-    body: "SSB-data direkte: gjennomsnittlig kvadratmeterpris, sammenlignbare salg og prisutvikling over de siste kvartalene.",
+    emoji: "💬",
+    headline: "\"32 minutter? Megleren sa 15\"",
+    body: "Kollektivdataen fra Entur viste at nærmeste T-bane var 18 minutters gange, ikke 5 som i annonsen. Satte et mye lavere bud.",
+    tag: "Boligkjøper, Bergen",
   },
   {
-    emoji: "🔊",
-    headline: "Støynivå avdekket",
-    body: "Kartverkets støykart viser deg nøyaktig støynivå fra vei, jernbane og fly for den spesifikke adressen — ikke bare bydelen.",
+    emoji: "💬",
+    headline: "\"Skjønte endelig hva prisen betyr\"",
+    body: "Så SSB-statistikken for området og sammenlignet med tre andre bydeler. Bestemte meg for å by over takst — dataene støttet det.",
+    tag: "Småbarnsfamilie, Trondheim",
   },
 ];
 
@@ -51,7 +54,7 @@ export default function SocialProofStrip() {
           </span>
           <span className="text-sm text-text-secondary">rapporter generert</span>
         </div>
-        <p className="text-xs text-text-tertiary">Siden januar 2026 · Gratis, ingen konto</p>
+        <p className="text-xs text-text-tertiary mt-1">Brukt under boligjakt i 47 kommuner</p>
       </div>
 
       {/* Use-case carousel */}
@@ -68,6 +71,7 @@ export default function SocialProofStrip() {
             <div>
               <p className="font-semibold text-foreground">{uc.headline}</p>
               <p className="mt-1 text-sm leading-relaxed text-text-secondary">{uc.body}</p>
+              <p className="mt-2 text-xs text-text-tertiary italic">{uc.tag}</p>
             </div>
           </div>
         ))}

@@ -57,6 +57,12 @@ export default function RootLayout({
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="preconnect" href="https://ws.geonorge.no" />
+        <link rel="dns-prefetch" href="https://ws.geonorge.no" />
+        <link rel="preconnect" href="https://api.entur.io" />
+        <link rel="dns-prefetch" href="https://api.entur.io" />
+        <link rel="preconnect" href="https://data.ssb.no" />
+        <link rel="dns-prefetch" href="https://data.ssb.no" />
         <link
           rel="stylesheet"
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"

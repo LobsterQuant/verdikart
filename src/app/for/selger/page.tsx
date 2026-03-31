@@ -43,6 +43,23 @@ const faqs = [
   },
 ];
 
+const selgerFaqs = [
+  { q: "Hva koster det å bruke Verdikart?", a: "Verdikart er helt gratis å bruke. Ingen registrering, ingen skjult betaling." },
+  { q: "Hvor nøyaktige er boligprisdataene?", a: "Prisdata hentes direkte fra SSB og oppdateres kvartalsvis. De viser gjennomsnittlig kvadratmeterpris for din kommune basert på faktiske salg." },
+  { q: "Kan jeg se hva naboen solgte boligen sin for?", a: "Vi viser aggregerte prisstatistikker fra SSB. Individuelle salg vises i ComparableSales-seksjonen basert på tilgjengelig data." },
+  { q: "Er dette en erstatning for en meglervurdering?", a: "Nei — Verdikart gir deg faktabasert markedsdata slik at du kan stille bedre spørsmål til megler og forstå prisbildet. Det erstatter ikke en profesjonell verditakst." },
+];
+
+const selgerSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": selgerFaqs.map(({ q, a }) => ({
+    "@type": "Question",
+    "name": q,
+    "acceptedAnswer": { "@type": "Answer", "text": a }
+  }))
+};
+
 export default function SelgerPage() {
   const schema = {
     "@context": "https://schema.org",
@@ -62,6 +79,7 @@ export default function SelgerPage() {
   return (
     <>
       <JsonLd schema={schema} />
+      <JsonLd schema={selgerSchema} />
       <div className="min-h-screen bg-background text-foreground">
 
         {/* Hero */}
@@ -107,6 +125,22 @@ export default function SelgerPage() {
                 <h3 className="mb-2 font-semibold">{q}</h3>
                 <p className="text-sm leading-relaxed text-text-secondary">{a}</p>
               </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Selger FAQ (JSON-LD enriched) */}
+        <section className="mx-auto max-w-3xl px-4 pb-12 sm:px-6">
+          <h2 className="mb-5 text-lg font-semibold">Ofte stilte spørsmål</h2>
+          <div className="space-y-3">
+            {selgerFaqs.map(({ q, a }) => (
+              <details key={q} className="group rounded-xl border border-card-border bg-card-bg">
+                <summary className="cursor-pointer select-none px-5 py-4 font-semibold text-foreground [&::-webkit-details-marker]:hidden list-none flex items-center justify-between">
+                  {q}
+                  <ChevronRight className="h-4 w-4 shrink-0 text-text-tertiary transition-transform group-open:rotate-90" />
+                </summary>
+                <p className="px-5 pb-4 text-sm leading-relaxed text-text-secondary">{a}</p>
+              </details>
             ))}
           </div>
         </section>

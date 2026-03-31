@@ -342,7 +342,7 @@ export default function AddressCompare() {
           </div>
           <div className="flex items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/5 px-5 py-3 text-sm opacity-60">
             <span className="text-green-400">💰</span>
-            <p className="text-text-secondary"><strong className="text-foreground">Fossveien 20 (eks.)</strong> har lavere kvadratmeterpris (82 100 vs 105 400 kr/m²)</p>
+            <p className="text-text-secondary"><strong className="text-foreground">Fossveien 20 (eks.)</strong> har lavere kvadratmeterpris (78 500 vs 112 000 kr/m²)</p>
           </div>
           <p className="text-center text-xs text-text-tertiary">Søk på to adresser ovenfor for å se ekte data</p>
         </div>

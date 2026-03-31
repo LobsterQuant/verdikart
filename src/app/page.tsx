@@ -184,15 +184,15 @@ const HOW_STEPS = [
 ];
 
 const COMPARISON_ROWS = [
-  { feature: "Holdeplasser + avganger per time", icon: "🚇", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Støykart fra Kartverket",          icon: "🔊", verdikart: true,  finn: false, google: false, note: "der data fins" },
-  { feature: "SSB prisstatistikk (kvartal)",     icon: "📊", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Kommunalt prissnitt per m²",       icon: "🏘️", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Skoler og barnehager (NSR)",       icon: "🏫", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Kriminalitetsnivå",                icon: "🛡️", verdikart: true,  finn: false, google: false, note: "kommunenivå" },
-  { feature: "Del-lenke til rapport",            icon: "🔗", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Ingen registrering",               icon: "✨", verdikart: true,  finn: true,  google: true,  note: "" },
-  { feature: "Gratis",                           icon: "💰", verdikart: true,  finn: true,  google: true,  note: "" },
+  { feature: "Holdeplasser + avganger per time", short: "Avganger/time", icon: "🚇", verdikart: true,  finn: false, google: false, note: "" },
+  { feature: "Støykart fra Kartverket",          short: "Støykart",      icon: "🔊", verdikart: true,  finn: false, google: false, note: "der data fins" },
+  { feature: "SSB prisstatistikk (kvartal)",     short: "SSB pris",      icon: "📊", verdikart: true,  finn: false, google: false, note: "" },
+  { feature: "Kommunalt prissnitt per m²",       short: "Pris per m²",   icon: "🏘️", verdikart: true,  finn: false, google: false, note: "" },
+  { feature: "Skoler og barnehager (NSR)",       short: "Skoler",        icon: "🏫", verdikart: true,  finn: false, google: false, note: "" },
+  { feature: "Kriminalitetsnivå",                short: "Kriminalitet",  icon: "🛡️", verdikart: true,  finn: false, google: false, note: "kommunenivå" },
+  { feature: "Del-lenke til rapport",            short: "Del-lenke",     icon: "🔗", verdikart: true,  finn: false, google: false, note: "" },
+  { feature: "Ingen registrering",               short: "Uten konto",    icon: "✨", verdikart: true,  finn: true,  google: true,  note: "" },
+  { feature: "Gratis",                           short: "Gratis",        icon: "💰", verdikart: true,  finn: true,  google: true,  note: "" },
 ];
 
 function ComparisonSection() {
@@ -258,7 +258,7 @@ function ComparisonSection() {
           </div>
 
           {/* Feature rows */}
-          {COMPARISON_ROWS.map(({ feature, icon, verdikart, finn, google, note }, i) => (
+          {COMPARISON_ROWS.map(({ feature, short, icon, verdikart, finn, google, note }, i) => (
             <div
               key={feature}
               role="row"
@@ -269,7 +269,8 @@ function ComparisonSection() {
               <div role="rowheader" className="flex items-center gap-2.5 px-4 py-3.5">
                 <span className="text-base shrink-0" aria-hidden>{icon}</span>
                 <span className="text-xs text-text-secondary leading-snug">
-                  {feature}
+                  <span className="sm:hidden">{short}</span>
+                  <span className="hidden sm:inline">{feature}</span>
                   {note && <span className="text-text-tertiary text-[10px] ml-1">({note})</span>}
                 </span>
               </div>

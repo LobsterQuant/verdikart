@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, Clock, ArrowLeft } from "lucide-react";
-import { getPost, getAllSlugs } from "../posts";
+import { getPost, getAllSlugs, posts } from "../posts";
 import JsonLd from "@/components/JsonLd";
 import BlogHeroIllustration from "@/components/BlogHeroIllustration";
 import ShareButtons from "@/components/ShareButtons";
@@ -241,6 +241,37 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
               </section>
             ))}
           </article>
+
+          {/* Les også */}
+          {post.relatedSlugs && post.relatedSlugs.length > 0 && (() => {
+            const related = post.relatedSlugs!
+              .map(s => posts.find(p => p.slug === s))
+              .filter(Boolean) as typeof posts;
+            return related.length > 0 ? (
+              <div className="mt-12 border-t border-card-border pt-10">
+                <h2 className="mb-5 text-base font-semibold text-text-secondary uppercase tracking-widest">Les også</h2>
+                <div className="grid gap-3 sm:grid-cols-3">
+                  {related.map(r => (
+                    <Link
+                      key={r.slug}
+                      href={`/blogg/${r.slug}`}
+                      className="group rounded-xl border border-card-border bg-card-bg p-4 transition-colors hover:border-accent/40"
+                    >
+                      {r.category && (
+                        <span className="mb-2 inline-block rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent uppercase tracking-wide">
+                          {r.category}
+                        </span>
+                      )}
+                      <p className="text-sm font-medium leading-snug group-hover:text-accent transition-colors line-clamp-3">
+                        {r.title}
+                      </p>
+                      <p className="mt-2 text-[11px] text-text-tertiary">{r.readingMinutes} min</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : null;
+          })()}
 
           {/* CTA */}
           <div className="mt-12 rounded-xl border border-card-border bg-card-bg p-5 text-center">

@@ -6,6 +6,8 @@ export interface BlogPost {
   updatedAt?: string;
   readingMinutes: number;
   category?: string;
+  /** Related post slugs for "Les også" section — 2–3 entries */
+  relatedSlugs?: string[];
   sections: Section[];
 }
 
@@ -26,6 +28,7 @@ export const posts: BlogPost[] = [
     publishedAt: "2026-03-20",
     readingMinutes: 6,
     category: "Kjøperguide",
+    relatedSlugs: ["boligkjop-feil-nybegynnere", "kollektivtransport-og-boligpris", "sammenligne-boliger-sjekkliste"],
     sections: [
       {
         body: "Boligkjøp er den største finansielle beslutningen de fleste nordmenn tar. Likevel er det mange som legger inn bud uten å ha sjekket alt som egentlig betyr noe — og det kan koste deg dyrt. Her er en praktisk sjekkliste med 12 punkter du bør gå gjennom før visning, og helst igjen før budet.",
@@ -122,6 +125,7 @@ export const posts: BlogPost[] = [
     publishedAt: "2026-03-24",
     readingMinutes: 5,
     category: "Markedsanalyse",
+    relatedSlugs: ["hva-er-en-god-kollektivscore", "boligpris-per-kvm-norge-2026", "sammenligne-boliger-sjekkliste"],
     sections: [
       {
         body: "Det er vel kjent at beliggenhet er den viktigste faktoren for boligpris. Men beliggenhet er ikke bare adresse — det handler i stor grad om tilgjengelighet. Og tilgjengelighet handler om kollektivtransport.",
@@ -191,6 +195,7 @@ export const posts: BlogPost[] = [
     publishedAt: "2026-03-28",
     readingMinutes: 7,
     category: "Prisanalyse",
+    relatedSlugs: ["boligpris-per-kvm-norge-2026", "kollektivtransport-og-boligpris", "hva-sjekke-for-boligkjop"],
     sections: [
       {
         body: "Oslo er Norges dyreste boligmarked, men prisene varierer enormt mellom bydeler. Kvadratmeterprisen i Frogner er mer enn dobbelt så høy som i Stovner — og gapet har økt de siste fem årene. Her er en fullstendig oversikt over boligprisene i Oslo 2026.",
@@ -286,6 +291,7 @@ export const posts: BlogPost[] = [
     category: "Boligkjøp",
     readingMinutes: 6,
     publishedAt: "2026-03-01",
+    relatedSlugs: ["hva-sjekke-for-boligkjop", "sammenligne-boliger-sjekkliste", "kollektivtransport-og-boligpris"],
     sections: [
       {
         heading: "Å hoppe over visningsrunden",
@@ -337,6 +343,7 @@ export const posts: BlogPost[] = [
     category: "Analyse",
     readingMinutes: 5,
     publishedAt: "2026-03-10",
+    relatedSlugs: ["kollektivtransport-og-boligpris", "boligpris-per-kvm-norge-2026", "hva-sjekke-for-boligkjop"],
     sections: [
       {
         heading: "Gangavstand er alt",
@@ -379,6 +386,7 @@ export const posts: BlogPost[] = [
     category: "Markedsdata",
     readingMinutes: 4,
     publishedAt: "2026-03-18",
+    relatedSlugs: ["boligpriser-oslo-2026-bydeler", "kollektivtransport-og-boligpris", "sammenligne-boliger-sjekkliste"],
     sections: [
       {
         heading: "Oslo er fortsatt dyrest",
@@ -415,6 +423,7 @@ export const posts: BlogPost[] = [
     description: "Visning av to boliger på én dag og vet ikke hvilken du skal velge? Denne sjekklisten hjelper deg å sammenligne objektivt — med data, ikke magefølelse.",
     category: "Boligkjøp",
     readingMinutes: 5,
+    relatedSlugs: ["hva-sjekke-for-boligkjop", "boligkjop-feil-nybegynnere", "hva-er-en-god-kollektivscore"],
     publishedAt: "2026-03-25",
     sections: [
       {

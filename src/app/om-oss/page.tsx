@@ -27,7 +27,7 @@ export default function OmOss() {
     name: "Verdikart",
     url: "https://verdikart.no",
     founder: { "@type": "Person", name: "Michael Hansen" },
-    foundingDate: "2026",
+    foundingDate: "2026-03",
     description: "Norsk eiendomsintelligens-verktøy for boligkjøpere.",
     contactPoint: {
       "@type": "ContactPoint",
@@ -151,6 +151,7 @@ export default function OmOss() {
                 { name: "Kartverket", desc: "Alle norske adresser og eiendomsdata — Norges offisielle matrikkel." },
                 { name: "Entur", desc: "Sanntids kollektivdata for hele landet. Avganger, holdeplasser og linjer." },
                 { name: "SSB", desc: "Statistisk sentralbyrå — boligprisindeks og omsetningsdata per kommune." },
+                { name: "OpenStreetMap", desc: "Skoler, barnehager og nærservice via åpne geodata." },
               ].map(({ name, desc }) => (
                 <div key={name} className="flex items-start gap-3">
                   <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-accent/60" />

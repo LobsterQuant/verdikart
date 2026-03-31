@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: "Hvilke datakilder bruker dere?",
-    a: "Vi bruker tre offentlige, åpne datakilder: Entur for kollektivdata (sanntidsavganger og holdeplasser), SSB (Statistisk sentralbyrå) for boligprisstatistikk, og Kartverket for adresse- og eiendomsdata. Alle kildene er norske myndighetsregistre.",
+    a: "Vi bruker fire offentlige, åpne datakilder: Entur for kollektivdata (sanntidsavganger og holdeplasser), SSB (Statistisk sentralbyrå) for boligprisstatistikk, Kartverket for adresse- og eiendomsdata, og OpenStreetMap for skoler, barnehager og nærservice. Alle kildene er offisielle registre eller åpne dataplattformer.",
   },
   {
     q: "Fungerer Verdikart for hele Norge?",

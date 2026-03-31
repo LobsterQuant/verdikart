@@ -94,7 +94,25 @@ export default function Vilkar() {
         </section>
 
         <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-3">7. Gjeldende lov</h2>
+          <h2 className="text-xl font-semibold mb-3">7. Personvern</h2>
+          <p className="text-sm leading-relaxed text-text-secondary">
+            Vår behandling av personopplysninger er beskrevet i{" "}
+            <a href="/personvern" className="text-accent hover:underline">personvernerklæringen</a>.
+            Denne utgjør en integrert del av disse vilkårene.
+          </p>
+        </section>
+
+        <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-3">8. Endringer av vilkår</h2>
+          <p className="text-sm leading-relaxed text-text-secondary">
+            Vi kan oppdatere disse vilkårene. Vesentlige endringer varsles via
+            banneret på nettstedet minst 14 dager før de trer i kraft. Fortsatt
+            bruk etter varslingsperioden utgjør aksept av de oppdaterte vilkårene.
+          </p>
+        </section>
+
+        <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-3">9. Gjeldende lov</h2>
           <p className="text-sm leading-relaxed text-text-secondary">
             Disse vilkårene er underlagt norsk lov. Eventuelle tvister skal løses
             ved norske domstoler med verneting i Oslo.
@@ -102,7 +120,7 @@ export default function Vilkar() {
         </section>
 
         <section className="rounded-xl border border-card-border bg-card-bg p-6">
-          <h2 className="text-xl font-semibold mb-3">8. Kontakt</h2>
+          <h2 className="text-xl font-semibold mb-3">10. Kontakt</h2>
           <p className="text-sm leading-relaxed text-text-secondary">
             Spørsmål om vilkårene? Kontakt oss på{" "}
             <a

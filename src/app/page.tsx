@@ -184,15 +184,15 @@ const HOW_STEPS = [
 ];
 
 const COMPARISON_ROWS = [
-  { feature: "Kollektivtransport",      icon: "🚇", verdikart: true,  finn: false, google: false },
-  { feature: "Støykart — der data fins", icon: "🔊", verdikart: true,  finn: false, google: false },
-  { feature: "SSB prisstatistikk",      icon: "📊", verdikart: true,  finn: false, google: false },
-  { feature: "Kommunalt prissnitt",      icon: "🏘️", verdikart: true,  finn: false, google: false },
-  { feature: "Skoler og barnehager",    icon: "🏫", verdikart: true,  finn: false, google: false },
-  { feature: "Kriminalitetsnivå (kommunenivå)", icon: "🛡️", verdikart: true,  finn: false, google: false },
-  { feature: "Del-lenke til rapport",   icon: "🔗", verdikart: true,  finn: false, google: false },
-  { feature: "Ingen registrering",      icon: "✨", verdikart: true,  finn: false, google: true  },
-  { feature: "Gratis",                  icon: "💰", verdikart: true,  finn: true,  google: true  },
+  { feature: "Holdeplasser + avganger per time", icon: "🚇", verdikart: true,  finn: false, google: false, note: "" },
+  { feature: "Støykart fra Kartverket",          icon: "🔊", verdikart: true,  finn: false, google: false, note: "der data fins" },
+  { feature: "SSB prisstatistikk (kvartal)",     icon: "📊", verdikart: true,  finn: false, google: false, note: "" },
+  { feature: "Kommunalt prissnitt per m²",       icon: "🏘️", verdikart: true,  finn: false, google: false, note: "" },
+  { feature: "Skoler og barnehager (NSR)",       icon: "🏫", verdikart: true,  finn: false, google: false, note: "" },
+  { feature: "Kriminalitetsnivå",                icon: "🛡️", verdikart: true,  finn: false, google: false, note: "kommunenivå" },
+  { feature: "Del-lenke til rapport",            icon: "🔗", verdikart: true,  finn: false, google: false, note: "" },
+  { feature: "Ingen registrering",               icon: "✨", verdikart: true,  finn: true,  google: true,  note: "" },
+  { feature: "Gratis",                           icon: "💰", verdikart: true,  finn: true,  google: true,  note: "" },
 ];
 
 function ComparisonSection() {
@@ -234,10 +234,11 @@ function ComparisonSection() {
 
           {/* Header row — product cards aligned to columns */}
           <div className="grid grid-cols-[minmax(140px,1fr)_repeat(3,_100px)] border-b border-card-border" role="row">
-            <div /> {/* empty label column */}
+            <div role="columnheader" /> {/* empty label column */}
             {competitors.map(({ name, tagline, accent, logo }) => (
               <div
                 key={name}
+                role="columnheader"
                 className={`flex flex-col items-center justify-center px-2 py-4 text-center ${
                   accent ? "bg-accent/5" : ""
                 }`}
@@ -257,19 +258,23 @@ function ComparisonSection() {
           </div>
 
           {/* Feature rows */}
-          {COMPARISON_ROWS.map(({ feature, icon, verdikart, finn, google }, i) => (
+          {COMPARISON_ROWS.map(({ feature, icon, verdikart, finn, google, note }, i) => (
             <div
               key={feature}
+              role="row"
               className={`grid grid-cols-[minmax(140px,1fr)_repeat(3,_100px)] items-center border-b border-card-border last:border-b-0 ${
                 i % 2 === 0 ? "bg-background" : "bg-card-bg"
               }`}
             >
-              <div className="flex items-center gap-2.5 px-4 py-3.5">
+              <div role="rowheader" className="flex items-center gap-2.5 px-4 py-3.5">
                 <span className="text-base shrink-0" aria-hidden>{icon}</span>
-                <span className="text-xs text-text-secondary leading-snug">{feature}</span>
+                <span className="text-xs text-text-secondary leading-snug">
+                  {feature}
+                  {note && <span className="text-text-tertiary text-[10px] ml-1">({note})</span>}
+                </span>
               </div>
               {/* Verdikart */}
-              <div className={`flex items-center justify-center py-3.5 ${verdikart ? "bg-accent/5" : ""}`}>
+              <div role="cell" className={`flex items-center justify-center py-3.5 ${verdikart ? "bg-accent/5" : ""}`}>
                 {verdikart ? (
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-white text-[11px] font-bold shadow-sm shadow-accent/30">✓</span>
                 ) : (
@@ -277,7 +282,7 @@ function ComparisonSection() {
                 )}
               </div>
               {/* Finn */}
-              <div className="flex items-center justify-center py-3.5">
+              <div role="cell" className="flex items-center justify-center py-3.5">
                 {finn ? (
                   <span className="flex h-5 w-5 items-center justify-center rounded-full bg-card-border text-text-secondary text-[11px]">✓</span>
                 ) : (
@@ -285,7 +290,7 @@ function ComparisonSection() {
                 )}
               </div>
               {/* Google */}
-              <div className="flex items-center justify-center py-3.5">
+              <div role="cell" className="flex items-center justify-center py-3.5">
                 {google ? (
                   <span className="flex h-5 w-5 items-center justify-center rounded-full bg-card-border text-text-secondary text-[11px]">✓</span>
                 ) : (

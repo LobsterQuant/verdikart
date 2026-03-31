@@ -30,7 +30,7 @@ function buildPrompt(address: string, ctx: ContextData): string {
     ? `\n\nTilgjengelig data for denne adressen:\n${lines.join("\n")}`
     : "";
 
-  return `Du er Verdikart, en norsk eiendomsanalytiker. Skriv en kort og konkret oppsummering (3 setninger) av adressen "${address}" for en boligkjøper. Fokuser på beliggenhet, kollektivdekning og prisnivå. Bruk tallene fra dataen. Ikke gi personlige kjøpsanbefalinger. Svar kun på norsk bokmål.${dataBlock}`;
+  return `Eiendomsanalytiker. Skriv 3 korte setninger på norsk bokmål om "${address}" for en boligkjøper: prisnivå, prisutvikling, og kollektivdekning. Bruk tallene. Ingen anbefalinger.${dataBlock}`;
 }
 
 function streamText(text: string): Response {
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model: "anthropic/claude-haiku-4-5",
         stream: false,
-        max_tokens: 200,
+        max_tokens: 160,
         messages: [{ role: "user", content: prompt }],
       }),
     });
@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model: "openai/gpt-oss-20b:free",
         stream: false,
-        max_tokens: 200,
+        max_tokens: 160,
         messages: [{ role: "user", content: prompt }],
       }),
     });

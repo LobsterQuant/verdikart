@@ -18,7 +18,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const post = getPost(params.slug);
   if (!post) return {};
-  const url = `https://verdikart.no/bloggg/${post.slug}`;
+  const url = `https://verdikart.no/blogg/${post.slug}`;
   return {
     title: `${post.title} | Verdikart`,
     description: post.description,
@@ -34,7 +34,7 @@ export async function generateMetadata({
       modifiedTime: post.updatedAt ?? post.publishedAt,
       images: [
         {
-          url: `https://verdikart.no/bloggg/${post.slug}/opengraph-image`,
+          url: `https://verdikart.no/blogg/${post.slug}/opengraph-image`,
           width: 1200,
           height: 630,
           alt: post.title,
@@ -45,7 +45,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: [`https://verdikart.no/bloggg/${post.slug}/opengraph-image`],
+      images: [`https://verdikart.no/blogg/${post.slug}/opengraph-image`],
     },
   };
 }
@@ -62,7 +62,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = getPost(params.slug);
   if (!post) notFound();
 
-  const url = `https://verdikart.no/bloggg/${post.slug}`;
+  const url = `https://verdikart.no/blogg/${post.slug}`;
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -90,7 +90,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Hjem", item: "https://verdikart.no" },
-      { "@type": "ListItem", position: 2, name: "Blogg", item: "https://verdikart.no/bloggg" },
+      { "@type": "ListItem", position: 2, name: "Blogg", item: "https://verdikart.no/blogg" },
       { "@type": "ListItem", position: 3, name: post.title, item: url },
     ],
   };

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Blogg — Boligkjøp og eiendomsdata i Norge | Verdikart",
   description:
     "Artikler om boligkjøp i Norge: sjekklister, prisutvikling, kollektivtransport og hvordan du leser eiendomsdata. Gratis og uavhengig.",
-  alternates: { canonical: "https://verdikart.no/bloggg" },
+  alternates: { canonical: "https://verdikart.no/blogg" },
 };
 
 function formatDate(iso: string) {
@@ -24,7 +24,7 @@ export default function BlogIndex() {
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "Verdikart Blogg",
-    url: "https://verdikart.no/bloggg",
+    url: "https://verdikart.no/blogg",
     description: "Artikler om boligkjøp, eiendomsdata og boligmarkedet i Norge.",
     publisher: {
       "@type": "Organization",
@@ -34,7 +34,7 @@ export default function BlogIndex() {
     blogPost: posts.map((p) => ({
       "@type": "BlogPosting",
       headline: p.title,
-      url: `https://verdikart.no/bloggg/${p.slug}`,
+      url: `https://verdikart.no/blogg/${p.slug}`,
       datePublished: p.publishedAt,
       description: p.description,
     })),

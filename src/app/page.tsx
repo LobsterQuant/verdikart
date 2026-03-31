@@ -445,7 +445,7 @@ function PreviewSection() {
 }
 
 function StatsGrid() {
-  const { ref, inView } = useInView(0.3);
+  const { ref, inView } = useInView(0.05);
   const addr = useCountUp(2500000, 1400, inView);
   const cities = useCountUp(15, 800, inView);
   const sources = useCountUp(4, 600, inView);
@@ -469,21 +469,21 @@ function StatsGrid() {
       {/* Addresses */}
       <div className="flex flex-col items-center justify-center px-3 py-4 text-center">
         <span className="text-base font-bold text-foreground leading-tight tabular-nums sm:text-sm">
-          {inView ? `${(addr / 1000000).toFixed(1).replace(".", ",")}M+` : "2,5M+"}
+          {`${(inView ? addr / 1000000 : 2.5).toFixed(1).replace(".", ",")}M+`}
         </span>
         <span className="mt-1 text-xs leading-tight text-text-tertiary">norske adresser</span>
       </div>
       {/* Cities */}
       <div className="flex flex-col items-center justify-center px-3 py-4 text-center border-r border-card-border sm:border-r-0">
         <span className="text-base font-bold text-foreground leading-tight tabular-nums sm:text-sm">
-          {inView ? cities : 0}
+          {inView ? cities : 15}
         </span>
         <span className="mt-1 text-xs leading-tight text-text-tertiary">byer dekket</span>
       </div>
       {/* Sources */}
       <div className="flex flex-col items-center justify-center px-3 py-4 text-center">
         <span className="text-base font-bold text-foreground leading-tight tabular-nums sm:text-sm">
-          {inView ? sources : 0}
+          {inView ? sources : 4}
         </span>
         <span className="mt-1 text-xs leading-tight text-text-tertiary">datakilder</span>
       </div>

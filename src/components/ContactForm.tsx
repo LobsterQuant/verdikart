@@ -53,7 +53,7 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div ref={successRef} tabIndex={-1} className="flex flex-col items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/5 p-8 text-center outline-none">
+      <div ref={successRef} tabIndex={-1} role="status" className="flex flex-col items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/5 p-8 text-center outline-none">
         <CheckCircle className="h-10 w-10 text-green-400" strokeWidth={1.5} />
         <p className="font-semibold text-lg">Takk for meldingen!</p>
         <p className="text-sm text-text-secondary">Vi svarer deg innen 1–2 virkedager på <strong>{form.email}</strong>.</p>
@@ -72,7 +72,7 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-text-secondary">
-            Navn
+            Navn <span className="text-accent">*</span>
           </label>
           <input
             id="name"

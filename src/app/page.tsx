@@ -229,11 +229,11 @@ function ComparisonSection() {
       </p>
 
       {/* Unified comparison table — header cards + feature rows share the same grid */}
-      <div className="overflow-x-auto rounded-xl border border-card-border" style={{ WebkitOverflowScrolling: "touch" }}>
+      <div className="overflow-x-auto rounded-xl border border-card-border" role="table" aria-label="Sammenligning av boligverktøy" style={{ WebkitOverflowScrolling: "touch" }}>
         <div className="min-w-[520px] w-max sm:w-full">
 
           {/* Header row — product cards aligned to columns */}
-          <div className="grid grid-cols-[minmax(140px,1fr)_repeat(3,_100px)] border-b border-card-border">
+          <div className="grid grid-cols-[minmax(140px,1fr)_repeat(3,_100px)] border-b border-card-border" role="row">
             <div /> {/* empty label column */}
             {competitors.map(({ name, tagline, accent, logo }) => (
               <div
@@ -605,7 +605,6 @@ export default function HomePage() {
       {/* Email capture — reframed as value, not "coming soon" */}
       <section className="border-t border-card-border bg-card-bg px-4 py-14 text-center sm:px-6">
         <div className="mx-auto max-w-md">
-          <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-accent">Hold deg oppdatert</p>
           <h2 className="mb-3 text-2xl font-bold">Få markedsinnsikt rett i innboksen</h2>
           <p className="mb-6 text-sm leading-relaxed text-text-secondary">
             Vi sender månedlige oppdateringer om boligprisutvikling per bydel, nye datakilder og tips til boligkjøpere. Ingen spam — kun tall som faktisk betyr noe.

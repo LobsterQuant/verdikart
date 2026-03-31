@@ -119,7 +119,8 @@ export default function AreaPage({ params }: { params: { area: string } }) {
             </div>
             <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
               <p className="text-xs text-text-tertiary">Prissegment</p>
-              <p className="text-lg font-bold" style={{ color: segmentColor[area.priceSegment] ?? "#fff" }}>
+              <p className="text-lg font-bold flex items-center gap-2">
+                <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: segmentColor[area.priceSegment] ?? "#fff" }} aria-hidden="true" />
                 {area.priceSegment}
               </p>
             </div>
@@ -221,7 +222,7 @@ export default function AreaPage({ params }: { params: { area: string } }) {
 
           {/* Back to city */}
           <Link href={`/by/${area.citySlug}`}
-            className="flex items-center gap-1.5 text-sm text-text-secondary transition-colors hover:text-foreground">
+            className="mt-6 flex items-center gap-1.5 text-sm text-text-secondary transition-colors hover:text-foreground">
             <ChevronRight className="h-4 w-4 rotate-180" strokeWidth={1.5} />
             Tilbake til {area.city}
           </Link>

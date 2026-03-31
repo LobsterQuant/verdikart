@@ -47,25 +47,35 @@ const faqs = [
   },
 ];
 
-function AccordionItem({ q, a, open, onToggle }: { q: string; a: string; open: boolean; onToggle: () => void }) {
+function AccordionItem({ q, a, open, onToggle, id }: { q: string; a: string; open: boolean; onToggle: () => void; id: string }) {
+  const panelId = `faq-panel-${id}`;
+  const triggerId = `faq-trigger-${id}`;
   return (
     <div className="rounded-xl border border-card-border bg-card-bg overflow-hidden">
-      <button
-        onClick={onToggle}
-        className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left"
-        aria-expanded={open}
+      <h2>
+        <button
+          id={triggerId}
+          onClick={onToggle}
+          className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left"
+          aria-expanded={open}
+          aria-controls={panelId}
+        >
+          <span className="text-sm font-semibold leading-snug">{q}</span>
+          <ChevronDown
+            className={`h-4 w-4 shrink-0 text-text-tertiary transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+            strokeWidth={1.5}
+          />
+        </button>
+      </h2>
+      <div
+        id={panelId}
+        role="region"
+        aria-labelledby={triggerId}
+        hidden={!open}
+        className="border-t border-card-border px-5 pb-5 pt-4"
       >
-        <h2 className="text-sm font-semibold leading-snug">{q}</h2>
-        <ChevronDown
-          className={`h-4 w-4 shrink-0 text-text-tertiary transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-          strokeWidth={1.5}
-        />
-      </button>
-      {open && (
-        <div className="border-t border-card-border px-5 pb-5 pt-4">
-          <p className="text-sm leading-relaxed text-text-secondary">{a}</p>
-        </div>
-      )}
+        <p className="text-sm leading-relaxed text-text-secondary">{a}</p>
+      </div>
     </div>
   );
 }
@@ -102,6 +112,7 @@ export default function FaqPage() {
                 key={q}
                 q={q}
                 a={a}
+                id={String(i)}
                 open={openIdx === i}
                 onToggle={() => setOpenIdx(openIdx === i ? null : i)}
               />

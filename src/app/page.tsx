@@ -446,7 +446,7 @@ function StatsGrid() {
   return (
     <div
       ref={ref as unknown as React.RefObject<HTMLDivElement>}
-      className="grid grid-cols-2 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-y divide-card-border sm:grid-cols-4 sm:divide-y-0 sm:divide-x"
+      className="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-y divide-card-border sm:grid-cols-4 sm:divide-y-0 sm:divide-x"
     >
       {/* Free */}
       <div className="flex flex-col items-center justify-center px-3 py-4 text-center border-r border-card-border sm:border-r-0">
@@ -618,7 +618,9 @@ export default function HomePage() {
           </div>
 
           {/* Stats grid — animated count-up on scroll */}
-          <StatsGrid />
+          <div className="px-4 sm:px-0">
+            <StatsGrid />
+          </div>
         </motion.div>
 
         {/* Data source trust strip */}

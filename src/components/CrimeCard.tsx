@@ -25,13 +25,22 @@ const KOMMUNE_CRIME: Record<string, { rate: number; year: number }> = {
 
 const NATIONAL_AVG = 57.4;
 
-function getLabel(rate: number): { label: string; color: string; bg: string } {
+// Large cities (Oslo, Bergen, Trondheim, Stavanger) always read "over snitt" due to urban density —
+// show a neutral label so Frogner/Majorstuen buyers aren't misled.
+const HIGH_URBAN_COMMUNES = new Set(["0301", "4601", "5001", "1103"]);
+
+function getLabel(rate: number, kommunenummer?: string): { label: string; color: string; bg: string; isUrbanContext: boolean } {
+  const isUrban = HIGH_URBAN_COMMUNES.has(kommunenummer ?? "");
   const ratio = rate / NATIONAL_AVG;
-  if (ratio < 0.6) return { label: "Lavt", color: "#22C55E", bg: "rgba(34,197,94,0.1)" };
-  if (ratio < 0.9) return { label: "Under snitt", color: "#86EFAC", bg: "rgba(134,239,172,0.1)" };
-  if (ratio < 1.1) return { label: "Rundt snitt", color: "#EAB308", bg: "rgba(234,179,8,0.1)" };
-  if (ratio < 1.8) return { label: "Over snitt", color: "#F97316", bg: "rgba(249,115,22,0.1)" };
-  return { label: "Høyt", color: "#EF4444", bg: "rgba(239,68,68,0.1)" };
+  if (ratio < 0.6) return { label: "Lavt", color: "#22C55E", bg: "rgba(34,197,94,0.1)", isUrbanContext: false };
+  if (ratio < 0.9) return { label: "Under snitt", color: "#86EFAC", bg: "rgba(134,239,172,0.1)", isUrbanContext: false };
+  if (ratio < 1.1) return { label: "Rundt snitt", color: "#EAB308", bg: "rgba(234,179,8,0.1)", isUrbanContext: false };
+  if (ratio < 1.8) {
+    // Urban communes: soften to neutral blue instead of alarming orange
+    if (isUrban) return { label: "Storbysnitt", color: "#60A5FA", bg: "rgba(96,165,250,0.1)", isUrbanContext: true };
+    return { label: "Over snitt", color: "#F97316", bg: "rgba(249,115,22,0.1)", isUrbanContext: false };
+  }
+  return { label: "Høyt", color: "#EF4444", bg: "rgba(239,68,68,0.1)", isUrbanContext: false };
 }
 
 export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) {
@@ -39,7 +48,7 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
 
   if (!data) return null;
 
-  const { label, color, bg } = getLabel(data.rate);
+  const { label, color, bg, isUrbanContext } = getLabel(data.rate, kommunenummer);
   const pctVsNational = ((data.rate - NATIONAL_AVG) / NATIONAL_AVG * 100).toFixed(0);
   const aboveBelow = data.rate > NATIONAL_AVG ? "over" : "under";
   const barWidth = Math.min(100, (data.rate / 150) * 100); // scale to 150 max
@@ -53,12 +62,19 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
       </div>
 
       {/* Kommune-level disclaimer */}
-      <div className="mb-4 flex items-start gap-2 rounded-lg border border-amber-400/30 bg-amber-50 px-3 py-2 dark:bg-amber-900/20">
-        <span className="mt-0.5 text-base leading-none" aria-hidden>⚠️</span>
-        <p className="text-xs leading-relaxed text-amber-800 dark:text-amber-200">
+      <div className={`mb-4 flex items-start gap-2 rounded-lg border px-3 py-2 ${
+        isUrbanContext
+          ? "border-blue-400/20 bg-blue-500/5"
+          : "border-amber-400/30 bg-amber-50 dark:bg-amber-900/20"
+      }`}>
+        <span className="mt-0.5 text-base leading-none" aria-hidden>{isUrbanContext ? "ℹ️" : "⚠️"}</span>
+        <p className={`text-xs leading-relaxed ${isUrbanContext ? "text-blue-300" : "text-amber-800 dark:text-amber-200"}`}>
           Tallene gjelder hele kommunen, ikke enkeltbydeler.
-          {kommunenummer === "0301" && (
-            <> Merk: Oslo-gjennomsnittet inkluderer alle bydeler. Frogner og Majorstuen har historisk lavere kriminalitet enn snittet.</>
+          {isUrbanContext && (
+            <> Store byer har naturlig høyere kommunedata enn landsgjennomsnittet. Bydeler som Frogner, Majorstuen og Nordberg har historisk lavere nivå enn Oslo-snittet.</>
+          )}
+          {!isUrbanContext && kommunenummer === "0301" && (
+            <> Frogner og Majorstuen har historisk lavere kriminalitet enn Oslo-snittet.</>
           )}
         </p>
       </div>

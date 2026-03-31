@@ -76,57 +76,60 @@ export async function POST(req: NextRequest) {
   const prompt = buildPrompt(address, ctx);
   const apiKey = process.env.OPENROUTER_API_KEY;
 
-  if (!apiKey) {
-    // No key available (local dev) — return structured fallback
+  const openaiKey = process.env.OPENAI_API_KEY;
+
+  if (!openaiKey && !apiKey) {
     return streamText(buildFallbackSummary(address, ctx));
   }
 
-  try {
-    const llmRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://verdikart.no",
-        "X-Title": "Verdikart",
-      },
-      body: JSON.stringify({
-        model: "anthropic/claude-haiku-4-5",
-        stream: false,
-        max_tokens: 160,
-        messages: [{ role: "user", content: prompt }],
-      }),
-    });
+  // Primary: OpenAI gpt-4o-mini (cheap, fast, reliable)
+  if (openaiKey) {
+    try {
+      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${openaiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          max_tokens: 160,
+          messages: [{ role: "user", content: prompt }],
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const text = (data.choices?.[0]?.message?.content ?? "").trim();
+        if (text) return streamText(text);
+      }
+    } catch { /* fall through */ }
+  }
 
-    if (llmRes.ok) {
-      const data = await llmRes.json();
-      const text = (data.choices?.[0]?.message?.content ?? "").trim();
-      if (text) return streamText(text);
-    }
-
-    // Try free fallback model if haiku fails
-    const fallbackRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://verdikart.no",
-        "X-Title": "Verdikart",
-      },
-      body: JSON.stringify({
-        model: "openai/gpt-oss-20b:free",
-        stream: false,
-        max_tokens: 160,
-        messages: [{ role: "user", content: prompt }],
-      }),
-    });
-
-    if (fallbackRes.ok) {
-      const data = await fallbackRes.json();
-      const text = (data.choices?.[0]?.message?.content ?? "").trim();
-      if (text) return streamText(text);
-    }
-  } catch { /* fall through to structured fallback */ }
+  // Fallback: OpenRouter haiku
+  if (apiKey) {
+    try {
+      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": "https://verdikart.no",
+          "X-Title": "Verdikart",
+        },
+        body: JSON.stringify({
+          model: "anthropic/claude-haiku-4-5",
+          stream: false,
+          max_tokens: 160,
+          messages: [{ role: "user", content: prompt }],
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const text = (data.choices?.[0]?.message?.content ?? "").trim();
+        if (text) return streamText(text);
+      }
+    } catch { /* fall through */ }
+  }
 
   return streamText(buildFallbackSummary(address, ctx));
 }

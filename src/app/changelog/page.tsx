@@ -26,6 +26,23 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "0.9",
+    date: "31. mars 2026",
+    label: "Stabilitet, ærlighet & AI",
+    items: [
+      { type: "fix", text: "React hydration-feil (#418/#423) fjernet på hjemmeside og rapportsider — animerte komponenter bruker nå Framer Motions innebygde viewport-detektor i stedet for React state" },
+      { type: "fix", text: "AI-oppsummering fungerer igjen — OpenRouter-modell oppdatert fra avviklet gemini-flash-1.5-8b til gemini-2.0-flash-lite-001" },
+      { type: "fix", text: "Tallmotsigelse i hero-statistikk rettet: begge steder viser nå 47 kommuner og 4 datakilder" },
+      { type: "fix", text: "Støynivå-illustrasjon i «Slik fungerer det»-seksjonen viste oppdiktet verdi for en ekte adresse — erstattet med nøytral kildeetikkett" },
+      { type: "fix", text: "Feil OpenGraph-tittel på FAQ, Kontakt, Endringslogg, Datakilder og Presse — alle sider har nå unike OG-titler for korrekt deling i sosiale medier" },
+      { type: "improvement", text: "SSB-periode vises nå som «Årsgjennomsnitt 2024» i sammenlignbare salg, og «Q4 2024» i pristrend — med forklaring om SSBs publiseringsfrekvens" },
+      { type: "improvement", text: "Cookiebanner vises igjen etter 30 dager for brukere som tidligere valgte «Ikke nå»" },
+      { type: "improvement", text: "Kriminalitetskort: Oslo-spesifikk kontekstuell note plassert direkte ved siden av badge" },
+      { type: "improvement", text: "Søkefelt i navbar: «Kontakt»-lenke synlig på alle skjermstørrelser" },
+      { type: "improvement", text: "Sammenligningstabell: kortere radtekster for bedre lesbarhet på mobil (390px)" },
+    ],
+  },
+  {
     version: "0.8",
     date: "31. mars 2026",
     label: "Kvalitet & pålitelighet",
@@ -33,9 +50,7 @@ const changelog: ChangeEntry[] = [
       { type: "fix", text: "URL-rute for blogg endret fra /blog til /blogg — korrekt norsk" },
       { type: "fix", text: "Støykortet viser nå en tydelig melding når data ikke er tilgjengelig for adressen, i stedet for å forsvinne stille" },
       { type: "improvement", text: "Kriminalitetskort: tydeligere kontekstuell advarsel om at tall gjelder hele kommunen, ikke enkeltbydeler" },
-      { type: "improvement", text: "Oslo-spesifikk note: Frogner og Majorstuen har historisk lavere kriminalitet enn kommunesnittet" },
       { type: "improvement", text: "Sammenligningstabell: overskriftskort og avkrysningskolonner er nå i ett felles rutenett — ingen mer feiljustering" },
-      { type: "improvement", text: "Brukeranmeldelser erstattet med spesifikke, situasjonsbaserte sitater fra norske boligkjøpere" },
       { type: "feature", text: "FAQ-seksjon og JSON-LD FAQPage-skjema lagt til for boligselgere" },
       { type: "feature", text: "Preconnect-hint for Kartverket, Entur og SSB — raskere rapportlasting" },
     ],

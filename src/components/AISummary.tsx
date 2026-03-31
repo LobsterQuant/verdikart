@@ -41,28 +41,30 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let full = "";
-      let buf = ""; // SSE buffer — events may span multiple chunks
+      let buf = ""; // SSE buffer — events can span multiple chunks
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         buf += decoder.decode(value, { stream: true });
-        // Process complete lines (split on \n, keep remainder in buf)
-        const lines = buf.split("\n");
-        buf = lines.pop() ?? ""; // last element may be incomplete
-        for (const line of lines) {
-          const trimmed = line.trimEnd();
-          if (!trimmed.startsWith("data: ")) continue;
-          const token = trimmed.slice(6);
-          if (token === "[DONE]") continue;
-          if (!token) continue;
-          full += token;
-          setSummary(full);
+        // Split on double-newline (SSE event boundary), keep last incomplete fragment
+        const events = buf.split("\n\n");
+        buf = events.pop() ?? "";
+        for (const event of events) {
+          for (const line of event.split("\n")) {
+            if (!line.startsWith("data: ")) continue;
+            // Slice exactly 6 chars — preserve all spacing in the text
+            const token = line.slice(6);
+            if (token === "[DONE]") continue;
+            if (!token) continue;
+            full += token;
+            setSummary(full);
+          }
         }
       }
-      // Flush any remaining buffer
+      // Flush remaining
       if (buf.startsWith("data: ")) {
-        const token = buf.slice(6).trimEnd();
+        const token = buf.slice(6);
         if (token && token !== "[DONE]") { full += token; setSummary(full); }
       }
       setStatus("done");

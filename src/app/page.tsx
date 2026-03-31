@@ -233,9 +233,9 @@ const COMPARISON_ROWS = [
   { feature: "Kollektivtransport",      icon: "🚇", verdikart: true,  finn: false, google: false },
   { feature: "Støykart (beta)",         icon: "🔊", verdikart: true,  finn: false, google: false },
   { feature: "SSB prisstatistikk",      icon: "📊", verdikart: true,  finn: false, google: false },
-  { feature: "Sammenlignbare salg",     icon: "🏘️", verdikart: true,  finn: true,  google: false },
+  { feature: "Kommunalt prissnitt",      icon: "🏘️", verdikart: true,  finn: false, google: false },
   { feature: "Skoler og barnehager",    icon: "🏫", verdikart: true,  finn: false, google: false },
-  { feature: "Kriminalitetsnivå",       icon: "🛡️", verdikart: true,  finn: false, google: false },
+  { feature: "Kriminalitetsnivå (kommunenivå)", icon: "🛡️", verdikart: true,  finn: false, google: false },
   { feature: "Del-lenke til rapport",   icon: "🔗", verdikart: true,  finn: false, google: false },
   { feature: "Ingen registrering",      icon: "✨", verdikart: true,  finn: false, google: true  },
   { feature: "Gratis",                  icon: "💰", verdikart: true,  finn: true,  google: true  },
@@ -279,11 +279,11 @@ function ComparisonSection() {
       </p>
 
       {/* Unified comparison table — header cards + feature rows share the same grid */}
-      <div className="overflow-x-auto rounded-xl border border-card-border">
-        <div className="min-w-[520px]">
+      <div className="overflow-x-auto rounded-xl border border-card-border" style={{ WebkitOverflowScrolling: "touch" }}>
+        <div className="min-w-[520px] w-max sm:w-full">
 
           {/* Header row — product cards aligned to columns */}
-          <div className="grid grid-cols-[1fr_repeat(3,_100px)] border-b border-card-border">
+          <div className="grid grid-cols-[minmax(140px,1fr)_repeat(3,_100px)] border-b border-card-border">
             <div /> {/* empty label column */}
             {competitors.map(({ name, tagline, accent, logo }) => (
               <div
@@ -308,15 +308,11 @@ function ComparisonSection() {
 
           {/* Feature rows */}
           {COMPARISON_ROWS.map(({ feature, icon, verdikart, finn, google }, i) => (
-            <motion.div
+            <div
               key={feature}
-              className={`grid grid-cols-[1fr_repeat(3,_100px)] items-center border-b border-card-border last:border-b-0 ${
+              className={`grid grid-cols-[minmax(140px,1fr)_repeat(3,_100px)] items-center border-b border-card-border last:border-b-0 ${
                 i % 2 === 0 ? "bg-background" : "bg-card-bg"
               }`}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0 }}
-              transition={{ duration: 0.3, delay: 0.15 + i * 0.05 }}
             >
               <div className="flex items-center gap-2.5 px-4 py-3.5">
                 <span className="text-base shrink-0" aria-hidden>{icon}</span>
@@ -346,7 +342,7 @@ function ComparisonSection() {
                   <span className="h-4 w-px bg-card-border inline-block opacity-30" />
                 )}
               </div>
-            </motion.div>
+            </div>
           ))}
 
         </div>
@@ -471,7 +467,7 @@ function StatsGrid() {
         <span className="text-base font-bold text-foreground leading-tight tabular-nums sm:text-sm">
           {inView ? cities : 47}
         </span>
-        <span className="mt-1 text-xs leading-tight text-text-tertiary">kommuner dekket</span>
+        <span className="mt-1 text-xs leading-tight text-text-tertiary">kommuner m/prisdata</span>
       </div>
       {/* Sources */}
       <div className="flex flex-col items-center justify-center px-3 py-4 text-center">

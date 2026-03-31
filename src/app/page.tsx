@@ -1,6 +1,5 @@
 "use client";
 
-import { m as motion, useMotionValue, useTransform, LazyMotion, domAnimation } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import React from "react";
 import AddressSearch from "@/components/AddressSearch";
@@ -34,8 +33,6 @@ const valueProps = [
   },
 ];
 
-const EASE = "easeOut" as const;
-
 // Count-up hook — runs once when active flips true
 function useCountUp(target: number, duration = 1200, active = false) {
   const [val, setVal] = useState(0);
@@ -56,58 +53,21 @@ function useCountUp(target: number, duration = 1200, active = false) {
   return val;
 }
 
-function fadeUpProps(delay = 0) {
-  return {
-    initial: { opacity: 0, y: 24 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0 },
-    transition: { duration: 0.55, ease: EASE, delay },
-  };
-}
-
 function FeatureCard({
-  Icon, title, description, delay,
+  Icon, title, description,
 }: {
   Icon: React.ElementType;
   title: string;
   description: string;
-  delay: number;
 }) {
   const [hovered, setHovered] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-60, 60], [6, -6]);
-  const rotateY = useTransform(x, [-60, 60], [-6, 6]);
-
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    x.set(e.clientX - rect.left - rect.width / 2);
-    y.set(e.clientY - rect.top - rect.height / 2);
-  }
-
-  function handleMouseLeave() {
-    setHovered(false);
-    x.set(0);
-    y.set(0);
-  }
 
   return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.5, ease: "easeOut", delay }}
-      whileHover={{ y: -6, scale: 1.02 }}
-      onMouseMove={handleMouseMove}
+    <div
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      className="group relative rounded-xl border bg-card-bg p-6 cursor-default overflow-hidden card-hover"
+      onMouseLeave={() => setHovered(false)}
+      className="group relative rounded-xl border bg-card-bg p-6 cursor-default overflow-hidden card-hover transition-transform duration-300"
       style={{
-        rotateX,
-        rotateY,
         transformStyle: "preserve-3d" as const,
         perspective: 800,
         boxShadow: hovered
@@ -117,48 +77,42 @@ function FeatureCard({
       }}
     >
       {/* Spotlight shimmer on hover */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 rounded-xl"
-        animate={{
-          background: hovered
-            ? "radial-gradient(circle at 50% 0%, rgba(99,102,241,0.10) 0%, transparent 65%)"
-            : "radial-gradient(circle at 50% 0%, rgba(99,102,241,0) 0%, transparent 65%)",
+      <div
+        className="pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-300"
+        style={{
+          background: "radial-gradient(circle at 50% 0%, rgba(99,102,241,0.10) 0%, transparent 65%)",
+          opacity: hovered ? 1 : 0,
         }}
-        transition={{ duration: 0.3 }}
       />
 
       {/* Icon — scales + brightens on hover */}
-      <motion.div
-        className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg"
-        animate={{
+      <div
+        className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-300"
+        style={{
           backgroundColor: hovered ? "rgba(99,102,241,0.2)" : "rgba(0,102,255,0.1)",
-          scale: hovered ? 1.12 : 1,
+          transform: hovered ? "scale(1.12)" : "scale(1)",
         }}
-        transition={{ type: "spring", stiffness: 400, damping: 20 }}
-        style={{ transformStyle: "preserve-3d", translateZ: 8 }}
       >
-        <motion.div
-          animate={{ rotate: hovered ? 8 : 0 }}
-          transition={{ type: "spring", stiffness: 400, damping: 18 }}
+        <div
+          className="transition-transform duration-300"
+          style={{ transform: hovered ? "rotate(8deg)" : "rotate(0deg)" }}
         >
           <Icon
             className="h-5 w-5"
             strokeWidth={1.5}
             style={{ color: hovered ? "#818cf8" : "#0066FF" }}
           />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
-      <motion.h3
-        className="mb-2 text-lg font-semibold"
-        animate={{ color: hovered ? "#ffffff" : undefined }}
-        transition={{ duration: 0.2 }}
-        style={{ translateZ: 4 }}
+      <h3
+        className="mb-2 text-lg font-semibold transition-colors duration-200"
+        style={{ color: hovered ? "#ffffff" : undefined }}
       >
         {title}
-      </motion.h3>
+      </h3>
       <p className="text-sm leading-relaxed text-text-secondary">{description}</p>
-    </motion.div>
+    </div>
   );
 }
 
@@ -266,12 +220,8 @@ function ComparisonSection() {
   ];
 
   return (
-    <motion.section
+    <section
       className="mx-auto w-full max-w-4xl px-4 pb-20 sm:px-6"
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.05 }}
-      transition={{ duration: 0.6 }}
     >
       <h2 className="mb-2 text-center text-xl font-bold sm:text-2xl">Hvorfor Verdikart?</h2>
       <p className="mb-10 text-center text-sm text-text-secondary max-w-lg mx-auto">
@@ -350,39 +300,25 @@ function ComparisonSection() {
 
       {/* Mobile scroll hint */}
       <p className="mt-2 text-center text-[10px] text-text-tertiary sm:hidden">← Sveip for å se alle kolonner →</p>
-    </motion.section>
+    </section>
   );
 }
 
 function HowItWorksSection() {
   return (
     <section className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6">
-      <motion.h2
-        className="mb-8 text-center text-xl font-bold sm:text-2xl"
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.5 }}
-      >
+      <h2 className="mb-8 text-center text-xl font-bold sm:text-2xl">
         Slik fungerer det
-      </motion.h2>
+      </h2>
       <ol className="relative space-y-6 pl-8">
-        <motion.div
+        <div
           aria-hidden
           className="absolute left-[11px] top-2 bottom-2 w-px origin-top bg-card-border"
-          initial={{ scaleY: 0 }}
-          whileInView={{ scaleY: 1 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
         />
-        {HOW_STEPS.map(({ n, title, body, icon, preview }, i) => (
-          <motion.li
+        {HOW_STEPS.map(({ n, title, body, icon, preview }) => (
+          <li
             key={n}
             className="flex gap-4"
-            initial={{ opacity: 0, x: -16 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.45, delay: 0.1 + i * 0.1, ease: "easeOut" }}
           >
             <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white shadow-lg shadow-accent/30 mt-0.5">
               {n}
@@ -395,7 +331,7 @@ function HowItWorksSection() {
               <p className="mt-1 text-sm leading-relaxed text-text-secondary">{body}</p>
               {preview}
             </div>
-          </motion.li>
+          </li>
         ))}
       </ol>
     </section>
@@ -405,13 +341,12 @@ function HowItWorksSection() {
 function FeatureCards() {
   return (
     <div className="grid gap-4 sm:grid-cols-3 sm:gap-6">
-      {valueProps.map(({ Icon, title, description }, i) => (
+      {valueProps.map(({ Icon, title, description }) => (
         <FeatureCard
           key={title}
           Icon={Icon}
           title={title}
           description={description}
-          delay={i * 0.1}
         />
       ))}
     </div>
@@ -420,16 +355,9 @@ function FeatureCards() {
 
 function PreviewSection() {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 48, rotateX: 8, scale: 0.97 }}
-      whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      style={{ perspective: 1200, transformStyle: "preserve-3d" }}
-      className="mx-auto w-full max-w-2xl px-4 pb-16 sm:px-6"
-    >
+    <section className="mx-auto w-full max-w-2xl px-4 pb-16 sm:px-6">
       <ProductPreview />
-    </motion.section>
+    </section>
   );
 }
 
@@ -482,7 +410,6 @@ function StatsGrid() {
 
 export default function HomePage() {
   return (
-    <LazyMotion features={domAnimation} strict>
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
       <main className="hero-noise relative flex flex-1 flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden">
@@ -549,7 +476,7 @@ export default function HomePage() {
         />
 
         {/* Badge */}
-        <motion.div className="mb-4" {...fadeUpProps(0)}>
+        <div className="mb-4">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-medium text-accent">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
@@ -557,31 +484,27 @@ export default function HomePage() {
             </span>
             Gratis · Ingen registrering · Norske offentlige data
           </span>
-        </motion.div>
+        </div>
 
         {/* Staggered headline */}
         <h1 className="max-w-3xl text-[1.65rem] font-bold leading-tight tracking-tight xs:text-3xl sm:text-5xl md:text-6xl">
-          <motion.span className="block text-gradient headline-shimmer" {...fadeUpProps(0.06)}>
+          <span className="block text-gradient headline-shimmer">
             Er nabolaget verdt prisen?
-          </motion.span>
-          <motion.span className="block text-foreground/80" {...fadeUpProps(0.15)}>
+          </span>
+          <span className="block text-foreground/80">
             Finn svaret på&nbsp;10&nbsp;sekunder.
-          </motion.span>
+          </span>
         </h1>
 
-        <motion.p
-          className="mt-4 max-w-xl text-base leading-relaxed text-text-secondary sm:mt-6 sm:text-lg"
-          {...fadeUpProps(0.24)}
-        >
+        <p className="mt-4 max-w-xl text-base leading-relaxed text-text-secondary sm:mt-6 sm:text-lg">
           Søk på hvilken som helst norsk adresse og få full rapport om
           kollektivtransport, boligprisutvikling, støynivå og nabolagsdata —
           direkte fra SSB, Kartverket og Entur.
-        </motion.p>
+        </p>
 
-        <motion.div
+        <div
           id="sok"
           className="mt-8 w-full max-w-xl sm:mt-10"
-          {...fadeUpProps(0.34)}
         >
           <AddressSearch />
           {/* Quick-start example addresses */}
@@ -601,13 +524,10 @@ export default function HomePage() {
               </a>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Social proof strip — above the fold */}
-        <motion.div
-          className="mt-7 w-full max-w-lg"
-          {...fadeUpProps(0.4)}
-        >
+        <div className="mt-7 w-full max-w-lg">
           {/* Live demo widget */}
           <div className="mx-auto w-full max-w-md">
             <ProductDemo />
@@ -617,13 +537,10 @@ export default function HomePage() {
           <div className="px-4 sm:px-0">
             <StatsGrid />
           </div>
-        </motion.div>
+        </div>
 
         {/* Data source trust strip */}
-        <motion.div
-          className="mt-5 flex flex-wrap items-center justify-center gap-2"
-          {...fadeUpProps(0.5)}
-        >
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
           <span className="text-xs text-text-tertiary">Åpne data fra</span>
           {[
             { label: "SSB", href: "https://www.ssb.no", title: "Statistisk sentralbyrå — boligpriser og statistikk" },
@@ -645,7 +562,7 @@ export default function HomePage() {
               </svg>
             </a>
           ))}
-        </motion.div>
+        </div>
       </main>
 
       {/* Product preview — fades in on scroll */}
@@ -778,6 +695,5 @@ export default function HomePage() {
         </div>
       </footer>}
     </div>
-    </LazyMotion>
   );
 }

@@ -26,6 +26,22 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "1.3",
+    date: "31. mars 2026",
+    label: "Hydration-fiks, Bergen/Trondheim reisetid, søk og dataryddighet",
+    items: [
+      { type: "fix", text: "React hydration #418/#423 — rotårsak funnet: PageTransition og CardsCascade brukte Framer Motion initial={{opacity:0}} på server-renderte elementer → SSR/CSR mismatch. Erstattet med CSS-keyframe-animasjon (animate-page-enter / animate-card-enter). Ingen synlig endring for brukere." },
+      { type: "fix", text: "Bergen reisetid blank (\"___ min til Bergen sentrum\") — Entur returnerer ingen rute når adresse er innenfor 1km av sentrum. Fikset: durationMinutes=null vises nå som «Sentrum» med grønn badge." },
+      { type: "fix", text: "Trondheim 51 min fra sentrum til sentrum — Entur valgte langsom rute. Fikset: henter 3 alternativer og bruker den raskeste; sanity-sjekk avviser ruter >30min for adresser <1.5km fra sentrum." },
+      { type: "fix", text: "Sammenlign-adressesøk returnerte Bogane (Bergen) for 'Bogstadveien 45, Oslo' — fuzzy-søk matchet uten by-kontekst. Fikset: exact-søk prioriteres, resultater boostes der poststed matcher spørringen." },
+      { type: "fix", text: "Sammenlign: gammel eksempelreferanse 'Grenseveien 80' i sammendraget stemte ikke med eksempeladressene. Rettet til Fossveien 20 (eks.)." },
+      { type: "fix", text: "Kriminalitetsnivå-ikon feil: Bergen (under landssnitt) fikk ⚠️ i stedet for ℹ️. Fikset: storbyer med ratio <1.1 bruker nå 'Storbysnitt' (blå/ℹ️) i stedet for amber ⚠️." },
+      { type: "improvement", text: "Sammenligningstabell: 'Støykart (beta)' → 'Støykart — der data fins' (ærlig om begrenset dekning)" },
+      { type: "improvement", text: "Sidefot: 'Om oss'-kolonnens overskrift omdøpt til 'Selskapet' (eliminerer duplikat med lenken under)" },
+      { type: "improvement", text: "Selger-FAQ: feilaktig påstand om individuelle ComparableSales-transaksjoner er rettet — vi viser SSB-kommunegjennomsnitt" },
+    ],
+  },
+  {
     version: "1.2",
     date: "31. mars 2026",
     label: "AI-tekst, mobilvisning og dataærlighet",

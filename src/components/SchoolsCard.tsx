@@ -9,6 +9,9 @@ interface School {
   distance: number;
   isPrivate?: boolean;
   levelLabel?: string | null;
+  pupils?: number | null;
+  url?: string | null;
+  nsrId?: number | null;
 }
 
 function distanceLabel(d: number) {
@@ -47,7 +50,8 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
   useEffect(() => {
     async function fetch_() {
       try {
-        const res = await fetch(`/api/schools?lat=${lat}&lon=${lon}`);
+        const knrParam = kommunenummer ? `&knr=${kommunenummer}` : "";
+        const res = await fetch(`/api/schools?lat=${lat}&lon=${lon}${knrParam}`);
         if (res.ok) {
           const { schools: data } = await res.json();
           setSchools(data ?? []);
@@ -93,10 +97,17 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
                 <div className="flex items-center gap-2 min-w-0">
                   <span>🏫</span>
                   <div className="min-w-0">
-                    <span className="truncate text-sm text-text-secondary">{s.name}</span>
-                    <div className="flex items-center gap-1.5 mt-0.5">
+                    {s.url ? (
+                      <a href={s.url} target="_blank" rel="noopener noreferrer" className="truncate text-sm text-text-secondary hover:text-accent transition-colors">{s.name}</a>
+                    ) : (
+                      <span className="truncate text-sm text-text-secondary">{s.name}</span>
+                    )}
+                    <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
                       {s.levelLabel && (
                         <span className="text-[10px] text-text-tertiary">{s.levelLabel}</span>
+                      )}
+                      {s.pupils != null && s.pupils > 0 && (
+                        <span className="text-[10px] text-text-tertiary">· {s.pupils} elever</span>
                       )}
                       {s.isPrivate && (
                         <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-1.5 py-px text-[10px] text-amber-400">Privat</span>
@@ -149,7 +160,8 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
       )}
 
       <p className="mt-3 text-xs text-text-tertiary">
-        Kilde: OpenStreetMap · <a href="https://www.barnehagefakta.no" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">Barnehagefakta.no</a>
+        Skoler: <a href="https://data-nsr.udir.no" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">Nasjonalt skoleregister (Udir)</a>
+        {" · "}Barnehager: <a href="https://www.barnehagefakta.no" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">OpenStreetMap</a>
       </p>
     </div>
   );

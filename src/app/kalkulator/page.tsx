@@ -17,20 +17,36 @@ export const metadata: Metadata = {
 };
 
 export default function KalkulatorPage() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Boligkalkulator — Verdikart",
-    description: metadata.description,
-    url: "https://verdikart.no/kalkulator",
-    breadcrumb: {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Hjem", item: "https://verdikart.no" },
-        { "@type": "ListItem", position: 2, name: "Kalkulator", item: "https://verdikart.no/kalkulator" },
+  const schema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: "Slik beregner du kjøpskostnader for bolig i Norge",
+      description: "Beregn dokumentavgift, lånekapasitet og totale kjøpskostnader for bolig i Norge med Verdikarts gratis kalkulator.",
+      url: "https://verdikart.no/kalkulator",
+      totalTime: "PT2M",
+      step: [
+        { "@type": "HowToStep", position: 1, name: "Skriv inn boligpris", text: "Fyll inn kjøpsprisen for boligen du vurderer." },
+        { "@type": "HowToStep", position: 2, name: "Velg boligtype", text: "Velg mellom selveier, borettslag eller aksjeleilighet. Kun selveierboliger har dokumentavgift (2,5%)." },
+        { "@type": "HowToStep", position: 3, name: "Oppgi egenkapital og inntekt", text: "Kalkulatoren beregner lånekapasitet basert på bankenes standardkrav (5× inntekt, 15% egenkapital)." },
+        { "@type": "HowToStep", position: 4, name: "Se totale kjøpskostnader", text: "Få full oversikt over dokumentavgift, tinglysingsgebyr og finansieringsbehov." },
       ],
     },
-  };
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: "Boligkalkulator — Verdikart",
+      description: metadata.description,
+      url: "https://verdikart.no/kalkulator",
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Hjem", item: "https://verdikart.no" },
+          { "@type": "ListItem", position: 2, name: "Kalkulator", item: "https://verdikart.no/kalkulator" },
+        ],
+      },
+    },
+  ];
 
   return (
     <>

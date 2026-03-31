@@ -17,20 +17,34 @@ export const metadata: Metadata = {
 };
 
 export default function SammenlignPage() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Sammenlign adresser — Verdikart",
-    description: metadata.description,
-    url: "https://verdikart.no/sammenlign",
-    breadcrumb: {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Hjem", item: "https://verdikart.no" },
-        { "@type": "ListItem", position: 2, name: "Sammenlign", item: "https://verdikart.no/sammenlign" },
-      ],
+  const schema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "Verdikart Adressesammenligner",
+      applicationCategory: "UtilitiesApplication",
+      operatingSystem: "Web",
+      url: "https://verdikart.no/sammenlign",
+      description: "Sammenlign to norske adresser side ved side: kollektivtransport, boligpris og nabolagsdata — gratis verktøy fra Verdikart.",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "NOK" },
+      featureList: "Kollektivtransport · Boligprissammenligning · Støydata · Nabolagsdata",
+      provider: { "@type": "Organization", name: "Verdikart", url: "https://verdikart.no" },
     },
-  };
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: "Sammenlign adresser — Verdikart",
+      description: metadata.description,
+      url: "https://verdikart.no/sammenlign",
+      breadcrumb: {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Hjem", item: "https://verdikart.no" },
+          { "@type": "ListItem", position: 2, name: "Sammenlign", item: "https://verdikart.no/sammenlign" },
+        ],
+      },
+    },
+  ];
 
   return (
     <>

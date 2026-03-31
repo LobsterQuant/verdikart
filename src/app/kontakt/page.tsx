@@ -6,6 +6,14 @@ export const metadata: Metadata = {
   title: "Kontakt oss | Verdikart",
   description: "Ta kontakt med Verdikart — spørsmål om tjenesten, feilmeldinger, datatilgang eller samarbeid. Vi svarer innen 1–2 virkedager.",
   alternates: { canonical: "https://verdikart.no/kontakt" },
+  openGraph: {
+    title: "Kontakt oss — Verdikart",
+    description: "Ta kontakt med Verdikart — spørsmål, feilmeldinger, datatilgang eller samarbeid.",
+    url: "https://verdikart.no/kontakt",
+    siteName: "Verdikart",
+    locale: "nb_NO",
+    type: "website",
+  },
 };
 
 export default function KontaktPage() {

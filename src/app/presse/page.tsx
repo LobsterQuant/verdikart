@@ -5,6 +5,14 @@ export const metadata: Metadata = {
   title: "Presse og media | Verdikart",
   description: "Presseinfo om Verdikart — fakta om produktet, sitater, kontaktinfo for journalister og media.",
   alternates: { canonical: "https://verdikart.no/presse" },
+  openGraph: {
+    title: "Presse og media — Verdikart",
+    description: "Presseinfo om Verdikart — fakta, sitater og kontaktinfo for journalister.",
+    url: "https://verdikart.no/presse",
+    siteName: "Verdikart",
+    locale: "nb_NO",
+    type: "website",
+  },
 };
 
 const facts = [

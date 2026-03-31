@@ -5,6 +5,14 @@ export const metadata: Metadata = {
   title: "Endringslogg | Verdikart",
   description: "Se hva som er nytt i Verdikart. Vi oppdaterer jevnlig med nye funksjoner, forbedringer og feilrettinger.",
   alternates: { canonical: "https://verdikart.no/changelog" },
+  openGraph: {
+    title: "Endringslogg — Verdikart",
+    description: "Se hva som er nytt i Verdikart. Nye funksjoner, forbedringer og feilrettinger.",
+    url: "https://verdikart.no/changelog",
+    siteName: "Verdikart",
+    locale: "nb_NO",
+    type: "website",
+  },
 };
 
 type ChangeType = "feature" | "fix" | "improvement";

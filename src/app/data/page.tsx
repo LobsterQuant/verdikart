@@ -7,6 +7,14 @@ export const metadata: Metadata = {
   title: "Datakilder og metodologi | Verdikart",
   description: "Alle datakilder Verdikart bruker: SSB, Kartverket og Entur. Oppdateringsfrekvenser, begrensninger og metodologi for prisanalyse, kollektivdata og eiendomsoppslag.",
   alternates: { canonical: "https://verdikart.no/data" },
+  openGraph: {
+    title: "Datakilder og metodologi — Verdikart",
+    description: "Alle datakilder Verdikart bruker: SSB, Kartverket, Entur og OpenStreetMap.",
+    url: "https://verdikart.no/data",
+    siteName: "Verdikart",
+    locale: "nb_NO",
+    type: "website",
+  },
 };
 
 const sources = [

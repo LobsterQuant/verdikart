@@ -59,6 +59,16 @@ export default function Personvern() {
                 driftsformål. Disse slettes fortløpende.
               </span>
             </li>
+            <li className="flex items-start gap-2">
+              <span className="text-accent font-bold mt-0.5">-</span>
+              <span>
+                <strong className="text-foreground">E-postadresser</strong> — dersom du melder
+                deg på nyhetsbrev eller prisvarsel, lagrer vi e-postadressen din
+                hos Formspree. Vi sletter abonnenter etter 12 måneder uten
+                aktivitet, eller umiddelbart på forespørsel til{" "}
+                <a href="mailto:kontakt@verdikart.no" className="text-accent hover:underline">kontakt@verdikart.no</a>.
+              </span>
+            </li>
           </ul>
         </section>
 

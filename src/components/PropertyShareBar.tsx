@@ -21,7 +21,7 @@ export default function PropertyShareBar({ address, url }: { address: string; ur
   const twitterHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Sjekk ut ${address} på Verdikart`)}&url=${encodeURIComponent(url)}`;
 
   return (
-    <div className="mb-6 flex flex-row flex-wrap items-center gap-2 no-print">
+    <div className="mb-6 flex flex-row flex-wrap items-center justify-between gap-2 sm:justify-start no-print">
       <span className="text-xs font-medium text-text-tertiary shrink-0">Del:</span>
 
       {/* X */}

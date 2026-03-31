@@ -117,6 +117,14 @@ export default function RootLayout({
           "url": "https://verdikart.no",
           "description": "Norges smarteste verktøy for boligkjøpere. Kollektivtransport, prisutvikling og markedsdata — alt på ett sted.",
           "inLanguage": "nb-NO",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://verdikart.no?q={search_term_string}",
+            },
+            "query-input": "required name=search_term_string",
+          },
         }} />
         {/* Skip-to-content — visible on keyboard focus only */}
         <a

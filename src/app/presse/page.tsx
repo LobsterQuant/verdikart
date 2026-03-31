@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, ExternalLink } from "lucide-react";
+import { Mail, ExternalLink, Download } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Presse og media | Verdikart",
@@ -90,6 +90,55 @@ export default function PressePage() {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* Press kit / logos */}
+        <section className="mb-10">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-widest text-text-tertiary">Logopakke</h2>
+          <p className="mb-4 text-sm text-text-secondary">
+            Last ned Verdikart-logoen for bruk i artikler og presentasjoner. Bruk helst SVG-versjonen for best kvalitet.
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="rounded-xl border border-card-border bg-card-bg p-5 flex flex-col items-center gap-3">
+              <div className="flex h-20 w-full items-center justify-center rounded-lg bg-[#0f1117]">
+                <span className="text-xl font-bold text-white tracking-tight">Verdikart</span>
+              </div>
+              <p className="text-xs text-text-tertiary">Logo — mørk bakgrunn</p>
+              <div className="flex gap-2">
+                <a href="/assets/press/verdikart-logo-white.svg" download className="flex items-center gap-1 rounded-lg border border-card-border px-3 py-1.5 text-xs text-accent hover:border-accent/40">
+                  <Download className="h-3 w-3" strokeWidth={1.5} />SVG
+                </a>
+                <a href="/assets/press/verdikart-logo-white.png" download className="flex items-center gap-1 rounded-lg border border-card-border px-3 py-1.5 text-xs text-accent hover:border-accent/40">
+                  <Download className="h-3 w-3" strokeWidth={1.5} />PNG
+                </a>
+              </div>
+            </div>
+            <div className="rounded-xl border border-card-border bg-card-bg p-5 flex flex-col items-center gap-3">
+              <div className="flex h-20 w-full items-center justify-center rounded-lg bg-white">
+                <span className="text-xl font-bold text-[#0f1117] tracking-tight">Verdikart</span>
+              </div>
+              <p className="text-xs text-text-tertiary">Logo — lys bakgrunn</p>
+              <div className="flex gap-2">
+                <a href="/assets/press/verdikart-logo-dark.svg" download className="flex items-center gap-1 rounded-lg border border-card-border px-3 py-1.5 text-xs text-accent hover:border-accent/40">
+                  <Download className="h-3 w-3" strokeWidth={1.5} />SVG
+                </a>
+                <a href="/assets/press/verdikart-logo-dark.png" download className="flex items-center gap-1 rounded-lg border border-card-border px-3 py-1.5 text-xs text-accent hover:border-accent/40">
+                  <Download className="h-3 w-3" strokeWidth={1.5} />PNG
+                </a>
+              </div>
+            </div>
+          </div>
+          <p className="mt-3 text-xs text-text-tertiary">
+            Verdikart er ett ord, stor V, liten k. Ikke endre fargene eller forholdet i logoen.
+          </p>
+        </section>
+
+        {/* About – short company description */}
+        <section className="mb-10 rounded-xl border border-card-border bg-card-bg p-5">
+          <h2 className="mb-2 font-semibold">Om Verdikart</h2>
+          <p className="text-sm leading-relaxed text-text-secondary">
+            Verdikart er et gratis norsk verktøy som gir boligkjøpere tilgang til eiendomsdata fra offentlige kilder som SSB, Kartverket og Entur — samlet på ett sted. Tjenesten ble lansert i mars 2026 og dekker hele Norge. Brukere søker på en adresse og får umiddelbart innsikt i kollektivtransport, boligprisutvikling, støynivå og nabolagsstatistikk, uten registrering eller betaling.
+          </p>
         </section>
 
         {/* Links */}

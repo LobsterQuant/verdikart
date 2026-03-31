@@ -230,7 +230,7 @@ const HOW_STEPS = [
 
 const COMPARISON_ROWS = [
   { feature: "Kollektivtransport og gangavstand",   icon: "🚇", verdikart: true,  finn: false, google: false },
-  { feature: "Støykart per adresse",                icon: "🔊", verdikart: true,  finn: false, google: false },
+  { feature: "Støykart per adresse (beta)",          icon: "🔊", verdikart: true,  finn: false, google: false },
   { feature: "SSB prisstatistikk per kommune",       icon: "📊", verdikart: true,  finn: false, google: false },
   { feature: "Sammenlignbare salg i nabolaget",     icon: "🏘️", verdikart: true,  finn: true,  google: false },
   { feature: "Skoler og barnehager",                icon: "🏫", verdikart: true,  finn: false, google: false },

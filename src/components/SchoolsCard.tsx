@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, ExternalLink } from "lucide-react";
 
 interface School {
   name: string;
   type: string;
   distance: number;
-}
-
-function typeEmoji(type: string) {
-  return type === "Barnehage" ? "🧒" : "🏫";
+  isPrivate?: boolean;
+  levelLabel?: string | null;
 }
 
 function distanceLabel(d: number) {
@@ -26,7 +24,23 @@ function distanceColor(d: number) {
   return "text-text-secondary";
 }
 
-export default function SchoolsCard({ lat, lon }: { lat: number; lon: number }) {
+// Map kommunenummer prefix → barnehageplass URL
+function barnehageLink(kommunenummer?: string): string {
+  if (!kommunenummer) return "https://www.barnehagefakta.no";
+  const k = kommunenummer.padStart(4, "0");
+  // Oslo
+  if (k === "0301") return "https://www.oslo.kommune.no/barnehage/";
+  // Bergen
+  if (k === "4601") return "https://www.bergen.kommune.no/innbyggerhjelpen/barnehage";
+  // Trondheim
+  if (k === "5001") return "https://www.trondheim.kommune.no/barnehage/";
+  // Stavanger
+  if (k === "1103") return "https://www.stavanger.kommune.no/barnehage/";
+  // Generic UDIR barnehagefakta
+  return `https://www.barnehagefakta.no/naermeste?lat=&kommunenr=${k}`;
+}
+
+export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; lon: number; kommunenummer?: string }) {
   const [schools, setSchools] = useState<School[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -60,6 +74,7 @@ export default function SchoolsCard({ lat, lon }: { lat: number; lon: number }) 
 
   const kindergartens = schools.filter(s => s.type === "Barnehage");
   const skoler = schools.filter(s => s.type === "Skole");
+  const bhLink = barnehageLink(kommunenummer);
 
   return (
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -77,7 +92,17 @@ export default function SchoolsCard({ lat, lon }: { lat: number; lon: number }) 
               <div key={s.name} className="flex items-center justify-between rounded-lg bg-background px-3 py-2.5">
                 <div className="flex items-center gap-2 min-w-0">
                   <span>🏫</span>
-                  <span className="truncate text-sm text-text-secondary">{s.name}</span>
+                  <div className="min-w-0">
+                    <span className="truncate text-sm text-text-secondary">{s.name}</span>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      {s.levelLabel && (
+                        <span className="text-[10px] text-text-tertiary">{s.levelLabel}</span>
+                      )}
+                      {s.isPrivate && (
+                        <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-1.5 py-px text-[10px] text-amber-400">Privat</span>
+                      )}
+                    </div>
+                  </div>
                 </div>
                 <div className="ml-3 flex shrink-0 items-center gap-2 text-xs">
                   <span className={`font-semibold ${distanceColor(s.distance)}`}>{s.distance}m</span>
@@ -93,11 +118,16 @@ export default function SchoolsCard({ lat, lon }: { lat: number; lon: number }) 
         <div>
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Barnehager</p>
           <div className="space-y-2">
-            {kindergartens.slice(0, 3).map(s => (
+            {kindergartens.slice(0, 4).map(s => (
               <div key={s.name} className="flex items-center justify-between rounded-lg bg-background px-3 py-2.5">
                 <div className="flex items-center gap-2 min-w-0">
-                  <span>{typeEmoji(s.type)}</span>
-                  <span className="truncate text-sm text-text-secondary">{s.name}</span>
+                  <span>🧒</span>
+                  <div className="min-w-0">
+                    <span className="truncate text-sm text-text-secondary">{s.name}</span>
+                    {s.isPrivate && (
+                      <span className="ml-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-1.5 py-px text-[10px] text-amber-400">Privat</span>
+                    )}
+                  </div>
                 </div>
                 <div className="ml-3 flex shrink-0 items-center gap-2 text-xs">
                   <span className={`font-semibold ${distanceColor(s.distance)}`}>{s.distance}m</span>
@@ -105,11 +135,21 @@ export default function SchoolsCard({ lat, lon }: { lat: number; lon: number }) 
               </div>
             ))}
           </div>
+          {/* Barnehageplass link */}
+          <a
+            href={bhLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 flex items-center gap-1.5 text-xs text-accent hover:underline"
+          >
+            <ExternalLink className="h-3 w-3" strokeWidth={1.5} />
+            Søk barnehageplass i kommunen
+          </a>
         </div>
       )}
 
       <p className="mt-3 text-xs text-text-tertiary">
-        Kilde: OpenStreetMap · Overpass API
+        Kilde: OpenStreetMap · <a href="https://www.barnehagefakta.no" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">Barnehagefakta.no</a>
       </p>
     </div>
   );

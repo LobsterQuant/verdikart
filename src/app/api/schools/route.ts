@@ -6,6 +6,8 @@ interface School {
   lon: number;
   type: string;
   distance?: number;
+  isPrivate?: boolean;
+  levelLabel?: string | null;
 }
 
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -62,7 +64,15 @@ out center 20;
         const name = tags.name ?? tags["name:no"] ?? (tags.amenity === "kindergarten" ? "Barnehage" : "Skole");
         const type = tags.amenity === "kindergarten" ? "Barnehage" : "Skole";
         const distance = Math.round(haversine(lat, lon, elLat, elLon));
-        return { name, lat: elLat, lon: elLon, type, distance };
+        // Enrich: school level + operator type from OSM tags
+        const isPrivate = tags.operator_type === "private" || tags.fee === "yes";
+        const schoolLevel = tags["isced:level"] ?? tags.school ?? null; // "1"=primary,"2"=secondary
+        const levelLabel =
+          schoolLevel === "1" || schoolLevel === "primary" ? "Barneskole" :
+          schoolLevel === "2" || schoolLevel === "secondary" ? "Ungdomsskole" :
+          schoolLevel === "1-3" ? "1–10" :
+          type === "Barnehage" ? null : null;
+        return { name, lat: elLat, lon: elLon, type, distance, isPrivate, levelLabel };
       })
       .filter(Boolean)
       .sort((a: School, b: School) => (a.distance ?? 0) - (b.distance ?? 0))

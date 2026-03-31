@@ -267,7 +267,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 <TransitCard key="transit" lat={latNum} lon={lonNum} address={displayAddress} />,
                 <PriceTrendCard key="price" kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} />,
                 <ComparableSalesCard key="sales" kommunenummer={kommunenummer} />,
-                ...(latNum && lonNum ? [<SchoolsCard key="schools" lat={latNum} lon={lonNum} />] : []),
+                ...(latNum && lonNum ? [<SchoolsCard key="schools" lat={latNum} lon={lonNum} kommunenummer={kommunenummer} />] : []),
               ]}
             </CardsCascade>
 

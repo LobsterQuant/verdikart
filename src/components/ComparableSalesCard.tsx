@@ -86,7 +86,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
       <div className="mb-4 flex items-center gap-2">
         <BarChart2 className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Sammenlignbare salg</h3>
-        <span className="ml-auto text-xs text-text-tertiary">{data.period}</span>
+        <span className="ml-auto text-xs text-text-tertiary" title="SSB publiserer årsdata for boligomsetninger. Siste tilgjengelige data er alltid forrige kalenderår.">{data.period}</span>
       </div>
 
       {/* Kommunesnitt hero */}
@@ -113,7 +113,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
         {data.totalTransactions
           ? ` · ${data.totalTransactions.toLocaleString("nb-NO")} transaksjoner`
           : ""}
-        {" · "}{data.period}
+        {data.period ? ` · ${data.period}` : ""}
       </p>
 
       {/* By housing type */}

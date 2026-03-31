@@ -149,8 +149,8 @@ export default function PriceTrendCard({
           </svg>
         </a>
         {data.lastUpdated && (
-          <span className="ml-auto text-xs text-text-tertiary" title="Siste tilgjengelige data fra SSB">
-            Sist oppdatert: {data.lastUpdated}
+          <span className="ml-auto text-xs text-text-tertiary" title="SSB publiserer boligprisdata kvartalsvis. Q4 2024 er siste tilgjengelige kvartal — nyere data publiseres av SSB i 2025.">
+            {data.lastUpdated.replace("K", "Q")}
           </span>
         )}
       </div>

@@ -84,9 +84,11 @@ export async function GET(request: NextRequest) {
       ? Math.round(byType.reduce((s, r) => s + r.pricePerSqm * r.transactions, 0) / totalTxns)
       : Math.round(byType.reduce((s, r) => s + r.pricePerSqm, 0) / byType.length);
 
-    const period = Object.values(
+    const rawPeriod = Object.values(
       data.dimension?.Tid?.category?.label ?? {}
     ).join("");
+    // Format as "Årsgjennomsnitt 2024" — SSB table 06035 is annual, not quarterly
+    const period = rawPeriod ? `Årsgjennomsnitt ${rawPeriod}` : "";
 
     // Kommune name from dimension label
     const kommuneName = Object.values(

@@ -26,6 +26,20 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "1.2",
+    date: "31. mars 2026",
+    label: "AI-tekst, mobilvisning og dataærlighet",
+    items: [
+      { type: "fix", text: "AI-oppsummering viste sammenklumpet tekst uten mellomrom («Bogstadveien45,Osloer...»). Rotårsak: fallback delte ord i separate SSE-tokens og klienten strippet mellomrom. Fikset: full tekst sendes som én hendelse; SSE-klient deler nå korrekt på \\n\\n-grense." },
+      { type: "fix", text: "Sammenligningstabell: kolonneoverskrifter (Verdikart / Finn.no / Google Maps) var usynlige på 390px iPhone. Fikset: grid bruker minmax(140px,1fr) + w-max på scroll-container." },
+      { type: "fix", text: "Delknapper på mobilrapport sto i vertikal kolonne og dekte innhold. Fikset: kompakt horisontal layout; Skriv ut skjules på mobil (desktop-funksjon); Del-knapp bruker innebygd native share." },
+      { type: "fix", text: "React hydration-feil #418 fra animated table rows (motion.div initial={{opacity:0}}) — erstattet med vanlige div-elementer uten animasjon." },
+      { type: "improvement", text: "Sammenligningstabell: «Sammenlignbare salg» korrigert til «Kommunalt prissnitt» (SSB kommunegjennomsnitt, ikke individuelle transaksjoner); Finn.no-hake fjernet (de har ekte transaksjonsdata, vi har ikke)" },
+      { type: "improvement", text: "Kriminalitetsnivå-rad i sammenligningstabell annotert med «(kommunenivå)» — tydeliggjør at data gjelder hele kommunen, ikke bydel eller nabolag" },
+      { type: "improvement", text: "Hero-statistikk: «kommuner dekket» → «kommuner m/prisdata» (47 gjelder SSB prisdekning, ikke produktdekning totalt)" },
+    ],
+  },
+  {
     version: "1.1",
     date: "31. mars 2026",
     label: "Kritiske feilrettinger — koordinater, AI og datanøyaktighet",

@@ -216,7 +216,7 @@ const HOW_STEPS = [
         {[
           { label: "🚇  T-bane 50m", value: "Nationalteatret", good: true },
           { label: "📊  Kvadratmeterpris", value: "94 200 kr/m²", good: true },
-          { label: "🔊  Støynivå vei", value: "52 dB — Moderat", good: null },
+          { label: "🔊  Støynivå vei", value: "Data fra Kartverket", good: null },
           { label: "🏘️  Sammenlignbare salg", value: "kommunesnitt", good: true },
         ].map(({ label, value, good }) => (
           <div key={label} className="flex items-center justify-between rounded-md border border-card-border bg-background px-2.5 py-1.5">

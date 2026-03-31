@@ -200,15 +200,15 @@ export default function AddressCompare() {
     let transit: TransitData | null = null;
     if (transitRes.status === "fulfilled" && transitRes.value.ok) {
       const raw = await transitRes.value.json();
-      const stops = (Array.isArray(raw) ? raw : raw.stops ?? []).slice(0, 5);
+      // Transit API returns array of stops directly, each with {name, distance, lines[]}
+      const stops = (Array.isArray(raw) ? raw : raw.stops ?? []).slice(0, 5).map((s: { name: string; distance: number; lines?: { mode: string }[]; modes?: string[] }) => ({
+        name: s.name,
+        distance: s.distance,
+        modes: s.modes ?? (s.lines ?? []).map((l: { mode: string }) => l.mode).filter((m: string, i: number, a: string[]) => a.indexOf(m) === i),
+      }));
       const nearest = stops[0];
-      const scores = [
-        { max: 300, label: "Utmerket 🟢" },
-        { max: 600, label: "Godt 🟡" },
-        { max: 1000, label: "Middels 🟠" },
-      ];
       const dist = nearest?.distance ?? 9999;
-      const score = scores.find(s => dist <= s.max)?.label ?? "Begrenset 🔴";
+      const score = dist <= 300 ? "Utmerket 🟢" : dist <= 600 ? "Godt 🟡" : dist <= 1000 ? "Middels 🟠" : "Begrenset 🔴";
       transit = { score, stops, nearest: nearest ? `${nearest.name} (${nearest.distance}m)` : undefined };
     }
 
@@ -222,7 +222,19 @@ export default function AddressCompare() {
     let noise: string | null = null;
     if (noiseRes.status === "fulfilled" && noiseRes.value.ok) {
       const raw = await noiseRes.value.json();
-      noise = raw.level ?? raw.description ?? raw.label ?? null;
+      // Noise API returns {veinoise, flynoise, jernbanenoise} as dB values or null
+      const vei = raw.veinoise ?? raw.road ?? null;
+      const fly = raw.flynoise ?? raw.air ?? null;
+      const tog = raw.jernbanenoise ?? raw.rail ?? null;
+      if (vei !== null || fly !== null || tog !== null) {
+        const parts = [];
+        if (vei !== null) parts.push(`Vei: ${vei} dB`);
+        if (fly !== null) parts.push(`Fly: ${fly} dB`);
+        if (tog !== null) parts.push(`Tog: ${tog} dB`);
+        noise = parts.join(" · ");
+      } else {
+        noise = "Ingen støydata";
+      }
     }
 
     return { transit, price, noise, loading: false };
@@ -253,6 +265,11 @@ export default function AddressCompare() {
         <SearchSlot label="Adresse A" slot={slotA} onSelect={selectA} onClear={() => setSlotA(EMPTY_SLOT)} />
         <SearchSlot label="Adresse B" slot={slotB} onSelect={selectB} onClear={() => setSlotB(EMPTY_SLOT)} />
       </div>
+      {(!slotA.address || !slotB.address) && (slotA.address || slotB.address) && (
+        <p className="text-center text-xs text-text-tertiary animate-pulse">
+          {!slotA.address ? "Søk på Adresse A for å starte sammenligningen" : "Søk på Adresse B for å fullføre sammenligningen"}
+        </p>
+      )}
 
       {/* Winner banner */}
       {priceWinner && slotA.address && slotB.address && (

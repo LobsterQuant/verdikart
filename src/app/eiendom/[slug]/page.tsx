@@ -301,7 +301,9 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                     </a>
                   ))}
                 </div>
-                <p className="mt-3 text-[10px] text-text-tertiary">Data oppdateres løpende fra offentlige API-er</p>
+                <p className="mt-3 text-[10px] text-text-tertiary">
+                  Rapport generert {new Date().toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" })} · Data oppdateres løpende fra offentlige API-er
+                </p>
               </div>
 
               {/* Email capture */}

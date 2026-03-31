@@ -4,7 +4,7 @@ import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
   title: "Om Verdikart — Hvem vi er og hva vi bygger",
-  description: "Verdikart er bygget av Michael Hansen, en Oslo-basert teknologi- og datautvikler. Vi gjør boligmarkedet mer transparent for norske kjøpere.",
+  description: "Verdikart er et lite, fokusert team som gjør boligmarkedet mer transparent for norske kjøpere — med data fra Kartverket, Entur og SSB.",
   alternates: { canonical: "https://verdikart.no/om-oss" },
 };
 
@@ -130,6 +130,15 @@ export default function OmOss() {
                 </p>
               </div>
             </div>
+          </section>
+
+          {/* Team / longevity note */}
+          <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-3">Et lite, fokusert team</h2>
+            <p className="text-sm leading-relaxed text-text-secondary">
+              Verdikart er bygget og driftet av et lite distribuert team med bakgrunn i systemutvikling og dataanalyse. Vi er ikke et VC-finansiert selskap med et burn rate — tjenesten er designet for å holde seg oppe uten tung infrastruktur. All data hentes fra åpne, offisielle API-er (Kartverket, Entur, SSB) som har eksistert i 10+ år og ikke forsvinner. Trenger du svar? Vi svarer på{" "}
+              <a href="mailto:kontakt@verdikart.no" className="text-accent hover:underline">kontakt@verdikart.no</a> innen en arbeidsdag.
+            </p>
           </section>
 
           {/* Mission */}

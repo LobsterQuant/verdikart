@@ -26,6 +26,19 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "1.1",
+    date: "31. mars 2026",
+    label: "Kritiske feilrettinger — koordinater, AI og datanøyaktighet",
+    items: [
+      { type: "fix", text: "Bergen-koordinater i demo-lenke var 10× feil (60374 → 603893) — alle ikke-Oslo-adresser fikk feil by i kollektivtransportkortet (viste f.eks. «Kristiansand sentrum» i Bergen)" },
+      { type: "fix", text: "AI-oppsummering: modell byttet fra google/gemini-2.0-flash-lite-001 (tom respons) til openai/gpt-oss-20b:free; SSE-buffer-parsing rettet for fragmenterte chunks" },
+      { type: "fix", text: "Sammenlign-eksempel viste fiktive støydata for Bogstadveien 45 som ikke stemte med rapportsiden — erstattet med tydelig merkede illustrative eksempeladresser" },
+      { type: "fix", text: "Hydration-feil (#418) i sidefot: new Date().getFullYear() ga SSR/CSR-mismatch — fikset med suppressHydrationWarning" },
+      { type: "improvement", text: "«Sammenlignbare salg» omdøpt til «Kommunalt prissnitt» — gjenspeiler at tallene er kommunegjennomsnitt fra SSB, ikke individuelle transaksjoner" },
+      { type: "improvement", text: "Nabolagssider: kvadratmeterpris nå merket «Estimert basert på SSB kommunedata 2024» (ikke direkte SSB-tall, men bydeljustert estimat)" },
+    ],
+  },
+  {
     version: "1.0",
     date: "31. mars 2026",
     label: "Datakvalitet, GDPR & SEO",

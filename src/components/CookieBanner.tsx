@@ -127,7 +127,7 @@ export default function CookieBanner() {
       aria-live="polite"
       aria-modal="true"
       aria-label="Informasjonskapsler og personvern"
-      className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-lg rounded-xl border border-card-border bg-card-bg p-4 shadow-2xl shadow-black/60 sm:left-auto sm:right-6 sm:max-w-sm"
+      className="fixed bottom-0 left-0 right-0 z-50 rounded-t-2xl border-t border-card-border bg-card-bg p-4 shadow-2xl shadow-black/60 sm:bottom-6 sm:left-auto sm:right-6 sm:max-w-sm sm:rounded-xl sm:border sm:border-card-border"
     >
       <p className="mb-1 text-sm font-semibold text-foreground">Informasjonskapsler</p>
       <p className="mb-3 text-xs leading-relaxed text-text-secondary">

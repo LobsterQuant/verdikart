@@ -279,74 +279,76 @@ function ComparisonSection() {
         Google forteller deg hva boligen ser ut som. Finn.no viser prisen. Verdikart forklarer <em>konteksten</em>.
       </p>
 
-      {/* 3-column product comparison cards */}
-      <div className="grid grid-cols-3 gap-3 mb-0">
-        {competitors.map(({ name, tagline, accent, logo }) => (
-          <div
-            key={name}
-            className={`rounded-xl border p-4 text-center transition-all ${
-              accent
-                ? "border-accent/40 bg-accent/5 shadow-lg shadow-accent/5"
-                : "border-card-border bg-card-bg opacity-60"
-            }`}
-          >
-            <div className={`mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full border ${accent ? "border-accent/30 bg-accent/10" : "border-card-border bg-background"}`}>
-              {logo}
-            </div>
-            <p className={`text-sm font-bold ${accent ? "text-foreground" : "text-text-secondary"}`}>{name}</p>
-            <p className="text-[11px] text-text-tertiary mt-0.5">{tagline}</p>
-            {accent && (
-              <div className="mt-2 inline-block rounded-full bg-accent/20 px-2 py-0.5 text-[10px] font-semibold text-accent">
-                Anbefalt
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Feature rows — horizontally scrollable on mobile */}
+      {/* Unified comparison table — header cards + feature rows share the same grid */}
       <div className="overflow-x-auto rounded-xl border border-card-border">
         <div className="min-w-[520px]">
-        {COMPARISON_ROWS.map(({ feature, icon, verdikart, finn, google }, i) => (
-          <motion.div
-            key={feature}
-            className={`grid grid-cols-[1fr_repeat(3,_100px)] items-center gap-0 border-b border-card-border last:border-b-0 ${
-              i % 2 === 0 ? "bg-background" : "bg-card-bg"
-            }`}
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.3, delay: 0.15 + i * 0.05 }}
-          >
-            <div className="flex items-center gap-2.5 px-4 py-3.5">
-              <span className="text-base shrink-0" aria-hidden>{icon}</span>
-              <span className="text-xs text-text-secondary leading-snug">{feature}</span>
-            </div>
-            {/* Verdikart — highlighted */}
-            <div className={`flex items-center justify-center py-3.5 ${verdikart ? "bg-accent/5" : ""}`}>
-              {verdikart ? (
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-white text-[11px] font-bold shadow-sm shadow-accent/30">✓</span>
-              ) : (
-                <span className="h-4 w-px bg-card-border inline-block opacity-40" />
-              )}
-            </div>
-            {/* Finn */}
-            <div className="flex items-center justify-center py-3.5">
-              {finn ? (
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-card-border text-text-secondary text-[11px]">✓</span>
-              ) : (
-                <span className="h-4 w-px bg-card-border inline-block opacity-30" />
-              )}
-            </div>
-            {/* Google */}
-            <div className="flex items-center justify-center py-3.5">
-              {google ? (
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-card-border text-text-secondary text-[11px]">✓</span>
-              ) : (
-                <span className="h-4 w-px bg-card-border inline-block opacity-30" />
-              )}
-            </div>
-          </motion.div>
-        ))}
+
+          {/* Header row — product cards aligned to columns */}
+          <div className="grid grid-cols-[1fr_repeat(3,_100px)] border-b border-card-border">
+            <div /> {/* empty label column */}
+            {competitors.map(({ name, tagline, accent, logo }) => (
+              <div
+                key={name}
+                className={`flex flex-col items-center justify-center px-2 py-4 text-center ${
+                  accent ? "bg-accent/5" : ""
+                }`}
+              >
+                <div className={`mb-2 flex h-10 w-10 items-center justify-center rounded-full border ${accent ? "border-accent/30 bg-accent/10" : "border-card-border bg-background"}`}>
+                  {logo}
+                </div>
+                <p className={`text-sm font-bold leading-tight ${accent ? "text-foreground" : "text-text-secondary"}`}>{name}</p>
+                <p className="text-[10px] text-text-tertiary mt-0.5">{tagline}</p>
+                {accent && (
+                  <div className="mt-2 inline-block rounded-full bg-accent/20 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                    Anbefalt
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Feature rows */}
+          {COMPARISON_ROWS.map(({ feature, icon, verdikart, finn, google }, i) => (
+            <motion.div
+              key={feature}
+              className={`grid grid-cols-[1fr_repeat(3,_100px)] items-center border-b border-card-border last:border-b-0 ${
+                i % 2 === 0 ? "bg-background" : "bg-card-bg"
+              }`}
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.3, delay: 0.15 + i * 0.05 }}
+            >
+              <div className="flex items-center gap-2.5 px-4 py-3.5">
+                <span className="text-base shrink-0" aria-hidden>{icon}</span>
+                <span className="text-xs text-text-secondary leading-snug">{feature}</span>
+              </div>
+              {/* Verdikart */}
+              <div className={`flex items-center justify-center py-3.5 ${verdikart ? "bg-accent/5" : ""}`}>
+                {verdikart ? (
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-white text-[11px] font-bold shadow-sm shadow-accent/30">✓</span>
+                ) : (
+                  <span className="h-4 w-px bg-card-border inline-block opacity-40" />
+                )}
+              </div>
+              {/* Finn */}
+              <div className="flex items-center justify-center py-3.5">
+                {finn ? (
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-card-border text-text-secondary text-[11px]">✓</span>
+                ) : (
+                  <span className="h-4 w-px bg-card-border inline-block opacity-30" />
+                )}
+              </div>
+              {/* Google */}
+              <div className="flex items-center justify-center py-3.5">
+                {google ? (
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-card-border text-text-secondary text-[11px]">✓</span>
+                ) : (
+                  <span className="h-4 w-px bg-card-border inline-block opacity-30" />
+                )}
+              </div>
+            </motion.div>
+          ))}
+
         </div>
       </div>
 

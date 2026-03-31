@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: "Verdikart — Forstå boligen. Ikke bare se den.",
     description: "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå for enhver adresse.",
     url: "https://verdikart.no",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Verdikart" }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Verdikart — Forstå boligen. Ikke bare se den." }],
   },
   twitter: {
     card: "summary_large_image",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     creator: "@Verdikart",
     title: "Verdikart — Forstå boligen. Ikke bare se den.",
     description: "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå.",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
 };
 
@@ -51,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="no">
+    <html lang="nb">
       <head>
         <meta charSet="utf-8" />
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
@@ -117,14 +117,6 @@ export default function RootLayout({
           "url": "https://verdikart.no",
           "description": "Norges smarteste verktøy for boligkjøpere. Kollektivtransport, prisutvikling og markedsdata — alt på ett sted.",
           "inLanguage": "nb-NO",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": {
-              "@type": "EntryPoint",
-              "urlTemplate": "https://verdikart.no/?adresse={search_term_string}"
-            },
-            "query-input": "required name=search_term_string"
-          }
         }} />
         {/* Skip-to-content — visible on keyboard focus only */}
         <a

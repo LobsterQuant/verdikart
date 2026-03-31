@@ -125,7 +125,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                     {post.category ?? "Boligmarkedet"}
                   </span>
                   <p className="text-xs text-text-tertiary">
-                    {formatDate(post.publishedAt)} · {post.readingMinutes} min lesetid
+                    <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time> · {post.readingMinutes} min lesetid
                   </p>
                 </div>
               </div>
@@ -169,7 +169,16 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 <circle cx="18" cy="18" r="17" fill="none" stroke="url(#blogAvatarRing)" strokeWidth="1" />
               </svg>
               <div>
-                <p className="text-sm font-medium">Michael H.</p>
+                <a
+                  href="/om-oss"
+                  rel="author"
+                  className="text-sm font-medium hover:text-accent transition-colors"
+                  itemProp="author"
+                  itemScope
+                  itemType="https://schema.org/Person"
+                >
+                  <span itemProp="name">Michael H.</span>
+                </a>
                 <p className="text-xs text-text-tertiary">Grunnlegger, Verdikart</p>
               </div>
               <div className="ml-auto flex items-center gap-1 text-xs text-text-tertiary">

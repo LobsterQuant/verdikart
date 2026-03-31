@@ -2,6 +2,7 @@
 
 import { m as motion, useMotionValue, useTransform, LazyMotion, domAnimation } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
+import React from "react";
 import AddressSearch from "@/components/AddressSearch";
 import ProductPreview from "@/components/ProductPreview";
 import ProductDemo from "@/components/ProductDemo";
@@ -11,7 +12,6 @@ import Logo from "@/components/Logo";
 import SiteFooter from "@/components/SiteFooter";
 import { Bus, TrendingUp, Home } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
-import type { RefObject } from "react";
 
 const valueProps = [
   {
@@ -59,19 +59,19 @@ function useCountUp(target: number, duration = 1200, active = false) {
 function fadeUpProps(delay = 0) {
   return {
     initial: { opacity: 0, y: 24 },
-    animate: { opacity: 1, y: 0 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0 },
     transition: { duration: 0.55, ease: EASE, delay },
   };
 }
 
 function FeatureCard({
-  Icon, title, description, delay, inView,
+  Icon, title, description, delay,
 }: {
   Icon: React.ElementType;
   title: string;
   description: string;
   delay: number;
-  inView: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -97,7 +97,8 @@ function FeatureCard({
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, y: 28 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.5, ease: "easeOut", delay }}
       whileHover={{ y: -6, scale: 1.02 }}
       onMouseMove={handleMouseMove}
@@ -241,8 +242,6 @@ const COMPARISON_ROWS = [
 ];
 
 function ComparisonSection() {
-  const { ref, inView } = useInView(0.1);
-
   const competitors = [
     {
       name: "Verdikart",
@@ -268,10 +267,10 @@ function ComparisonSection() {
 
   return (
     <motion.section
-      ref={ref as RefObject<HTMLElement>}
       className="mx-auto w-full max-w-4xl px-4 pb-20 sm:px-6"
       initial={{ opacity: 0, y: 32 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.05 }}
       transition={{ duration: 0.6 }}
     >
       <h2 className="mb-2 text-center text-xl font-bold sm:text-2xl">Hvorfor Verdikart?</h2>
@@ -315,7 +314,8 @@ function ComparisonSection() {
                 i % 2 === 0 ? "bg-background" : "bg-card-bg"
               }`}
               initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0 }}
               transition={{ duration: 0.3, delay: 0.15 + i * 0.05 }}
             >
               <div className="flex items-center gap-2.5 px-4 py-3.5">
@@ -359,16 +359,13 @@ function ComparisonSection() {
 }
 
 function HowItWorksSection() {
-  const { ref, inView } = useInView(0.05);
   return (
-    <section
-      ref={ref as RefObject<HTMLElement>}
-      className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6"
-    >
+    <section className="mx-auto w-full max-w-3xl px-4 pb-16 sm:px-6">
       <motion.h2
         className="mb-8 text-center text-xl font-bold sm:text-2xl"
         initial={{ opacity: 0, y: 16 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.5 }}
       >
         Slik fungerer det
@@ -378,7 +375,8 @@ function HowItWorksSection() {
           aria-hidden
           className="absolute left-[11px] top-2 bottom-2 w-px origin-top bg-card-border"
           initial={{ scaleY: 0 }}
-          animate={inView ? { scaleY: 1 } : {}}
+          whileInView={{ scaleY: 1 }}
+          viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
         />
         {HOW_STEPS.map(({ n, title, body, icon, preview }, i) => (
@@ -386,7 +384,8 @@ function HowItWorksSection() {
             key={n}
             className="flex gap-4"
             initial={{ opacity: 0, x: -16 }}
-            animate={inView ? { opacity: 1, x: 0 } : { opacity: 0.4, x: 0 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.45, delay: 0.1 + i * 0.1, ease: "easeOut" }}
           >
             <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white shadow-lg shadow-accent/30 mt-0.5">
@@ -408,12 +407,8 @@ function HowItWorksSection() {
 }
 
 function FeatureCards() {
-  const { ref, inView } = useInView(0.1);
   return (
-    <div
-      ref={ref as RefObject<HTMLDivElement>}
-      className="grid gap-4 sm:grid-cols-3 sm:gap-6"
-    >
+    <div className="grid gap-4 sm:grid-cols-3 sm:gap-6">
       {valueProps.map(({ Icon, title, description }, i) => (
         <FeatureCard
           key={title}
@@ -421,7 +416,6 @@ function FeatureCards() {
           title={title}
           description={description}
           delay={i * 0.1}
-          inView={inView}
         />
       ))}
     </div>
@@ -429,12 +423,11 @@ function FeatureCards() {
 }
 
 function PreviewSection() {
-  const { ref, inView } = useInView(0.1);
   return (
     <motion.section
-      ref={ref as RefObject<HTMLElement>}
       initial={{ opacity: 0, y: 48, rotateX: 8, scale: 0.97 }}
-      animate={inView ? { opacity: 1, y: 0, rotateX: 0, scale: 1 } : {}}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
       style={{ perspective: 1200, transformStyle: "preserve-3d" }}
       className="mx-auto w-full max-w-2xl px-4 pb-16 sm:px-6"
@@ -452,7 +445,7 @@ function StatsGrid() {
 
   return (
     <div
-      ref={ref as RefObject<HTMLDivElement>}
+      ref={ref as unknown as React.RefObject<HTMLDivElement>}
       className="grid grid-cols-2 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-y divide-card-border sm:grid-cols-4 sm:divide-y-0 sm:divide-x"
     >
       {/* Free */}

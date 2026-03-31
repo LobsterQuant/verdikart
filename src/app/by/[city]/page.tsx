@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MapPin, TrendingUp, Train, ChevronRight, HelpCircle } from "lucide-react";
-import { getCityData, allCitySlugs } from "./cityData";
+import { MapPin, TrendingUp, Train, ChevronRight, HelpCircle, Lightbulb, ArrowRight } from "lucide-react";
+import { getCityData, allCitySlugs, cities } from "./cityData";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 
@@ -206,8 +206,19 @@ export default function CityPage({ params }: { params: { city: string } }) {
             </div>
           </section>
 
+          {/* Unique insight */}
+          {city.uniqueNote && (
+            <section className="mb-12">
+              <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+                <Lightbulb className="h-5 w-5 text-accent" strokeWidth={1.5} />
+                Hva du bør vite om {city.name}
+              </h2>
+              <p className="leading-relaxed text-text-secondary">{city.uniqueNote}</p>
+            </section>
+          )}
+
           {/* FAQ */}
-          <section>
+          <section className="mb-12">
             <h2 className="mb-6 flex items-center gap-2 text-xl font-semibold">
               <HelpCircle className="h-5 w-5 text-accent" strokeWidth={1.5} />
               Vanlige spørsmål om bolig i {city.name}
@@ -221,6 +232,34 @@ export default function CityPage({ params }: { params: { city: string } }) {
               ))}
             </div>
           </section>
+
+          {/* Related cities */}
+          {city.relatedCities && city.relatedCities.length > 0 && (
+            <section>
+              <h2 className="mb-4 text-lg font-semibold text-text-secondary">
+                Sammenlign med nabobyer
+              </h2>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {city.relatedCities.map((slug) => {
+                  const related = cities[slug];
+                  if (!related) return null;
+                  return (
+                    <Link
+                      key={slug}
+                      href={`/by/${slug}`}
+                      className="group flex items-center justify-between rounded-xl border border-card-border bg-card-bg px-4 py-3 transition-colors hover:border-accent/40"
+                    >
+                      <div>
+                        <p className="font-medium text-foreground group-hover:text-accent transition-colors">{related.name}</p>
+                        <p className="mt-0.5 text-xs text-text-tertiary">{related.avgSqmPrice.toLocaleString("nb-NO")} kr/m²</p>
+                      </div>
+                      <ArrowRight className="h-4 w-4 text-text-tertiary group-hover:text-accent transition-colors" strokeWidth={1.5} />
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          )}
         </div>
 
         {/* CTA footer */}

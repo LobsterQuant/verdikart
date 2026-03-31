@@ -26,6 +26,20 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "1.4",
+    date: "31. mars 2026",
+    label: "Tillit, tilgjengelighet, SEO og mobil UX",
+    items: [
+      { type: "fix", text: "Karusellanekdoter med fiktive personas ('Førstegangskjøper, Oslo' etc.) erstattet med produktbeskrivende kort merket 'Illustrativt eksempel'. Eliminerer troverdighetsrisiko fra uverifisert sosial bevis." },
+      { type: "fix", text: "Nyhetsbrevskjemaer (Varsle meg + Abonnér): lagt til name=\"email\" og autoComplete=\"email\" på begge input-felt. Fikser skjermleser-tilgjengelighet, nettleser-autofyll og graceful degradation uten JS." },
+      { type: "fix", text: "Informasjonskapselbanner dekket innhold på 390px iPhone. Fikset: full-bredde bunnark på mobil (rounded-t-2xl, bottom-0) — hero-innhold er nå synlig over banneret. Desktop-variant uendret (hjørnekort)." },
+      { type: "improvement", text: "Bysider: alle 15 bysider har nå en unik 'Hva du bør vite'-seksjon med lokalt differensiert innhold (Bodøs flyplass-transformasjon, Bergens Bybane-priseffekt, Stavanger-oljesyklus-risiko, Tromsøs øy-knapphet m.fl.). Eliminerer tynt malklisjéinnhold." },
+      { type: "improvement", text: "Bysider: 'Sammenlign med nabobyer'-seksjon lagt til med priskryss-kobling mellom relaterte byer. Skaper intern lenking på tvers av alle 15 bysider." },
+      { type: "improvement", text: "Om oss: lagt til 'Et lite, fokusert team'-seksjon som adresserer longevity og driftsikkerhet. Metabeskrivelse oppdatert bort fra enpersonsframing." },
+      { type: "improvement", text: "Rapportside: 'Rapport generert [dato]' vises nå ved siden av datakilder-lenker. Delte rapporter viser tydelig når de ble generert." },
+    ],
+  },
+  {
     version: "1.3",
     date: "31. mars 2026",
     label: "Hydration-fiks, Bergen/Trondheim reisetid, søk og dataryddighet",

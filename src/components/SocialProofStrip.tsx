@@ -40,7 +40,7 @@ export default function SocialProofStrip() {
           <p className="mt-1 text-xs text-text-tertiary">kommuner brukt</p>
         </div>
         <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">
-          <p className="text-2xl font-bold text-foreground">3</p>
+          <p className="text-2xl font-bold text-foreground">4</p>
           <p className="mt-1 text-xs text-text-tertiary">offentlige datakilder</p>
         </div>
         <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">

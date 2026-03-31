@@ -440,7 +440,7 @@ function PreviewSection() {
 function StatsGrid() {
   const { ref, inView } = useInView(0.05);
   const addr = useCountUp(2500000, 1400, inView);
-  const cities = useCountUp(15, 800, inView);
+  const cities = useCountUp(47, 800, inView);
   const sources = useCountUp(4, 600, inView);
 
   return (
@@ -469,9 +469,9 @@ function StatsGrid() {
       {/* Cities */}
       <div className="flex flex-col items-center justify-center px-3 py-4 text-center border-r border-card-border sm:border-r-0">
         <span className="text-base font-bold text-foreground leading-tight tabular-nums sm:text-sm">
-          {inView ? cities : 15}
+          {inView ? cities : 47}
         </span>
-        <span className="mt-1 text-xs leading-tight text-text-tertiary">byer dekket</span>
+        <span className="mt-1 text-xs leading-tight text-text-tertiary">kommuner dekket</span>
       </div>
       {/* Sources */}
       <div className="flex flex-col items-center justify-center px-3 py-4 text-center">

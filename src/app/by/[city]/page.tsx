@@ -166,6 +166,11 @@ export default function CityPage({ params }: { params: { city: string } }) {
                   "Grünerløkka": "grunerlokka",
                   "Majorstuen": "majorstuen",
                   "Nordnes": "nordnes",
+                  "Bakklandet": "bakklandet",
+                  "Lade": "lade",
+                  "Moholt": "moholt",
+                  "Fana": "fana",
+                  "Sandviken": "sandviken",
                 };
                 const areaSlug = slugMap[n];
                 return areaSlug ? (

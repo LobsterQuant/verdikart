@@ -42,7 +42,7 @@ const cities: Record<string, CityData> = {
   bergen: {
     slug: "bergen", name: "Bergen", county: "Vestland", kommunenummer: "4601", population: "287 000",
     avgSqmPrice: 62_400, avgSqmPriceYoY: 4.3, medianPrice: 3_800_000, avgCommute: 22,
-    topNeighbourhoods: ["Fana", "Åsane", "Bergenhus", "Laksevåg", "Fyllingsdalen"],
+    topNeighbourhoods: ["Nordnes", "Fana", "Sandviken", "Bergenhus", "Åsane"],
     metaTitle: "Boligpriser Bergen 2026 – Kjøpe bolig i Bergen | Verdikart",
     metaDescription: "Oppdaterte boligpriser i Bergen 2026. Gjennomsnittlig kvadratmeterpris, prisutvikling og kollektivdata for alle adresser i Bergen.",
     heroHeading: "Kjøpe bolig i Bergen 2026",
@@ -61,7 +61,7 @@ const cities: Record<string, CityData> = {
   trondheim: {
     slug: "trondheim", name: "Trondheim", county: "Trøndelag", kommunenummer: "5001", population: "213 000",
     avgSqmPrice: 54_100, avgSqmPriceYoY: 6.2, medianPrice: 3_200_000, avgCommute: 20,
-    topNeighbourhoods: ["Midtbyen", "Nidarvoll", "Heimdal", "Saupstad", "Lerkendal"],
+    topNeighbourhoods: ["Bakklandet", "Lade", "Moholt", "Midtbyen", "Heimdal"],
     metaTitle: "Boligpriser Trondheim 2026 – Kjøpe bolig i Trondheim | Verdikart",
     metaDescription: "Oppdaterte boligpriser i Trondheim 2026. Kvadratmeterpris, prisutvikling og kollektivdata for alle adresser i Trondheim.",
     heroHeading: "Kjøpe bolig i Trondheim 2026",

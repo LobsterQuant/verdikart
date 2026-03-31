@@ -200,7 +200,12 @@ export default function AreaPage({ params }: { params: { area: string } }) {
 
           {/* Sibling nabolag links */}
           {(() => {
-            const siblings = Object.values(areas).filter(a => a.city === area.city && a.slug !== area.slug);
+            const seen = new Set<string>();
+            const siblings = Object.values(areas).filter(a => {
+              if (a.city !== area.city || a.slug === area.slug || seen.has(a.name)) return false;
+              seen.add(a.name);
+              return true;
+            });
             if (siblings.length === 0) return null;
             return (
               <div className="rounded-xl border border-card-border bg-card-bg p-5">

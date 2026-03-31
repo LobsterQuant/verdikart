@@ -73,6 +73,27 @@ export default function Personvern() {
         </section>
 
         <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-3">Behandlingsgrunnlag</h2>
+          <p className="text-sm leading-relaxed text-text-secondary mb-3">
+            All behandling av personopplysninger i Verdikart har et lovlig grunnlag i henhold til GDPR artikkel 6:
+          </p>
+          <ul className="space-y-2 text-sm text-text-secondary">
+            <li className="flex items-start gap-2">
+              <span className="text-accent font-bold mt-0.5">–</span>
+              <span><strong className="text-foreground">Berettiget interesse (art. 6(1)(f))</strong> — Tekniske loggdata og anonymisert analyse (Plausible) for å sikre drift og forbedre tjenesten.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-accent font-bold mt-0.5">–</span>
+              <span><strong className="text-foreground">Samtykke (art. 6(1)(a))</strong> — Microsoft Clarity lastes kun etter eksplisitt samtykke via samtykkebanneret. Du kan når som helst trekke samtykket tilbake.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-accent font-bold mt-0.5">–</span>
+              <span><strong className="text-foreground">Avtale (art. 6(1)(b))</strong> — E-postadresse behandles for å levere nyhetsbrev du har meldt deg på.</span>
+            </li>
+          </ul>
+        </section>
+
+        <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
           <h2 className="text-xl font-semibold mb-3">Informasjonskapsler (cookies)</h2>
           <p className="text-sm leading-relaxed text-text-secondary mb-3">
             Verdikart bruker teknisk nødvendige informasjonskapsler for at

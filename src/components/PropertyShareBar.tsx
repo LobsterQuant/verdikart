@@ -1,10 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Share2, Link2, Check, Printer } from "lucide-react";
 
 export default function PropertyShareBar({ address, url }: { address: string; url: string }) {
   const [copied, setCopied] = useState(false);
+  const [canShare, setCanShare] = useState(false);
+
+  useEffect(() => {
+    setCanShare(typeof navigator !== "undefined" && "share" in navigator);
+  }, []);
 
   function copyLink() {
     navigator.clipboard.writeText(url).then(() => {
@@ -56,7 +61,7 @@ export default function PropertyShareBar({ address, url }: { address: string; ur
       </button>
 
       {/* Native share (mobile only) */}
-      {typeof navigator !== "undefined" && "share" in navigator && (
+      {canShare && (
         <button
           onClick={() => navigator.share({ title: address, text: `Sjekk eiendomsdata for ${address}`, url })}
           aria-label="Del via telefon"

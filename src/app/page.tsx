@@ -216,7 +216,7 @@ const HOW_STEPS = [
           { label: "🚇  T-bane 50m", value: "Nationalteatret", good: true },
           { label: "📊  Kvadratmeterpris", value: "94 200 kr/m²", good: true },
           { label: "🔊  Støynivå vei", value: "52 dB — Moderat", good: null },
-          { label: "🏘️  Sammenlignbare salg", value: "47 i nabolaget", good: true },
+          { label: "🏘️  Sammenlignbare salg", value: "kommunesnitt", good: true },
         ].map(({ label, value, good }) => (
           <div key={label} className="flex items-center justify-between rounded-md border border-card-border bg-background px-2.5 py-1.5">
             <span className="text-text-secondary">{label}</span>
@@ -229,15 +229,15 @@ const HOW_STEPS = [
 ];
 
 const COMPARISON_ROWS = [
-  { feature: "Kollektivtransport og gangavstand",   icon: "🚇", verdikart: true,  finn: false, google: false },
-  { feature: "Støykart per adresse (beta)",          icon: "🔊", verdikart: true,  finn: false, google: false },
-  { feature: "SSB prisstatistikk per kommune",       icon: "📊", verdikart: true,  finn: false, google: false },
-  { feature: "Sammenlignbare salg i nabolaget",     icon: "🏘️", verdikart: true,  finn: true,  google: false },
-  { feature: "Skoler og barnehager",                icon: "🏫", verdikart: true,  finn: false, google: false },
-  { feature: "Kriminalitetsnivå (SSB)",             icon: "🛡️", verdikart: true,  finn: false, google: false },
-  { feature: "Del-lenke til rapport",               icon: "🔗", verdikart: true,  finn: false, google: false },
-  { feature: "Ingen registrering nødvendig",        icon: "✨", verdikart: true,  finn: false, google: true  },
-  { feature: "Gratis",                icon: "💰", verdikart: true,  finn: true,  google: true  },
+  { feature: "Kollektivtransport",      icon: "🚇", verdikart: true,  finn: false, google: false },
+  { feature: "Støykart (beta)",         icon: "🔊", verdikart: true,  finn: false, google: false },
+  { feature: "SSB prisstatistikk",      icon: "📊", verdikart: true,  finn: false, google: false },
+  { feature: "Sammenlignbare salg",     icon: "🏘️", verdikart: true,  finn: true,  google: false },
+  { feature: "Skoler og barnehager",    icon: "🏫", verdikart: true,  finn: false, google: false },
+  { feature: "Kriminalitetsnivå",       icon: "🛡️", verdikart: true,  finn: false, google: false },
+  { feature: "Del-lenke til rapport",   icon: "🔗", verdikart: true,  finn: false, google: false },
+  { feature: "Ingen registrering",      icon: "✨", verdikart: true,  finn: false, google: true  },
+  { feature: "Gratis",                  icon: "💰", verdikart: true,  finn: true,  google: true  },
 ];
 
 function ComparisonSection() {

@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     q: "Er dataen oppdatert?",
-    a: "Ja. All data hentes live direkte fra kilden når du søker på en adresse. Kollektivdata hentes fra Entur (sanntid), boligprisdata fra Statistisk sentralbyrå (SSB), og adressedata fra Kartverket. Vi lagrer ingenting — det er ingen database som kan bli utdatert.",
+    a: "Ja. All data hentes live direkte fra kilden når du søker på en adresse. Kollektivdata hentes fra Entur (sanntid), boligprisdata fra Statistisk sentralbyrå (SSB), og adressedata fra Kartverket. Vi lagrer ikke adressene du søker på — det er ingen database som kan bli utdatert. E-poster du oppgir for prisvarsel lagres hos Formspree.",
   },
   {
     q: "Hvem er Verdikart for?",

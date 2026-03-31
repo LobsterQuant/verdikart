@@ -121,7 +121,7 @@ export default function RootLayout({
             "@type": "SearchAction",
             "target": {
               "@type": "EntryPoint",
-              "urlTemplate": "https://verdikart.no/?q={search_term_string}"
+              "urlTemplate": "https://verdikart.no/?adresse={search_term_string}"
             },
             "query-input": "required name=search_term_string"
           }

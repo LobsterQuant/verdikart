@@ -273,7 +273,7 @@ export default function ProductPreview() {
                     ))}
                   </ul>
                   <div className="mt-3 h-px bg-card-border" />
-                  <p className="mt-2 text-[10px] text-text-tertiary">Kilde: SSB boligprisstatistikk</p>
+                  <p className="mt-2 text-[10px] text-text-tertiary">Eksempel · SSB boligprisstatistikk</p>
                 </div>
               </div>
             </div>
@@ -291,7 +291,7 @@ export default function ProductPreview() {
                     <span className="text-3xl font-bold tabular-nums">{sqm}</span>
                     <span className="text-sm text-text-secondary">kr/m²</span>
                   </div>
-                  <p className="mt-1 text-xs text-text-tertiary">Gjennomsnitt i Frogner bydel</p>
+                  <p className="mt-1 text-xs text-text-tertiary">Estimert snitt, Frogner (eksempel)</p>
                   <span className="mt-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium"
                     style={{ backgroundColor: "rgba(99,102,241,0.15)", color: "#818cf8" }}>
                     Høyt segment

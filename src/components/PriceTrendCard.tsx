@@ -155,8 +155,8 @@ export default function PriceTrendCard({
         )}
       </div>
 
-      <div className="h-36 w-full overflow-hidden sm:h-44">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-36 w-full overflow-hidden sm:h-44" style={{ minHeight: "144px" }}>
+        <ResponsiveContainer width="100%" height="100%" minHeight={144}>
           <AreaChart data={chartData} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">

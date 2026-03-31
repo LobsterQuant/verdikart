@@ -23,7 +23,7 @@ const features = [
   },
   {
     icon: MapPin,
-    title: "Sammenlignbare salg i nabolaget",
+    title: "Sammenlignbare salg (kommunenivå)",
     body: "Se hva lignende boliger faktisk er solgt for i nærområdet. Bruk dette som grunnlag i dialogen med megleren din.",
   },
 ];

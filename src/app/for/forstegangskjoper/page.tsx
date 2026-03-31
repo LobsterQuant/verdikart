@@ -23,7 +23,7 @@ const steps = [
   },
   {
     icon: Home,
-    title: "Sammenlign med nabolaget",
+    title: "Sammenlign prisdata",
     body: "Se hva lignende boliger faktisk er solgt for i nærområdet. Ikke betal mer enn markedet — bruk dataen til å forhandle.",
   },
   {

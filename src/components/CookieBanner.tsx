@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const STORAGE_KEY = "verdikart_cookie_consent";
+const DECLINED_AT_KEY = "verdikart_cookie_declined_at";
+const REDISPLAY_DAYS = 30;
 
 type Consent = "accepted" | "declined" | null;
 
@@ -19,27 +21,39 @@ export function useClarityConsent(): boolean {
   return consented;
 }
 
+function shouldShowBanner(): boolean {
+  const stored = localStorage.getItem(STORAGE_KEY) as Consent;
+  if (stored === "accepted") return false;
+  if (stored === "declined") {
+    // Re-show after REDISPLAY_DAYS days so users can change their mind
+    const declinedAt = parseInt(localStorage.getItem(DECLINED_AT_KEY) ?? "0", 10);
+    const daysSince = (Date.now() - declinedAt) / (1000 * 60 * 60 * 24);
+    return daysSince >= REDISPLAY_DAYS;
+  }
+  return true; // null = first visit
+}
+
 export default function CookieBanner() {
-  const [consent, setConsent] = useState<Consent | "loading">("loading");
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as Consent;
-    setConsent(stored); // null = not decided yet
+    setVisible(shouldShowBanner());
   }, []);
 
   function handleAccept() {
     localStorage.setItem(STORAGE_KEY, "accepted");
-    setConsent("accepted");
+    localStorage.removeItem(DECLINED_AT_KEY);
+    setVisible(false);
     window.dispatchEvent(new Event("verdikart:consent"));
   }
 
   function handleDecline() {
     localStorage.setItem(STORAGE_KEY, "declined");
-    setConsent("declined");
+    localStorage.setItem(DECLINED_AT_KEY, Date.now().toString());
+    setVisible(false);
   }
 
-  // Hidden until we know the stored value (avoids flash)
-  if (consent !== null) return null;
+  if (!visible) return null;
 
   return (
     <div

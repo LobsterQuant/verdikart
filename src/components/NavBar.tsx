@@ -10,6 +10,7 @@ const navLinks = [
   { href: "/blogg",         label: "Blogg" },
   { href: "/faq",          label: "FAQ" },
   { href: "/om-oss",       label: "Om oss" },
+  { href: "/kontakt",      label: "Kontakt" },
 ];
 
 const toolLinks = [

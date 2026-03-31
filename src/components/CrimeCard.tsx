@@ -80,6 +80,9 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
         <div className="flex-1 text-sm text-text-secondary leading-relaxed">
           <strong className="text-foreground">{Math.abs(Number(pctVsNational))}%</strong>{" "}
           {aboveBelow} landsgjennomsnittet på {NATIONAL_AVG} anmeldelser per 1 000 innbyggere.
+          {kommunenummer === "0301" && (
+            <p className="mt-1 text-xs text-text-tertiary">Adresser i Frogner og Majorstuen har typisk lavere nivå enn Oslo-snittet.</p>
+          )}
         </div>
       </div>
 

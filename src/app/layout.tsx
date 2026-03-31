@@ -65,7 +65,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://data.ssb.no" />
         <link
           rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          href="/leaflet.css"
           crossOrigin=""
         />
         {/* Privacy-friendly analytics by Plausible */}

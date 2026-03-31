@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid email" }, { status: 400 });
     }
 
-    const formspreeId = process.env.FORMSPREE_SUBSCRIBE_ID;
+    const formspreeId = process.env.FORMSPREE_SUBSCRIBE_ID ?? "xjgpwkyz";
 
     if (formspreeId) {
       const res = await fetch(`https://formspree.io/f/${formspreeId}`, {

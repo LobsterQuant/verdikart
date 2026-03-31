@@ -64,23 +64,41 @@ export default function Personvern() {
 
         <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
           <h2 className="text-xl font-semibold mb-3">Informasjonskapsler (cookies)</h2>
+          <p className="text-sm leading-relaxed text-text-secondary mb-3">
+            Verdikart bruker teknisk nødvendige informasjonskapsler for at
+            tjenesten skal fungere (f.eks. ditt samtykkevalg). Vi bruker ikke
+            markedsføringscookies og deler ikke data med tredjepart til
+            reklameformål.
+          </p>
           <p className="text-sm leading-relaxed text-text-secondary">
-            Verdikart bruker kun teknisk nødvendige informasjonskapsler for at
-            tjenesten skal fungere. Vi bruker ikke sporings- eller
-            markedsføringscookies, og vi deler ikke data med tredjepart til
-            reklamefomål.
+            Ved første besøk vises et samtykkebanner. Analytiske verktøy som
+            krever samtykke lastes kun etter at du har akseptert.
           </p>
         </section>
 
         <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-3">Tredjeparter</h2>
-          <p className="text-sm leading-relaxed text-text-secondary">
-            For å vise kart benytter vi Leaflet med kartfliser fra offentlige
-            norske kilder (Kartverket/Geonorge). Disse tjenestene er underlagt
-            sine egne personvernerklæringer. Vi videresender ingen
-            personopplysninger til disse tjenestene utover det som er teknisk
-            nødvendig (f.eks. kartvisning).
+          <h2 className="text-xl font-semibold mb-3">Tredjeparter og analyseverktøy</h2>
+          <p className="text-sm leading-relaxed text-text-secondary mb-3">
+            Verdikart benytter følgende tredjepartstjenester:
           </p>
+          <ul className="space-y-3 text-sm text-text-secondary">
+            <li className="flex items-start gap-2">
+              <span className="text-accent font-bold mt-0.5">–</span>
+              <span><strong className="text-foreground">Plausible Analytics</strong> — anonymisert besøksstatistikk uten cookies eller personidentifikasjon. Ingen data sendes utenfor EU. <a href="https://plausible.io/privacy" target="_blank" rel="noopener" className="text-accent hover:underline">plausible.io/privacy</a></span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-accent font-bold mt-0.5">–</span>
+              <span><strong className="text-foreground">Microsoft Clarity</strong> — heatmaps og sesjonsopptak for å forbedre brukeropplevelsen. Lastes kun etter ditt samtykke via samtykkebanneret. <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener" className="text-accent hover:underline">Microsoft personvernerklæring</a></span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-accent font-bold mt-0.5">–</span>
+              <span><strong className="text-foreground">Leaflet / CARTO</strong> — kartvisning med fliser fra CARTO DarkMatter. Teknisk nødvendig for kartfunksjonen.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-accent font-bold mt-0.5">–</span>
+              <span><strong className="text-foreground">Formspree</strong> — behandler kontaktskjemaer og e-postpåmeldinger. Data lagres på Formsprees servere. <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener" className="text-accent hover:underline">Formspree personvernerklæring</a></span>
+            </li>
+          </ul>
         </section>
 
         <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">

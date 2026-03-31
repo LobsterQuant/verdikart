@@ -70,7 +70,7 @@ const sources = [
 const methodology = [
   {
     title: "Prisanalyse",
-    body: "Prisdata fra SSB er gjennomsnittlig kvadratmeterpris for omsatte boliger i kommunen, siste tilgjengelige kvartal. Vi viser YoY (år over år) endring som prosentpoeng mot samme kvartal forrige år. Kommunenummer brukes som nøkkel for å kople adresse til prisstastistikk.",
+    body: "Prisdata fra SSB er gjennomsnittlig kvadratmeterpris for omsatte boliger i kommunen, siste tilgjengelige kvartal. Vi viser YoY (år over år) endring som prosentpoeng mot samme kvartal forrige år. Kommunenummer brukes som nøkkel for å kople adresse til prisstatistikk.",
   },
   {
     title: "Kollektivdekning",

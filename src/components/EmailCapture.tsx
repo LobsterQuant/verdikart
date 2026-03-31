@@ -84,10 +84,10 @@ export default function EmailCapture({ address, compact = false }: { address?: s
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-1">
           <Bell className="h-4 w-4 text-accent" strokeWidth={1.5} />
-          <h3 className="font-semibold text-foreground">Få varsler om prisendringer</h3>
+          <h3 className="font-semibold text-foreground">Meld deg på prisoppdateringer</h3>
         </div>
         <p className="mt-1 text-sm text-text-secondary">
-          Vi sender deg en e-post hvis boligprisene{address ? ` i dette området` : ""} endrer seg betydelig.
+          Meld deg på nyhetsbrev om boligprisutvikling{address ? ` i dette området` : ""}. Vi oppdaterer kvartalsvis basert på SSB-data.
         </p>
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:flex-row">

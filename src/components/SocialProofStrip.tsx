@@ -4,22 +4,22 @@ import { useEffect, useState } from "react";
 
 const USE_CASES = [
   {
-    emoji: "💬",
-    headline: "\"Sparte meg for et dårlig kjøp\"",
-    body: "Sjekket adressen på Grünerløkka — støynivået fra Ring 2 kom opp umiddelbart. Megleren hadde ikke nevnt det. Gikk videre til neste leilighet.",
-    tag: "Førstegangskjøper, Oslo",
+    emoji: "🏠",
+    headline: "Støynivå megleren ikke nevnte",
+    body: "Ring 2-trafikken vises direkte på kartet. Sjekk støykart, kollektivdekning og prisstatistikk — før du bestemmer deg.",
+    tag: "Illustrativt eksempel · Grünerløkka, Oslo",
   },
   {
-    emoji: "💬",
-    headline: "\"32 minutter? Megleren sa 15\"",
-    body: "Kollektivdataen fra Entur viste at nærmeste T-bane var 18 minutters gange, ikke 5 som i annonsen. Satte et mye lavere bud.",
-    tag: "Boligkjøper, Bergen",
+    emoji: "🚇",
+    headline: "Reisetid fra Entur — ikke fra annonsen",
+    body: "Verdikart henter faktiske avganger og gangavstand fra Entur. Ikke meglerens anslag. Sammenlign to adresser side om side.",
+    tag: "Illustrativt eksempel · Bergen",
   },
   {
-    emoji: "💬",
-    headline: "\"Skjønte endelig hva prisen betyr\"",
-    body: "Så SSB-statistikken for området og sammenlignet med tre andre bydeler. Bestemte meg for å by over takst — dataene støttet det.",
-    tag: "Småbarnsfamilie, Trondheim",
+    emoji: "📊",
+    headline: "SSB-prisdata for nabolaget",
+    body: "Se gjennomsnittlig kvadratmeterpris for kommunen og prisutviklingen siste 8 kvartaler — fra Statistisk sentralbyrå.",
+    tag: "Illustrativt eksempel · Trondheim",
   },
 ];
 

@@ -26,6 +26,25 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "1.0",
+    date: "31. mars 2026",
+    label: "Datakvalitet, GDPR & SEO",
+    items: [
+      { type: "feature", text: "Skoler hentes nå fra Nasjonalt skoleregister (Udir) — viser trinnintervall (1–7 Barneskole, 8–10 Ungdomsskole), elevtall, skolens nettside og offentlig/privat-badge" },
+      { type: "feature", text: "Adressesammenligner (/sammenlign) fungerer nå fullt ut — transport og støydata ble ikke hentet riktig pga. API-parsing-feil. Begge er nå rettet" },
+      { type: "feature", text: "Strukturerte data utvidet: HowTo-skjema på /kalkulator, SoftwareApplication på /sammenlign — kan gi rikere treff i Google" },
+      { type: "improvement", text: "Kriminalitetskort: storbykommune (Oslo, Bergen, Trondheim, Stavanger) viser nå «Storbysnitt» i nøytral blå i stedet for alarmerende oransje — kontekst om bydelsforskjeller inkludert" },
+      { type: "improvement", text: "Datakildeetiketter på by- og nabolagssider: alle prisdata merkes nå med «SSB årsgjennomsnitt 2024» direkte under tallene" },
+      { type: "improvement", text: "Barnehagesøk: «Søk barnehageplass i kommunen»-lenke lagt til, Oslo/Bergen/Trondheim/Stavanger har egne kommunesider" },
+      { type: "improvement", text: "Mobil (390px): statistikkstripe viser ikke lenger avklipt høyre kolonne — padding lagt til" },
+      { type: "improvement", text: "AI-oppsummering: tittellinje wrapper ikke lenger over 3 linjer på smal skjerm — badge og tittel holder seg på én linje" },
+      { type: "fix", text: "GDPR: «Ikke nå» erstattet med «Avvis alle» + granulær samtykkepanel med separate kategorier for Plausible (nødvendig) og Microsoft Clarity (UX-måling)" },
+      { type: "fix", text: "SEO: HTML lang-attributt rettet fra «no» til «nb» (korrekt BCP 47 for bokmål)" },
+      { type: "fix", text: "SEO: Ødelagt SearchAction (Google Sitelinks søkeboks) fjernet — URL-mønsteret fungerte ikke og ville gitt tomme resultater" },
+      { type: "fix", text: "SEO: OG-bilde og Twitter-kortbilde pekte på ulike filer — begge peker nå på /opengraph-image" },
+    ],
+  },
+  {
     version: "0.9",
     date: "31. mars 2026",
     label: "Stabilitet, ærlighet & AI",

@@ -29,6 +29,11 @@ interface PropertyMapInnerProps {
 
 export default function PropertyMapInner({ lat, lon, address, stops }: PropertyMapInnerProps) {
   const [tilesLoaded, setTilesLoaded] = useState(false);
+  // Hard fallback: dismiss skeleton after 3s even if tile events don't fire
+  useEffect(() => {
+    const t = setTimeout(() => setTilesLoaded(true), 3000);
+    return () => clearTimeout(t);
+  }, []);
   // Icons created lazily inside render (client-only, after dynamic import)
   const iconsRef = useRef<{ defaultIcon: L.Icon; stopIcon: L.DivIcon } | null>(null);
 
@@ -101,13 +106,20 @@ export default function PropertyMapInner({ lat, lon, address, stops }: PropertyM
         <MapReady lat={lat} lon={lon} />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"
           subdomains="abcd"
           maxZoom={20}
           eventHandlers={{
             load: () => setTilesLoaded(true),
             tileload: () => setTilesLoaded(true),
+            tileerror: () => setTilesLoaded(true),
           }}
+        />
+        <TileLayer
+          url="https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png"
+          subdomains="abcd"
+          maxZoom={20}
+          pane="shadowPane"
         />
 
         <Marker position={[lat, lon]} icon={defaultIcon}>

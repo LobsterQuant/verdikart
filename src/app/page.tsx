@@ -184,8 +184,8 @@ const HOW_STEPS = [
   },
   {
     n: "2",
-    title: "Vi henter data i sanntid",
-    body: "Transport fra Entur, prisstatistikk fra SSB, støykart fra Kartverket. Alt hentes live — ingen foreldede cache-sider.",
+    title: "Data direkte fra kilden",
+    body: "Kollektivdata fra Entur hentes live ved hvert søk. Prisstatistikk fra SSB oppdateres kvartalsvis. Adressedata fra Kartverket er Norges offisielle register.",
     icon: "⚡",
     preview: (
       <div className="mt-3 grid grid-cols-3 gap-1.5 text-[11px]">

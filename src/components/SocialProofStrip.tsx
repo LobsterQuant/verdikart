@@ -2,17 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-// Seeded base count — reflects an honest "since launch" framing
-// Updated manually as real usage grows
-const BASE_COUNT = 847;
-const BASE_DATE = new Date("2026-01-15").getTime();
-
-function getApproxCount(): number {
-  // Grows ~12/day from base date so it looks live
-  const daysSince = Math.floor((Date.now() - BASE_DATE) / 86400000);
-  return BASE_COUNT + daysSince * 12;
-}
-
 const USE_CASES = [
   {
     emoji: "💬",
@@ -35,26 +24,29 @@ const USE_CASES = [
 ];
 
 export default function SocialProofStrip() {
-  const [count, setCount] = useState<number | null>(null);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
-    setCount(getApproxCount());
     const t = setInterval(() => setActive(a => (a + 1) % USE_CASES.length), 3200);
     return () => clearInterval(t);
   }, []);
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 pb-16 sm:px-6">
-      {/* Counter strip */}
-      <div className="mb-8 flex flex-col items-center gap-1">
-        <div className="flex items-baseline gap-2">
-          <span className="text-3xl font-bold tabular-nums text-foreground">
-            {count !== null ? count.toLocaleString("nb-NO") : "—"}
-          </span>
-          <span className="text-sm text-text-secondary">rapporter generert</span>
+      {/* Trust strip — kommuner + datakilder */}
+      <div className="mb-8 grid grid-cols-3 gap-3 text-center">
+        <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">
+          <p className="text-2xl font-bold text-foreground">47</p>
+          <p className="mt-1 text-xs text-text-tertiary">kommuner brukt</p>
         </div>
-        <p className="text-xs text-text-tertiary mt-1">Brukt under boligjakt i 47 kommuner</p>
+        <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">
+          <p className="text-2xl font-bold text-foreground">3</p>
+          <p className="mt-1 text-xs text-text-tertiary">offentlige datakilder</p>
+        </div>
+        <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">
+          <p className="text-2xl font-bold text-foreground">100%</p>
+          <p className="mt-1 text-xs text-text-tertiary">gratis, ingen konto</p>
+        </div>
       </div>
 
       {/* Use-case carousel */}

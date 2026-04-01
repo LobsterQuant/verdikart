@@ -5,7 +5,7 @@ import { Shield } from "lucide-react";
 // SSB table 08484 — Anmeldte lovbrudd per 1000 innbyggere (2023, kommunenivå)
 // Source: SSB Kriminalstatistikk 2023 (published 2024)
 // National average: 57.4 per 1000
-// Coverage: 90 kommuner representing ~75% of Norway's population
+// Coverage: ~175 kommuner representing ~85% of Norway's population
 const KOMMUNE_CRIME: Record<string, { rate: number; year: number }> = {
   // ── Storbyene ──────────────────────────────────────────────────────────────
   "0301": { rate: 93.2, year: 2023 }, // Oslo
@@ -231,7 +231,7 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
           <h3 className="text-lg font-semibold">Kriminalitetsnivå</h3>
         </div>
         <p className="text-sm text-text-secondary">
-          Kriminalitetsdata er ikke tilgjengelig for denne kommunen. Vi dekker de 90 største kommunene i Norge.
+          Kriminalitetsdata er ikke tilgjengelig for denne kommunen. Vi dekker ca. 175 kommuner som representerer de fleste norske byer og tettsteder.
         </p>
         <p className="mt-1 text-xs text-text-tertiary">
           Kilde: SSB — Kriminalstatistikk 2023. Bydels- og nabolagsnivå er ikke tilgjengelig.

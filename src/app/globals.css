@@ -43,7 +43,7 @@ body {
 
 /* Gradient headline utility */
 .text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 30%, #818cf8 60%, #6366f1 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 20%, #818cf8 45%, #6366f1 65%, #a78bfa 85%, #e0e7ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -280,6 +280,14 @@ input::placeholder {
 /* ── Card depth: subtle radial gradient top-left + colored box-shadow ── */
 .bg-card-bg {
   background-image: radial-gradient(ellipse at 0% 0%, rgba(99,102,241,0.04) 0%, transparent 60%);
+}
+
+/* ── Glass card: frosted glass effect for premium feel ── */
+.glass-card {
+  background: rgba(15, 16, 26, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* ── Hover-lift for interactive cards ── */

@@ -9,21 +9,42 @@ import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
 import SiteFooter from "@/components/SiteFooter";
 import SavedAddressesList from "@/components/SavedAddressesList";
-import { Bus, TrendingUp, Home } from "lucide-react";
+import { Bus, TrendingUp, Home, Droplets, Wind, CircleDollarSign } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 
-const valueProps = [
+const valueProps: { Icon: React.ElementType; title: string; description: string; isNew?: boolean }[] = [
+  {
+    Icon: CircleDollarSign,
+    title: "Verdiestimat",
+    description:
+      "Få et estimert prisanslag basert på SSB-data og energiattest. Se hva boligen kan være verdt — med ±15% konfidensintervall.",
+    isNew: true,
+  },
   {
     Icon: Bus,
     title: "Kollektivtransport",
     description:
-      "Finn nærmeste holdeplasser, avganger og reisetid til sentrum. Alt du trenger for å vurdere beliggenheten.",
+      "Finn nærmeste holdeplasser, avganger og reisetid til sentrum. Live data fra Entur, ikke meglerens anslag.",
   },
   {
     Icon: TrendingUp,
     title: "Prisutvikling",
     description:
       "Følg boligprisene i kommunen over tid. Se trender og sammenlign med resten av landet.",
+  },
+  {
+    Icon: Droplets,
+    title: "Klimarisiko",
+    description:
+      "Sjekk flomfare, kvikkleire og stormflo fra NVE. Vit hva du kjøper — før du byr.",
+    isNew: true,
+  },
+  {
+    Icon: Wind,
+    title: "Luftkvalitet",
+    description:
+      "PM2.5, PM10 og NO₂ fra NILU. Se om luften er god der du vil bo.",
+    isNew: true,
   },
   {
     Icon: Home,
@@ -54,11 +75,12 @@ function useCountUp(target: number, duration = 1200, active = false) {
 }
 
 function FeatureCard({
-  Icon, title, description,
+  Icon, title, description, isNew,
 }: {
   Icon: React.ElementType;
   title: string;
   description: string;
+  isNew?: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
 
@@ -105,12 +127,19 @@ function FeatureCard({
         </div>
       </div>
 
-      <h3
-        className="mb-2 text-lg font-semibold transition-colors duration-200"
-        style={{ color: hovered ? "#ffffff" : undefined }}
-      >
-        {title}
-      </h3>
+      <div className="mb-2 flex items-center gap-2">
+        <h3
+          className="text-lg font-semibold transition-colors duration-200"
+          style={{ color: hovered ? "#ffffff" : undefined }}
+        >
+          {title}
+        </h3>
+        {isNew && (
+          <span className="rounded-full bg-green-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-green-400">
+            Nytt
+          </span>
+        )}
+      </div>
       <p className="text-sm leading-relaxed text-text-secondary">{description}</p>
     </div>
   );
@@ -184,15 +213,19 @@ const HOW_STEPS = [
 ];
 
 const COMPARISON_ROWS = [
+  { feature: "Verdiestimat for boligen",         short: "Verdiestimat",  icon: "💰", verdikart: true,  finn: false, google: false, note: "nytt" },
+  { feature: "Klimarisiko (flom, kvikkleire)",   short: "Klimarisiko",   icon: "🌊", verdikart: true,  finn: false, google: false, note: "nytt" },
+  { feature: "Luftkvalitet (PM2.5, NO₂)",        short: "Luftkvalitet",  icon: "💨", verdikart: true,  finn: false, google: false, note: "nytt" },
+  { feature: "Bredbåndsdekning og fiber",        short: "Bredbånd",      icon: "📡", verdikart: true,  finn: false, google: false, note: "nytt" },
+  { feature: "Butikker, parker, fasiliteter",    short: "I nærheten",    icon: "🛒", verdikart: true,  finn: false, google: true,  note: "nytt" },
   { feature: "Holdeplasser + avganger per time", short: "Avganger/time", icon: "🚇", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Støykart fra Kartverket",          short: "Støykart",      icon: "🔊", verdikart: true,  finn: false, google: false, note: "der data fins" },
+  { feature: "Støykart fra Kartverket",          short: "Støykart",      icon: "🔊", verdikart: true,  finn: false, google: false, note: "" },
   { feature: "SSB prisstatistikk (kvartal)",     short: "SSB pris",      icon: "📊", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Kommunalt prissnitt per m²",       short: "Pris per m²",   icon: "🏘️", verdikart: true,  finn: false, google: false, note: "" },
   { feature: "Skoler og barnehager (NSR)",       short: "Skoler",        icon: "🏫", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Kriminalitetsnivå",                short: "Kriminalitet",  icon: "🛡️", verdikart: true,  finn: false, google: false, note: "kommunenivå" },
-  { feature: "Del-lenke til rapport",            short: "Del-lenke",     icon: "🔗", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Ingen registrering",               short: "Uten konto",    icon: "✨", verdikart: true,  finn: true,  google: true,  note: "" },
-  { feature: "Gratis",                           short: "Gratis",        icon: "💰", verdikart: true,  finn: true,  google: true,  note: "" },
+  { feature: "Nabolagsvurderinger",              short: "Vurderinger",   icon: "⭐", verdikart: true,  finn: false, google: false, note: "nytt" },
+  { feature: "Lagre + prisvarsler",              short: "Lagre/varsle",  icon: "🔔", verdikart: true,  finn: true,  google: false, note: "" },
+  { feature: "PDF-rapport",                      short: "PDF",           icon: "📄", verdikart: true,  finn: false, google: false, note: "nytt" },
+  { feature: "Gratis & ingen registrering",      short: "Gratis",        icon: "✨", verdikart: true,  finn: true,  google: true,  note: "" },
 ];
 
 function ComparisonSection() {
@@ -271,7 +304,11 @@ function ComparisonSection() {
                 <span className="text-xs text-text-secondary leading-snug">
                   <span className="sm:hidden">{short}</span>
                   <span className="hidden sm:inline">{feature}</span>
-                  {note && <span className="text-text-tertiary text-[10px] ml-1">({note})</span>}
+                  {note === "nytt" ? (
+                    <span className="ml-1.5 inline-block rounded-full bg-green-500/20 px-1.5 py-px text-[9px] font-bold uppercase text-green-400">nytt</span>
+                  ) : note ? (
+                    <span className="text-text-tertiary text-[10px] ml-1">({note})</span>
+                  ) : null}
                 </span>
               </div>
               {/* Verdikart */}
@@ -346,13 +383,14 @@ function HowItWorksSection() {
 
 function FeatureCards() {
   return (
-    <div className="grid gap-4 sm:grid-cols-3 sm:gap-6">
-      {valueProps.map(({ Icon, title, description }) => (
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
+      {valueProps.map(({ Icon, title, description, isNew }) => (
         <FeatureCard
           key={title}
           Icon={Icon}
           title={title}
           description={description}
+          isNew={isNew}
         />
       ))}
     </div>
@@ -371,12 +409,13 @@ function StatsGrid() {
   const { ref, inView } = useInView(0.05);
   const addr = useCountUp(2500000, 1400, inView);
   const cities = useCountUp(47, 800, inView);
-  const sources = useCountUp(4, 600, inView);
+  const dataPoints = useCountUp(13, 700, inView);
+  const sources = useCountUp(8, 600, inView);
 
   return (
     <div
       ref={ref as unknown as React.RefObject<HTMLDivElement>}
-      className="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-y divide-card-border sm:grid-cols-4 sm:divide-y-0 sm:divide-x"
+      className="mt-4 grid grid-cols-2 overflow-hidden rounded-xl border border-card-border bg-card-bg divide-y divide-card-border sm:grid-cols-5 sm:divide-y-0 sm:divide-x"
     >
       {/* Free */}
       <div className="flex flex-col items-center justify-center px-3 py-4 text-center border-r border-card-border sm:border-r-0">
@@ -403,10 +442,17 @@ function StatsGrid() {
         </span>
         <span className="mt-1 text-xs leading-tight text-text-tertiary">kommuner m/prisdata</span>
       </div>
+      {/* Data points */}
+      <div className="flex flex-col items-center justify-center px-3 py-4 text-center border-r border-card-border sm:border-r-0">
+        <span className="text-base font-bold text-foreground leading-tight tabular-nums sm:text-sm">
+          {inView ? dataPoints : 13}
+        </span>
+        <span className="mt-1 text-xs leading-tight text-text-tertiary">datapunkter per bolig</span>
+      </div>
       {/* Sources */}
       <div className="flex flex-col items-center justify-center px-3 py-4 text-center">
         <span className="text-base font-bold text-foreground leading-tight tabular-nums sm:text-sm">
-          {inView ? sources : 4}
+          {inView ? sources : 8}
         </span>
         <span className="mt-1 text-xs leading-tight text-text-tertiary">datakilder</span>
       </div>
@@ -554,10 +600,14 @@ export default function HomePage() {
         <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
           <span className="text-xs text-text-tertiary">Åpne data fra</span>
           {[
-            { label: "SSB", href: "https://www.ssb.no", title: "Statistisk sentralbyrå — boligpriser og statistikk" },
-            { label: "Kartverket", href: "https://kartverket.no", title: "Nasjonal adresse- og eiendomsdata" },
-            { label: "Entur", href: "https://entur.no", title: "Nasjonal kollektivtransportdata" },
-            { label: "OpenStreetMap", href: "https://openstreetmap.org", title: "Skoler, barnehager og POI" },
+            { label: "SSB", href: "https://www.ssb.no", title: "Boligpriser og statistikk" },
+            { label: "Kartverket", href: "https://kartverket.no", title: "Adresse, eiendom og støykart" },
+            { label: "Entur", href: "https://entur.no", title: "Kollektivtransport" },
+            { label: "NVE", href: "https://nve.no", title: "Klima- og flomrisiko" },
+            { label: "NILU", href: "https://luftkvalitet.info", title: "Luftkvalitet" },
+            { label: "Nkom", href: "https://nkom.no", title: "Bredbåndsdekning" },
+            { label: "Enova", href: "https://enova.no", title: "Energimerking" },
+            { label: "OSM", href: "https://openstreetmap.org", title: "Skoler og fasiliteter" },
           ].map(({ label, href, title }) => (
             <a
               key={label}
@@ -590,6 +640,14 @@ export default function HomePage() {
 
       {/* Value Props — stagger on scroll */}
       <section className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 sm:pb-24">
+        <div className="mb-10 text-center">
+          <h2 className="mb-2 text-xl font-bold sm:text-2xl">
+            13 datapunkter. Én rapport.
+          </h2>
+          <p className="mx-auto max-w-lg text-sm text-text-secondary">
+            Fra verdiestimat til flomrisiko — Verdikart samler data fra 8 offentlige kilder som ingen andre kombinerer.
+          </p>
+        </div>
         <FeatureCards />
       </section>
 

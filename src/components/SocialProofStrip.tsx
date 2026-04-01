@@ -4,22 +4,28 @@ import { useEffect, useState } from "react";
 
 const USE_CASES = [
   {
-    emoji: "🏠",
-    headline: "Støynivå megleren ikke nevnte",
-    body: "Ring 2-trafikken vises direkte på kartet. Sjekk støykart, kollektivdekning og prisstatistikk — før du bestemmer deg.",
-    tag: "Illustrativt eksempel · Grünerløkka, Oslo",
+    emoji: "💰",
+    headline: "Hva er boligen egentlig verdt?",
+    body: "Verdikart estimerer boligens verdi basert på SSB-prisdata og energiattest. Se verdiestimat med konfidensintervall — før du legger inn bud.",
+    tag: "Verdiestimat · Frogner, Oslo",
+  },
+  {
+    emoji: "🌊",
+    headline: "Flomrisiko ingen fortalte deg om",
+    body: "NVE-data avslører flomfare, kvikkleire og stormflo. Verdikart sjekker klimarisikoen automatisk — noe verken Finn.no eller megleren gjør.",
+    tag: "Klimarisiko · Bergen",
   },
   {
     emoji: "🚇",
     headline: "Reisetid fra Entur — ikke fra annonsen",
-    body: "Verdikart henter faktiske avganger og gangavstand fra Entur. Ikke meglerens anslag. Sammenlign to adresser side om side.",
-    tag: "Illustrativt eksempel · Bergen",
+    body: "Faktiske avganger, gangavstand og reisetid til sentrum hentet direkte fra Entur. 13 datapunkter samlet på én side.",
+    tag: "Kollektivtransport · Trondheim",
   },
   {
     emoji: "📊",
-    headline: "SSB-prisdata for nabolaget",
-    body: "Se gjennomsnittlig kvadratmeterpris for kommunen og prisutviklingen siste 8 kvartaler — fra Statistisk sentralbyrå.",
-    tag: "Illustrativt eksempel · Trondheim",
+    headline: "SSB-prisdata megleren ikke viser deg",
+    body: "Se gjennomsnittlig kvadratmeterpris for kommunen, bydel-justert prisutvikling og sammenlignbare salg — fra Statistisk sentralbyrå.",
+    tag: "Prisstatistikk · Stavanger",
   },
 ];
 
@@ -40,7 +46,7 @@ export default function SocialProofStrip() {
           <p className="mt-1 text-xs text-text-tertiary">kommuner med prisdata</p>
         </div>
         <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">
-          <p className="text-2xl font-bold text-foreground">4</p>
+          <p className="text-2xl font-bold text-foreground">8</p>
           <p className="mt-1 text-xs text-text-tertiary">offentlige datakilder</p>
         </div>
         <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">

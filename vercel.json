@@ -25,7 +25,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://plausible.io https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://unpkg.com https://*.clarity.ms; connect-src 'self' https://plausible.io https://api.entur.io https://data.ssb.no https://api.kartverket.no https://nominatim.openstreetmap.org https://formspree.io https://*.clarity.ms https://gis3.nve.no https://api.nilu.no https://overpass-api.de https://wms.geonorge.no; frame-src 'none'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://plausible.io https://www.clarity.ms https://*.clarity.ms; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://unpkg.com https://*.clarity.ms https://lh3.googleusercontent.com https://*.googleusercontent.com; connect-src 'self' https://plausible.io https://api.entur.io https://data.ssb.no https://api.kartverket.no https://nominatim.openstreetmap.org https://formspree.io https://*.clarity.ms https://gis3.nve.no https://api.nilu.no https://overpass-api.de https://wms.geonorge.no; frame-src 'none'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io https://accounts.google.com;"
         }
       ]
     }

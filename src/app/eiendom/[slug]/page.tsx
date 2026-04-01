@@ -3,6 +3,7 @@ import NoiseCard from "@/components/NoiseCard";
 import TransitCard from "@/components/TransitCard";
 import SchoolsCard from "@/components/SchoolsCard";
 import CrimeCard from "@/components/CrimeCard";
+import FinnLink from "@/components/FinnLink";
 import PriceTrendCard from "@/components/PriceTrendCard";
 import ComparableSalesCard from "@/components/ComparableSalesCard";
 import PropertyMap from "@/components/PropertyMap";
@@ -275,6 +276,11 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
             <aside className="space-y-6 lg:sticky lg:top-20 lg:self-start">
               <NoiseCard lat={latNum} lon={lonNum} />
               <CrimeCard kommunenummer={kommunenummer} />
+              <FinnLink
+                postnummer={searchParams.pnr}
+                address={displayAddress}
+                kommunenavn={searchParams.poststed}
+              />
 
               {/* Trust strip (sidebar) */}
               <div className="rounded-xl border border-card-border bg-card-bg p-4">

@@ -7,6 +7,7 @@ import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 import EiendomsskattCard from "@/components/EiendomsskattCard";
 import EnvironmentalRiskCard from "@/components/EnvironmentalRiskCard";
+import DemographicsCard from "@/components/DemographicsCard";
 
 export async function generateStaticParams() {
   return allCitySlugs.map((city) => ({ city }));
@@ -209,9 +210,14 @@ export default function CityPage({ params }: { params: { city: string } }) {
           </section>
 
           {/* Eiendomsskatt & Environmental risk */}
-          <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <EiendomsskattCard kommunenummer={city.kommunenummer} />
             <EnvironmentalRiskCard kommunenummer={city.kommunenummer} />
+          </div>
+
+          {/* Demographics */}
+          <div className="mb-12">
+            <DemographicsCard kommunenummer={city.kommunenummer} />
           </div>
 
           {/* Unique insight */}

@@ -4,6 +4,7 @@ import TransitCard from "@/components/TransitCard";
 import SchoolsCard from "@/components/SchoolsCard";
 import CrimeCard from "@/components/CrimeCard";
 import FinnLink from "@/components/FinnLink";
+import FellesgjeldReminder from "@/components/FellesgjeldReminder";
 import PriceTrendCard from "@/components/PriceTrendCard";
 import ComparableSalesCard from "@/components/ComparableSalesCard";
 import PropertyMap from "@/components/PropertyMap";
@@ -281,6 +282,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 address={displayAddress}
                 kommunenavn={searchParams.poststed}
               />
+              <FellesgjeldReminder />
 
               {/* Trust strip (sidebar) */}
               <div className="rounded-xl border border-card-border bg-card-bg p-4">

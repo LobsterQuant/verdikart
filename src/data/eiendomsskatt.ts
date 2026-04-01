@@ -1,0 +1,25 @@
+export interface EiendomsskattData {
+  kommunenummer: string;
+  name: string;
+  hasTax: boolean;
+  promille?: number;
+  note?: string;
+}
+
+export const eiendomsskattData: Record<string, EiendomsskattData> = {
+  "0301": { kommunenummer: "0301", name: "Oslo", hasTax: false, note: "Oslo avviklet eiendomsskatt på bolig i 2017." },
+  "4601": { kommunenummer: "4601", name: "Bergen", hasTax: true, promille: 2.8, note: "Bergen innførte eiendomsskatt fra 2024. Gjelder primær- og sekundærbolig." },
+  "5001": { kommunenummer: "5001", name: "Trondheim", hasTax: true, promille: 2.0, note: "Trondheim har eiendomsskatt på 2,0 promille av beregningsgrunnlaget." },
+  "1103": { kommunenummer: "1103", name: "Stavanger", hasTax: true, promille: 2.0, note: "Stavanger kommune har eiendomsskatt på boliger." },
+  "5401": { kommunenummer: "5401", name: "Tromsø", hasTax: true, promille: 3.0, note: "Tromsø har eiendomsskatt på 3,0 promille." },
+  "4204": { kommunenummer: "4204", name: "Kristiansand", hasTax: true, promille: 2.0 },
+  "3004": { kommunenummer: "3004", name: "Fredrikstad", hasTax: true, promille: 2.5 },
+  "3005": { kommunenummer: "3005", name: "Drammen", hasTax: false, note: "Drammen fjernet eiendomsskatt på bolig i 2024." },
+  "1108": { kommunenummer: "1108", name: "Sandnes", hasTax: false },
+  "1507": { kommunenummer: "1507", name: "Ålesund", hasTax: true, promille: 3.5 },
+  "3024": { kommunenummer: "3024", name: "Bærum", hasTax: false },
+  "3025": { kommunenummer: "3025", name: "Asker", hasTax: false },
+  "1804": { kommunenummer: "1804", name: "Bodø", hasTax: true, promille: 2.0 },
+  "3403": { kommunenummer: "3403", name: "Hamar", hasTax: true, promille: 3.3 },
+  "3803": { kommunenummer: "3803", name: "Sandefjord", hasTax: false },
+};

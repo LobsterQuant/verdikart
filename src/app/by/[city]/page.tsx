@@ -5,6 +5,8 @@ import { MapPin, TrendingUp, Train, ChevronRight, HelpCircle, Lightbulb, ArrowRi
 import { getCityData, allCitySlugs, cities } from "./cityData";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
+import EiendomsskattCard from "@/components/EiendomsskattCard";
+import EnvironmentalRiskCard from "@/components/EnvironmentalRiskCard";
 
 export async function generateStaticParams() {
   return allCitySlugs.map((city) => ({ city }));
@@ -205,6 +207,12 @@ export default function CityPage({ params }: { params: { city: string } }) {
               <strong className="text-foreground">Tips:</strong> Søk på en konkret adresse i {city.name} ovenfor for å se hvilke holdeplasser som er nærmest, og hvor mange avganger per time du faktisk har.
             </div>
           </section>
+
+          {/* Eiendomsskatt & Environmental risk */}
+          <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <EiendomsskattCard kommunenummer={city.kommunenummer} />
+            <EnvironmentalRiskCard kommunenummer={city.kommunenummer} />
+          </div>
 
           {/* Unique insight */}
           {city.uniqueNote && (

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { TrendingUp, Train, BarChart2, ChevronRight } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
+import RentalYieldCalc from "@/components/RentalYieldCalc";
 
 export const metadata: Metadata = {
   title: "Verdikart for Boliginvestorer — Analyser beliggenhet og pristrend | Verdikart",
@@ -78,6 +79,11 @@ export default function BoliginvestorPage() {
               Les artikkelen <ChevronRight className="h-3.5 w-3.5" />
             </Link>
           </div>
+        </section>
+
+        {/* Rental Yield Calculator */}
+        <section className="mx-auto max-w-3xl px-4 pb-8 sm:px-6">
+          <RentalYieldCalc />
         </section>
 
         {/* FAQ */}

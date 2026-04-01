@@ -26,6 +26,17 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "1.7",
+    date: "1. april 2026",
+    label: "Befolkningsdata, fellesgjeld-påminnelse og 50 bloggartikler",
+    items: [
+      { type: "feature", text: "Befolkningsprofil-kort på alle 18 bysider. Viser medianinntekt, andel med høyere utdanning, aldersfordeling (barn/voksen/eldre) og befolkningsvekst. Data fra SSB 2023." },
+      { type: "feature", text: "Fellesgjeld-påminnelse i rapportsidebar. Amber varslingskort med huskeliste for prospektlesing og lenke til fellesgjeld-artikkel." },
+      { type: "feature", text: "4 nye bykjøperguider: Drammen, Fredrikstad, Bodø og Sandnes — alle byer har nå dedikerte bloggartikler." },
+      { type: "fix", text: "Befolkningsdata lagt til for Sarpsborg, Skien og Arendal (manglet for 3 av 18 byer — nå 100% dekning)." },
+    ],
+  },
+  {
     version: "1.6",
     date: "1. april 2026",
     label: "Innholdsekspansjon, nye datakort og Finn.no-integrasjon",

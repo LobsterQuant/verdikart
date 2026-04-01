@@ -94,6 +94,21 @@ export const demographicsData: Record<string, DemographicData> = {
     medianIncome: 612000, higherEducationPct: 41.2, childrenPct: 21.3, elderlyPct: 15.1,
     populationGrowthPct: 1.6, year: 2023,
   },
+  "3003": {
+    kommunenummer: "3003", name: "Sarpsborg",
+    medianIncome: 524000, higherEducationPct: 31.4, childrenPct: 22.6, elderlyPct: 15.8,
+    populationGrowthPct: 1.4, year: 2023,
+  },
+  "3807": {
+    kommunenummer: "3807", name: "Skien",
+    medianIncome: 536000, higherEducationPct: 33.8, childrenPct: 21.4, elderlyPct: 16.4,
+    populationGrowthPct: 0.8, year: 2023,
+  },
+  "4203": {
+    kommunenummer: "4203", name: "Arendal",
+    medianIncome: 548000, higherEducationPct: 35.6, childrenPct: 21.1, elderlyPct: 16.8,
+    populationGrowthPct: 0.9, year: 2023,
+  },
 };
 
 export function getDemographics(kommunenummer: string): DemographicData | undefined {

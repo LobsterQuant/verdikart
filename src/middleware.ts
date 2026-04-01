@@ -22,8 +22,11 @@ function isRateLimited(ip: string): boolean {
 }
 
 export function middleware(request: NextRequest) {
-  // Only rate-limit API routes
+  // Only rate-limit API routes (exclude auth routes)
   if (!request.nextUrl.pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+  if (request.nextUrl.pathname.startsWith("/api/auth/")) {
     return NextResponse.next();
   }
 

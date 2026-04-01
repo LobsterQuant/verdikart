@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cachedFetch, TTL } from "@/lib/cache";
 
 export interface HousingTypeRow {
   type: string;       // "Eneboliger" | "Småhus" | "Blokkleiligheter"
@@ -29,12 +30,7 @@ const TYPES: Record<string, string> = {
   "03": "Blokkleiligheter",
 };
 
-export async function GET(request: NextRequest) {
-  const kommunenummer = request.nextUrl.searchParams.get("kommunenummer");
-  if (!kommunenummer) return NextResponse.json(EMPTY);
-
-  const knr = kommunenummer.padStart(4, "0");
-
+async function fetchComparableSales(knr: string): Promise<ComparableSalesResult> {
   const body = {
     query: [
       { code: "Region",       selection: { filter: "item", values: [knr] } },
@@ -53,7 +49,7 @@ export async function GET(request: NextRequest) {
       signal: AbortSignal.timeout(8000),
     });
 
-    if (!res.ok) return NextResponse.json(EMPTY);
+    if (!res.ok) return EMPTY;
 
     const data = await res.json();
     const rawValues: (number | null)[] = data.value ?? [];
@@ -76,7 +72,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    if (byType.length === 0) return NextResponse.json(EMPTY);
+    if (byType.length === 0) return EMPTY;
 
     // Weighted average
     const totalTxns = byType.reduce((s, r) => s + r.transactions, 0);
@@ -95,15 +91,25 @@ export async function GET(request: NextRequest) {
       data.dimension?.Region?.category?.label ?? {}
     )[0] as string ?? "";
 
-    return NextResponse.json({
+    return {
       kommuneAvg,
       totalTransactions: totalTxns || null,
       byType,
       period,
       kommuneName,
-    } satisfies ComparableSalesResult);
+    };
   } catch (err) {
     console.error("[comparable-sales] SSB fetch failed:", err instanceof Error ? err.message : err);
-    return NextResponse.json(EMPTY);
+    return EMPTY;
   }
+}
+
+export async function GET(request: NextRequest) {
+  const kommunenummer = request.nextUrl.searchParams.get("kommunenummer");
+  if (!kommunenummer) return NextResponse.json(EMPTY);
+
+  const knr = kommunenummer.padStart(4, "0");
+  const key = `vk:comparable:${knr}`;
+  const result = await cachedFetch(key, TTL.ONE_DAY, () => fetchComparableSales(knr));
+  return NextResponse.json(result);
 }

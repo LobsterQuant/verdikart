@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { X, Menu, ChevronDown } from "lucide-react";
 import Logo from "@/components/Logo";
+import AuthButton from "@/components/AuthButton";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -131,6 +132,8 @@ export default function NavBar() {
               {label}
             </Link>
           ))}
+          {/* Auth */}
+          <AuthButton />
           {/* Primary CTA */}
           <Link
             href="/#sok"

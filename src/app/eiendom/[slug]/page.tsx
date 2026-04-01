@@ -18,6 +18,13 @@ import CardsCascade from "@/components/CardsCascade";
 import PropertyShareBar from "@/components/PropertyShareBar";
 import NearbyProperties from "@/components/NearbyProperties";
 import AISummary from "@/components/AISummary";
+import ValuationCard from "@/components/ValuationCard";
+import ClimateRiskCard from "@/components/ClimateRiskCard";
+import AirQualityCard from "@/components/AirQualityCard";
+import AmenitiesCard from "@/components/AmenitiesCard";
+import BroadbandCard from "@/components/BroadbandCard";
+import PriceAlertSetup from "@/components/PriceAlertSetup";
+import NeighborhoodReviewsCard from "@/components/NeighborhoodReviewsCard";
 
 interface PageProps {
   params: { slug: string };
@@ -262,6 +269,15 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
             </div>
           )}
 
+          {/* ── VALUATION (full width, headline number) ──────────────────── */}
+          <div className="mb-8">
+            <ValuationCard
+              kommunenummer={kommunenummer}
+              postnummer={searchParams.pnr ?? ""}
+              adresse={displayAddress}
+            />
+          </div>
+
           {/* ── EDITORIAL GRID: 2/3 main + 1/3 sidebar ───────────────────── */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
 
@@ -272,18 +288,24 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 <PriceTrendCard key="price" kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} />,
                 <ComparableSalesCard key="sales" kommunenummer={kommunenummer} />,
                 ...(latNum && lonNum ? [<SchoolsCard key="schools" lat={latNum} lon={lonNum} kommunenummer={kommunenummer} />] : []),
+                ...(latNum && lonNum ? [<AmenitiesCard key="amenities" lat={latNum} lon={lonNum} />] : []),
+                <NeighborhoodReviewsCard key="reviews" kommunenummer={kommunenummer} postnummer={searchParams.pnr} />,
               ]}
             </CardsCascade>
 
             {/* ── RIGHT / SIDEBAR ─────────────────────────────────────────── */}
             <aside className="space-y-6 lg:sticky lg:top-20 lg:self-start">
+              <ClimateRiskCard lat={latNum} lon={lonNum} />
               <NoiseCard lat={latNum} lon={lonNum} />
+              <AirQualityCard lat={latNum} lon={lonNum} />
+              <BroadbandCard lat={latNum} lon={lonNum} />
               <CrimeCard kommunenummer={kommunenummer} />
               <FinnLink
                 postnummer={searchParams.pnr}
                 address={displayAddress}
                 kommunenavn={searchParams.poststed}
               />
+              <PriceAlertSetup kommunenummer={kommunenummer} postnummer={searchParams.pnr} />
               <FellesgjeldReminder />
               <div className="no-print">
                 <SaveAddressButton
@@ -291,6 +313,8 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                   adressetekst={displayAddress}
                   lat={latNum}
                   lon={lonNum}
+                  kommunenummer={kommunenummer}
+                  postnummer={searchParams.pnr}
                 />
               </div>
               <PropertyEnergimerke
@@ -306,7 +330,9 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                     { label: "SSB", href: "https://www.ssb.no", title: "Boligpriser" },
                     { label: "Kartverket", href: "https://kartverket.no", title: "Adresse & eiendom" },
                     { label: "Entur", href: "https://entur.no", title: "Kollektivtransport" },
-                    { label: "OpenStreetMap", href: "https://openstreetmap.org", title: "Skoler & barnehager" },
+                    { label: "NVE", href: "https://nve.no", title: "Klima- og flomrisiko" },
+                    { label: "NILU", href: "https://luftkvalitet.info", title: "Luftkvalitet" },
+                    { label: "OpenStreetMap", href: "https://openstreetmap.org", title: "Skoler & fasiliteter" },
                   ].map(({ label, href, title }) => (
                     <a
                       key={label}

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cachedFetch, TTL } from "@/lib/cache";
 
 interface LineInfo {
   code: string;
@@ -21,11 +22,7 @@ const MODE_PRIORITY: Record<string, number> = {
   air: 5,
 };
 
-export async function GET(request: NextRequest) {
-  const lat = request.nextUrl.searchParams.get("lat");
-  const lon = request.nextUrl.searchParams.get("lon");
-
-  if (!lat || !lon) return NextResponse.json([]);
+async function fetchStops(lat: string, lon: string): Promise<StopResult[]> {
 
   const query = `{
     nearest(
@@ -66,7 +63,7 @@ export async function GET(request: NextRequest) {
       signal: AbortSignal.timeout(8000),
     });
 
-    if (!res.ok) return NextResponse.json([]);
+    if (!res.ok) return [];
 
     const data = await res.json();
     const edges: {
@@ -113,9 +110,20 @@ export async function GET(request: NextRequest) {
       })
       .filter((s) => s.name && s.departuresPerHour > 0); // drop stops with no live data
 
-    return NextResponse.json(stops satisfies StopResult[]);
+    return stops;
   } catch (err) {
     console.error("[transit/stops] Entur stops fetch failed:", err instanceof Error ? err.message : err);
-    return NextResponse.json([]);
+    return [];
   }
+}
+
+export async function GET(request: NextRequest) {
+  const lat = request.nextUrl.searchParams.get("lat");
+  const lon = request.nextUrl.searchParams.get("lon");
+
+  if (!lat || !lon) return NextResponse.json([]);
+
+  const key = `vk:stops:${parseFloat(lat).toFixed(4)}-${parseFloat(lon).toFixed(4)}`;
+  const result = await cachedFetch(key, TTL.ONE_HOUR, () => fetchStops(lat, lon));
+  return NextResponse.json(result);
 }

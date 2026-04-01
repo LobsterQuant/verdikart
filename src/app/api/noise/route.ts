@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cachedFetch, TTL } from "@/lib/cache";
 
 interface NoiseResult {
   veinoise: number | null;
@@ -64,19 +65,19 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  try {
-    const [veinoise, flynoise, jernbanenoise] = await Promise.all([
-      fetchNoiseLayer(lat, lon, "Veg_Lden"),
-      fetchNoiseLayer(lat, lon, "Fly_Lden"),
-      fetchNoiseLayer(lat, lon, "Jernbane_Lden"),
-    ]);
-
-    const result: NoiseResult = { veinoise, flynoise, jernbanenoise };
-    return NextResponse.json(result);
-  } catch (err) {
-    console.error("[noise] Kartverket WMS fetch failed:", err instanceof Error ? err.message : err);
-    return NextResponse.json(
-      { veinoise: null, flynoise: null, jernbanenoise: null } satisfies NoiseResult
-    );
-  }
+  const key = `vk:noise:${lat.toFixed(4)}-${lon.toFixed(4)}`;
+  const result = await cachedFetch<NoiseResult>(key, TTL.ONE_DAY, async () => {
+    try {
+      const [veinoise, flynoise, jernbanenoise] = await Promise.all([
+        fetchNoiseLayer(lat, lon, "Veg_Lden"),
+        fetchNoiseLayer(lat, lon, "Fly_Lden"),
+        fetchNoiseLayer(lat, lon, "Jernbane_Lden"),
+      ]);
+      return { veinoise, flynoise, jernbanenoise };
+    } catch (err) {
+      console.error("[noise] Kartverket WMS fetch failed:", err instanceof Error ? err.message : err);
+      return { veinoise: null, flynoise: null, jernbanenoise: null };
+    }
+  });
+  return NextResponse.json(result);
 }

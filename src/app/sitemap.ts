@@ -147,6 +147,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     })),
     {
+      url: `${base}/dashboard`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.3,
+    },
+    {
       url: `${base}/personvern`,
       lastModified: now,
       changeFrequency: "yearly",

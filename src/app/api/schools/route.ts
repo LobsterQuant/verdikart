@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { haversineM } from "@/lib/geo";
+import { cachedFetch, TTL } from "@/lib/cache";
 
 export interface School {
   name: string;
@@ -11,14 +13,6 @@ export interface School {
   pupils: number | null;
   url: string | null;
   nsrId: number | null;
-}
-
-function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const R = 6371000;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
 // NSR NACE codes for schools (grunnskole + videregående)
@@ -91,7 +85,7 @@ async function fetchSchoolsFromNsr(lat: number, lon: number, kommunenr: string):
       return (SCHOOL_NACE.has(nace) || SCHOOL_NACE.has(s.NaceKode2) || SCHOOL_NACE.has(s.NaceKode3))
         && s.Breddegrad && s.Lengdegrad;
     })
-    .map(s => ({ ...s, _dist: haversine(lat, lon, s.Breddegrad, s.Lengdegrad) }))
+    .map(s => ({ ...s, _dist: haversineM(lat, lon, s.Breddegrad, s.Lengdegrad) }))
     .filter(s => s._dist < 1000)
     .sort((a, b) => a._dist - b._dist)
     .slice(0, 6);
@@ -160,7 +154,7 @@ out center 10;
           lat: elLat,
           lon: elLon,
           type: "Barnehage",
-          distance: Math.round(haversine(lat, lon, elLat, elLon)),
+          distance: Math.round(haversineM(lat, lon, elLat, elLon)),
           isPrivate,
           levelLabel: null,
           pupils: null,
@@ -174,20 +168,7 @@ out center 10;
   }
 }
 
-export async function GET(request: NextRequest) {
-  const lat = parseFloat(request.nextUrl.searchParams.get("lat") ?? "");
-  const lon = parseFloat(request.nextUrl.searchParams.get("lon") ?? "");
-  const knr = request.nextUrl.searchParams.get("knr") ?? request.nextUrl.searchParams.get("kommunenummer") ?? "";
-
-  if (isNaN(lat) || isNaN(lon)) return NextResponse.json({ schools: [] });
-
-  // Derive kommunenr from knr param or from reverse-lookup via Kartverket
-  let kommunenr = knr.replace(/^0+/, "").padStart(4, "0");
-  if (!kommunenr || kommunenr === "0000") {
-    // Fallback: use Overpass for schools too
-    kommunenr = "";
-  }
-
+async function fetchAllSchools(lat: number, lon: number, kommunenr: string): Promise<{ schools: School[] }> {
   const [nsrSchools, osmKindergartens] = await Promise.allSettled([
     kommunenr ? fetchSchoolsFromNsr(lat, lon, kommunenr) : Promise.resolve([] as School[]),
     fetchKindergartensFromOsm(lat, lon),
@@ -198,10 +179,8 @@ export async function GET(request: NextRequest) {
     ...(osmKindergartens.status === "fulfilled" ? osmKindergartens.value : []),
   ].sort((a, b) => a.distance - b.distance);
 
-  // If NSR returned nothing (no kommunenr or empty result), fallback to OSM for schools too
   const hasNsrSchools = nsrSchools.status === "fulfilled" && nsrSchools.value.length > 0;
   if (!hasNsrSchools) {
-    // OSM fallback for schools
     const osmQuery = `
 [out:json][timeout:8];
 (
@@ -227,7 +206,7 @@ out center 8;
           return {
             name: tags.name ?? tags["name:no"] ?? "Skole",
             lat: elLat, lon: elLon, type: "Skole",
-            distance: Math.round(haversine(lat, lon, elLat, elLon)),
+            distance: Math.round(haversineM(lat, lon, elLat, elLon)),
             isPrivate: tags.operator_type === "private",
             levelLabel: null, pupils: null, url: null, nsrId: null,
           } satisfies School;
@@ -240,5 +219,20 @@ out center 8;
     }
   }
 
-  return NextResponse.json({ schools: schools.slice(0, 10) });
+  return { schools: schools.slice(0, 10) };
+}
+
+export async function GET(request: NextRequest) {
+  const lat = parseFloat(request.nextUrl.searchParams.get("lat") ?? "");
+  const lon = parseFloat(request.nextUrl.searchParams.get("lon") ?? "");
+  const knr = request.nextUrl.searchParams.get("knr") ?? request.nextUrl.searchParams.get("kommunenummer") ?? "";
+
+  if (isNaN(lat) || isNaN(lon)) return NextResponse.json({ schools: [] });
+
+  let kommunenr = knr.replace(/^0+/, "").padStart(4, "0");
+  if (!kommunenr || kommunenr === "0000") kommunenr = "";
+
+  const key = `vk:schools:${lat.toFixed(4)}-${lon.toFixed(4)}-${kommunenr}`;
+  const result = await cachedFetch(key, TTL.TWELVE_HOURS, () => fetchAllSchools(lat, lon, kommunenr));
+  return NextResponse.json(result);
 }

@@ -11,7 +11,7 @@ export default function Avmeld() {
     if (!email) return;
     setStatus("loading");
     try {
-      const res = await fetch("https://formspree.io/f/xjgpwkyz", {
+      const res = await fetch(`https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_ID ?? "xjgpwkyz"}`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ email, _subject: "Avmelding — Verdikart", message: `Bruker ${email} ønsker å avslutte alle e-poster fra Verdikart.` }),
@@ -42,9 +42,13 @@ export default function Avmeld() {
               <p className="mb-6 text-sm text-text-secondary">
                 Skriv inn e-postadressen du vil melde av fra alle Verdikart-varsler.
               </p>
-              <form onSubmit={handleSubmit} className="space-y-3">
+              <form onSubmit={handleSubmit} className="space-y-3" aria-label="Avmeldingsskjema">
+                <label htmlFor="avmeld-email" className="sr-only">E-postadresse</label>
                 <input
+                  id="avmeld-email"
                   type="email"
+                  name="email"
+                  autoComplete="email"
                   required
                   placeholder="din@epost.no"
                   value={email}

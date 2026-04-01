@@ -27,7 +27,7 @@ export default function ContactForm() {
     if (honeypot) { setStatus("success"); return; }
     setStatus("sending");
     try {
-      const res = await fetch("https://formspree.io/f/xjgpwkyz", {
+      const res = await fetch(`https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_ID ?? "xjgpwkyz"}`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({

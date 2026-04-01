@@ -106,7 +106,7 @@ export default function EmailCapture({ address, compact = false }: { address?: s
         <button
           type="submit"
           disabled={status === "loading"}
-          className="rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-black transition-opacity hover:opacity-80 disabled:opacity-50 whitespace-nowrap"
+          className="rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-80 disabled:opacity-50 whitespace-nowrap"
         >
           {status === "loading" ? "Sender…" : "Varsle meg"}
         </button>

@@ -35,7 +35,7 @@ export const posts: BlogPost[] = [
       },
       {
         heading: "1. Kollektivtransport og gangavstand",
-        body: "Nærhet til T-bane, trikk eller buss er en av de sterkeste prisdriver-faktorene i norske byer. En bolig som er 400 meter fra nærmeste T-banestasjon kan være 10–15 % dyrere enn en tilsvarende bolig 1,2 km unna.\n\nSjekk ikke bare at det finnes en holdeplass — sjekk faktisk avgangshyppighet. 2 avganger per time i rushtiden er svært annerledes enn 8. Med Verdikart kan du søke på adressen og se nøyaktig hvilke holdeplasser som er innen gangavstand og hvor mange avganger per time du faktisk har.",
+        body: "Nærhet til T-bane, trikk eller buss er en av de sterkeste prisdrivende faktorene i norske byer. En bolig som er 400 meter fra nærmeste T-banestasjon kan være 10–15 % dyrere enn en tilsvarende bolig 1,2 km unna.\n\nSjekk ikke bare at det finnes en holdeplass — sjekk faktisk avgangshyppighet. 2 avganger per time i rushtiden er svært annerledes enn 8. Med Verdikart kan du søke på adressen og se nøyaktig hvilke holdeplasser som er innen gangavstand og hvor mange avganger per time du faktisk har.",
         tip: "Avganger i sanntid hentes fra Entur. Søk på adressen på verdikart.no for å se din faktiske dekning.",
       },
       {
@@ -121,7 +121,7 @@ export const posts: BlogPost[] = [
     slug: "kollektivtransport-og-boligpris",
     title: "Slik påvirker kollektivtransport boligprisen — og hva du bør sjekke",
     description:
-      "Nærhet til T-bane og trikk er en av de sterkeste prisdriver-faktorene i norske byer. Vi ser på sammenhengen mellom kollektivdekning og boligpris, og hva du faktisk bør sjekke.",
+      "Nærhet til T-bane og trikk er en av de sterkeste prisdrivende faktorene i norske byer. Vi ser på sammenhengen mellom kollektivdekning og boligpris, og hva du faktisk bør sjekke.",
     publishedAt: "2026-03-24",
     readingMinutes: 5,
     category: "Markedsanalyse",
@@ -428,7 +428,7 @@ export const posts: BlogPost[] = [
     sections: [
       {
         heading: "Start med faktaene, ikke følelsene",
-        body: "Det er lett å bli forelsket i en bolig med bra styling og bad lys — og se bort fra støy, dårlig kollektivtilbud eller høy fellesgjeld. En strukturert sammenligningsmodell hjelper deg å skille hva som faktisk er bedre fra hva som bare ser bedre ut.",
+        body: "Det er lett å bli forelsket i en bolig med bra styling og godt lys — og se bort fra støy, dårlig kollektivtilbud eller høy fellesgjeld. En strukturert sammenligningsmodell hjelper deg å skille hva som faktisk er bedre fra hva som bare ser bedre ut.",
       },
       {
         heading: "De 5 viktigste faktorene å sammenligne",

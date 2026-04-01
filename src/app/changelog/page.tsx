@@ -26,6 +26,28 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "1.5",
+    date: "1. april 2026",
+    label: "Full revisjon — dataærlighet, tilgjengelighet og kodekvalitet",
+    items: [
+      { type: "fix", text: "Presseside: dansk «Hvad» rettet til norsk «Hva» i FAQ-seksjon." },
+      { type: "fix", text: "Statistikkstripe: «47 kommuner brukt» endret til «47 kommuner med prisdata» — ærlig om at dette gjelder SSB prisdekning, ikke alle funksjoner." },
+      { type: "fix", text: "Kriminalitetskort: vises nå med forklaring for kommuner uten data, i stedet for å forsvinne stille. Brukere i 340+ kommuner ser nå at data er begrenset til de 15 største byene." },
+      { type: "fix", text: "Støykort: skiller nå mellom API-feil og ingen registrert støy. Forklarer at dekningen primært gjelder tettbygde strøk og hovedveier." },
+      { type: "fix", text: "Blogg: tre kategorier (Kjøperguide, Markedsanalyse, Prisanalyse) manglet farger i fargekartet — alle vises nå med unike fargebadger." },
+      { type: "fix", text: "Blogg: «prisdriver-faktorene» (ikke-standard norsk) rettet til «prisdrivende faktorene» i to artikler." },
+      { type: "fix", text: "Blogg: «bad lys» (engelskisme) rettet til «godt lys» i sammenligningsartikkel." },
+      { type: "fix", text: "Knapptekst: inkonsistent text-black på accent-knapper rettet til text-white (e-postskjema, feilside)." },
+      { type: "fix", text: "BSU-info: fjernet utdatert «(2024)»-referanse i førstegangskjøper-FAQ." },
+      { type: "improvement", text: "Pristrend: bydelspris viser nå disclaimer om at verdiene er estimert via bydelsindeks, ikke faktiske transaksjonsdata." },
+      { type: "improvement", text: "AI-oppsummering: fallback-tekst forbedret fra generisk «dette er en norsk adresse» til kontekstuell melding om tilgjengelige datakort." },
+      { type: "improvement", text: "Avmeldingsskjema: lagt til label, name, autoComplete og aria-label for skjermleser-tilgjengelighet (WCAG 2.1 AA)." },
+      { type: "improvement", text: "Formspree-ID er nå miljøvariabel i alle klientkomponenter (kontaktskjema, avmelding). Server-side subscribe-rute feiler eksplisitt med 503 hvis ikke konfigurert." },
+      { type: "improvement", text: "Feillogging lagt til i alle 7 API-ruter (adresse, kollektiv, støy, pris, skoler, salg, AI). Feil som før ble svelget stille logges nå med kontekst." },
+      { type: "improvement", text: "Fjernet 77 linjer død kode (ubrukt footer-duplikat) fra forsiden." },
+    ],
+  },
+  {
     version: "1.4",
     date: "31. mars 2026",
     label: "Tillit, tilgjengelighet, SEO og mobil UX",

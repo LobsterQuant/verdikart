@@ -123,7 +123,7 @@ export default function FørstegangskjøperPage() {
             {[
               {
                 q: "Hva er BSU og hvordan bruker jeg det?",
-                a: "BSU (Boligsparing for Ungdom) er en skattefavorisert sparekonto for deg under 34 år. Du kan spare inntil 27 500 kr/år (2024) og få 10% av innskuddet som skattefradrag. Midlene kan kun brukes til boligkjøp eller nedbetaling av boliglån. Maks saldo: 300 000 kr."
+                a: "BSU (Boligsparing for Ungdom) er en skattefavorisert sparekonto for deg under 34 år. Du kan spare inntil 27 500 kr/år og få 10% av innskuddet som skattefradrag. Midlene kan kun brukes til boligkjøp eller nedbetaling av boliglån. Maks saldo: 300 000 kr."
               },
               {
                 q: "Hva mener banken med 85%-regelen?",

@@ -64,10 +64,13 @@ export default function BlogIndex() {
           {(() => {
             const DEFAULT_CAT = { bg: "bg-card-border/30", text: "text-text-tertiary" };
             const CAT_COLOR: Record<string, { bg: string; text: string }> = {
-              "Boligkjøp":   { bg: "bg-violet-500/10", text: "text-violet-400" },
-              "Analyse":     { bg: "bg-blue-500/10",   text: "text-blue-400" },
-              "Markedsdata": { bg: "bg-emerald-500/10", text: "text-emerald-400" },
-              "Økonomi":     { bg: "bg-amber-500/10",  text: "text-amber-400" },
+              "Boligkjøp":      { bg: "bg-violet-500/10",  text: "text-violet-400" },
+              "Analyse":        { bg: "bg-blue-500/10",    text: "text-blue-400" },
+              "Markedsdata":    { bg: "bg-emerald-500/10", text: "text-emerald-400" },
+              "Økonomi":        { bg: "bg-amber-500/10",   text: "text-amber-400" },
+              "Kjøperguide":    { bg: "bg-rose-500/10",    text: "text-rose-400" },
+              "Markedsanalyse": { bg: "bg-cyan-500/10",    text: "text-cyan-400" },
+              "Prisanalyse":    { bg: "bg-orange-500/10",  text: "text-orange-400" },
             };
 
             const [featured, ...rest] = sorted;

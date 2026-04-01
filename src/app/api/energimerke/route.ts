@@ -33,81 +33,85 @@ async function loadCsvData(): Promise<Map<string, EnergimerkeResult>> {
   const apiKey = process.env.ENOVA_API_KEY;
   if (!apiKey) throw new Error("ENOVA_API_KEY not configured");
 
-  // Get latest available month
+  // Load last 6 months for maximum coverage (~50k+ entries)
   const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1; // current month
-  // Try current month first, fall back to previous
-  let csvUrl: string | null = null;
+  const csvUrls: string[] = [];
 
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const m = month - attempt;
-    const y = m <= 0 ? year - 1 : year;
-    const mo = m <= 0 ? 12 + m : m;
-    const padded = String(mo).padStart(2, "0");
+  for (let offset = 0; offset < 6; offset++) {
+    const d = new Date(now.getFullYear(), now.getMonth() - offset, 1);
+    const y = d.getFullYear();
+    const mo = String(d.getMonth() + 1).padStart(2, "0");
 
     try {
       const res = await fetch(
-        `https://api.data.enova.no/ems/offentlige-data/v2/Fil/${y}/${padded}?subscription-key=${apiKey}`,
+        `https://api.data.enova.no/ems/offentlige-data/v2/Fil/${y}/${mo}?subscription-key=${apiKey}`,
         { signal: AbortSignal.timeout(10000) }
       );
       if (res.ok) {
         const json = await res.json();
-        csvUrl = json.bankFileUrl;
-        break;
+        if (json.bankFileUrl) csvUrls.push(json.bankFileUrl);
       }
     } catch {
       continue;
     }
   }
 
-  if (!csvUrl) throw new Error("Could not get CSV URL from Enova");
+  if (csvUrls.length === 0) throw new Error("Could not get any CSV URLs from Enova");
 
-  // Download CSV
-  const csvRes = await fetch(csvUrl, { signal: AbortSignal.timeout(30000) });
-  if (!csvRes.ok) throw new Error("Failed to download CSV");
-
-  const text = await csvRes.text();
-  const lines = text.split("\n");
-
-  // Parse header
-  const header = lines[0].replace(/^\uFEFF/, "").split(",");
-  const idx = {
-    postnummer: header.indexOf("Postnummer"),
-    gateAdresse: header.indexOf("GateAdresse"),
-    energikarakter: header.indexOf("Energikarakter"),
-    kwhM2: header.indexOf("BeregnetLevertEnergiTotaltkWhm2"),
-    byggear: header.indexOf("Byggear"),
-    bygningskategori: header.indexOf("Bygningskategori"),
-    attestUri: header.indexOf("AttestUri"),
-    bra: header.indexOf("OppgittBra"),
-    materialvalg: header.indexOf("Materialvalg"),
-  };
+  // Download all CSVs in parallel
+  const csvTexts = await Promise.all(
+    csvUrls.map(async (url) => {
+      try {
+        const res = await fetch(url, { signal: AbortSignal.timeout(30000) });
+        return res.ok ? await res.text() : "";
+      } catch {
+        return "";
+      }
+    })
+  );
 
   const map = new Map<string, EnergimerkeResult>();
 
-  for (let i = 1; i < lines.length; i++) {
-    const line = lines[i];
-    if (!line.trim()) continue;
+  for (const text of csvTexts) {
+    if (!text) continue;
+    const lines = text.split("\n");
 
-    // Simple CSV split (fields don't contain commas based on observed data)
-    const cols = line.split(",");
-    const pnr = cols[idx.postnummer]?.trim();
-    const addr = cols[idx.gateAdresse]?.trim();
+    // Parse header
+    const header = lines[0].replace(/^\uFEFF/, "").split(",");
+    const idx = {
+      postnummer: header.indexOf("Postnummer"),
+      gateAdresse: header.indexOf("GateAdresse"),
+      energikarakter: header.indexOf("Energikarakter"),
+      kwhM2: header.indexOf("BeregnetLevertEnergiTotaltkWhm2"),
+      byggear: header.indexOf("Byggear"),
+      bygningskategori: header.indexOf("Bygningskategori"),
+      attestUri: header.indexOf("AttestUri"),
+      bra: header.indexOf("OppgittBra"),
+      materialvalg: header.indexOf("Materialvalg"),
+    };
 
-    if (!pnr || !addr) continue;
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i];
+      if (!line.trim()) continue;
 
-    const key = makeKey(pnr, addr);
-    // Keep only the latest entry per address (later lines overwrite)
-    map.set(key, {
-      energikarakter: cols[idx.energikarakter]?.trim() || null,
-      kwhM2: parseFloat(cols[idx.kwhM2]) || null,
-      byggear: parseInt(cols[idx.byggear]) || null,
-      bygningskategori: cols[idx.bygningskategori]?.trim() || null,
-      attestUri: cols[idx.attestUri]?.trim() || null,
-      bruksareal: parseInt(cols[idx.bra]) || null,
-      materialvalg: cols[idx.materialvalg]?.trim() || null,
-    });
+      const cols = line.split(",");
+      const pnr = cols[idx.postnummer]?.trim();
+      const addr = cols[idx.gateAdresse]?.trim();
+
+      if (!pnr || !addr) continue;
+
+      const key = makeKey(pnr, addr);
+      // Keep only the latest entry per address (later months overwrite older)
+      map.set(key, {
+        energikarakter: cols[idx.energikarakter]?.trim() || null,
+        kwhM2: parseFloat(cols[idx.kwhM2]) || null,
+        byggear: parseInt(cols[idx.byggear]) || null,
+        bygningskategori: cols[idx.bygningskategori]?.trim() || null,
+        attestUri: cols[idx.attestUri]?.trim() || null,
+        bruksareal: parseInt(cols[idx.bra]) || null,
+        materialvalg: cols[idx.materialvalg]?.trim() || null,
+      });
+    }
   }
 
   return map;

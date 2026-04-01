@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid email" }, { status: 400 });
     }
 
-    const formspreeId = process.env.FORMSPREE_SUBSCRIBE_ID ?? "xjgpwkyz";
+    const formspreeId = process.env.FORMSPREE_SUBSCRIBE_ID;
 
     if (formspreeId) {
       const res = await fetch(`https://formspree.io/f/${formspreeId}`, {
@@ -32,7 +32,8 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Upstream failed" }, { status: 502 });
       }
     } else {
-      // No Formspree ID configured — still return 200 to user
+      console.error("[subscribe] FORMSPREE_SUBSCRIBE_ID env var is not configured");
+      return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
     }
 
     return NextResponse.json({ ok: true });

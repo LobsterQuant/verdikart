@@ -61,7 +61,7 @@ function buildFallbackSummary(address: string, ctx: ContextData): string {
     parts.push("Adressen ligger i sentrum av byen.");
   }
   if (parts.length === 0) {
-    return `${address} er en norsk adresse. Se rapporten nedenfor for transport- og prisdata.`;
+    return `Vi har ikke nok data til å oppsummere ${address} automatisk. Se de enkelte datakortene nedenfor for transport, pris og støynivå.`;
   }
   return parts.join(" ");
 }

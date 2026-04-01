@@ -147,7 +147,8 @@ export async function GET(request: NextRequest) {
     }));
 
     return NextResponse.json({ durationMinutes, destination: city.name, legs } satisfies TransitResult);
-  } catch {
+  } catch (err) {
+    console.error("[transit] Entur fetch failed:", err instanceof Error ? err.message : err);
     return NextResponse.json({ durationMinutes: null, destination: city.name, legs: [] } satisfies TransitResult);
   }
 }

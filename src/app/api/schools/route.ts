@@ -235,7 +235,9 @@ out center 8;
         schools.push(...osmSchools);
         schools.sort((a, b) => a.distance - b.distance);
       }
-    } catch { /* ignore */ }
+    } catch (err) {
+      console.error("[schools] OSM fallback failed:", err instanceof Error ? err.message : err);
+    }
   }
 
   return NextResponse.json({ schools: schools.slice(0, 10) });

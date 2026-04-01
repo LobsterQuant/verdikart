@@ -73,7 +73,8 @@ export async function GET(request: NextRequest) {
 
     const result: NoiseResult = { veinoise, flynoise, jernbanenoise };
     return NextResponse.json(result);
-  } catch {
+  } catch (err) {
+    console.error("[noise] Kartverket WMS fetch failed:", err instanceof Error ? err.message : err);
     return NextResponse.json(
       { veinoise: null, flynoise: null, jernbanenoise: null } satisfies NoiseResult
     );

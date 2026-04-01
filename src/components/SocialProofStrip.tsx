@@ -37,7 +37,7 @@ export default function SocialProofStrip() {
       <div className="mb-8 grid grid-cols-3 gap-3 text-center">
         <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">
           <p className="text-2xl font-bold text-foreground">47</p>
-          <p className="mt-1 text-xs text-text-tertiary">kommuner brukt</p>
+          <p className="mt-1 text-xs text-text-tertiary">kommuner med prisdata</p>
         </div>
         <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">
           <p className="text-2xl font-bold text-foreground">4</p>

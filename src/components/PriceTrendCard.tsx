@@ -214,6 +214,12 @@ export default function PriceTrendCard({
           </AreaChart>
         </ResponsiveContainer>}
       </div>
+
+      {data.source === "bydel" && (
+        <p className="mt-3 text-xs text-text-tertiary">
+          Bydelspris er estimert ved å justere kommunesnittet med en bydelsindeks basert på markedsrapporter. Faktiske priser kan avvike.
+        </p>
+      )}
     </div>
   );
 }

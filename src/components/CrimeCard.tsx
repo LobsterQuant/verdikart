@@ -50,7 +50,22 @@ function getLabel(rate: number, kommunenummer?: string): { label: string; color:
 export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) {
   const data = KOMMUNE_CRIME[kommunenummer];
 
-  if (!data) return null;
+  if (!data) {
+    return (
+      <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+        <div className="mb-3 flex items-center gap-2">
+          <Shield className="h-4 w-4 text-text-tertiary" strokeWidth={1.5} />
+          <h3 className="text-lg font-semibold">Kriminalitetsnivå</h3>
+        </div>
+        <p className="text-sm text-text-secondary">
+          Kriminalitetsdata er foreløpig kun tilgjengelig for de 15 største kommunene i Norge.
+        </p>
+        <p className="mt-1 text-xs text-text-tertiary">
+          Kilde: SSB — Kriminalstatistikk 2023. Bydels- og nabolagsnivå er ikke tilgjengelig.
+        </p>
+      </div>
+    );
+  }
 
   const { label, color, bg, isUrbanContext } = getLabel(data.rate, kommunenummer);
   const pctVsNational = ((data.rate - NATIONAL_AVG) / NATIONAL_AVG * 100).toFixed(0);

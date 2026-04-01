@@ -342,7 +342,8 @@ export async function GET(request: NextRequest) {
     // For other municipalities: return commune data with name label
     kommuneData.sourceLabel = "Kommunesnitt";
     return NextResponse.json(kommuneData satisfies PriceTrendResult);
-  } catch {
+  } catch (err) {
+    console.error("[price-trend] SSB fetch failed:", err instanceof Error ? err.message : err);
     return NextResponse.json(EMPTY satisfies PriceTrendResult);
   }
 }

@@ -40,7 +40,7 @@ const faqs = [
     a: "Verdikart er et analyserverktøy, ikke en annonseplatform. Vi selger ingen boliger, vi tar ingen provisjon, og vi har ingen agenda utover å gi brukeren best mulig data. Alle datakildene er åpne og offentlige.",
   },
   {
-    q: "Hvad er forretningsmodellen?",
+    q: "Hva er forretningsmodellen?",
     a: "Verdikart er i beta. Inntektsmodell er ikke offentliggjort. Produktet er gratis i sin nåværende form.",
   },
 ];

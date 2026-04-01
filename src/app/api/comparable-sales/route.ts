@@ -102,7 +102,8 @@ export async function GET(request: NextRequest) {
       period,
       kommuneName,
     } satisfies ComparableSalesResult);
-  } catch {
+  } catch (err) {
+    console.error("[comparable-sales] SSB fetch failed:", err instanceof Error ? err.message : err);
     return NextResponse.json(EMPTY);
   }
 }

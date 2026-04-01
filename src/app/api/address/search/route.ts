@@ -56,7 +56,8 @@ async function searchGeonorge(q: string, fuzzy: boolean): Promise<AddressResult[
       postnummer: a.postnummer ?? "",
       poststed: a.poststed ?? "",
     })).filter((r) => r.lat !== 0 && r.lon !== 0);
-  } catch {
+  } catch (err) {
+    console.error("[address/search] Geonorge fetch failed:", err instanceof Error ? err.message : err);
     return [];
   }
 }

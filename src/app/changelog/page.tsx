@@ -26,13 +26,30 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "1.6",
+    date: "1. april 2026",
+    label: "Innholdsekspansjon, nye datakort og Finn.no-integrasjon",
+    items: [
+      { type: "feature", text: "Blogg utvidet til 46 artikler — dekker nå alle store byer, budrunde, fellesgjeld, dokumentavgift, boligtyper, refinansiering, klimarisiko, arv/gave, elbil-lading og mer." },
+      { type: "feature", text: "Eiendomsskatt-kort på alle 15+ bysider. Viser promillesats, beregnet årlig kostnad for 3M/5M/8M, og grønn badge for kommuner uten eiendomsskatt." },
+      { type: "feature", text: "Miljørisiko-kort (radon + flom) på alle bysider. Fargekodede risikobadger med lenker til NGU radonkart og NVE flomsonekart." },
+      { type: "feature", text: "Leieavkastningskalkulator på investorsiden. Beregner brutto/netto yield og breakeven-tid basert på kjøpesum, leie, fellesgjeld og felleskostnader." },
+      { type: "feature", text: "Finn.no-dyplenke i rapportsidebar. Filtrerer på postnummer for å vise aktive boligannonser i samme område. Tydelig disclaimer om at Verdikart ikke er tilknyttet Finn.no." },
+      { type: "improvement", text: "Kriminalitetsdata utvidet fra 15 til ~175 kommuner — dekker nå ~85% av Norges befolkning." },
+      { type: "fix", text: "Radon-lenke (NGU) og flomsonekart-lenke (NVE) var begge 404. Rettet til geo.ngu.no/kart/radon/ og temakart.nve.no/tema/flomsoner." },
+      { type: "fix", text: "To nye bloggkategorier (Teknisk, Investering) manglet farger — lagt til slate og teal." },
+      { type: "fix", text: "Eiendomsskatt- og miljørisiko-data lagt til for Sarpsborg, Skien og Arendal (manglet for 3 av 15 byer)." },
+      { type: "fix", text: "Kriminalitetskort-fallback oppdatert fra «90 kommuner» til korrekt «~175 kommuner»." },
+    ],
+  },
+  {
     version: "1.5",
     date: "1. april 2026",
     label: "Full revisjon — dataærlighet, tilgjengelighet og kodekvalitet",
     items: [
       { type: "fix", text: "Presseside: dansk «Hvad» rettet til norsk «Hva» i FAQ-seksjon." },
       { type: "fix", text: "Statistikkstripe: «47 kommuner brukt» endret til «47 kommuner med prisdata» — ærlig om at dette gjelder SSB prisdekning, ikke alle funksjoner." },
-      { type: "fix", text: "Kriminalitetskort: vises nå med forklaring for kommuner uten data, i stedet for å forsvinne stille. Brukere i 340+ kommuner ser nå at data er begrenset til de 15 største byene." },
+      { type: "fix", text: "Kriminalitetskort: vises nå med forklaring for kommuner uten data, i stedet for å forsvinne stille." },
       { type: "fix", text: "Støykort: skiller nå mellom API-feil og ingen registrert støy. Forklarer at dekningen primært gjelder tettbygde strøk og hovedveier." },
       { type: "fix", text: "Blogg: tre kategorier (Kjøperguide, Markedsanalyse, Prisanalyse) manglet farger i fargekartet — alle vises nå med unike fargebadger." },
       { type: "fix", text: "Blogg: «prisdriver-faktorene» (ikke-standard norsk) rettet til «prisdrivende faktorene» i to artikler." },

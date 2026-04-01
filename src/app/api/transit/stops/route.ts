@@ -114,7 +114,8 @@ export async function GET(request: NextRequest) {
       .filter((s) => s.name && s.departuresPerHour > 0); // drop stops with no live data
 
     return NextResponse.json(stops satisfies StopResult[]);
-  } catch {
+  } catch (err) {
+    console.error("[transit/stops] Entur stops fetch failed:", err instanceof Error ? err.message : err);
     return NextResponse.json([]);
   }
 }

@@ -2071,6 +2071,524 @@ export const posts: BlogPost[] = [
       { heading: "Vanlige feil", body: "Forhåndstilsagn er ikke endelig låneavtale — banken kan trekke tilbake. Sjekk gyldighetsperioden. Budsjetter ikke hele rammen uten å ta høyde for kjøpskostnader.", tip: "Sett av 5–8 % av kjøpesummen til omkostninger utover boligprisen." },
     ],
   },
+  {
+    slug: "frogner-nabolagsguide",
+    title: "Frogner nabolagsguide 2026: Priser, stemning og hvem som bor her",
+    description:
+      "Alt du trenger å vite om Frogner som boligområde — fra kvadratmeterpriser og arkitektur til dagligliv og kollektivtilbud.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 6,
+    category: "Analyse",
+    relatedSlugs: ["boligpris-per-kvm-norge-2026", "kollektivtransport-og-boligpris", "pendlerbolig-oslo-nabolag"],
+    sections: [
+      {
+        body: "Frogner er et av Oslos mest ettertraktede boligområder, kjent for klassisk arkitektur, brede gater og nærhet til Vigelandsparken. Bydelen har historisk tiltrukket familier, eldre par og velstående profesjonelle — men de siste årene har også yngre kjøpere kommet til, spesielt i de mer kompakte leilighetene langs Bygdøy allé og Frognerveien. Prisene ligger stabilt i det øvre sjiktet for Oslo, men variasjonen mellom gatene er overraskende stor.",
+      },
+      {
+        heading: "Boligpriser og boligtyper",
+        body: "Kvadratmeterprisene på Frogner ligger i snitt rundt 95 000–115 000 kr/m² for leiligheter, avhengig av standard og beliggenhet. De mest eksklusive adressene mot Bygdøy og langs Frognerparken kan presse prisene opp mot 130 000 kr/m² og høyere. Boligmassen domineres av klassiske murbyggleiligheter fra perioden 1890–1930, typisk med stukkatur, rosetter og parkett. En del av disse er selveierboliger, men det finnes også borettslag og sameier med varierende fellesgjeld.",
+      },
+      {
+        heading: "Dagligliv og service",
+        body: "Frogner har et bredt utvalg av matbutikker, spesialforretninger og restauranter. Bogstadveien og Briskeby fungerer som lokale handlestrøk med alt fra bakeri til antikvitetsforretninger. Kulturelt er bydelen rik — Vigelandsparken, Frognerparken og en rekke gallerier gir området en særegen karakter. Barnefamilier setter pris på nærhet til gode skoler, men konkurransen om plassene er hard.",
+      },
+      {
+        heading: "Kollektivtransport og tilgjengelighet",
+        body: "Trikkelinjer langs Frognerveien og Bygdøy allé gir god forbindelse til sentrum på under 10 minutter. Majorstuen T-banestasjon ligger i utkanten av bydelen og er et av Oslos viktigste knutepunkter med tilgang til alle T-banelinjer. Sykkelveier er under utvikling, men gatestrukturene gjør Frogner til et godt sykkelområde allerede i dag. Bilparkering kan derimot være utfordrende, spesielt for de uten fast plass.",
+        tip: "Sjekk adressen på verdikart.no for å se nøyaktig kollektivdekning og gangavstand til holdeplasser.",
+      },
+      {
+        heading: "Hvem passer Frogner for?",
+        body: "Frogner passer godt for deg som verdsetter klassisk byarkitektur, rolige boligstrøk og nærhet til grøntområder. Prisnivået gjør at førstegangskjøpere ofte må se etter mindre enheter eller vurdere borettslag med fellesgjeld. For investorer har Frogner vist seg som et stabilt område med god verdibevaring over tid — men leieavkastningen er relativt lav grunnet de høye inngangsprisene.",
+      },
+    ],
+  },
+  {
+    slug: "grunerlokka-nabolagsguide",
+    title: "Grünerløkka nabolagsguide 2026: Urbant, kreativt og i endring",
+    description:
+      "Grünerløkka i 2026 — prisnivå, kaféliv, støy og hvem som kjøper bolig her. En grundig nabolagsanalyse.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 6,
+    category: "Analyse",
+    relatedSlugs: ["stoy-og-boligpris", "boligpris-per-kvm-norge-2026", "pendlerbolig-oslo-nabolag"],
+    sections: [
+      {
+        body: "Grünerløkka har gjennomgått en enorm transformasjon de siste to tiårene — fra arbeiderklassebydel til et av Oslos mest populære bolig- og utelivsområder. I dag er løkka kjent for sine kaféer, vintagebutikker, street art og et pulserende natteliv. Men bydelen er også i endring igjen: gentrifiseringen presser prisene oppover, og barnefamilier utgjør nå en stadig større andel av beboerne.",
+      },
+      {
+        heading: "Boligpriser og boligtyper",
+        body: "Kvadratmeterprisene på Grünerløkka har steget markant og ligger nå rundt 85 000–100 000 kr/m² for leiligheter. De mest attraktive gatene mot Birkelunden og Sofienbergparken prises høyest. Boligmassen består hovedsakelig av murleiligheter fra 1890-tallet, ofte i borettslag med varierende standard. Mange er oppgradert, men det finnes fortsatt muligheter for oppussingsprosjekter — om du har budsjett og tålmodighet.",
+      },
+      {
+        heading: "Stemning og dagligliv",
+        body: "Thorvald Meyers gate og Markveien er bydelens pulsårer med kaféer, restauranter og butikker tett i tett. Mathallen Oslo ligger et steinkast unna og har blitt et kulinarisk samlingspunkt. Grünerløkka har også Birkelunden, Sofienbergparken og Akerselva som rekreasjonsområder. Støynivået kan imidlertid være en utfordring, spesielt for boliger som vender mot hovedgatene — sjekk støykart før du bestemmer deg.",
+        tip: "Boliger i bakgatene kan ha vesentlig lavere støynivå enn de langs Thorvald Meyers gate og Grünerløkka Torg.",
+      },
+      {
+        heading: "Kollektivtransport",
+        body: "Grünerløkka betjenes av trikk langs Thorvald Meyers gate og flere bussruter. Bydelen ligger innen gang- eller sykkelavstand til sentrum, noe som gjør den attraktiv for dem som foretrekker å pendle uten bil. Carl Berners plass T-banestasjon ligger i ytterkanten og gir tilgang til flere T-banelinjer. Sykkelinfrastrukturen langs Akerselva er blant Oslos beste.",
+      },
+      {
+        heading: "Hvem passer Grünerløkka for?",
+        body: "Grünerløkka appellerer til unge profesjonelle, par uten barn og kreative sjeler som ønsker urbant liv med kort vei til alt. Barnefamilier trives også, men bør være bevisste på støy og begrenset uteareal sammenlignet med vest-bydelene. For investorer er Grünerløkka interessant med god etterspørsel i leiemarkedet, men inngangsprisen er høy og potensialet for videre prisvekst er diskutabelt.",
+      },
+    ],
+  },
+  {
+    slug: "bergen-bydeler-oversikt",
+    title: "Bergen bydeler 2026: Priser, profil og hvem som bor hvor",
+    description:
+      "En oversikt over Bergens viktigste bydeler med prisnivå, boligtyper og stemning — fra Fana til Åsane.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 7,
+    category: "Markedsdata",
+    relatedSlugs: ["boligpris-per-kvm-norge-2026", "kollektivtransport-og-boligpris", "selveier-borettslag-aksje-forskjell"],
+    sections: [
+      {
+        body: "Bergen er Norges nest største by og har et boligmarked preget av sterk lokal variasjon. Fra de trange smauene på Nordnes til de romslige eneboligene i Fana — prisnivå, boligtyper og stemning varierer enormt mellom bydelene. Her gir vi en oversikt over de viktigste områdene slik markedet ser ut i 2026.",
+      },
+      {
+        heading: "Bergenhus og sentrum",
+        body: "Bergenhus omfatter Nordnes, Nygårdshøyden og Sandviken og er Bergens mest sentrale bydel. Kvadratmeterprisene her er blant de høyeste i byen, typisk 60 000–80 000 kr/m² for leiligheter. Boligmassen er en blanding av eldre trehusbebyggelse, jugendleiligheter og nybygg. Området tiltrekker studenter, unge profesjonelle og par uten barn som ønsker gangavstand til alt Bergen sentrum har å by på.",
+      },
+      {
+        heading: "Fana og Ytrebygda",
+        body: "Fana og Ytrebygda sør for sentrum er populære blant barnefamilier som ønsker mer plass. Her dominerer eneboliger og rekkehus med priser som varierer mellom 40 000–60 000 kr/m². Paradis, Nesttun og Rå er blant de mest ettertraktede delområdene. Bybanen gir god forbindelse til sentrum, og området har gode skoler og idrettstilbud. Ytrebygda huser også Bergen lufthavn Flesland, noe som betyr flystøy i enkelte soner.",
+      },
+      {
+        heading: "Årstad og Laksevåg",
+        body: "Årstad har opplevd kraftig utvikling med Mindemyren-utbyggingen og nye boligprosjekter langs Bybanen. Prisene er mer moderate enn i sentrum, typisk 50 000–65 000 kr/m². Laksevåg vest for sentrum er et område i endring — tradisjonelt et arbeiderklasseområde, men med økende interesse fra kjøpere som er priset ut av sentrum. Her finnes rimelige leiligheter og rekkehus med potensial.",
+      },
+      {
+        heading: "Åsane",
+        body: "Åsane nord for sentrum er Bergens mest folkerike bydel med et bredt utvalg av boliger. Prisene er blant de laveste i Bergen kommune, typisk 35 000–50 000 kr/m². Åsane Senter er et stort handleområde, men bydelen mangler foreløpig bybane — noe som er planlagt i fremtidige utbyggingsfaser. For bilbaserte familier som trenger plass, er Åsane et rimelig alternativ.",
+      },
+      {
+        heading: "Oppsummering",
+        body: "Bergen byr på alt fra kompakte byleiligheter til romslige eneboliger i grønne omgivelser. Bybanen har blitt en viktig prisdrivende faktor, og bydeler med bybanestopp har sett sterkere prisvekst enn sammenlignbare områder uten. For boligkjøpere gjelder det å veie nærhet til sentrum opp mot plass, pris og livsstil — Bergen har noe for de fleste budsjetter.",
+      },
+    ],
+  },
+  {
+    slug: "trondheim-bydeler-oversikt",
+    title: "Trondheim bydeler 2026: Boligpriser, profil og bydelsguide",
+    description:
+      "En oversikt over boligmarkedet i Trondheims bydeler — fra Bakklandet til Heimdal, med priser og boligtyper.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 7,
+    category: "Markedsdata",
+    relatedSlugs: ["boligpris-per-kvm-norge-2026", "kollektivtransport-og-boligpris", "selveier-borettslag-aksje-forskjell"],
+    sections: [
+      {
+        body: "Trondheim er Norges tredje største by og en viktig universitets- og teknologiby. Boligmarkedet er preget av sterk etterspørsel fra studenter, unge profesjonelle og familier — og prisene har økt jevnt de siste årene. Her er en guide til de viktigste bydelene i 2026.",
+      },
+      {
+        heading: "Midtbyen og Bakklandet",
+        body: "Midtbyen er Trondheims historiske sentrum med Nidarosdomen, Solsiden og et rikt kulturliv. Kvadratmeterprisene for leiligheter ligger rundt 60 000–80 000 kr/m², høyest i byen. Bakklandet med sine sjarmerende trehus er ikonisk, men tilbudet er begrenset og prisene tilsvarende høye. Boligtypen er hovedsakelig leiligheter i eldre bygårder og nyere blokkbebyggelse langs Nidelva.",
+      },
+      {
+        heading: "Lade og Strindheim",
+        body: "Lade og Strindheim øst for sentrum har sett kraftig utvikling med nye boligprosjekter, spesielt rundt Lade Allé og Leangen. Prisene ligger typisk mellom 50 000–65 000 kr/m². Området har god kollektivforbindelse til sentrum og NTNU, og tiltrekker seg en blanding av studenter, unge par og familier. Sjønære boliger på Lade har spesielt høy etterspørsel.",
+      },
+      {
+        heading: "Byåsen og Tiller",
+        body: "Byåsen vest for sentrum er et klassisk villastrøk med gode solforhold og utsikt over Trondheimsfjorden. Prisene varierer mellom 45 000–60 000 kr/m², med eneboliger og rekkehus som dominerende boligtype. Tiller lenger sør er mer preget av nyere bebyggelse og kjøpesentre. For familier som trenger plass og aksepterer litt lengre pendlevei er dette attraktive alternativer.",
+      },
+      {
+        heading: "Heimdal og Saupstad",
+        body: "Heimdal og Saupstad i sør er blant Trondheims rimeligste bydeler med kvadratmeterpriser fra 35 000–50 000 kr/m². Her finnes en blanding av eldre eneboliger, rekkehus og blokkbebyggelse fra 1960- og 70-tallet. Metrobussen gir god forbindelse til sentrum, og Heimdal stasjon har togforbindelse mot Melhus og Støren. Området er populært blant førstegangskjøpere og familier med strammere budsjett.",
+      },
+      {
+        heading: "Oppsummering",
+        body: "Trondheim tilbyr et boligmarked med god bredde — fra sentrale leiligheter i Midtbyen til romslige eneboliger på Byåsen og Heimdal. NTNU og St. Olavs hospital er store arbeidsgivere som driver etterspørselen, og Metrobussen har forbedret tilgjengeligheten til bydelene i sør og øst. Trondheim er generelt rimeligere enn Oslo og Bergen, noe som gjør byen attraktiv for førstegangskjøpere.",
+      },
+    ],
+  },
+  {
+    slug: "rekkehus-tomannsbolig-guide",
+    title: "Rekkehus vs. tomannsbolig: Forskjeller, fordeler og ulemper",
+    description:
+      "Vurderer du rekkehus eller tomannsbolig? Her er en grundig sammenligning av pris, vedlikehold, fellesregler og bomiljø.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 6,
+    category: "Kjøperguide",
+    relatedSlugs: ["selveier-borettslag-aksje-forskjell", "fellesgjeld-forklart", "hva-sjekke-for-boligkjop"],
+    sections: [
+      {
+        body: "For mange boligkjøpere — spesielt barnefamilier — står valget mellom rekkehus og tomannsbolig. Begge gir mer plass enn en leilighet, tilgang til hage og en følelse av å ha «eget hus». Men forskjellene i eierform, vedlikeholdsansvar og bomiljø kan være betydelige. Her er det du bør vite før du velger.",
+      },
+      {
+        heading: "Hva er forskjellen?",
+        body: "Et rekkehus er en del av en sammenhengende husrekke med typisk tre eller flere enheter som deler vegger. En tomannsbolig er en bygning delt i to separate boenheter, enten side om side eller over/under hverandre. Rekkehus er ofte organisert som sameie eller borettslag med felles vedlikehold av tak, fasade og fellesarealer. Tomannsboliger kan være selveierboliger der de to eierne deler vedlikeholdsansvar gjennom en enkel sameieavtale.",
+      },
+      {
+        heading: "Pris og verdiutvikling",
+        body: "Tomannsboliger prises generelt noe høyere enn rekkehus fordi de gir mer privatliv og ofte større tomt. I Oslo-området ligger tomannsboliger typisk 10–20 % over sammenlignbare rekkehus i samme strøk. Begge boligtypene har vist stabil verdiutvikling over tid, drevet av etterspørselen fra familier som ønsker mer plass enn leilighet, men ikke budsjett for enebolig.",
+      },
+      {
+        heading: "Vedlikehold og fellesregler",
+        body: "I et rekkehus med felles sameie eller borettslag deler du kostnader til tak, fasade og uteareal med naboene. Det betyr lavere individuell kostnad, men også mindre kontroll. I en tomannsbolig er du avhengig av én nabo for å bli enig om vedlikehold — noe som kan være enklere eller vanskeligere enn i et større fellesskap. Sjekk alltid vedtekter og sameieavtale nøye, og vurder om det er satt av midler til fremtidig vedlikehold.",
+        tip: "Be om å se regnskapene og vedlikeholdsplanen for fellesskapet — uansett om det er borettslag, sameie eller topartsavtale.",
+      },
+      {
+        heading: "Hvem passer hva for?",
+        body: "Rekkehus passer godt for familier som ønsker forutsigbare felleskostnader og et sosialt bomiljø med naboer i samme situasjon. Tomannsbolig passer bedre dersom du verdsetter mer privatliv, gjerne vil ha større hage, og er komfortabel med å håndtere vedlikehold i samarbeid med kun én nabo. Begge gir fordelen av egen inngang, hage og en mer «husaktig» boform enn leilighet.",
+      },
+    ],
+  },
+  {
+    slug: "boligkjop-med-hund-eller-kjaeledyr",
+    title: "Boligkjøp med hund eller kjæledyr: Regler, borettslag og tips",
+    description:
+      "Har du hund eller katt? Her er hva du må vite om dyrehold i borettslag og sameie før du kjøper bolig.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 5,
+    category: "Kjøperguide",
+    relatedSlugs: ["selveier-borettslag-aksje-forskjell", "hva-sjekke-for-boligkjop", "brl-vs-sameie-fordeler-ulemper"],
+    sections: [
+      {
+        body: "Mange nordmenn har kjæledyr, og for hundeeiere spesielt er boligvalget tett knyttet til dyrets behov. Men ikke alle borettslag og sameier tillater dyrehold — og regelverket kan være mer nyansert enn du tror. Her er det du bør undersøke før du legger inn bud.",
+      },
+      {
+        heading: "Lover og regler for dyrehold i borettslag",
+        body: "Borettslagsloven § 5-11 slår fast at andelseiere kan holde dyr «dersom gode grunner taler for det, og dyreholdet ikke er til ulempe for de øvrige brukerne av eiendommen». Dette betyr at selv i borettslag med generelt dyreforbud kan du ha rett til å holde dyr hvis det ikke skaper problemer. I praksis er dette en skjønnsmessig vurdering, og det kan oppstå konflikter. Sameier reguleres av eierseksjonsloven, som gir mer frihet — men vedtektene kan likevel begrense dyrehold.",
+      },
+      {
+        heading: "Hva bør du sjekke før kjøp?",
+        body: "Les vedtektene og husordensreglene nøye. Spør styret direkte om det bor dyr i bygget i dag, og om det har vært konflikter knyttet til dyrehold. For hundeeiere er det viktig å vurdere nærhet til turområder, hundepark og grøntarealer. En tredje etasje uten heis med stor hund er en daglig utfordring — tenk praktisk.",
+        list: [
+          "Sjekk vedtekter og husordensregler for dyrehold",
+          "Spør styreleder om praksis og eventuelle konflikter",
+          "Vurder nærhet til grøntarealer og hundeluftingsområder",
+          "Tenk på etasje, heis og inngangsforhold for hunden",
+        ],
+      },
+      {
+        heading: "Selveier vs. borettslag for dyreeiere",
+        body: "Selveierboliger gir størst frihet for dyreeiere — du eier boligen og har som hovedregel rett til å holde dyr, så lenge det ikke bryter med lokale ordensregler i et eventuelt sameie. I borettslag er reglene strengere, men loven gir deg et visst vern. For mange hundeeiere er en enebolig, rekkehus eller tomannsbolig med hage det beste alternativet — da unngår du potensielle nabokonflikter helt.",
+      },
+      {
+        heading: "Tips for hundevennlig boligjakt",
+        body: "Bruk Verdikart til å sjekke nærhet til parker og grøntområder rundt aktuelle adresser. Prioriter bolig med direkte utgang til bakkenivå, og vurder trafikksituasjonen i nabolaget — stille boligstrøk er tryggere for daglige lufteturer. Husk at de fleste kommuner krever at hunder holdes i bånd i tettbygde strøk, så en inngjerdet hage er gull verdt.",
+      },
+    ],
+  },
+  {
+    slug: "takst-vs-prisantydning",
+    title: "Takst vs. prisantydning: Hva er forskjellen, og hva bør du stole på?",
+    description:
+      "Takst og prisantydning er ikke det samme. Forstå forskjellen, og bruk begge riktig i budrunden.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 5,
+    category: "Økonomi",
+    relatedSlugs: ["budrunde-guide-2026", "boligpris-per-kvm-norge-2026", "hva-sjekke-for-boligkjop"],
+    sections: [
+      {
+        body: "Mange boligkjøpere bruker begrepene takst og prisantydning om hverandre, men de betyr ulike ting og gir forskjellig informasjon. Å forstå forskjellen kan hjelpe deg med å legge inn et smartere bud og unngå å betale for mye — eller miste boligen du ønsker.",
+      },
+      {
+        heading: "Hva er takst?",
+        body: "En takst er en verdsettelse utført av en autorisert takstmann, basert på boligens tekniske tilstand, areal, beliggenhet og sammenlignbare salg i området. Taksten finnes i tilstandsrapporten og gir en «markedsverdi» som representerer takstmannens beste estimat av hva boligen er verdt ved fritt salg. Taksten tar hensyn til både positive og negative faktorer ved boligen, inkludert avvik notert i tilstandsrapporten.",
+      },
+      {
+        heading: "Hva er prisantydning?",
+        body: "Prisantydning settes av eiendomsmegleren og er den prisen selger og megler forventer å oppnå. Den skal ifølge bransjenormen gjenspeile selgers reelle prisforventning og ikke settes kunstig lavt for å lokke mange interessenter. I praksis er prisantydningen ofte satt noe under forventet salgspris i populære områder, mens den i svakere markeder kan ligge nærmere eller over endelig salgspris.",
+      },
+      {
+        heading: "Når avviker de — og hva betyr det?",
+        body: "Dersom taksten er vesentlig høyere enn prisantydningen, kan det tyde på at megleren har satt en offensiv prisantydning for å skape interesse. Omvendt, hvis prisantydningen er høyere enn taksten, bør du spørre deg om selgers forventninger er realistiske. En forskjell på 5–10 % er vanlig og ikke nødvendigvis et varsel. Større avvik bør undersøkes nærmere — sjekk sammenlignbare salg i området.",
+        tip: "Bruk prisantydning og takst som to datapunkter, ikke som fasit. De viktigste referansene er faktiske salgspriser for sammenlignbare boliger i samme område.",
+      },
+      {
+        heading: "Slik bruker du informasjonen i budrunden",
+        body: "Start med å finne ut hva tilsvarende boliger har blitt solgt for nylig — det gir deg et realistisk bilde uavhengig av både takst og prisantydning. Sett ditt eget maksbudsjett basert på sammenlignbare salg og din økonomi, ikke basert på hva megler eller takstmann mener. I budrunden bør du holde hodet kaldt og ikke la deg rive med av en lav prisantydning som er ment å skape budkrig.",
+      },
+    ],
+  },
+  {
+    slug: "overtagelse-bolig-sjekkliste",
+    title: "Overtagelse av bolig: Komplett sjekkliste for trygg overtakelse",
+    description:
+      "Alt du bør sjekke ved overtagelse av bolig — fra nøkler og strømmålere til skjulte feil og reklamasjon.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 6,
+    category: "Kjøperguide",
+    relatedSlugs: ["hva-sjekke-for-boligkjop", "tilstandsrapport-forklart", "skjulte-feil-mangler-bolig"],
+    sections: [
+      {
+        body: "Overtagelsesdagen er en av de viktigste milepælene i et boligkjøp. Det er nå eierskapet formelt overføres, og det er din siste sjanse til å dokumentere boligens tilstand før du bærer risikoen. En grundig gjennomgang kan spare deg for tusenvis av kroner i ettertid. Her er en komplett sjekkliste.",
+      },
+      {
+        heading: "Forberedelser før overtagelse",
+        body: "Avtale tidspunkt for overtagelse med megler og selger i god tid. Ta med tilstandsrapporten, salgsoppgaven og eventuelle e-poster der selger har gitt opplysninger om boligen. Ha med kamera eller bruk mobilen til å dokumentere alt. Ta gjerne med en person til — fire øyne ser mer enn to. Sørg for at forsikring er tegnet med virkning fra overtagelsesdagen.",
+      },
+      {
+        heading: "Sjekkliste for gjennomgangen",
+        body: "Gå systematisk gjennom boligen, rom for rom. Sjekk at alt utstyr og inventar som er inkludert i salget faktisk er på plass, og at ingenting er skadet etter siste visning.",
+        list: [
+          "Les av strømmåler, vannmåler og eventuelt fjernvarmemåler — noter verdiene",
+          "Sjekk alle kraner, toaletter og sluk for lekkasjer",
+          "Test alle vinduslåser, dører og mekanismer",
+          "Sjekk vegger, gulv og tak for skader som ikke var synlige på visning",
+          "Kontroller at hvitevarer, peis, varmepumpe og andre apparater fungerer",
+          "Motta alle nøkler, fjernkontroller, garasjeportåpnere og postkassenøkler",
+        ],
+      },
+      {
+        heading: "Protokoll og dokumentasjon",
+        body: "Fyll ut overtagelsesprotokollen nøye. Dersom du oppdager mangler eller skader, noter dem i protokollen — dette er ditt viktigste bevis ved en eventuell reklamasjon. Protokollen signeres av både kjøper og selger. Ikke la deg presse til å signere uten å ha gått gjennom alt. Du har rett til å ta den tiden du trenger, og det er bedre å bruke en halvtime ekstra enn å oppdage problemer for sent.",
+        tip: "Ta bilder av alle avvik og noter dem i protokollen. Dato og klokkeslett på bildene kan være viktig dokumentasjon senere.",
+      },
+      {
+        heading: "Etter overtagelsen",
+        body: "Meld adresseendring til Posten, overfør strøm- og nettavtale, og registrer deg som eier hos kommunen dersom det er aktuelt. Sjekk også at tinglysing av eierskiftet er korrekt gjennomført av megler. Husk at du har fem års reklamasjonsrett på skjulte feil og mangler etter avhendingsloven — men jo raskere du reklamerer, desto sterkere står du.",
+      },
+    ],
+  },
+  {
+    slug: "skjulte-feil-mangler-bolig",
+    title: "Skjulte feil og mangler ved bolig: Dine rettigheter som kjøper",
+    description:
+      "Oppdaget fukt, råte eller andre feil etter boligkjøp? Her er hva loven sier og hvordan du reklamerer.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 6,
+    category: "Teknisk",
+    relatedSlugs: ["tilstandsrapport-forklart", "vannlekkasje-fukt-bolig", "hva-sjekke-for-boligkjop"],
+    sections: [
+      {
+        body: "Å oppdage feil ved boligen etter kjøp er en av de mest frustrerende opplevelsene en boligkjøper kan ha. Heldigvis gir avhendingsloven deg klare rettigheter — men det er viktig å kjenne reglene, frister og prosesser for å ivareta disse rettighetene. Her er det du trenger å vite.",
+      },
+      {
+        heading: "Hva regnes som en skjult feil?",
+        body: "En skjult feil (mangel) er et avvik fra det som var avtalt eller forventet, og som du ikke visste om eller burde ha oppdaget ved kjøpet. Typiske eksempler er fuktskader bak vegger, råte i bærende konstruksjoner, feil ved det elektriske anlegget eller ulovlige byggetiltak. Etter lovendringen i 2022 er det viktig å merke seg at boligen nå selges «som den er» i langt mindre grad — selger har en strengere opplysningsplikt enn tidligere.",
+      },
+      {
+        heading: "Avhendingsloven etter 2022",
+        body: "Fra 1. januar 2022 kan ikke lenger selger ta generelle «som den er»-forbehold overfor forbrukerkjøpere. Det betyr at boligen har en mangel dersom den ikke samsvarer med opplysningene gitt av selger, dersom selger har holdt tilbake relevante opplysninger, eller dersom boligen er i vesentlig dårligere stand enn kjøperen hadde grunn til å forvente. Tilstandsrapporten har fått en enda viktigere rolle, og avvik utover det som er dokumentert i rapporten kan utgjøre en mangel.",
+      },
+      {
+        heading: "Slik reklamerer du",
+        body: "Du må reklamere innen «rimelig tid» etter at du oppdaget eller burde ha oppdaget mangelen. I praksis betyr dette innen 2–3 måneder etter oppdagelsen. Den absolutte fristen er fem år etter overtagelse. Reklamasjonen bør være skriftlig og sendes til selger (eventuelt via meglerforetaket). Beskriv feilen konkret, legg ved dokumentasjon og angi at du krever utbedring eller prisavslag.",
+        list: [
+          "Reklamer skriftlig og behold kopi",
+          "Dokumenter feilen med bilder og eventuell fagrapport",
+          "Angi hva du krever: utbedring, prisavslag eller heving",
+          "Fristen er «rimelig tid» etter oppdagelse, absolutt fem år",
+        ],
+      },
+      {
+        heading: "Tvisteløsning og forsikring",
+        body: "Dersom selger bestrider reklamasjonen, kan saken bringes inn for Forbrukerklageutvalget eller domstolene. Mange velger å engagere en advokat som spesialiserer seg på eiendom. Rettshjelpforsikringen i innboforsikringen din dekker som regel mesteparten av advokatutgiftene etter egenandel. Sjekk forsikringsvilkårene dine tidlig i prosessen, slik at du vet hva du har dekning for.",
+      },
+    ],
+  },
+  {
+    slug: "boligkjop-utlending-norge",
+    title: "Kjøpe bolig i Norge som utlending: Regler, lån og praktisk guide",
+    description:
+      "Alt utenlandske kjøpere trenger å vite om å kjøpe bolig i Norge — fra finansiering til skatteforhold.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 7,
+    category: "Kjøperguide",
+    relatedSlugs: ["forstegangs-kjoper-guide", "boliglan-2026-renter-vilkar", "dokumentavgift-norge-forklart"],
+    sections: [
+      {
+        body: "Norge har ingen generelle restriksjoner på utenlandske statsborgere som ønsker å kjøpe bolig. Enten du er EU-borger, har oppholdstillatelse eller bor i utlandet, kan du i prinsippet kjøpe eiendom i Norge. Men i praksis er det flere forhold som gjør prosessen mer komplisert enn for norske kjøpere, spesielt rundt finansiering og skatt.",
+      },
+      {
+        heading: "Rett til å kjøpe — ingen begrensninger",
+        body: "I motsetning til land som Danmark, Sveits og Thailand har Norge ingen konsesjonskrav for vanlige boliger (unntaket er landbrukseiendommer). Du trenger verken norsk statsborgerskap eller bostedsadresse for å kjøpe en leilighet eller enebolig. Borettslag kan imidlertid ha vedtektsbestemmelser som krever at eier bor i boligen, noe som i praksis betyr at du må ha lovlig opphold i Norge.",
+      },
+      {
+        heading: "Finansiering og boliglån",
+        body: "Å få boliglån i en norsk bank uten norsk inntekt og skattehistorikk er utfordrende. De fleste norske banker krever fast ansettelse i Norge, norsk personnummer og inntekt som beskattes her. Noen banker tilbyr lån til utlendinger med høy egenkapital (typisk 40–50 %). Alternativt kan du finansiere kjøpet gjennom en bank i hjemlandet med pant i annen eiendom, eller kjøpe med ren egenkapital.",
+      },
+      {
+        heading: "Skatt og dokumentavgift",
+        body: "Utenlandske kjøpere betaler de samme avgiftene som norske: 2,5 % dokumentavgift ved kjøp av selveierbolig og tinglysingsgebyr. Dersom du leier ut boligen, er leieinntektene skattepliktige i Norge, og du må søke om norsk d-nummer for skatteformål. Formuesskatt på bolig gjelder også for utenlandske eiere. Det kan være lurt å sjekke om Norge har en skatteavtale med ditt hjemland for å unngå dobbeltbeskatning.",
+      },
+      {
+        heading: "Praktiske tips for utenlandske kjøpere",
+        body: "Engasjer en norsk advokat eller eiendomsrådgiver som kjenner prosessen. Skaff deg norsk personnummer eller d-nummer tidlig — det trengs for bankforbindelse, strømavtale og kommunikasjon med offentlige myndigheter. Vær forberedt på at budrundeprosessen i Norge er rask og uformell sammenlignet med mange andre land — bud aksepteres ofte på SMS, og prosessen kan være over på få timer.",
+        tip: "D-nummer søkes via Skatteetaten og kan ta 2–4 uker. Start prosessen tidlig dersom du planlegger å kjøpe.",
+      },
+    ],
+  },
+  {
+    slug: "leiemarkedet-norge-2026",
+    title: "Leiemarkedet i Norge 2026: Priser, trender og hva du bør vite",
+    description:
+      "En oversikt over leiemarkedet i Norges største byer i 2026 — med leiepriser, etterspørsel og utleieregler.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 6,
+    category: "Markedsdata",
+    relatedSlugs: ["boligpris-per-kvm-norge-2026", "boliglan-2026-renter-vilkar", "boliginvestor-yield-kalkulator-guide"],
+    sections: [
+      {
+        body: "Leiemarkedet i Norge har vært stramt i flere år, og 2026 er intet unntak. Høy innvandring, sterk studentetterspørsel og begrenset nybygging har holdt leieprisene på rekordnivå i de største byene. Enten du er leietaker som vil forstå markedet, eller utleier som ønsker å sette riktig pris, er det viktig å ha et oppdatert bilde.",
+      },
+      {
+        heading: "Leiepriser i Norges største byer",
+        body: "I Oslo ligger gjennomsnittlig månedlig leie for en toroms leilighet (40–60 m²) på rundt 14 000–17 000 kr, avhengig av bydel. De mest sentrale områdene som Grünerløkka, Frogner og St. Hanshaugen prises høyest. I Bergen ligger tilsvarende leiepriser på 10 000–13 000 kr, mens Trondheim følger tett med 9 500–12 500 kr. Stavanger har sett en oppgang grunnet økt aktivitet i energisektoren.",
+      },
+      {
+        heading: "Hva driver leieprisene?",
+        body: "Flere faktorer forklarer de høye leieprisene. Byggekostnadene har økt kraftig, noe som bremser nybygging og holder tilbudet nede. Rentehevingene i 2023–2024 priset mange potensielle førstegangskjøpere ut av eiermarkedet og over i leiemarkedet. I tillegg har økt arbeidsinnvandring og sterk etterspørsel fra studenter ved semesterstart skapt sesongmessige topper som presser prisene ytterligere opp.",
+      },
+      {
+        heading: "Regler for utleie i Norge",
+        body: "Husleieloven regulerer forholdet mellom utleier og leietaker i Norge. Leiekontrakten kan være tidsbestemt (minimum tre år for vanlige boliger) eller tidsubestemt. Depositum kan være inntil seks måneders husleie og skal stå på en egen depositumskonto i leietakers navn. Utleier kan ikke kreve husleie som er «urimelig» i forhold til markedsnivået. Leieinntekter er skattepliktige, men utleie av en del av egen bolig har egne skattefritak.",
+      },
+      {
+        heading: "Leie eller kjøpe i 2026?",
+        body: "Med dagens rentenivå og boligpriser kan det for noen lønne seg å leie på kort sikt, spesielt dersom du planlegger å flytte innen 2–3 år. Men på lang sikt har boligeierskap historisk vært den beste investeringen for norske husholdninger, takket være skattefordeler, verdistigning og tvungen sparing gjennom nedbetaling. Regn på begge alternativene med din faktiske økonomi før du bestemmer deg.",
+      },
+    ],
+  },
+  {
+    slug: "brl-vs-sameie-fordeler-ulemper",
+    title: "Borettslag vs. sameie: Fordeler, ulemper og viktige forskjeller",
+    description:
+      "Hva er egentlig forskjellen på borettslag og sameie? Vi sammenligner regler, økonomi og frihet.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 6,
+    category: "Kjøperguide",
+    relatedSlugs: ["selveier-borettslag-aksje-forskjell", "fellesgjeld-forklart", "hva-sjekke-for-boligkjop"],
+    sections: [
+      {
+        body: "Når du kjøper leilighet i Norge, er eierformen enten borettslag (BRL) eller eierseksjonssameie. Begge gir deg rett til å bo i en bestemt bolig, men de juridiske og praktiske forskjellene er betydelige. Feil valg — eller manglende kunnskap om forskjellene — kan gi overraskelser etter kjøpet.",
+      },
+      {
+        heading: "Juridisk forskjell",
+        body: "I et borettslag eier du en andel i borettslaget, som gir deg en eksklusiv bruksrett til en bestemt leilighet. Borettslaget som juridisk person eier bygningen. I et eierseksjonssameie eier du selve seksjonen (leiligheten) direkte, pluss en ideell andel av fellesarealene. Denne forskjellen påvirker alt fra utleieregler til finansiering og omsetning.",
+      },
+      {
+        heading: "Utleie og bruksbegrensninger",
+        body: "Borettslag har strengere regler for utleie. Du kan leie ut i inntil 30 dager per år uten styregodkjenning, og utover dette kun med styrets samtykke og gyldig grunn (jobb, studier, helse, militærtjeneste). I et sameie har du som hovedregel fri utleierett, noe som gjør sameieleiligheter mer attraktive for investorer og de som ønsker fleksibilitet. Borettslag kan også ha forkjøpsrett for medlemmer av tilknyttet boligbyggelag.",
+      },
+      {
+        heading: "Økonomi og fellesgjeld",
+        body: "Borettslag har ofte fellesgjeld som finansierer bygget eller rehabiliteringer. Din andel av fellesgjelden kommer i tillegg til kjøpesummen og må regnes med i totalkostnaden. Sameier har sjeldnere fellesgjeld, men det forekommer ved større prosjekter. Felleskostnadene i borettslag inkluderer typisk renter og avdrag på fellesgjelden, mens felleskostnadene i sameier ofte begrenses til drift, vedlikehold og forsikring.",
+        tip: "Husk å sammenligne totalpris (kjøpesum + fellesgjeld) når du vurderer en borettslagsbolig opp mot en sameieleilighet.",
+      },
+      {
+        heading: "Hva passer for deg?",
+        body: "Borettslag passer godt dersom du ønsker å bo der selv, verdsetter et regulert bomiljø og er komfortabel med fellesgjeld som en del av finansieringsmodellen. Sameie passer bedre dersom du vil ha større frihet til utleie, ønsker å unngå forkjøpsrett-problematikk, eller planlegger å bruke boligen som investering. Begge eierformene er trygge og vel etablerte i det norske boligmarkedet.",
+      },
+    ],
+  },
+  {
+    slug: "naeringsbygg-investering",
+    title: "Investering i næringsbygg: Yield, risiko og hva du bør vite",
+    description:
+      "Vurderer du å investere i næringseiendom? Her er en guide til yield, leiekontrakter og risikofaktorer.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 7,
+    category: "Investering",
+    relatedSlugs: ["boliginvestor-yield-kalkulator-guide", "boliglan-2026-renter-vilkar", "eiendomsskatt-norge-2026"],
+    sections: [
+      {
+        body: "Investering i næringsbygg — kontor, handel, lager eller kombinasjonsbygg — er et naturlig neste steg for mange som har erfaring med boliginvestering. Næringseiendom kan gi høyere avkastning enn bolig, men risikoen og kompleksiteten er også større. Her er det du bør vite før du tar steget.",
+      },
+      {
+        heading: "Yield og avkastning",
+        body: "Yield (direkteavkastning) er netto leieinntekter dividert på eiendommens verdi. For næringseiendom i Norge ligger prime yield i Oslo sentrum på 4–5 % for kontorbygg og 5–6 % for handelseiendom i 2026. Utenfor de største byene kan yielden være 7–10 %, men med tilsvarende høyere risiko. Sammenlignet med boliginvestering, der netto yield typisk ligger på 2–4 %, gir næringseiendom klart bedre løpende avkastning — men med andre risikoer.",
+      },
+      {
+        heading: "Leiekontrakter og leietakere",
+        body: "I næringseiendom er leiekontraktene typisk lange — 5, 10 eller 15 år — med årlig KPI-regulering av leien. Dette gir forutsigbare inntekter og inflasjonsbeskyttelse. Kvaliteten på leietakeren er avgjørende: en offentlig etat eller et solid børsnotert selskap gir vesentlig lavere risiko enn en nystartet bedrift. Når leiekontrakten utløper, risikerer du ledighet — noe som kan gi store kostnader dersom bygget står tomt.",
+      },
+      {
+        heading: "Risikofaktorer",
+        body: "De største risikoene i næringseiendom er ledighet, renteeksponering og vedlikeholdskostnader. Et kontorbygg med én leietaker som sier opp kan gi null inntekter fra dag én. Rentekostnadene utgjør en vesentlig del av kostnadsbildet, og økte renter kan spise opp hele avkastningen. I tillegg er næringseiendom mindre likvid enn bolig — det tar lengre tid og koster mer å selge.",
+        list: [
+          "Ledighetsrisiko — hva skjer når leietaker flytter?",
+          "Renteeksponering — belånt næringseiendom er svært rentefølsom",
+          "Vedlikehold og oppgradering — leietakere forventer moderne lokaler",
+          "Reguleringsrisiko — endringer i arealbruk kan påvirke verdien",
+        ],
+      },
+      {
+        heading: "Finansiering og skatt",
+        body: "Norske banker krever typisk 25–40 % egenkapital for næringseiendom, avhengig av beliggenhet, leietaker og kontraktslengde. Rentene er høyere enn for boliglån. Skattemessig kan du avskrive bygget (typisk 2–4 % per år), og rentekostnader er fradragsberettiget. Merverdiavgift er en komplisert faktor — utleie til MVA-registrerte virksomheter gir fradragsrett, men utleie til ikke-registrerte (som helsevesen og finans) gjør det ikke.",
+      },
+      {
+        heading: "Er næringseiendom riktig for deg?",
+        body: "Næringseiendom passer best for erfarne investorer med god egenkapital, evne til å håndtere ledighetsperioder og forståelse for det kommersielle leiemarkedet. For de som har mindre kapital eller foretrekker lavere risiko, kan en eiendomsfond-andel gi eksponering mot næringseiendom uten operasjonelt ansvar. Start gjerne med en grundig analyse av yield, leietakerkvalitet og beliggenhet før du forplikter deg.",
+      },
+    ],
+  },
+  {
+    slug: "boligmarked-rentekutt-effekt",
+    title: "Rentekutt og boligpriser: Slik påvirker renten boligmarkedet",
+    description:
+      "Hvordan påvirker rentekutt boligprisene i Norge? Vi ser på historiske data, mekanismer og hva du kan forvente.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 6,
+    category: "Analyse",
+    relatedSlugs: ["boliglan-2026-renter-vilkar", "boligpris-per-kvm-norge-2026", "budrunde-guide-2026"],
+    sections: [
+      {
+        body: "Renten er kanskje den enkeltstående faktoren som påvirker boligprisene mest på kort og mellomlang sikt. Når Norges Bank setter ned styringsrenten, får det en kaskadeeffekt gjennom hele boligmarkedet — fra bankenes utlånsrenter til kjøpernes budsjett og til slutt prisene. Men sammenhengen er ikke alltid lineær, og effekten avhenger av flere faktorer.",
+      },
+      {
+        heading: "Mekanismen: Fra styringsrente til boligpris",
+        body: "Når Norges Bank kutter styringsrenten, senker bankene sine boliglånsrenter — typisk med en forsinkelse på 4–8 uker. Lavere rente gir husholdningene mer kjøpekraft: en reduksjon på 0,25 prosentpoeng på et lån på 4 millioner kr gir omtrent 800 kr lavere månedskostnad. Denne økte kjøpekraften gjør at flere kan delta i budrunder, og budgiverne kan strekke seg lenger. Resultatet er som regel høyere boligpriser.",
+      },
+      {
+        heading: "Historiske data fra Norge",
+        body: "Under rentekuttene i 2020–2021 falt styringsrenten til null, og boligprisene steg med over 10 % nasjonalt på ett år. Tilsvarende førte rentehevingene i 2022–2024 til en midlertidig avkjøling av prisene i flere markeder. Historisk har det vært en sterk negativ korrelasjon mellom rentenivå og boligprisvekst i Norge, selv om andre faktorer som tilbud, inntektsvekst og regulering også spiller inn.",
+      },
+      {
+        heading: "Hva skjer når rentekutt er priset inn?",
+        body: "En viktig nyanse er at boligmarkedet er fremoverskuende. Dersom markedet forventer rentekutt, kan effekten på boligprisene komme før rentekuttet faktisk gjennomføres. I 2025–2026 har vi sett at forventningene om rentekutt har bidratt til fornyet aktivitet i boligmarkedet allerede før Norges Bank har levert alle de ventede kuttene. For kjøpere betyr dette at å «vente på lavere renter» ikke nødvendigvis gir billigere boliger — fordi prisene stiger i takt med forventningene.",
+        tip: "Ikke forsøk å time boligkjøpet etter rentebeslutninger. Kjøp når du finner riktig bolig til en pris du har råd til — uavhengig av rentesyklusen.",
+      },
+      {
+        heading: "Hva betyr dette for deg som kjøper?",
+        body: "Dersom du venter på lavere renter for å kjøpe, risikerer du at boligprisene stiger mer enn du sparer på lavere rente. Regn heller på din egen økonomi: hva har du råd til med dagens rente, og tåler du en eventuell renteøkning på 2–3 prosentpoeng? Stresstest budsjettet ditt og sørg for at du har en buffer. Det viktigste er ikke å kjøpe på «riktig» tidspunkt, men å kjøpe en bolig du kan sitte med gjennom en hel rentesyklus.",
+      },
+    ],
+  },
+  {
+    slug: "forbrukslaan-boligkjop-feil",
+    title: "Forbrukslån og boligkjøp: Slik ødelegger smågjeld for lånesøknaden",
+    description:
+      "Har du forbrukslån, kredittkort eller smågjeld? Slik påvirker det boliglånet ditt — og hva du kan gjøre.",
+    publishedAt: "2026-04-01",
+    readingMinutes: 5,
+    category: "Økonomi",
+    relatedSlugs: ["boliglan-2026-renter-vilkar", "forstegangs-kjoper-guide", "forhandstilsagn-boliglan"],
+    sections: [
+      {
+        body: "Mange boligkjøpere vet at de trenger egenkapital og stabil inntekt for å få boliglån. Det færre vet er hvor dramatisk effekt forbrukslån, kredittkort og annen usikret gjeld har på bankens vurdering. Selv små beløp kan redusere lånerammen din med hundretusener av kroner.",
+      },
+      {
+        heading: "Slik beregner banken gjeldsgraden din",
+        body: "Boliglånsforskriften krever at samlet gjeld ikke overstiger fem ganger brutto årsinntekt. All gjeld teller — boliglån, studielån, billån, forbrukslån og kredittkortgjeld. Et forbrukslån på 100 000 kr reduserer altså lånerammen din for boliglån med tilsvarende beløp. I tillegg skal banken stresse budsjettet ditt med en renteøkning på minst 3 prosentpoeng over dagens rente, og forbrukslån har allerede høy rente — typisk 10–25 %.",
+      },
+      {
+        heading: "Kredittkort: Rammen teller, ikke saldoen",
+        body: "Mange vet ikke at banken i sin vurdering ser på kredittkortrammen din — ikke bare det du har brukt. Har du tre kredittkort med 50 000 kr i ramme på hvert, regner banken med at du potensielt kan ha 150 000 kr i gjeld. Selv om saldoen er null. Løsningen er enkel: si opp kredittkort du ikke bruker før du søker om boliglån, og be om å redusere rammen på de kortene du beholder.",
+        tip: "Si opp ubrukte kredittkort og kjøp-nå-betal-senere-tjenester minst 4–6 uker før du søker om boliglån.",
+      },
+      {
+        heading: "Hva du kan gjøre",
+        body: "Betal ned forbrukslån og kredittkortgjeld så raskt som mulig før du søker om boliglån. Prioriter den gjelden med høyest rente først. Unngå å ta opp ny forbruksgjeld i perioden før boligkjøpet. Dersom du har studielån, er dette mindre kritisk — studielån har lav rente og banken behandler det noe mildere — men det teller fortsatt inn i gjeldsgraden.",
+        list: [
+          "Betal ned forbrukslån og kredittkort før du søker boliglån",
+          "Si opp kredittkort du ikke trenger",
+          "Unngå «kjøp nå, betal senere»-tjenester — disse registreres som gjeld",
+          "Be om gjeldsopplysninger fra Gjeldsregisteret for å sjekke hva banken ser",
+        ],
+      },
+      {
+        heading: "Refinansiering som alternativ",
+        body: "Dersom du har flere forbrukslån, kan det lønne seg å refinansiere dem til ett lån med lavere rente. Noen banker tilbyr også å innfri forbruksgjeld som en del av boliglånet, men dette er strengere regulert etter boliglånsforskriften. Snakk med banken din eller en uavhengig finansrådgiver for å finne den beste strategien for din situasjon. Det viktigste er å ha et realistisk bilde av din totale gjeld og økonomi før du kaster deg inn i boligjakten.",
+      },
+    ],
+  },
 ];
 
 export function getAllSlugs() {

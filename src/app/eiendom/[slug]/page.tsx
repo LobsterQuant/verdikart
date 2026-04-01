@@ -5,6 +5,7 @@ import SchoolsCard from "@/components/SchoolsCard";
 import CrimeCard from "@/components/CrimeCard";
 import FinnLink from "@/components/FinnLink";
 import FellesgjeldReminder from "@/components/FellesgjeldReminder";
+import SaveAddressButton from "@/components/SaveAddressButton";
 import EnergimerkePlaceholder from "@/components/EnergimerkePlaceholder";
 import PriceTrendCard from "@/components/PriceTrendCard";
 import ComparableSalesCard from "@/components/ComparableSalesCard";
@@ -284,6 +285,14 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 kommunenavn={searchParams.poststed}
               />
               <FellesgjeldReminder />
+              <div className="no-print">
+                <SaveAddressButton
+                  slug={params.slug}
+                  adressetekst={displayAddress}
+                  lat={latNum}
+                  lon={lonNum}
+                />
+              </div>
               <EnergimerkePlaceholder />
 
               {/* Trust strip (sidebar) */}

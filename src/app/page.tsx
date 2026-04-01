@@ -8,6 +8,7 @@ import ProductDemo from "@/components/ProductDemo";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
 import SiteFooter from "@/components/SiteFooter";
+import SavedAddressesList from "@/components/SavedAddressesList";
 import { Bus, TrendingUp, Home } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 
@@ -529,6 +530,11 @@ export default function HomePage() {
               </a>
             ))}
           </div>
+        </div>
+
+        {/* Saved addresses */}
+        <div className="mt-5 w-full max-w-md">
+          <SavedAddressesList />
         </div>
 
         {/* Social proof strip — above the fold */}

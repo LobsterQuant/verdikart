@@ -26,6 +26,16 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "1.9",
+    date: "1. april 2026",
+    label: "100 bloggartikler, lagrede adresser og 179 statiske sider",
+    items: [
+      { type: "feature", text: "Blogg: 100 artikler — nye nabolagsguider (Frogner, Grünerløkka), bydelsoversikter (Bergen, Trondheim), pluss guider for rekkehus, kjæledyr, takst vs. prisantydning, overtagelse, skjulte feil, utlendinger, leiemarkedet, borettslag vs. sameie, næringsbygg, rentekutt-effekt og forbrukslån." },
+      { type: "feature", text: "Lagrede adresser — brukere kan nå lagre favoritadresser med ♡-knappen på eiendomsrapporter. Lagrede adresser vises på forsiden under søkefeltet. Alle data i localStorage, ingen registrering nødvendig." },
+      { type: "improvement", text: "179 statiske sider (opp fra 164)." },
+    ],
+  },
+  {
     version: "1.8",
     date: "1. april 2026",
     label: "85 bloggartikler, energimerke-kort og 164 statiske sider",

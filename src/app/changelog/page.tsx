@@ -26,6 +26,17 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "2.0",
+    date: "1. april 2026",
+    label: "Enova energimerke per bolig — offisielle energikarakterer fra A til G",
+    items: [
+      { type: "feature", text: "Energimerke per bolig: Verdikart henter nå offisielt energimerke (A-G) fra Enovas Energimerkesystem for hver enkelt adresse. Viser energikarakter, kWh/m², byggeår, materialvalg og lenke til full energiattest (PDF)." },
+      { type: "feature", text: "Visuell energiskala (A–G fargekodert bar) på hver eiendomsrapport. Grønn for A–C, gul for D–E, rød for F–G." },
+      { type: "improvement", text: "Erstatter den gamle «Energimerke — kommer snart»-plassholderen med ekte data fra Enova." },
+      { type: "improvement", text: "API-rute med 4-timers in-memory cache — minimerer antall nedlastinger fra Enova per serverinstans." },
+    ],
+  },
+  {
     version: "1.9",
     date: "1. april 2026",
     label: "100 bloggartikler, lagrede adresser og 179 statiske sider",

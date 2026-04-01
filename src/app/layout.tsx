@@ -55,6 +55,7 @@ export default function RootLayout({
     <html lang="nb">
       <head>
         <meta charSet="utf-8" />
+        <meta name="google-site-verification" content="4CfcfTbdMps13rua_a3oxyYzllQ--raYjuvHw0vGRdE" />
         <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

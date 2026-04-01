@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { allCitySlugs } from "./by/[city]/cityData";
 import { posts } from "./blogg/posts";
+import { getAllBydelSlugs } from "./by/oslo/[bydel]/bydelData";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://verdikart.no";
@@ -113,15 +114,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.75,
     },
+    {
+      url: `${base}/finn-bolig`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    },
+    {
+      url: `${base}/boliglaanskalkulator`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
+    },
     // Neighbourhood pages
     ...[
       "frogner", "grunerlokka", "majorstuen", "nordnes",
       "bakklandet", "lade", "moholt", "fana", "sandviken",
+      "st-hanshaugen", "sagene", "gronland", "toyen",
+      "sofienberg", "bislett", "skillebek", "aker-brygge",
+      "bjolsen", "kiellands-plass",
     ].map((area) => ({
       url: `${base}/nabolag/${area}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    // Oslo bydel pages
+    ...getAllBydelSlugs().map((s) => ({
+      url: `${base}/by/oslo/${s.bydel}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
     })),
     {
       url: `${base}/personvern`,

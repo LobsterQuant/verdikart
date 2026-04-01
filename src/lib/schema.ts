@@ -12,35 +12,35 @@ import {
 } from "drizzle-orm/pg-core";
 
 // ---------------------------------------------------------------------------
-// NextAuth tables
+// NextAuth tables — column names must match what @auth/drizzle-adapter expects
 // ---------------------------------------------------------------------------
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull().unique(),
-  emailVerified: timestamp("email_verified", { mode: "date", withTimezone: true }),
+  emailVerified: timestamp("emailVerified", { mode: "date", withTimezone: true }),
   image: text("image"),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
 
 export const accounts = pgTable("accounts", {
   id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  userId: uuid("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   type: varchar("type", { length: 50 }).notNull(),
   provider: varchar("provider", { length: 50 }).notNull(),
-  providerAccountId: varchar("provider_account_id", { length: 255 }).notNull(),
-  refreshToken: text("refresh_token"),
-  accessToken: text("access_token"),
-  expiresAt: bigint("expires_at", { mode: "number" }),
-  tokenType: varchar("token_type", { length: 50 }),
+  providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
+  refresh_token: text("refresh_token"),
+  access_token: text("access_token"),
+  expires_at: bigint("expires_at", { mode: "number" }),
+  token_type: varchar("token_type", { length: 50 }),
   scope: text("scope"),
-  idToken: text("id_token"),
+  id_token: text("id_token"),
+  session_state: text("session_state"),
 });
 
 export const sessions = pgTable("sessions", {
   id: uuid("id").defaultRandom().primaryKey(),
-  sessionToken: varchar("session_token", { length: 255 }).notNull().unique(),
-  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  sessionToken: varchar("sessionToken", { length: 255 }).notNull().unique(),
+  userId: uuid("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date", withTimezone: true }).notNull(),
 });
 

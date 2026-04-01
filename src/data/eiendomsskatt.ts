@@ -22,4 +22,7 @@ export const eiendomsskattData: Record<string, EiendomsskattData> = {
   "1804": { kommunenummer: "1804", name: "Bodø", hasTax: true, promille: 2.0 },
   "3403": { kommunenummer: "3403", name: "Hamar", hasTax: true, promille: 3.3 },
   "3803": { kommunenummer: "3803", name: "Sandefjord", hasTax: false },
+  "3003": { kommunenummer: "3003", name: "Sarpsborg", hasTax: true, promille: 2.5 },
+  "3807": { kommunenummer: "3807", name: "Skien", hasTax: true, promille: 3.5, note: "Skien kommune har eiendomsskatt på bolig." },
+  "4203": { kommunenummer: "4203", name: "Arendal", hasTax: true, promille: 2.0 },
 };

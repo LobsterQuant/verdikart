@@ -72,4 +72,18 @@ export const environmentalRiskData: Record<string, EnvironmentalRisk> = {
     floodNote: "Hamar ligger ved Mjøsa — historisk flomrisiko ved snøsmelting og ekstremnedbør.",
   },
   "3803": { kommunenummer: "3803", radonRisk: "Moderat", floodRisk: "Lav" },
+  "3003": {
+    kommunenummer: "3003",
+    radonRisk: "Høy",
+    radonNote: "Sarpsborg ligger i Østfold med granittgrunn — høy radonrisiko.",
+    floodRisk: "Moderat",
+    floodNote: "Noe flomrisiko langs Glomma.",
+  },
+  "3807": {
+    kommunenummer: "3807",
+    radonRisk: "Moderat",
+    floodRisk: "Moderat",
+    floodNote: "Noe flomrisiko langs Porsgrunnselva og Hjellevannet.",
+  },
+  "4203": { kommunenummer: "4203", radonRisk: "Lav", floodRisk: "Moderat", floodNote: "Noe risiko for stormflom langs kysten." },
 };

@@ -51,10 +51,10 @@ export default function EnvironmentalRiskCard({ kommunenummer }: { kommunenummer
       </div>
 
       <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-tertiary">
-        <a href="https://www.ngu.no/fagomrader/radon" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
-          Les mer om radon: ngu.no
+        <a href="https://geo.ngu.no/kart/radon/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+          Radonkart: geo.ngu.no
         </a>
-        <a href="https://atlas.nve.no/link/flomsone" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+        <a href="https://temakart.nve.no/tema/flomsoner" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
           Flomsonekart: nve.no
         </a>
       </div>

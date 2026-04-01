@@ -73,6 +73,9 @@ export default function BlogIndex() {
               "Prisanalyse":    { bg: "bg-orange-500/10",  text: "text-orange-400" },
               "Teknisk":        { bg: "bg-slate-500/10",   text: "text-slate-400" },
               "Investering":    { bg: "bg-teal-500/10",    text: "text-teal-400" },
+              "Økonomiguide":   { bg: "bg-yellow-500/10",  text: "text-yellow-400" },
+              "Livsendringer":  { bg: "bg-pink-500/10",    text: "text-pink-400" },
+              "Strategi":       { bg: "bg-indigo-500/10",  text: "text-indigo-400" },
             };
 
             const [featured, ...rest] = sorted;

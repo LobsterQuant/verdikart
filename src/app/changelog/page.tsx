@@ -26,6 +26,18 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "1.8",
+    date: "1. april 2026",
+    label: "85 bloggartikler, energimerke-kort og 164 statiske sider",
+    items: [
+      { type: "feature", text: "Blogg utvidet til 85 artikler — nye bykjøperguider (Lillehammer, Hamar, Ålesund, Sandefjord, Skien, Sarpsborg, Arendal), oppussingsverdier, nabostøy, boligforsikring, tinglysing, reguleringsplaner, meglervalg, barnefamilier, småbruk, nedskalering for seniorer, vannlekkasje, tomtekjøp, nabolagstrygghet, prisprognose 2027, studentbolig, garasje/parkering og forhåndstilsagn." },
+      { type: "feature", text: "Energimerke-kort på alle 18 bysider. Viser dominerende energimerke (A–G), fordeling mellom gode/middels/svake merker, og gjennomsnittlig byggeår per kommune." },
+      { type: "fix", text: "To ødelagte relatedSlugs-referanser i eksisterende bloggartikler rettet (pekte på poster som aldri eksisterte)." },
+      { type: "fix", text: "Tre nye bloggkategorier (Økonomiguide, Livsendringer, Strategi) manglet farger — lagt til yellow, pink og indigo." },
+      { type: "improvement", text: "Demografikort og energimerkekort vises nå side om side i 2-kolonne rutenett på bysider." },
+    ],
+  },
+  {
     version: "1.7",
     date: "1. april 2026",
     label: "Befolkningsdata, fellesgjeld-påminnelse og 50 bloggartikler",

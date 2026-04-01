@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/api/",
     },
-    sitemap: "https://verdikart.no/sitemap.xml", // v2.0
+    sitemap: "https://verdikart.no/sitemap.xml",
   };
 }

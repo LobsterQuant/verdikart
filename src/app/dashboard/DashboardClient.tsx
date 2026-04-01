@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Heart, Bell, Trash2, ExternalLink, MapPin } from "lucide-react";
+import { Heart, Bell, Trash2, ExternalLink, MapPin, StickyNote, Check, X } from "lucide-react";
 import Link from "next/link";
 
 interface SavedProperty {
@@ -35,6 +35,8 @@ export default function DashboardClient({
   const [properties, setProperties] = useState(initialProperties);
   const [alerts] = useState(initialAlerts);
   const [tab, setTab] = useState<"properties" | "alerts">("properties");
+  const [editingNote, setEditingNote] = useState<string | null>(null);
+  const [noteText, setNoteText] = useState("");
 
   async function removeProperty(slug: string) {
     try {
@@ -46,6 +48,30 @@ export default function DashboardClient({
       setProperties((prev) => prev.filter((p) => p.slug !== slug));
     } catch {
       // Silent fail
+    }
+  }
+
+  function startEditNote(p: SavedProperty) {
+    setEditingNote(p.slug);
+    setNoteText(p.notes ?? "");
+  }
+
+  async function saveNote(slug: string) {
+    try {
+      const res = await fetch("/api/saved-properties", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug, notes: noteText }),
+      });
+      if (res.ok) {
+        setProperties((prev) =>
+          prev.map((p) => (p.slug === slug ? { ...p, notes: noteText || null } : p))
+        );
+      }
+    } catch {
+      // Silent fail
+    } finally {
+      setEditingNote(null);
     }
   }
 
@@ -105,23 +131,70 @@ export default function DashboardClient({
                     href={`/eiendom/${p.slug}?adresse=${encodeURIComponent(p.address)}`}
                     className="block"
                   >
-                    <h3 className="mb-1 truncate text-sm font-semibold group-hover:text-accent">
+                    <h3 className="mb-1 truncate pr-16 text-sm font-semibold group-hover:text-accent">
                       {p.address}
                     </h3>
                     <p className="text-xs text-text-tertiary">
                       {p.postnummer && `${p.postnummer} · `}
-                      Lagret {new Date(p.savedAt).toLocaleDateString("nb-NO", {
+                      Lagret{" "}
+                      {new Date(p.savedAt).toLocaleDateString("nb-NO", {
                         day: "numeric",
                         month: "short",
                       })}
                     </p>
-                    {p.notes && (
-                      <p className="mt-2 line-clamp-2 text-xs text-text-secondary">
-                        {p.notes}
-                      </p>
-                    )}
                   </Link>
 
+                  {/* Notes section */}
+                  {editingNote === p.slug ? (
+                    <div className="mt-3" onClick={(e) => e.stopPropagation()}>
+                      <textarea
+                        value={noteText}
+                        onChange={(e) => setNoteText(e.target.value)}
+                        placeholder="Skriv et notat om denne eiendommen…"
+                        maxLength={1000}
+                        rows={3}
+                        className="w-full rounded-lg border border-card-border bg-background px-3 py-2 text-xs placeholder:text-text-tertiary focus:border-accent focus:outline-none"
+                        autoFocus
+                      />
+                      <div className="mt-1.5 flex gap-1.5">
+                        <button
+                          onClick={() => saveNote(p.slug)}
+                          className="flex items-center gap-1 rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-white"
+                        >
+                          <Check className="h-3 w-3" /> Lagre
+                        </button>
+                        <button
+                          onClick={() => setEditingNote(null)}
+                          className="flex items-center gap-1 rounded-md px-2.5 py-1 text-xs text-text-secondary hover:text-foreground"
+                        >
+                          <X className="h-3 w-3" /> Avbryt
+                        </button>
+                      </div>
+                    </div>
+                  ) : p.notes ? (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        startEditNote(p);
+                      }}
+                      className="mt-2 w-full rounded-lg bg-background p-2 text-left text-xs text-text-secondary hover:text-foreground"
+                    >
+                      {p.notes}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        startEditNote(p);
+                      }}
+                      className="mt-2 flex items-center gap-1 text-xs text-text-tertiary hover:text-accent"
+                    >
+                      <StickyNote className="h-3 w-3" />
+                      Legg til notat
+                    </button>
+                  )}
+
+                  {/* Action buttons */}
                   <div className="absolute right-3 top-3 flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
                     <Link
                       href={`/eiendom/${p.slug}?adresse=${encodeURIComponent(p.address)}`}

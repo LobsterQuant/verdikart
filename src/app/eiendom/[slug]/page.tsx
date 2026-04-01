@@ -25,6 +25,7 @@ import AmenitiesCard from "@/components/AmenitiesCard";
 import BroadbandCard from "@/components/BroadbandCard";
 import PriceAlertSetup from "@/components/PriceAlertSetup";
 import NeighborhoodReviewsCard from "@/components/NeighborhoodReviewsCard";
+import PdfExportButton from "@/components/PdfExportButton";
 
 interface PageProps {
   params: { slug: string };
@@ -251,8 +252,9 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 </h1>
                 <p className="mt-1 text-sm text-text-secondary">Eiendomsoversikt og områdesdata</p>
               </div>
-              <div className="shrink-0">
+              <div className="flex shrink-0 items-center gap-2">
                 <PropertyShareBar address={displayAddress} url={shareUrl} />
+                <PdfExportButton address={displayAddress} />
               </div>
             </div>
 

@@ -60,6 +60,30 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ item, created: true }, { status: 201 });
 }
 
+export async function PATCH(request: NextRequest) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Ikke innlogget" }, { status: 401 });
+  }
+
+  const { slug, notes } = await request.json();
+  if (!slug) {
+    return NextResponse.json({ error: "Mangler slug" }, { status: 400 });
+  }
+
+  const [updated] = await db
+    .update(savedProperties)
+    .set({ notes: notes?.slice(0, 1000) ?? null })
+    .where(and(eq(savedProperties.userId, session.user.id), eq(savedProperties.slug, slug)))
+    .returning();
+
+  if (!updated) {
+    return NextResponse.json({ error: "Ikke funnet" }, { status: 404 });
+  }
+
+  return NextResponse.json({ item: updated });
+}
+
 export async function DELETE(request: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {

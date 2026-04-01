@@ -227,6 +227,12 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
       </div>{/* end inner rounded div */}
       </div>{/* end gradient border wrapper */}
 
+      {/* Screen reader announcement for search results */}
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {isOpen && results.length > 0 && `${results.length} adresseforslag funnet`}
+        {isLoading && "Søker..."}
+      </div>
+
       {isOpen && results.length > 0 && (
         <div
           ref={dropdownRef}

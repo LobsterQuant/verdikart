@@ -229,10 +229,23 @@ input::placeholder {
     margin-bottom: 8pt;
   }
 
+  /* Flatten grid to single column for print */
+  .grid {
+    display: block !important;
+  }
+  .grid > * {
+    margin-bottom: 12pt;
+  }
+
   /* Avoid breaking cards across pages */
   [class*="rounded-xl"] {
     page-break-inside: avoid;
     break-inside: avoid;
+  }
+
+  /* Sticky sidebar should not be sticky in print */
+  aside {
+    position: static !important;
   }
 
   /* Add URL after links */
@@ -295,6 +308,22 @@ input::placeholder {
   animation: skeleton-wave 1.4s ease-in-out infinite;
   border-radius: 6px;
   display: block;
+}
+
+/* ── Reduced motion: disable animations for users who prefer it ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .skeleton {
+    animation: none;
+    background: #1a1b2e;
+  }
 }
 
 /* ── Glow pulse for CTA button ── */

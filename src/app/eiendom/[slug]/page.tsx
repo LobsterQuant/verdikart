@@ -27,6 +27,9 @@ import PriceAlertSetup from "@/components/PriceAlertSetup";
 import NeighborhoodReviewsCard from "@/components/NeighborhoodReviewsCard";
 import PdfExportButton from "@/components/PdfExportButton";
 import CardErrorBoundary from "@/components/CardErrorBoundary";
+import DemographicsCard from "@/components/DemographicsCard";
+import EnvironmentalRiskCard from "@/components/EnvironmentalRiskCard";
+import EiendomsskattCard from "@/components/EiendomsskattCard";
 
 interface PageProps {
   params: { slug: string };
@@ -307,6 +310,9 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
               <CardErrorBoundary fallbackTitle="Luftkvalitet feilet"><AirQualityCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
               <CardErrorBoundary fallbackTitle="Bredbånd feilet"><BroadbandCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
               <CardErrorBoundary fallbackTitle="Kriminalitet feilet"><CrimeCard kommunenummer={kommunenummer} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Befolkningsprofil feilet"><DemographicsCard kommunenummer={kommunenummer} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Eiendomsskatt feilet"><EiendomsskattCard kommunenummer={kommunenummer} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Miljørisiko feilet"><EnvironmentalRiskCard kommunenummer={kommunenummer} /></CardErrorBoundary>
               <FinnLink
                 postnummer={searchParams.pnr}
                 address={displayAddress}

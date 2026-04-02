@@ -7,7 +7,19 @@ function fmt(n: number) {
 
 export default function EiendomsskattCard({ kommunenummer }: { kommunenummer: string }) {
   const data = eiendomsskattData[kommunenummer];
-  if (!data) return null;
+  if (!data) {
+    return (
+      <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+        <div className="flex items-center gap-2">
+          <Landmark className="h-4 w-4 text-text-tertiary" strokeWidth={1.5} />
+          <h3 className="text-sm font-semibold text-text-secondary">Eiendomsskatt</h3>
+        </div>
+        <p className="mt-2 text-xs text-text-tertiary">
+          Vi har ikke eiendomsskattdata for denne kommunen ennå. Vi utvider dekningen løpende.
+        </p>
+      </div>
+    );
+  }
 
   const exampleValues = [3_000_000, 5_000_000, 8_000_000];
 

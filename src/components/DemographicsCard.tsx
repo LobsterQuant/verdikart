@@ -4,7 +4,19 @@ import { getDemographics } from "@/data/demographics";
 export default function DemographicsCard({ kommunenummer }: { kommunenummer: string }) {
   const data = getDemographics(kommunenummer);
 
-  if (!data) return null;
+  if (!data) {
+    return (
+      <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+        <div className="flex items-center gap-2">
+          <Users className="h-4 w-4 text-text-tertiary" strokeWidth={1.5} />
+          <h3 className="text-sm font-semibold text-text-secondary">Befolkningsprofil</h3>
+        </div>
+        <p className="mt-2 text-xs text-text-tertiary">
+          Vi har ikke befolkningsdata for denne kommunen ennå. Vi utvider dekningen løpende.
+        </p>
+      </div>
+    );
+  }
 
   const incomeFormatted = data.medianIncome.toLocaleString("nb-NO");
   const growthSign = data.populationGrowthPct >= 0 ? "+" : "";

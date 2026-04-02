@@ -10,7 +10,19 @@ const riskColors: Record<RiskLevel, { text: string; bg: string }> = {
 
 export default function EnvironmentalRiskCard({ kommunenummer }: { kommunenummer: string }) {
   const data = environmentalRiskData[kommunenummer];
-  if (!data) return null;
+  if (!data) {
+    return (
+      <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="h-4 w-4 text-text-tertiary" strokeWidth={1.5} />
+          <h3 className="text-sm font-semibold text-text-secondary">Miljørisiko</h3>
+        </div>
+        <p className="mt-2 text-xs text-text-tertiary">
+          Vi har ikke miljørisikodata for denne kommunen ennå. Vi utvider dekningen løpende.
+        </p>
+      </div>
+    );
+  }
 
   const radonColor = riskColors[data.radonRisk];
   const floodColor = riskColors[data.floodRisk];

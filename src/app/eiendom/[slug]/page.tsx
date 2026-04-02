@@ -23,7 +23,7 @@ import ClimateRiskCard from "@/components/ClimateRiskCard";
 import AirQualityCard from "@/components/AirQualityCard";
 import AmenitiesCard from "@/components/AmenitiesCard";
 import BroadbandCard from "@/components/BroadbandCard";
-import PriceAlertSetup from "@/components/PriceAlertSetup";
+
 import NeighborhoodReviewsCard from "@/components/NeighborhoodReviewsCard";
 import PdfExportButton from "@/components/PdfExportButton";
 import CardErrorBoundary from "@/components/CardErrorBoundary";
@@ -318,7 +318,6 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 address={displayAddress}
                 kommunenavn={searchParams.poststed}
               />
-              <CardErrorBoundary fallbackTitle="Prisvarsel feilet"><PriceAlertSetup kommunenummer={kommunenummer} postnummer={searchParams.pnr} /></CardErrorBoundary>
               <FellesgjeldReminder />
               <div className="no-print">
                 <SaveAddressButton

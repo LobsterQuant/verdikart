@@ -15,14 +15,16 @@ const navLinks = [
 ];
 
 const toolLinks = [
-  { href: "/sammenlign",   label: "Sammenlign adresser",  desc: "To adresser side ved side" },
-  { href: "/kalkulator",   label: "Boligkalkulator",       desc: "Hva har du råd til?" },
-  { href: "/bykart",       label: "Bykart",                desc: "Priser per norsk by" },
+  { href: "/sammenlign-adresser", label: "Sammenlign adresser", desc: "To adresser side ved side" },
+  { href: "/sammenlign",          label: "Sammenlign byer",     desc: "Norges største byer sammenlignet" },
+  { href: "/kalkulator",          label: "Boligkalkulator",     desc: "Hva har du råd til?" },
+  { href: "/bykart",              label: "Bykart",              desc: "Priser per norsk by" },
 ];
 
 // Mobile-only: all links including city pages
 const mobileLinks = [
-  { href: "/sammenlign",      label: "🔀 Sammenlign adresser" },
+  { href: "/sammenlign-adresser", label: "🔀 Sammenlign adresser" },
+  { href: "/sammenlign",           label: "🏙️ Sammenlign byer" },
   { href: "/kalkulator",      label: "🧮 Boligkalkulator" },
   { href: "/bykart",          label: "🗺️ Bykart" },
   { href: "/by/oslo",         label: "Oslo" },

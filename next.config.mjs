@@ -1,3 +1,5 @@
+import { withSentryConfig } from "@sentry/nextjs";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async redirects() {
@@ -42,4 +44,13 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  // Suppress source map upload logs in CI
+  silent: true,
+  // Upload source maps for better stack traces
+  widenClientFileUpload: true,
+  // Hide source maps from users
+  hideSourceMaps: true,
+  // Disable Sentry telemetry
+  disableLogger: true,
+});

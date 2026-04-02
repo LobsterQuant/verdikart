@@ -26,6 +26,7 @@ import BroadbandCard from "@/components/BroadbandCard";
 import PriceAlertSetup from "@/components/PriceAlertSetup";
 import NeighborhoodReviewsCard from "@/components/NeighborhoodReviewsCard";
 import PdfExportButton from "@/components/PdfExportButton";
+import CardErrorBoundary from "@/components/CardErrorBoundary";
 
 interface PageProps {
   params: { slug: string };
@@ -267,17 +268,21 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
           {/* ── AI SUMMARY (full width, above fold) ───────────────────────── */}
           {latNum && lonNum && (
             <div className="mb-8">
-              <AISummary address={displayAddress} kommunenummer={kommunenummer} lat={latNum} lon={lonNum} />
+              <CardErrorBoundary fallbackTitle="AI-oppsummering feilet">
+                <AISummary address={displayAddress} kommunenummer={kommunenummer} lat={latNum} lon={lonNum} />
+              </CardErrorBoundary>
             </div>
           )}
 
           {/* ── VALUATION (full width, headline number) ──────────────────── */}
           <div className="mb-8">
-            <ValuationCard
-              kommunenummer={kommunenummer}
-              postnummer={searchParams.pnr ?? ""}
-              adresse={displayAddress}
-            />
+            <CardErrorBoundary fallbackTitle="Verdiestimat feilet">
+              <ValuationCard
+                kommunenummer={kommunenummer}
+                postnummer={searchParams.pnr ?? ""}
+                adresse={displayAddress}
+              />
+            </CardErrorBoundary>
           </div>
 
           {/* ── EDITORIAL GRID: 2/3 main + 1/3 sidebar ───────────────────── */}
@@ -286,28 +291,28 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
             {/* ── LEFT / MAIN ─────────────────────────────────────────────── */}
             <CardsCascade className="space-y-6">
               {[
-                <TransitCard key="transit" lat={latNum} lon={lonNum} address={displayAddress} />,
-                <PriceTrendCard key="price" kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} />,
-                <ComparableSalesCard key="sales" kommunenummer={kommunenummer} />,
-                ...(latNum && lonNum ? [<SchoolsCard key="schools" lat={latNum} lon={lonNum} kommunenummer={kommunenummer} />] : []),
-                ...(latNum && lonNum ? [<AmenitiesCard key="amenities" lat={latNum} lon={lonNum} />] : []),
-                <NeighborhoodReviewsCard key="reviews" kommunenummer={kommunenummer} postnummer={searchParams.pnr} />,
+                <CardErrorBoundary key="transit" fallbackTitle="Kollektivtransport feilet"><TransitCard lat={latNum} lon={lonNum} address={displayAddress} /></CardErrorBoundary>,
+                <CardErrorBoundary key="price" fallbackTitle="Prisutvikling feilet"><PriceTrendCard kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} /></CardErrorBoundary>,
+                <CardErrorBoundary key="sales" fallbackTitle="Markedsdata feilet"><ComparableSalesCard kommunenummer={kommunenummer} /></CardErrorBoundary>,
+                ...(latNum && lonNum ? [<CardErrorBoundary key="schools" fallbackTitle="Skoler feilet"><SchoolsCard lat={latNum} lon={lonNum} kommunenummer={kommunenummer} /></CardErrorBoundary>] : []),
+                ...(latNum && lonNum ? [<CardErrorBoundary key="amenities" fallbackTitle="Fasiliteter feilet"><AmenitiesCard lat={latNum} lon={lonNum} /></CardErrorBoundary>] : []),
+                <CardErrorBoundary key="reviews" fallbackTitle="Nabolagsvurderinger feilet"><NeighborhoodReviewsCard kommunenummer={kommunenummer} postnummer={searchParams.pnr} /></CardErrorBoundary>,
               ]}
             </CardsCascade>
 
             {/* ── RIGHT / SIDEBAR ─────────────────────────────────────────── */}
             <aside className="space-y-6 lg:sticky lg:top-20 lg:self-start">
-              <ClimateRiskCard lat={latNum} lon={lonNum} />
-              <NoiseCard lat={latNum} lon={lonNum} />
-              <AirQualityCard lat={latNum} lon={lonNum} />
-              <BroadbandCard lat={latNum} lon={lonNum} />
-              <CrimeCard kommunenummer={kommunenummer} />
+              <CardErrorBoundary fallbackTitle="Klimarisiko feilet"><ClimateRiskCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Støynivå feilet"><NoiseCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Luftkvalitet feilet"><AirQualityCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Bredbånd feilet"><BroadbandCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Kriminalitet feilet"><CrimeCard kommunenummer={kommunenummer} /></CardErrorBoundary>
               <FinnLink
                 postnummer={searchParams.pnr}
                 address={displayAddress}
                 kommunenavn={searchParams.poststed}
               />
-              <PriceAlertSetup kommunenummer={kommunenummer} postnummer={searchParams.pnr} />
+              <CardErrorBoundary fallbackTitle="Prisvarsel feilet"><PriceAlertSetup kommunenummer={kommunenummer} postnummer={searchParams.pnr} /></CardErrorBoundary>
               <FellesgjeldReminder />
               <div className="no-print">
                 <SaveAddressButton
@@ -319,10 +324,10 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                   postnummer={searchParams.pnr}
                 />
               </div>
-              <PropertyEnergimerke
+              <CardErrorBoundary fallbackTitle="Energiattest feilet"><PropertyEnergimerke
                 postnummer={searchParams.pnr ?? ""}
                 adresse={displayAddress}
-              />
+              /></CardErrorBoundary>
 
               {/* Trust strip (sidebar) */}
               <div className="rounded-xl border border-card-border bg-card-bg p-4">

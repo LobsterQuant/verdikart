@@ -6,7 +6,7 @@ import AffordabilityCalculator from "@/components/AffordabilityCalculator";
 export const metadata: Metadata = {
   title: "Boliglånskalkulator 2026 – Beregn lånet ditt gratis | Verdikart",
   description: "Gratis boliglånskalkulator. Se månedlig terminbeløp, total rentekostnad og hvor mye bolig du har råd til i 2026.",
-  alternates: { canonical: "https://verdikart.no/boliglaanskalkulator" },
+  alternates: { canonical: "https://verdikart.no/kalkulator" },
   openGraph: {
     title: "Boliglånskalkulator 2026 – Beregn lånet ditt gratis | Verdikart",
     description: "Gratis boliglånskalkulator. Se månedlig terminbeløp, total rentekostnad og hvor mye bolig du har råd til i 2026.",

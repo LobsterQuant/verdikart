@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { TrendingUp, Train, Home, ChevronRight } from "lucide-react";
 import { getArea, getAllAreaSlugs, areas } from "./areaData";
+import { bydeler } from "@/app/by/oslo/[bydel]/bydelData";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 
@@ -13,10 +14,16 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { area: string } }): Promise<Metadata> {
   const area = getArea(params.area);
   if (!area) return {};
+  // When the area is also surfaced as a richer Oslo bydel page,
+  // consolidate SEO signals onto that URL via canonical.
+  const canonical =
+    area.citySlug === "oslo" && bydeler[area.slug]
+      ? `https://verdikart.no/by/oslo/${area.slug}`
+      : `https://verdikart.no/nabolag/${area.slug}`;
   return {
     title: area.metaTitle,
     description: area.metaDescription,
-    alternates: { canonical: `https://verdikart.no/nabolag/${area.slug}` },
+    alternates: { canonical },
     openGraph: {
       title: area.metaTitle,
       description: area.metaDescription,

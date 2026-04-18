@@ -318,8 +318,8 @@ export default function HomePage() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
             </span>
-            <span className="sm:hidden">Gratis · 100 % offentlige data</span>
-            <span className="hidden sm:inline">Gratis · Ingen registrering · Norske offentlige data</span>
+            <span className="sm:hidden">Gratis · Se full rapport uten konto</span>
+            <span className="hidden sm:inline">Gratis · Se full rapport uten konto · Norske offentlige data</span>
           </span>
         </div>
 

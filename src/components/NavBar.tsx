@@ -86,7 +86,7 @@ export default function NavBar() {
         {/* Wordmark */}
         <Link href="/" className="flex items-center gap-2 min-w-0">
           <Logo className="h-8 w-8 shrink-0 logo-pulse" />
-          <span className="hidden font-bold text-lg tracking-tight text-foreground sm:block">
+          <span className="font-bold text-base xs:text-lg tracking-tight text-foreground">
             Verdikart
           </span>
         </Link>

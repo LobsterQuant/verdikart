@@ -296,7 +296,7 @@ export default function AddressCompare() {
           <p className="text-center text-xs text-text-tertiary uppercase tracking-widest font-semibold">Eksempel på sammenligning</p>
           <p className="text-center text-[11px] text-text-tertiary/70">Illustrativt — søk på ekte adresser for å se faktiske data</p>
           {/* Sample comparison cards */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 opacity-60 pointer-events-none select-none">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 opacity-50 pointer-events-none select-none" style={{ filter: "grayscale(40%)" }}>
             {[
               {
                 label: "Adresse A",
@@ -315,7 +315,10 @@ export default function AddressCompare() {
                 noise: "Lav støy 🟢",
               },
             ].map(s => (
-              <div key={s.label} className="rounded-xl border border-card-border bg-card-bg p-4 space-y-3">
+              <div key={s.label} className="relative rounded-xl border border-card-border bg-card-bg p-4 space-y-3">
+                <span className="absolute top-2 right-2 rounded bg-amber-500/20 text-amber-400 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest">
+                  Demo
+                </span>
                 <div>
                   <p className="text-xs font-semibold text-text-tertiary uppercase tracking-widest">{s.label}</p>
                   <p className="mt-0.5 font-medium text-foreground text-sm">{s.name}</p>

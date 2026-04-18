@@ -138,12 +138,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.9,
     },
-    {
-      url: `${base}/boliglaanskalkulator`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.85,
-    },
     // Neighbourhood pages
     ...[
       "frogner", "grunerlokka", "majorstuen", "nordnes",

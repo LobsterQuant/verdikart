@@ -2,6 +2,7 @@
 
 import { Shield } from "lucide-react";
 import DataAgeChip from "@/components/DataAgeChip";
+import { nb } from "@/lib/format";
 
 // SSB table 08484 — Anmeldte lovbrudd per 1000 innbyggere (2023, kommunenivå)
 // Source: SSB Kriminalstatistikk 2023 (published 2024)
@@ -286,13 +287,13 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
             {label}
           </span>
           <span className="text-2xl font-bold tabular-nums" style={{ color }}>
-            {data.rate}
+            {nb(data.rate)}
           </span>
           <span className="text-[10px] text-text-tertiary">anmeldelser/1000</span>
         </div>
         <div className="flex-1 text-sm text-text-secondary leading-relaxed">
-          <strong className="text-foreground">{Math.abs(Number(pctVsNational))}%</strong>{" "}
-          {aboveBelow} landsgjennomsnittet på {NATIONAL_AVG} anmeldelser per 1 000 innbyggere.
+          <strong className="text-foreground">{nb(Math.abs(Number(pctVsNational)))}%</strong>{" "}
+          {aboveBelow} landsgjennomsnittet på {nb(NATIONAL_AVG)} anmeldelser per 1 000 innbyggere.
           {kommunenummer === "0301" && (
             <p className="mt-1 text-xs text-text-tertiary">Adresser i Frogner og Majorstuen har typisk lavere nivå enn Oslo-snittet.</p>
           )}
@@ -304,7 +305,7 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
         <div>
           <div className="mb-1 flex justify-between text-xs">
             <span className="text-text-secondary">Denne kommunen</span>
-            <span className="font-semibold tabular-nums" style={{ color }}>{data.rate}</span>
+            <span className="font-semibold tabular-nums" style={{ color }}>{nb(data.rate)}</span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-background">
             <div className="h-full rounded-full transition-all" style={{ width: `${barWidth}%`, background: color }} />
@@ -313,7 +314,7 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
         <div>
           <div className="mb-1 flex justify-between text-xs">
             <span className="text-text-secondary">Landsgjennomsnitt</span>
-            <span className="font-semibold tabular-nums text-text-tertiary">{NATIONAL_AVG}</span>
+            <span className="font-semibold tabular-nums text-text-tertiary">{nb(NATIONAL_AVG)}</span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-background">
             <div className="h-full rounded-full bg-text-tertiary/40 transition-all" style={{ width: `${nationalBarWidth}%` }} />

@@ -24,7 +24,7 @@ export default function Personvern() {
           </p>
           <ul className="space-y-1 text-sm text-text-secondary">
             <li><strong className="text-foreground">Virksomhet:</strong> Verdikart (enkeltpersonforetak under etablering)</li>
-            <li><strong className="text-foreground">Ansvarlig:</strong> Michael Hansen</li>
+            <li><strong className="text-foreground">Ansvarlig:</strong> Michael H.</li>
             <li><strong className="text-foreground">Land:</strong> Norge</li>
             <li><strong className="text-foreground">E-post:</strong>{" "}
               <a href="mailto:kontakt@verdikart.no" className="text-accent hover:underline">

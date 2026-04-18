@@ -12,7 +12,7 @@ export default function OmOss() {
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Michael Hansen",
+    name: "Michael H.",
     jobTitle: "Grunnlegger, Verdikart",
     url: "https://verdikart.no/om-oss",
     sameAs: [
@@ -26,7 +26,7 @@ export default function OmOss() {
     "@type": "Organization",
     name: "Verdikart",
     url: "https://verdikart.no",
-    founder: { "@type": "Person", name: "Michael Hansen" },
+    founder: { "@type": "Person", name: "Michael H." },
     foundingDate: "2026-03",
     description: "Forstå boligen. Ikke bare se den. Data fra Kartverket, Entur og SSB.",
     contactPoint: {
@@ -101,7 +101,7 @@ export default function OmOss() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <p className="font-semibold text-lg">Michael Hansen</p>
+                  <p className="font-semibold text-lg">Michael H.</p>
                   <div className="flex items-center gap-2">
                     <a
                       href="https://www.linkedin.com/in/michael-h-7723993bb/"

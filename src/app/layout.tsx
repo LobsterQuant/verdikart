@@ -5,6 +5,7 @@ import NavBar from "@/components/NavBar";
 import CookieBanner from "@/components/CookieBanner";
 import JsonLd from "@/components/JsonLd";
 import Providers from "@/components/Providers";
+import MotionProvider from "@/components/MotionProvider";
 import "./globals.css";
 
 // ── Design-system fonts (audit package 1/9) ──────────────────────────────
@@ -153,11 +154,13 @@ export default function RootLayout({
           >
             Hopp til innhold
           </a>
-          <NavBar />
-          <main id="main-content" className="pt-14">
-            {children}
-          </main>
-          <CookieBanner />
+          <MotionProvider>
+            <NavBar />
+            <main id="main-content" className="pt-14">
+              {children}
+            </main>
+            <CookieBanner />
+          </MotionProvider>
         </Providers>
       </body>
     </html>

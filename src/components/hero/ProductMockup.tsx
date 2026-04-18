@@ -3,6 +3,7 @@ import { MapCrop } from "./mockup/MapCrop";
 import { ValueEstimate } from "./mockup/ValueEstimate";
 import { PriceTrendSpark } from "./mockup/PriceTrendSpark";
 import { TransitPill } from "./mockup/TransitPill";
+import ProductMockupAnimated from "./ProductMockupAnimated";
 
 // Karl Johans gate 1, Oslo — the same demo address chipped in the hero search.
 // Lat/lon sourced from the existing example slug in app/page.tsx.
@@ -26,14 +27,10 @@ const DEMO_PROPERTY = {
 export async function ProductMockup() {
   const data = await getHeroPropertyData(DEMO_PROPERTY);
 
+  // Sub-blocks are rendered server-side and passed as children to the client
+  // wrapper, which orchestrates the scroll-triggered reveal (Package 5).
   return (
-    <div
-      className="relative mx-auto w-full max-w-[640px] rounded-2xl border border-border bg-bg-elevated p-4 text-left sm:p-6"
-      style={{
-        boxShadow:
-          "0 30px 60px -20px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgb(255 255 255 / 0.04)",
-      }}
-    >
+    <ProductMockupAnimated>
       {/* Top: map spans full width */}
       <MapCrop
         coords={data.coordinates}
@@ -52,7 +49,7 @@ export async function ProductMockup() {
       </div>
 
       {/* Bottom: transit pill centered, rendered only if we have data */}
-      {data.transit && (
+      {data.transit ? (
         <div className="mt-4 flex justify-center border-t border-border pt-4">
           <TransitPill
             stopName={data.transit.stopName}
@@ -60,7 +57,7 @@ export async function ProductMockup() {
             distanceM={data.transit.distanceM}
           />
         </div>
-      )}
-    </div>
+      ) : null}
+    </ProductMockupAnimated>
   );
 }

@@ -237,12 +237,8 @@ input::placeholder {
   transform: scaleX(1);
 }
 
-/* Logo pulse */
-@keyframes logo-pulse {
-  0%, 100% { opacity: 1; filter: drop-shadow(0 0 0px rgb(var(--accent-rgb) / 0)); }
-  50%       { opacity: 0.85; filter: drop-shadow(0 0 6px rgb(var(--accent-rgb) / 0.5)); }
-}
-.logo-pulse { animation: logo-pulse 4s ease-in-out infinite; }
+/* Logo pulse — migrated from CSS keyframe to Framer Motion (Package 5).
+   See NavBar.tsx for the motion.div wrapper replacing this animation. */
 
 /* Hero orb glows — baked into the hero section's background so there are no
    separate compositor layers to drop mid-scroll. Pseudo-elements paint with

@@ -1,11 +1,10 @@
-import AddressSearch from "@/components/AddressSearch";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
 import SiteFooter from "@/components/SiteFooter";
-import SavedAddressesList from "@/components/SavedAddressesList";
 import { FeatureCards } from "@/components/HomeClientSections";
 import { ProductMockup } from "@/components/hero/ProductMockup";
 import { HeroStats } from "@/components/hero/HeroStats";
+import HeroEntry from "@/components/hero/HeroEntry";
 import NewBadge from "@/components/NewBadge";
 
 // ISR: SSB and Entur data in the hero mockup revalidate hourly.
@@ -329,54 +328,9 @@ export default function HomePage() {
           }}
         />
 
-        {/* Eyebrow */}
-        <p className="caption mb-4 uppercase tracking-[0.14em] text-accent">
-          Forstå boligen. Ikke bare se den.
-        </p>
-
-        {/* Primary headline — display-serif, italic muted second line */}
-        <h1 className="display-1 max-w-3xl text-text">
-          Er nabolaget verdt prisen?
-          <br />
-          <span className="italic text-text-muted">
-            Finn svaret på&nbsp;10&nbsp;sekunder.
-          </span>
-        </h1>
-
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-text-secondary sm:text-lg">
-          Søk på hvilken som helst norsk adresse og få full rapport om
-          kollektivtransport, boligprisutvikling, støynivå og nabolagsdata —
-          direkte fra SSB, Kartverket og Entur.
-        </p>
-
-        <div
-          id="sok"
-          className="mt-block w-full max-w-xl"
-        >
-          <AddressSearch />
-          {/* Quick-start example addresses */}
-          <div className="mt-2.5 flex flex-wrap items-center justify-center gap-1.5">
-            <span className="text-[11px] text-text-tertiary">Eksempler:</span>
-            {[
-              ["Karl Johans gate 1, Oslo", "karl-johans-gate-1--599114-107494-0301"],
-              ["Bryggen 1, Bergen",     "bryggen-1-bergen--603893-53320-4601"],
-              ["Torget 2, Trondheim",   "torget-2-trondheim--633436-103892-5001"],
-            ].map(([label, slug]) => (
-              <a
-                key={label}
-                href={`/eiendom/${slug}?adresse=${encodeURIComponent(label)}`}
-                className="rounded-full border border-card-border bg-card-bg/60 px-2.5 py-1 text-[11px] text-text-secondary transition-colors hover:border-accent/40 hover:text-accent"
-              >
-                {label}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Saved addresses */}
-        <div className="mt-4 w-full max-w-md">
-          <SavedAddressesList />
-        </div>
+        {/* Hero entry choreography: eyebrow → H1 → paragraph → search → chips →
+            saved-addresses stagger in at 60 ms intervals on mount (Package 5). */}
+        <HeroEntry />
 
         {/* Product mockup — real Karl Johans gate 1 data, ISR-cached */}
         <div className="mt-block w-full">

@@ -2,9 +2,11 @@
 
 import { useState, useRef, useEffect } from "react";
 import React from "react";
+import { motion } from "framer-motion";
 import { Bus, TrendingUp, Home, Droplets, Wind, CircleDollarSign } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 import NewBadge from "@/components/NewBadge";
+import { fadeUp, springHover, staggerParent } from "@/lib/motion";
 
 // ── Count-up hook — runs once when active flips true ──────────────────────
 function useCountUp(target: number, duration = 1200, active = false) {
@@ -26,7 +28,10 @@ function useCountUp(target: number, duration = 1200, active = false) {
   return val;
 }
 
-// ── FeatureCard (hover effects need client state) ─────────────────────────
+// ── FeatureCard (Package 5 motion: fadeUp entry via parent stagger +
+// subtle hover-lift. Shadow intentionally stays flat — per spec, shadow is
+// reserved for the ProductMockup centerpiece. Border strengthens on hover as
+// the non-shadow visual feedback hook.) ───────────────────────────────────
 export function FeatureCard({
   Icon, title, description, isNew,
 }: {
@@ -35,62 +40,24 @@ export function FeatureCard({
   description: string;
   isNew?: boolean;
 }) {
-  const [hovered, setHovered] = useState(false);
-
   return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="group relative rounded-xl border bg-card-bg p-6 cursor-default overflow-hidden card-hover transition-transform duration-300"
-      style={{
-        transformStyle: "preserve-3d" as const,
-        perspective: 800,
-        boxShadow: hovered
-          ? "0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgb(var(--accent-rgb) / 0.3), inset 0 1px 0 rgba(255,255,255,0.06)"
-          : "0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)",
-        borderColor: hovered ? "rgb(var(--accent-rgb) / 0.4)" : "rgba(255,255,255,0.08)",
-      }}
+    <motion.div
+      variants={fadeUp}
+      whileHover={{ y: -3, scale: 1.005 }}
+      transition={springHover}
+      className="group relative overflow-hidden rounded-xl border border-card-border bg-card-bg p-6 transition-colors duration-200 hover:border-accent/40"
     >
-      {/* Spotlight shimmer on hover */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-300"
-        style={{
-          background: "radial-gradient(circle at 50% 0%, rgb(var(--accent-rgb) / 0.10) 0%, transparent 65%)",
-          opacity: hovered ? 1 : 0,
-        }}
-      />
-
-      {/* Icon — scales + brightens on hover */}
-      <div
-        className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-300"
-        style={{
-          backgroundColor: hovered ? "rgb(var(--accent-rgb) / 0.2)" : "rgba(0,102,255,0.1)",
-          transform: hovered ? "scale(1.12)" : "scale(1)",
-        }}
-      >
-        <div
-          className="transition-transform duration-300"
-          style={{ transform: hovered ? "rotate(8deg)" : "rotate(0deg)" }}
-        >
-          <Icon
-            className="h-5 w-5"
-            strokeWidth={1.5}
-            style={{ color: hovered ? "var(--accent-hover)" : "#0066FF" }}
-          />
-        </div>
+      {/* Icon */}
+      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-[rgba(0,102,255,0.1)]">
+        <Icon className="h-5 w-5" strokeWidth={1.5} style={{ color: "#0066FF" }} />
       </div>
 
       <div className="mb-2 flex items-center gap-2">
-        <h3
-          className="text-lg font-semibold transition-colors duration-200"
-          style={{ color: hovered ? "#ffffff" : undefined }}
-        >
-          {title}
-        </h3>
+        <h3 className="text-lg font-semibold">{title}</h3>
         {isNew && <NewBadge />}
       </div>
       <p className="text-sm leading-relaxed text-text-secondary">{description}</p>
-    </div>
+    </motion.div>
   );
 }
 
@@ -139,7 +106,13 @@ const valueProps: { Icon: React.ElementType; title: string; description: string;
 
 export function FeatureCards() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
+    <motion.div
+      variants={staggerParent(80)}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-10% 0px" }}
+      className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
+    >
       {valueProps.map(({ Icon, title, description, isNew }) => (
         <FeatureCard
           key={title}
@@ -149,7 +122,7 @@ export function FeatureCards() {
           isNew={isNew}
         />
       ))}
-    </div>
+    </motion.div>
   );
 }
 

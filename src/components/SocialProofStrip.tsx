@@ -1,28 +1,40 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  VerdiestimatIcon,
+  KlimarisikoIcon,
+  KollektivIcon,
+  PrisstatistikkIcon,
+  type IconProps,
+} from "@/components/icons";
 
-const USE_CASES = [
+const USE_CASES: Array<{
+  Icon: (p: IconProps) => React.ReactElement;
+  headline: string;
+  body: string;
+  tag: string;
+}> = [
   {
-    emoji: "💰",
+    Icon: VerdiestimatIcon,
     headline: "Hva er boligen egentlig verdt?",
     body: "Verdikart estimerer boligens verdi basert på SSB-prisdata og energiattest. Se verdiestimat med konfidensintervall — før du legger inn bud.",
     tag: "Verdiestimat · Frogner, Oslo",
   },
   {
-    emoji: "🌊",
+    Icon: KlimarisikoIcon,
     headline: "Flomrisikoen ingen andre nevner",
     body: "NVE-data avslører flomfare, kvikkleire og stormflo. Verdikart sjekker klimarisikoen automatisk — noe verken Finn.no eller megleren gjør.",
     tag: "Klimarisiko · Bergen",
   },
   {
-    emoji: "🚇",
+    Icon: KollektivIcon,
     headline: "Reisetid fra Entur — ikke fra annonsen",
     body: "Faktiske avganger, gangavstand og reisetid til sentrum hentet direkte fra Entur. 13 datapunkter samlet på én side.",
     tag: "Kollektivtransport · Trondheim",
   },
   {
-    emoji: "📊",
+    Icon: PrisstatistikkIcon,
     headline: "SSB-prisdata megleren ikke viser deg",
     body: "Se gjennomsnittlig kvadratmeterpris for kommunen, bydel-justert prisutvikling og sammenlignbare salg — fra Statistisk sentralbyrå.",
     tag: "Prisstatistikk · Stavanger",
@@ -57,7 +69,9 @@ export default function SocialProofStrip() {
 
       {/* Use-case carousel */}
       <div className="relative overflow-hidden rounded-2xl border border-card-border bg-card-bg">
-        {USE_CASES.map((uc, i) => (
+        {USE_CASES.map((uc, i) => {
+          const { Icon } = uc;
+          return (
           <div
             key={uc.headline}
             className={`flex items-start gap-4 px-6 py-5 transition-all duration-500 ${
@@ -65,14 +79,15 @@ export default function SocialProofStrip() {
             }`}
             aria-hidden={i !== active}
           >
-            <span className="text-3xl shrink-0 mt-0.5" aria-hidden>{uc.emoji}</span>
+            <Icon size={40} className="text-accent shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-foreground">{uc.headline}</p>
               <p className="mt-1 text-sm leading-relaxed text-text-secondary">{uc.body}</p>
               <p className="mt-2 text-xs text-text-tertiary italic">{uc.tag}</p>
             </div>
           </div>
-        ))}
+          );
+        })}
         {/* Dot indicators */}
         <div className="flex items-center justify-center gap-1.5 pb-3 pt-1">
           {USE_CASES.map((_, i) => (

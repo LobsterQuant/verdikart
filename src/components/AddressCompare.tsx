@@ -4,6 +4,12 @@ import { useState, useCallback } from "react";
 import { X, ArrowLeftRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { nb } from "@/lib/format";
+import {
+  VerdiestimatIcon,
+  KollektivIcon,
+  AdresseIcon,
+  StoyIcon,
+} from "@/components/icons";
 
 interface AddressResult {
   adressetekst: string;
@@ -209,7 +215,7 @@ export default function AddressCompare() {
       }));
       const nearest = stops[0];
       const dist = nearest?.distance ?? 9999;
-      const score = dist <= 300 ? "Utmerket 🟢" : dist <= 600 ? "Godt 🟡" : dist <= 1000 ? "Middels 🟠" : "Begrenset 🔴";
+      const score = dist <= 300 ? "Utmerket" : dist <= 600 ? "Godt" : dist <= 1000 ? "Middels" : "Begrenset";
       transit = { score, stops, nearest: nearest ? `${nearest.name} (${nearest.distance}m)` : undefined };
     }
 
@@ -275,7 +281,7 @@ export default function AddressCompare() {
       {/* Winner banner */}
       {priceWinner && slotA.address && slotB.address && (
         <div className="flex items-center gap-3 rounded-xl border border-green-500/25 bg-green-500/8 px-5 py-3 text-sm">
-          <span className="text-green-400 text-base">💰</span>
+          <VerdiestimatIcon size={18} className="text-green-400 shrink-0" />
           <p className="text-text-secondary">
             <strong className="text-foreground">
               {priceWinner === "A" ? slotA.address.adressetekst : slotB.address.adressetekst}
@@ -301,18 +307,18 @@ export default function AddressCompare() {
               {
                 label: "Adresse A",
                 name: "Parkveien 12, Oslo (eks.)",
-                transit: "Utmerket 🟢",
+                transit: "Utmerket",
                 nearest: "Nationaltheatret (200m)",
                 price: "112 000 kr/m²",
-                noise: "Moderat støy 🟡",
+                noise: "Moderat støy",
               },
               {
                 label: "Adresse B",
                 name: "Fossveien 20, Oslo (eks.)",
-                transit: "Godt 🟡",
+                transit: "Godt",
                 nearest: "Grünerløkka (380m)",
                 price: "78 500 kr/m²",
-                noise: "Lav støy 🟢",
+                noise: "Lav støy",
               },
             ].map(s => (
               <div key={s.label} className="relative rounded-xl border border-card-border bg-card-bg p-4 space-y-3">
@@ -325,19 +331,31 @@ export default function AddressCompare() {
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center justify-between">
-                    <span className="text-text-secondary">🚇 Kollektiv</span>
+                    <span className="flex items-center gap-1.5 text-text-secondary">
+                      <KollektivIcon size={14} className="text-accent shrink-0" />
+                      Kollektiv
+                    </span>
                     <span className="font-medium">{s.transit}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-text-secondary">📍 Nærmeste stopp</span>
+                    <span className="flex items-center gap-1.5 text-text-secondary">
+                      <AdresseIcon size={14} className="text-accent shrink-0" />
+                      Nærmeste stopp
+                    </span>
                     <span className="text-text-secondary text-xs">{s.nearest}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-text-secondary">💰 Boligpris</span>
+                    <span className="flex items-center gap-1.5 text-text-secondary">
+                      <VerdiestimatIcon size={14} className="text-accent shrink-0" />
+                      Boligpris
+                    </span>
                     <span className="font-medium">{s.price}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-text-secondary">🔊 Støynivå</span>
+                    <span className="flex items-center gap-1.5 text-text-secondary">
+                      <StoyIcon size={14} className="text-accent shrink-0" />
+                      Støynivå
+                    </span>
                     <span className="font-medium">{s.noise}</span>
                   </div>
                 </div>
@@ -345,7 +363,7 @@ export default function AddressCompare() {
             ))}
           </div>
           <div className="flex items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/5 px-5 py-3 text-sm opacity-60">
-            <span className="text-green-400">💰</span>
+            <VerdiestimatIcon size={16} className="text-green-400 shrink-0" />
             <p className="text-text-secondary"><strong className="text-foreground">Fossveien 20 (eks.)</strong> har lavere kvadratmeterpris (78 500 vs 112 000 kr/m²)</p>
           </div>
           <p className="text-center text-xs text-text-tertiary">Søk på to adresser ovenfor for å se ekte data</p>

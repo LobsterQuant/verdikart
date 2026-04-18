@@ -226,7 +226,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                 )}
                 {section.tip && (
                   <div className="mt-3 flex items-start gap-3 rounded-xl border border-accent/20 bg-accent/5 px-4 py-3 text-xs">
-                    <span className="mt-0.5 text-base leading-none">💡</span>
+                    <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                     <p className="text-text-secondary"><strong className="text-accent font-semibold">Tips: </strong>{section.tip}</p>
                   </div>
                 )}

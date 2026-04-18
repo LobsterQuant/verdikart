@@ -23,10 +23,10 @@ const toolLinks = [
 
 // Mobile-only: all links including city pages
 const mobileLinks = [
-  { href: "/sammenlign-adresser", label: "🔀 Sammenlign adresser" },
-  { href: "/sammenlign",           label: "🏙️ Sammenlign byer" },
-  { href: "/kalkulator",      label: "🧮 Boligkalkulator" },
-  { href: "/bykart",          label: "🗺️ Bykart" },
+  { href: "/sammenlign-adresser", label: "Sammenlign adresser" },
+  { href: "/sammenlign",           label: "Sammenlign byer" },
+  { href: "/kalkulator",      label: "Boligkalkulator" },
+  { href: "/bykart",          label: "Bykart" },
   { href: "/by/oslo",         label: "Oslo" },
   { href: "/by/bergen",       label: "Bergen" },
   { href: "/by/trondheim",    label: "Trondheim" },

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { BarChart2 } from "lucide-react";
+import { BoligIcon } from "@/components/icons";
 
 interface HousingTypeRow {
   type: string;
@@ -16,12 +17,6 @@ interface ComparableSalesData {
   period: string;
   kommuneName: string;
 }
-
-const TYPE_ICONS: Record<string, string> = {
-  "Eneboliger":       "🏠",
-  "Småhus":           "🏘",
-  "Blokkleiligheter": "🏢",
-};
 
 // Max price across types — used to draw relative bar widths
 function maxPrice(rows: HousingTypeRow[]) {
@@ -128,7 +123,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
               <div key={row.type}>
                 <div className="mb-1 flex items-center justify-between gap-2">
                   <span className="flex items-center gap-1.5 text-sm">
-                    <span>{TYPE_ICONS[row.type] ?? "🏠"}</span>
+                    <BoligIcon size={16} className="text-accent shrink-0" />
                     <span>{row.type}</span>
                   </span>
                   <div className="flex items-center gap-3 text-right">

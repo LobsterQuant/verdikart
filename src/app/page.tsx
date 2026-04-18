@@ -6,6 +6,16 @@ import SavedAddressesList from "@/components/SavedAddressesList";
 import { FeatureCards, StatsGrid } from "@/components/HomeClientSections";
 import NewBadge from "@/components/NewBadge";
 import { Check, Minus, CircleDollarSign, Droplets, BarChart3, Bus, FileText, Sparkles, Shield, Volume2, GraduationCap, Wind, Wifi, Zap, Users, Calculator, Bell, Leaf, TrendingUp } from "lucide-react";
+import {
+  AdresseIcon,
+  EnergiIcon,
+  PdfRapportIcon,
+  KollektivIcon,
+  PrisstatistikkIcon,
+  StoyIcon,
+  BoligIcon,
+  type IconProps,
+} from "@/components/icons";
 
 type ComparisonRow = {
   feature: string;
@@ -38,12 +48,20 @@ const COMPARISON_ROWS: ComparisonRow[] = [
   { feature: "Gratis uten konto",                  short: "Gratis",         Icon: Sparkles,         verdikart: true, finn: true,  google: true },
 ];
 
-const HOW_STEPS = [
+type HowStep = {
+  n: string;
+  title: string;
+  body: string;
+  Icon: (p: IconProps) => React.ReactElement;
+  preview: React.ReactNode;
+};
+
+const HOW_STEPS: HowStep[] = [
   {
     n: "1",
     title: "Skriv inn adressen",
     body: "Søk på enhver norsk gateadresse — Kartverket kjenner alle 2,5 millioner av dem. Velg fra forslagslisten og trykk Enter.",
-    icon: "🔍",
+    Icon: AdresseIcon,
     preview: (
       <div className="mt-3 rounded-lg border border-card-border bg-background px-3 py-2.5 text-xs">
         <div className="flex items-center gap-2 rounded-md border border-accent/40 bg-card-bg px-3 py-2">
@@ -63,7 +81,7 @@ const HOW_STEPS = [
     n: "2",
     title: "Data direkte fra kilden",
     body: "Kollektivdata fra Entur hentes live ved hvert søk. Prisstatistikk fra SSB oppdateres kvartalsvis. Adressedata fra Kartverket er Norges offisielle register.",
-    icon: "⚡",
+    Icon: EnergiIcon,
     preview: (
       <div className="mt-3 grid grid-cols-3 gap-1.5 text-[11px]">
         {[
@@ -86,17 +104,20 @@ const HOW_STEPS = [
     n: "3",
     title: "Les rapporten, ta en bedre beslutning",
     body: "Se holdeplasser, avganger, kvadratmeterpris og sammenlignbare salg — samlet på én side. Del lenken med megler eller bankrådgiver.",
-    icon: "📋",
+    Icon: PdfRapportIcon,
     preview: (
       <div className="mt-3 space-y-1.5 text-[11px]">
-        {[
-          { label: "🚇  T-bane 50m", value: "Nationalteatret", good: true },
-          { label: "📊  Kvadratmeterpris", value: "94 200 kr/m²", good: true },
-          { label: "🔊  Støynivå vei", value: "Data fra Kartverket", good: null },
-          { label: "🏘️  Sammenlignbare salg", value: "kommunesnitt", good: true },
-        ].map(({ label, value, good }) => (
+        {([
+          { Icon: KollektivIcon,       label: "T-bane 50m",            value: "Nationalteatret",      good: true  },
+          { Icon: PrisstatistikkIcon,  label: "Kvadratmeterpris",      value: "94 200 kr/m²",         good: true  },
+          { Icon: StoyIcon,            label: "Støynivå vei",          value: "Data fra Kartverket",  good: null  },
+          { Icon: BoligIcon,           label: "Sammenlignbare salg",   value: "kommunesnitt",         good: true  },
+        ] as Array<{ Icon: (p: IconProps) => React.ReactElement; label: string; value: string; good: boolean | null }>).map(({ Icon, label, value, good }) => (
           <div key={label} className="flex items-center justify-between rounded-md border border-card-border bg-background px-2.5 py-1.5">
-            <span className="text-text-secondary">{label}</span>
+            <span className="flex items-center gap-1.5 text-text-secondary">
+              <Icon size={14} className="text-accent shrink-0" />
+              {label}
+            </span>
             <span className={`font-semibold ${good === true ? "text-green-400" : good === false ? "text-red-400" : "text-amber-400"}`}>{value}</span>
           </div>
         ))}
@@ -231,7 +252,7 @@ function HowItWorksSection() {
           aria-hidden
           className="absolute left-[11px] top-2 bottom-2 w-px origin-top bg-card-border"
         />
-        {HOW_STEPS.map(({ n, title, body, icon, preview }) => (
+        {HOW_STEPS.map(({ n, title, body, Icon, preview }) => (
           <li
             key={n}
             className="flex gap-4"
@@ -240,8 +261,8 @@ function HowItWorksSection() {
               {n}
             </span>
             <div className="flex-1 min-w-0">
-              <p className="font-semibold">
-                <span className="mr-1.5">{icon}</span>
+              <p className="flex items-center gap-1.5 font-semibold">
+                <Icon size={18} className="text-accent shrink-0" />
                 {title}
               </p>
               <p className="mt-1 text-sm leading-relaxed text-text-secondary">{body}</p>
@@ -426,12 +447,11 @@ export default function HomePage() {
           <h2 className="mb-4 text-lg font-bold">Hvorfor er dette gratis?</h2>
           <div className="grid gap-4 sm:grid-cols-3 text-sm">
             {[
-              { icon: "🏗️", title: "Åpen infrastruktur", body: "Data fra SSB, Kartverket og Entur er offentlig tilgjengelig — vi gjør den søkbar og nyttig." },
-              { icon: "🌱", title: "Bygger troverdighet", body: "Vi er i en tidlig fase og ønsker at flest mulig prøver verktøyet og gir tilbakemelding." },
-              { icon: "🔮", title: "Fremtidige planer", body: "Vi planlegger premium-funksjoner som lagrede rapporter og prisvarsel — de grunnleggende funksjonene forblir alltid gratis." },
-            ].map(({ icon, title, body }) => (
-              <div key={title} className="flex flex-col gap-2">
-                <span className="text-2xl">{icon}</span>
+              { title: "Åpen infrastruktur", body: "Data fra SSB, Kartverket og Entur er offentlig tilgjengelig — vi gjør den søkbar og nyttig." },
+              { title: "Bygger troverdighet", body: "Vi er i en tidlig fase og ønsker at flest mulig prøver verktøyet og gir tilbakemelding." },
+              { title: "Fremtidige planer", body: "Vi planlegger premium-funksjoner som lagrede rapporter og prisvarsel — de grunnleggende funksjonene forblir alltid gratis." },
+            ].map(({ title, body }) => (
+              <div key={title} className="flex flex-col gap-1.5">
                 <p className="font-semibold text-foreground">{title}</p>
                 <p className="leading-relaxed text-text-secondary">{body}</p>
               </div>

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RefreshCw, Shield, ExternalLink } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
+import { AdresseIcon, KollektivIcon, PrisstatistikkIcon, type IconProps } from "@/components/icons";
+
+type SourceIcon = (p: IconProps) => React.ReactElement;
 
 export const metadata: Metadata = {
   title: "Datakilder og metodologi | Verdikart",
@@ -21,7 +24,7 @@ const sources = [
   {
     name: "Kartverket",
     url: "https://kartverket.no",
-    icon: "🗺️",
+    Icon: AdresseIcon as SourceIcon,
     tagline: "Adresse- og eiendomsdata",
     description: "Kartverket forvalter det nasjonale eiendoms-, adresse- og forvaltningsregisteret (Matrikkelen). Verdikart bruker Kartverkets åpne adresse-API (ws.geonorge.no) for adressesøk, koordinatoppslag og omvendt geokoding.",
     frequency: "Sanntids (live API)",
@@ -37,7 +40,7 @@ const sources = [
   {
     name: "Entur",
     url: "https://entur.no",
-    icon: "🚌",
+    Icon: KollektivIcon as SourceIcon,
     tagline: "Kollektivtransportdata",
     description: "Entur er den nasjonale reiseplanleggeren for kollektivtransport i Norge. Verdikart bruker Enturs Journey Planner API (GraphQL) for å hente holdeplasser innen gangavstand, linjenumre og avganger for ethvert koordinat.",
     frequency: "Sanntids (live API med avgangsprognoser)",
@@ -53,7 +56,7 @@ const sources = [
   {
     name: "SSB",
     url: "https://www.ssb.no",
-    icon: "📊",
+    Icon: PrisstatistikkIcon as SourceIcon,
     tagline: "Boligprisstatistikk",
     description: "Statistisk sentralbyrå (SSB) publiserer offisiell boligprisstatistikk per kommune og bydel. Verdikart bruker SSBs åpne statistikk-API for å hente kvadratmeterpris, prisindeks og historisk utvikling.",
     frequency: "Kvartalsvis (oppdateres ~6 uker etter kvartalsslutt)",
@@ -115,7 +118,7 @@ export default function DataPage() {
               <div key={src.name} className="rounded-xl border border-card-border bg-card-bg p-6">
                 <div className="mb-4 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl" aria-hidden>{src.icon}</span>
+                    <src.Icon size={24} className="text-accent shrink-0" />
                     <div>
                       <h2 className="font-bold text-lg leading-tight">{src.name}</h2>
                       <p className="text-xs text-text-tertiary">{src.tagline}</p>

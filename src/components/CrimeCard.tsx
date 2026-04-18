@@ -1,6 +1,6 @@
 "use client";
 
-import { Shield } from "lucide-react";
+import { Shield, Info, AlertTriangle } from "lucide-react";
 import DataAgeChip from "@/components/DataAgeChip";
 import { nb, formatPct } from "@/lib/format";
 
@@ -210,7 +210,7 @@ function getLabel(rate: number, kommunenummer?: string): { label: string; color:
   if (ratio < 0.6) return { label: "Lavt", color: "#22C55E", bg: "rgba(34,197,94,0.1)", isUrbanContext: false };
   if (ratio < 0.9) return { label: "Under snitt", color: "#86EFAC", bg: "rgba(134,239,172,0.1)", isUrbanContext: false };
   if (ratio < 1.1) {
-    // Urban cities near national average get informational (ℹ️) context, not warning (⚠️)
+    // Urban cities near national average get informational (Info) context, not warning (AlertTriangle)
     if (isUrban) return { label: "Storbysnitt", color: "#60A5FA", bg: "rgba(96,165,250,0.1)", isUrbanContext: true };
     return { label: "Rundt snitt", color: "#EAB308", bg: "rgba(234,179,8,0.1)", isUrbanContext: false };
   }
@@ -262,7 +262,11 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
           ? "border-blue-400/20 bg-blue-500/5"
           : "border-amber-400/30 bg-amber-50 dark:bg-amber-900/20"
       }`}>
-        <span className="mt-0.5 text-base leading-none" aria-hidden>{isUrbanContext ? "ℹ️" : "⚠️"}</span>
+        {isUrbanContext ? (
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-blue-400" strokeWidth={1.75} aria-hidden />
+        ) : (
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" strokeWidth={1.75} aria-hidden />
+        )}
         <p className={`text-xs leading-relaxed ${isUrbanContext ? "text-blue-300" : "text-amber-800 dark:text-amber-200"}`}>
           Tallene gjelder hele kommunen, ikke enkeltbydeler.
           {isUrbanContext && (

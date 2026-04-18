@@ -59,7 +59,7 @@ const changelog: ChangeEntry[] = [
     label: "100 bloggartikler, lagrede adresser og 179 statiske sider",
     items: [
       { type: "feature", text: "Blogg: 100 artikler — nye nabolagsguider (Frogner, Grünerløkka), bydelsoversikter (Bergen, Trondheim), pluss guider for rekkehus, kjæledyr, takst vs. prisantydning, overtagelse, skjulte feil, utlendinger, leiemarkedet, borettslag vs. sameie, næringsbygg, rentekutt-effekt og forbrukslån." },
-      { type: "feature", text: "Lagrede adresser — brukere kan nå lagre favoritadresser med ♡-knappen på eiendomsrapporter. Lagrede adresser vises på forsiden under søkefeltet. Alle data i localStorage, ingen registrering nødvendig." },
+      { type: "feature", text: "Lagrede adresser — brukere kan nå lagre favoritadresser med hjerte-knappen på eiendomsrapporter. Lagrede adresser vises på forsiden under søkefeltet. Alle data i localStorage, ingen registrering nødvendig." },
       { type: "improvement", text: "179 statiske sider (opp fra 164)." },
     ],
   },
@@ -149,7 +149,7 @@ const changelog: ChangeEntry[] = [
       { type: "fix", text: "Trondheim 51 min fra sentrum til sentrum — Entur valgte langsom rute. Fikset: henter 3 alternativer og bruker den raskeste; sanity-sjekk avviser ruter >30min for adresser <1.5km fra sentrum." },
       { type: "fix", text: "Sammenlign-adressesøk returnerte Bogane (Bergen) for 'Bogstadveien 45, Oslo' — fuzzy-søk matchet uten by-kontekst. Fikset: exact-søk prioriteres, resultater boostes der poststed matcher spørringen." },
       { type: "fix", text: "Sammenlign: gammel eksempelreferanse 'Grenseveien 80' i sammendraget stemte ikke med eksempeladressene. Rettet til Fossveien 20 (eks.)." },
-      { type: "fix", text: "Kriminalitetsnivå-ikon feil: Bergen (under landssnitt) fikk ⚠️ i stedet for ℹ️. Fikset: storbyer med ratio <1.1 bruker nå 'Storbysnitt' (blå/ℹ️) i stedet for amber ⚠️." },
+      { type: "fix", text: "Kriminalitetsnivå-ikon feil: Bergen (under landssnitt) fikk amber varselikon i stedet for blått info-ikon. Fikset: storbyer med ratio <1.1 bruker nå 'Storbysnitt' (blå info) i stedet for amber varsel." },
       { type: "improvement", text: "Sammenligningstabell: 'Støykart (beta)' → 'Støykart — der data fins' (ærlig om begrenset dekning)" },
       { type: "improvement", text: "Sidefot: 'Om oss'-kolonnens overskrift omdøpt til 'Selskapet' (eliminerer duplikat med lenken under)" },
       { type: "improvement", text: "Selger-FAQ: feilaktig påstand om individuelle ComparableSales-transaksjoner er rettet — vi viser SSB-kommunegjennomsnitt" },

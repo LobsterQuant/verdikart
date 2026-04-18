@@ -63,13 +63,13 @@ export default function LoginPage() {
         {/* Benefits */}
         <div className="mt-6 space-y-3">
           {[
-            { icon: "💾", text: "Lagre eiendommer på tvers av enheter" },
-            { icon: "🔔", text: "Få prisvarsler for områder du følger" },
-            { icon: "⭐", text: "Skriv nabolagsvurderinger" },
-          ].map((b) => (
-            <div key={b.text} className="flex items-center gap-3 text-sm text-text-secondary">
-              <span>{b.icon}</span>
-              <span>{b.text}</span>
+            "Lagre eiendommer på tvers av enheter",
+            "Få prisvarsler for områder du følger",
+            "Skriv nabolagsvurderinger",
+          ].map((text) => (
+            <div key={text} className="flex items-center gap-3 text-sm text-text-secondary">
+              <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+              <span>{text}</span>
             </div>
           ))}
         </div>

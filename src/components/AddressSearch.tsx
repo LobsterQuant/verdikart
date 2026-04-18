@@ -2,7 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, m } from "framer-motion";
 import { Clock, X } from "lucide-react";
+import { fadeUp, staggerParent } from "@/lib/motion";
 
 const RECENT_KEY = "verdikart_recent_v2";
 const MAX_RECENT = 5;
@@ -240,39 +242,48 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
         {isLoading && "Søker..."}
       </div>
 
-      {isOpen && results.length > 0 && (
-        <div
-          ref={dropdownRef}
-          id="address-listbox"
-          role="listbox"
-          aria-label="Adresseforslag"
-          className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-card-border bg-card-bg shadow-2xl"
-        >
-          {results.map((result, index) => (
-            <button
-              key={`${result.adressetekst}-${index}`}
-              role="option"
-              aria-selected={index === activeIndex}
-              onClick={() => handleSelect(result)}
-              onMouseEnter={() => setActiveIndex(index)}
-              className={`w-full px-6 py-3 text-left text-sm transition-colors ${
-                index === activeIndex
-                  ? "bg-accent/10 text-foreground"
-                  : "text-text-secondary hover:bg-white/5"
-              }`}
-            >
-              <span className="block font-medium text-foreground">
-                {result.adressetekst}
-              </span>
-              {result.poststed && (
-                <span className="block text-xs text-text-tertiary mt-0.5">
-                  {result.postnummer} {result.poststed}
+      {/* Autocomplete results — per-item stagger at 30 ms (Package 5 timing
+          exception: suggestions should feel snappy, not theatrical). */}
+      <AnimatePresence>
+        {isOpen && results.length > 0 && (
+          <m.div
+            ref={dropdownRef}
+            id="address-listbox"
+            role="listbox"
+            aria-label="Adresseforslag"
+            className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-card-border bg-card-bg shadow-2xl"
+            variants={staggerParent(30)}
+            initial="hidden"
+            animate="visible"
+            exit={{ opacity: 0, transition: { duration: 0.1 } }}
+          >
+            {results.map((result, index) => (
+              <m.button
+                key={`${result.adressetekst}-${index}`}
+                variants={fadeUp}
+                role="option"
+                aria-selected={index === activeIndex}
+                onClick={() => handleSelect(result)}
+                onMouseEnter={() => setActiveIndex(index)}
+                className={`w-full px-6 py-3 text-left text-sm transition-colors ${
+                  index === activeIndex
+                    ? "bg-accent/10 text-foreground"
+                    : "text-text-secondary hover:bg-white/5"
+                }`}
+              >
+                <span className="block font-medium text-foreground">
+                  {result.adressetekst}
                 </span>
-              )}
-            </button>
-          ))}
-        </div>
-      )}
+                {result.poststed && (
+                  <span className="block text-xs text-text-tertiary mt-0.5">
+                    {result.postnummer} {result.poststed}
+                  </span>
+                )}
+              </m.button>
+            ))}
+          </m.div>
+        )}
+      </AnimatePresence>
 
       {/* Recent searches */}
       {!isOpen && showRecent && recent.length > 0 && (

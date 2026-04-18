@@ -279,7 +279,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             <p className="mb-4 text-sm text-text-secondary">Gratis transport-, pris- og nabolagsrapport for enhver norsk adresse.</p>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+              className="inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-accent-ink transition-colors hover:bg-accent-hover"
             >
               Søk på adresse
             </Link>

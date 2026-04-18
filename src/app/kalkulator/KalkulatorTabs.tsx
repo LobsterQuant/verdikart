@@ -26,7 +26,7 @@ export default function KalkulatorTabs() {
           onClick={() => setMode("affordability")}
           className={`flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
             mode === "affordability"
-              ? "bg-accent text-white"
+              ? "bg-accent text-accent-ink"
               : "text-text-secondary hover:text-foreground"
           }`}
         >
@@ -37,7 +37,7 @@ export default function KalkulatorTabs() {
           onClick={() => setMode("monthly")}
           className={`flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
             mode === "monthly"
-              ? "bg-accent text-white"
+              ? "bg-accent text-accent-ink"
               : "text-text-secondary hover:text-foreground"
           }`}
         >

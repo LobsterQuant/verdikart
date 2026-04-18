@@ -1,7 +1,9 @@
 // NOTE: This file must ONLY be imported via dynamic(() => import(...), { ssr: false })
 // Never import it directly — Leaflet requires window/document at module evaluation time.
+// Leaflet's stylesheet is code-split with this chunk so it never hits the homepage.
 "use client";
 
+import "leaflet/dist/leaflet.css";
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronRight, TrendingUp } from "lucide-react";
@@ -186,7 +188,7 @@ export default function CityOverviewMapInner() {
             </div>
             <Link
               href={`/by/${selected.slug}`}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-80"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-accent-ink transition-opacity hover:opacity-80"
             >
               Se full byrapport
               <ChevronRight className="h-4 w-4" strokeWidth={2} />

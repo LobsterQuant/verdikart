@@ -195,7 +195,7 @@ export default function AffordabilityCalculator() {
                 <p className="text-xs text-text-tertiary">Sjekk transport og pris for en spesifikk adresse</p>
               </div>
               <Link href="/#sok"
-                className="shrink-0 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-white transition-opacity hover:opacity-80">
+                className="shrink-0 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-accent-ink transition-opacity hover:opacity-80">
                 Søk →
               </Link>
             </div>

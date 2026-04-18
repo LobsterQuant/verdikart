@@ -116,7 +116,7 @@ export default function DashboardClient({
           onClick={() => setTab("properties")}
           className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
             tab === "properties"
-              ? "bg-accent text-white"
+              ? "bg-accent text-accent-ink"
               : "text-text-secondary hover:text-foreground"
           }`}
         >
@@ -127,7 +127,7 @@ export default function DashboardClient({
           onClick={() => setTab("alerts")}
           className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
             tab === "alerts"
-              ? "bg-accent text-white"
+              ? "bg-accent text-accent-ink"
               : "text-text-secondary hover:text-foreground"
           }`}
         >
@@ -226,7 +226,7 @@ function PropertiesTab({
               <div className="mt-1.5 flex gap-1.5">
                 <button
                   onClick={() => saveNote(p.slug)}
-                  className="flex items-center gap-1 rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-white"
+                  className="flex items-center gap-1 rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-accent-ink"
                 >
                   <Check className="h-3 w-3" /> Lagre
                 </button>

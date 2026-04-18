@@ -58,7 +58,7 @@ export default function Avmeld() {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="w-full rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-80 disabled:opacity-50"
+                  className="w-full rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-accent-ink transition-opacity hover:opacity-80 disabled:opacity-50"
                 >
                   {status === "loading" ? "Behandler…" : "Meld av nå"}
                 </button>

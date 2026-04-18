@@ -150,7 +150,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-ink transition-colors hover:bg-accent-hover disabled:opacity-60"
       >
         {status === "sending" ? (
           <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />

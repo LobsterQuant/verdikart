@@ -1,5 +1,7 @@
 // NOTE: This file must ONLY be imported via dynamic(() => import(...), { ssr: false })
 // Never import it directly — Leaflet requires window/document at module evaluation time.
+// Leaflet's stylesheet is code-split with this chunk so it never hits the homepage.
+import "leaflet/dist/leaflet.css";
 import { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import type { TransitStop } from "@/components/PropertyMap";

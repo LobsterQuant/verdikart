@@ -6,21 +6,25 @@ import EmailCapture from "@/components/EmailCapture";
 import SiteFooter from "@/components/SiteFooter";
 import SavedAddressesList from "@/components/SavedAddressesList";
 import { FeatureCards, StatsGrid } from "@/components/HomeClientSections";
+import { Check, Minus, CircleDollarSign, Droplets, BarChart3, Bus, FileText, Sparkles } from "lucide-react";
 
-const COMPARISON_ROWS = [
-  { feature: "Verdiestimat for boligen",         short: "Verdiestimat",  icon: "💰", verdikart: true,  finn: false, google: false, note: "nytt" },
-  { feature: "Klimarisiko (flom, kvikkleire)",   short: "Klimarisiko",   icon: "🌊", verdikart: true,  finn: false, google: false, note: "nytt" },
-  { feature: "Luftkvalitet (PM2.5, NO₂)",        short: "Luftkvalitet",  icon: "💨", verdikart: true,  finn: false, google: false, note: "nytt" },
-  { feature: "Bredbåndsdekning og fiber",        short: "Bredbånd",      icon: "📡", verdikart: true,  finn: false, google: false, note: "nytt" },
-  { feature: "Butikker, parker, fasiliteter",    short: "I nærheten",    icon: "🛒", verdikart: true,  finn: false, google: true,  note: "nytt" },
-  { feature: "Holdeplasser + avganger per time", short: "Avganger/time", icon: "🚇", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Støykart fra Kartverket",          short: "Støykart",      icon: "🔊", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "SSB prisstatistikk (kvartal)",     short: "SSB pris",      icon: "📊", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Skoler og barnehager (NSR)",       short: "Skoler",        icon: "🏫", verdikart: true,  finn: false, google: false, note: "" },
-  { feature: "Nabolagsvurderinger",              short: "Vurderinger",   icon: "⭐", verdikart: true,  finn: false, google: false, note: "nytt" },
-  { feature: "Lagre + prisvarsler",              short: "Lagre/varsle",  icon: "🔔", verdikart: true,  finn: true,  google: false, note: "" },
-  { feature: "PDF-rapport",                      short: "PDF",           icon: "📄", verdikart: true,  finn: false, google: false, note: "nytt" },
-  { feature: "Gratis & ingen registrering",      short: "Gratis",        icon: "✨", verdikart: true,  finn: true,  google: true,  note: "" },
+type ComparisonRow = {
+  feature: string;
+  short: string;
+  Icon: typeof Check;
+  verdikart: boolean;
+  finn: boolean;
+  google: boolean;
+  isNew?: boolean;
+};
+
+const COMPARISON_ROWS: ComparisonRow[] = [
+  { feature: "Verdiestimat for boligen",       short: "Verdiestimat",  Icon: CircleDollarSign, verdikart: true, finn: false, google: false, isNew: true },
+  { feature: "Klimarisiko (flom, kvikkleire)", short: "Klimarisiko",   Icon: Droplets,         verdikart: true, finn: false, google: false, isNew: true },
+  { feature: "SSB prisstatistikk (kvartal)",   short: "SSB-statistikk", Icon: BarChart3,       verdikart: true, finn: false, google: false },
+  { feature: "Live Entur — avganger per time", short: "Live Entur",    Icon: Bus,              verdikart: true, finn: false, google: false },
+  { feature: "PDF-rapport til megler/bank",    short: "PDF",           Icon: FileText,         verdikart: true, finn: false, google: false },
+  { feature: "Gratis & ingen registrering",    short: "Gratis",        Icon: Sparkles,         verdikart: true, finn: true,  google: true },
 ];
 
 const HOW_STEPS = [
@@ -116,7 +120,7 @@ function ComparisonSection() {
 
   return (
     <section
-      className="mx-auto w-full max-w-4xl px-4 pb-20 sm:px-6"
+      className="mx-auto w-full max-w-4xl px-4 pb-16 sm:px-6"
     >
       <h2 className="mb-2 text-center text-xl font-bold sm:text-2xl">Hvorfor Verdikart?</h2>
       <p className="mb-10 text-center text-sm text-text-secondary max-w-lg mx-auto">
@@ -153,7 +157,7 @@ function ComparisonSection() {
           </div>
 
           {/* Feature rows */}
-          {COMPARISON_ROWS.map(({ feature, short, icon, verdikart, finn, google, note }, i) => (
+          {COMPARISON_ROWS.map(({ feature, short, Icon, verdikart, finn, google, isNew }, i) => (
             <div
               key={feature}
               role="row"
@@ -162,39 +166,37 @@ function ComparisonSection() {
               }`}
             >
               <div role="rowheader" className="flex items-center gap-2.5 px-4 py-3.5">
-                <span className="text-base shrink-0" aria-hidden>{icon}</span>
+                <Icon className="h-4 w-4 shrink-0 text-text-tertiary" strokeWidth={1.5} aria-hidden />
                 <span className="text-xs text-text-secondary leading-snug">
                   <span className="sm:hidden">{short}</span>
                   <span className="hidden sm:inline">{feature}</span>
-                  {note === "nytt" ? (
-                    <span className="ml-1.5 inline-block rounded-full bg-green-500/20 px-1.5 py-px text-[9px] font-bold uppercase text-green-400">nytt</span>
-                  ) : note ? (
-                    <span className="text-text-tertiary text-[10px] ml-1">({note})</span>
-                  ) : null}
+                  {isNew && (
+                    <span className="ml-1.5 inline-block rounded-full bg-accent/15 px-1.5 py-px text-[9px] font-bold uppercase tracking-widest text-accent">Nytt</span>
+                  )}
                 </span>
               </div>
               {/* Verdikart */}
               <div role="cell" className={`flex items-center justify-center py-3.5 ${verdikart ? "bg-accent/5" : ""}`}>
                 {verdikart ? (
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-white text-[11px] font-bold shadow-sm shadow-accent/30">✓</span>
+                  <Check className="h-4 w-4 text-accent" strokeWidth={2.25} aria-label="ja" />
                 ) : (
-                  <span className="h-4 w-px bg-card-border inline-block opacity-40" />
+                  <Minus className="h-3 w-3 text-text-tertiary/50" strokeWidth={2} aria-label="nei" />
                 )}
               </div>
               {/* Finn */}
               <div role="cell" className="flex items-center justify-center py-3.5">
                 {finn ? (
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-card-border text-text-secondary text-[11px]">✓</span>
+                  <Check className="h-4 w-4 text-text-secondary" strokeWidth={2} aria-label="ja" />
                 ) : (
-                  <span className="h-4 w-px bg-card-border inline-block opacity-30" />
+                  <Minus className="h-3 w-3 text-text-tertiary/50" strokeWidth={2} aria-label="nei" />
                 )}
               </div>
               {/* Google */}
               <div role="cell" className="flex items-center justify-center py-3.5">
                 {google ? (
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-card-border text-text-secondary text-[11px]">✓</span>
+                  <Check className="h-4 w-4 text-text-secondary" strokeWidth={2} aria-label="ja" />
                 ) : (
-                  <span className="h-4 w-px bg-card-border inline-block opacity-30" />
+                  <Minus className="h-3 w-3 text-text-tertiary/50" strokeWidth={2} aria-label="nei" />
                 )}
               </div>
             </div>
@@ -247,7 +249,7 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
-      <main className="hero-noise relative flex flex-1 flex-col items-center justify-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden">
+      <main className="hero-noise relative flex flex-col items-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden">
 
         {/* ── Background layer stack ── */}
         {/* 1. Dot grid */}
@@ -317,7 +319,8 @@ export default function HomePage() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
             </span>
-            Gratis · Ingen registrering · Norske offentlige data
+            <span className="sm:hidden">Gratis · 100 % offentlige data</span>
+            <span className="hidden sm:inline">Gratis · Ingen registrering · Norske offentlige data</span>
           </span>
         </div>
 
@@ -344,7 +347,7 @@ export default function HomePage() {
           <AddressSearch />
           {/* Quick-start example addresses */}
           <div className="mt-2.5 flex flex-wrap items-center justify-center gap-1.5">
-            <span className="text-[11px] text-text-tertiary">Prøv:</span>
+            <span className="text-[11px] text-text-tertiary">Eksempler:</span>
             {[
               ["Karl Johans gate 1, Oslo", "karl-johans-gate-1--599114-107494-0301"],
               ["Bryggen 1, Bergen",     "bryggen-1-bergen--603893-53320-4601"],
@@ -424,7 +427,7 @@ export default function HomePage() {
       <ComparisonSection />
 
       {/* Value Props — stagger on scroll */}
-      <section className="mx-auto w-full max-w-5xl px-4 pb-20 sm:px-6 sm:pb-24">
+      <section className="mx-auto w-full max-w-5xl px-4 pb-16 sm:px-6">
         <div className="mb-10 text-center">
           <h2 className="mb-2 text-xl font-bold sm:text-2xl">
             13 datapunkter. Én rapport.

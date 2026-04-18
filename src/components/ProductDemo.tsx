@@ -70,16 +70,14 @@ export default function ProductDemo() {
       className="relative mx-auto w-full max-w-md select-none rounded-2xl border border-card-border bg-card-bg shadow-2xl overflow-hidden"
       aria-hidden
     >
-      {/* Browser chrome */}
-      <div className="flex items-center gap-2 border-b border-card-border bg-background px-4 py-2.5">
-        <div className="flex gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
-          <div className="h-2.5 w-2.5 rounded-full bg-amber-500/60" />
-          <div className="h-2.5 w-2.5 rounded-full bg-green-500/60" />
-        </div>
-        <div className="flex-1 rounded-md bg-card-bg/60 px-3 py-1 text-center text-xs text-text-tertiary">
-          verdikart.no
-        </div>
+      {/* Eksempel label — replaces the old browser chrome */}
+      <div className="flex items-center justify-between border-b border-card-border bg-background/60 px-4 py-2">
+        <span className="text-[10px] font-semibold uppercase tracking-widest text-text-tertiary">
+          Live demo
+        </span>
+        <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-accent">
+          Eksempel
+        </span>
       </div>
 
       {/* Search area */}

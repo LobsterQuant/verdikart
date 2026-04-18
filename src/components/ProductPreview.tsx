@@ -34,23 +34,6 @@ function useCountUp(target: number, decimals = 0, duration = 1400, active = fals
     : Math.round(value).toLocaleString("nb-NO");
 }
 
-// Typewriter that runs once when `start` flips to true
-function useTypewriter(text: string, speed = 38, start = false) {
-  const [display, setDisplay] = useState("");
-  useEffect(() => {
-    if (!start) return;
-    setDisplay("");
-    let i = 0;
-    const id = setInterval(() => {
-      i++;
-      setDisplay(text.slice(0, i));
-      if (i >= text.length) clearInterval(id);
-    }, speed);
-    return () => clearInterval(id);
-  }, [start, text, speed]);
-  return display;
-}
-
 // ── chart data ──────────────────────────────────────────────────────────────
 
 const chartPoints = [82, 87, 91, 95, 100, 108, 118, 128];
@@ -85,12 +68,6 @@ export default function ProductPreview() {
   const minutes = useCountUp(8, 0, 900, inView);
   const pct = useCountUp(5.2, 1, 1200, inView);
   const sqm = useCountUp(151900, 0, 1500, inView);
-
-  const urlText = useTypewriter(
-    "verdikart.no/eiendom/bygdoy-alle-2",
-    30,
-    inView,
-  );
 
   const DEMO_HREF =
     "/eiendom/bygdoy-alle-2--599151-107152-0301" +
@@ -139,31 +116,18 @@ export default function ProductPreview() {
   return (
     <div ref={ref as RefObject<HTMLDivElement>} className="w-full max-w-2xl mx-auto">
 
-      {/* Browser chrome */}
-      <div className="rounded-xl border border-card-border bg-card-bg overflow-hidden shadow-2xl shadow-black/50">
+      {/* Branded preview card — no fake browser chrome */}
+      <div className="rounded-2xl border border-card-border bg-card-bg overflow-hidden shadow-2xl shadow-black/50">
 
-        {/* Title bar */}
-        <div className="flex items-center gap-2 border-b border-card-border bg-background px-3 py-2.5 sm:px-4">
-          <div className="flex gap-1.5 shrink-0">
-            <div className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
-            <div className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
-            <div className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
+        {/* Page header */}
+        <div className="flex items-start justify-between gap-3 border-b border-card-border px-4 pb-3 pt-4 sm:px-5">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-text-tertiary">Eiendomsrapport</p>
+            <h2 className="mt-0.5 text-base font-bold sm:text-lg">Bygdøy allé 2, Oslo</h2>
           </div>
-          {/* Typewriter URL bar — links to live demo */}
-          <Link
-            href={DEMO_HREF}
-            className="mx-auto min-w-0 flex-1 max-w-xs rounded-md border border-card-border bg-card-bg px-3 py-1 text-center text-[11px] text-text-tertiary font-mono truncate transition-colors hover:border-accent/40 hover:text-accent"
-            title="Åpne live eksempel"
-          >
-            {urlText}
-            <span className="animate-pulse">|</span>
-          </Link>
-        </div>
-
-        {/* Page header inside mockup */}
-        <div className="border-b border-card-border px-4 pb-3 pt-3 sm:px-5">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-text-tertiary">Eiendomsrapport</p>
-          <h2 className="mt-0.5 text-base font-bold sm:text-lg">Bygdøy allé 2, Oslo</h2>
+          <span className="shrink-0 rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-accent">
+            Eksempel
+          </span>
         </div>
 
         {/* Tab row */}

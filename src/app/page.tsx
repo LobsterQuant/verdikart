@@ -248,7 +248,7 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
-      <main
+      <section
         className="hero-noise hero-orbs relative isolate flex flex-col items-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden"
         style={{ contain: "paint" }}
       >
@@ -391,7 +391,7 @@ export default function HomePage() {
             </a>
           ))}
         </div>
-      </main>
+      </section>
 
       {/* Product preview — fades in on scroll */}
       <section className="mx-auto w-full max-w-2xl px-4 pb-16 sm:px-6">

@@ -162,25 +162,15 @@ input::placeholder {
 }
 .logo-pulse { animation: logo-pulse 4s ease-in-out infinite; }
 
-/* Hero orb drift animations */
-@keyframes orb-drift-left {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  33%       { transform: translate3d(40px, -30px, 0) scale(1.05); }
-  66%       { transform: translate3d(-20px, 50px, 0) scale(0.97); }
+/* Hero orb glows — baked into the hero section's background so there are no
+   separate compositor layers to drop mid-scroll. Pseudo-elements paint with
+   the hero's own layer; radial-gradients scale with the viewport. */
+.hero-orbs {
+  background-image:
+    radial-gradient(circle 420px at -2% 30%, rgba(99,102,241,0.12) 0%, transparent 70%),
+    radial-gradient(circle 360px at 102% 40%, rgba(59,130,246,0.10) 0%, transparent 70%);
+  background-repeat: no-repeat;
 }
-@keyframes orb-drift-right {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  40%       { transform: translate3d(-35px, 40px, 0) scale(1.04); }
-  75%       { transform: translate3d(25px, -20px, 0) scale(0.96); }
-}
-
-.hero-orb-left,
-.hero-orb-right {
-  backface-visibility: hidden;
-  will-change: transform;
-}
-.hero-orb-left  { animation: orb-drift-left  18s ease-in-out infinite; }
-.hero-orb-right { animation: orb-drift-right 22s ease-in-out infinite; }
 
 @keyframes shimmer {
   0% { background-position: -200% 0; }
@@ -207,10 +197,14 @@ input::placeholder {
   nav,
   footer,
   .no-print,
-  [class*="hero-orb"],
   [class*="animate-"],
   .leaflet-container {
     display: none !important;
+  }
+
+  /* Strip hero orb gradients in print */
+  .hero-orbs {
+    background-image: none !important;
   }
 
   /* Remove pt-14 offset */

@@ -124,7 +124,7 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
           <div className="space-y-1 text-xs text-text-tertiary">
             <p>
               {sqmPrice.toLocaleString("nb-NO")} kr/m² × {effectiveArea} m²
-              {bruksareal ? " (fra energiattest)" : " (manuelt oppgitt)"}
+              {areaTooLarge || !bruksareal ? " (oppgitt av deg)" : " (fra energiattest)"}
             </p>
             <p>Prisgrunnlag: {source}</p>
           </div>

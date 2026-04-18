@@ -43,9 +43,16 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
+  // Short-circuit when the URL has no coordinates — the page will notFound()
+  // anyway; avoid leaking a lowercase slug-derived title into the 404 response.
+  const slugParsed = parseSlug(params.slug);
+  const hasCoords = !!(searchParams.lat && searchParams.lon) || !!(slugParsed.lat && slugParsed.lon);
+  if (!hasCoords) {
+    return { title: { absolute: "Side ikke funnet — Verdikart" }, robots: { index: false } };
+  }
+
   let address = searchParams.adresse;
   if (!address) {
-    const slugParsed = parseSlug(params.slug);
     if (slugParsed.lat && slugParsed.lon) {
       address = (await reverseGeocode(slugParsed.lat, slugParsed.lon)) ?? undefined;
     }

@@ -6,6 +6,7 @@ import { getArea, getAllAreaSlugs, areas } from "./areaData";
 import { bydeler } from "@/app/by/oslo/[bydel]/bydelData";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
+import { formatPct } from "@/lib/format";
 
 export async function generateStaticParams() {
   return getAllAreaSlugs();
@@ -121,7 +122,7 @@ export default function AreaPage({ params }: { params: { area: string } }) {
             </div>
             <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
               <p className="text-xs text-text-tertiary">Prisvekst (12 mnd)</p>
-              <p className="text-lg font-bold text-green-400">+{area.avgSqmPriceYoY}%</p>
+              <p className="text-lg font-bold text-green-400">+{formatPct(area.avgSqmPriceYoY)}</p>
               <p className="mt-0.5 text-[10px] text-text-tertiary/60">SSB 2023–2024</p>
             </div>
             <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
@@ -178,7 +179,7 @@ export default function AreaPage({ params }: { params: { area: string } }) {
               Prisutvikling
             </h2>
             <p className="text-sm leading-relaxed text-text-secondary">
-              Estimert kvadratmeterpris i {area.name} er <strong className="text-foreground">{formatPrice(area.avgSqmPrice)} kr/m²</strong> basert på SSB-data for {area.name.includes("Bergen") || area.kommunenummer !== "0301" ? "kommunen" : "Oslo"}, justert for bydelnivå. Det er en estimert økning på <strong className="text-green-400">+{area.avgSqmPriceYoY}%</strong> sammenlignet med samme periode i fjor.
+              Estimert kvadratmeterpris i {area.name} er <strong className="text-foreground">{formatPrice(area.avgSqmPrice)} kr/m²</strong> basert på SSB-data for {area.name.includes("Bergen") || area.kommunenummer !== "0301" ? "kommunen" : "Oslo"}, justert for bydelnivå. Det er en estimert økning på <strong className="text-green-400">+{formatPct(area.avgSqmPriceYoY)}</strong> sammenlignet med samme periode i fjor.
             </p>
             <p className="mt-2 text-xs text-text-tertiary">Kilde: SSB boligprisstatistikk, kommunenummer {area.kommunenummer}. Bydeltall er estimerte verdier — eksakt adressedata er tilgjengelig i <a href="/" className="text-accent hover:underline">adresserapporten</a>.</p>
           </section>

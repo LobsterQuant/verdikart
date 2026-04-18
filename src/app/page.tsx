@@ -25,7 +25,7 @@ const COMPARISON_ROWS: ComparisonRow[] = [
   { feature: "SSB prisstatistikk (kvartal)",   short: "SSB-statistikk", Icon: BarChart3,       verdikart: true, finn: false, google: false },
   { feature: "Live Entur — avganger per time", short: "Live Entur",    Icon: Bus,              verdikart: true, finn: false, google: false },
   { feature: "PDF-rapport til megler/bank",    short: "PDF",           Icon: FileText,         verdikart: true, finn: false, google: false },
-  { feature: "Gratis & ingen registrering",    short: "Gratis",        Icon: Sparkles,         verdikart: true, finn: true,  google: true },
+  { feature: "Gratis uten konto",                short: "Gratis",        Icon: Sparkles,         verdikart: true, finn: true,  google: true },
 ];
 
 const HOW_STEPS = [
@@ -249,7 +249,7 @@ export default function HomePage() {
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
       <main
-        className="hero-noise relative isolate flex flex-col items-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden"
+        className="hero-noise hero-orbs relative isolate flex flex-col items-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden"
         style={{ contain: "paint" }}
       >
 
@@ -282,28 +282,7 @@ export default function HomePage() {
               "radial-gradient(ellipse 80% 50% at 50% -5%, rgba(99,102,241,0.22) 0%, rgba(59,130,246,0.08) 50%, transparent 75%)",
           }}
         />
-        {/* 4. Floating orb — left */}
-        <div
-          aria-hidden
-          className="hero-orb-left pointer-events-none absolute -z-10 h-[420px] w-[420px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
-            top: "10%",
-            left: "-12%",
-          }}
-        />
-        {/* 5. Floating orb — right */}
-        <div
-          aria-hidden
-          className="hero-orb-right pointer-events-none absolute -z-10 h-[360px] w-[360px] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%)",
-            top: "20%",
-            right: "-10%",
-          }}
-        />
+        {/* 4+5. Orb glow baked into hero-orbs background (no separate layers → no compositor drop) */}
         {/* 6. Bottom accent wash */}
         <div
           aria-hidden

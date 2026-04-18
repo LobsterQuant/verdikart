@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Star, MessageSquare, ChevronDown, Send } from "lucide-react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { nb } from "@/lib/format";
 
 interface Review {
@@ -113,7 +114,7 @@ export default function NeighborhoodReviewsCard({
   }
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="flex items-center gap-2 text-lg font-semibold">
           <MessageSquare className="h-5 w-5 text-accent" />
@@ -274,6 +275,6 @@ export default function NeighborhoodReviewsCard({
           Takk for din vurdering!
         </p>
       )}
-    </div>
+    </TopographicHover>
   );
 }

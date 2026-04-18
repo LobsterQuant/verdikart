@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { GraduationCap, ExternalLink } from "lucide-react";
 import { SkolerIcon, BarnehageIcon } from "@/components/icons";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 
 interface School {
   name: string;
@@ -82,7 +83,7 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
   const bhLink = barnehageLink(kommunenummer);
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex items-center gap-2">
         <GraduationCap className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Skoler og barnehager</h3>
@@ -164,6 +165,6 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
         Skoler: <a href="https://data-nsr.udir.no" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">Nasjonalt skoleregister (Udir)</a>
         {" · "}Barnehager: <a href="https://www.barnehagefakta.no" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">OpenStreetMap</a>
       </p>
-    </div>
+    </TopographicHover>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 
 /**
  * Full-width stats block for the homepage.
@@ -50,13 +51,14 @@ export function HeroStats() {
       <div className="mx-auto max-w-5xl px-gutter">
         <div className="grid grid-cols-2 gap-5 md:grid-cols-4 md:gap-8">
           {STATS.map((stat) => (
-            <CountUpStatAnimated
-              key={stat.label}
-              value={stat.value}
-              label={stat.label}
-              formatFn={stat.formatFn}
-              displayFinal={stat.displayFinal}
-            />
+            <TopographicHover key={stat.label} rings={3} className="rounded-lg p-2 -m-2">
+              <CountUpStatAnimated
+                value={stat.value}
+                label={stat.label}
+                formatFn={stat.formatFn}
+                displayFinal={stat.displayFinal}
+              />
+            </TopographicHover>
           ))}
         </div>
       </div>

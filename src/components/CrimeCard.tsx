@@ -2,6 +2,7 @@
 
 import { Shield, Info, AlertTriangle } from "lucide-react";
 import DataAgeChip from "@/components/DataAgeChip";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { nb, formatPct } from "@/lib/format";
 
 // SSB table 08484 — Anmeldte lovbrudd per 1000 innbyggere (2023, kommunenivå)
@@ -249,7 +250,7 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
   const nationalBarWidth = Math.min(100, (NATIONAL_AVG / 150) * 100);
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <Shield className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Kriminalitetsnivå (kommunenivå)</h3>
@@ -329,6 +330,6 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
       <p className="mt-4 text-xs text-text-tertiary">
         Kilde: SSB — Kriminalstatistikk {data.year}, kommunenivå. Merk: data gjelder hele kommunen, ikke spesifikt nabolaget.
       </p>
-    </div>
+    </TopographicHover>
   );
 }

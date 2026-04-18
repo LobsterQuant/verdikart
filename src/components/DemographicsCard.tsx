@@ -1,6 +1,7 @@
 import { Users } from "lucide-react";
 import { getDemographics } from "@/data/demographics";
 import DataAgeChip from "@/components/DataAgeChip";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { nb } from "@/lib/format";
 
 export default function DemographicsCard({ kommunenummer }: { kommunenummer: string }) {
@@ -24,7 +25,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
   const growthSign = data.populationGrowthPct >= 0 ? "+" : "";
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <Users className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Befolkningsprofil</h3>
@@ -122,6 +123,6 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
       <p className="mt-3 text-xs text-text-tertiary">
         Kilde: SSB — Befolkningsstatistikk {data.year}, kommunenivå.
       </p>
-    </div>
+    </TopographicHover>
   );
 }

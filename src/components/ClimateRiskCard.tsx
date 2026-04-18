@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AlertTriangle, Droplets, Mountain, Waves } from "lucide-react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 
 interface ClimateRiskData {
   floodRisk: "Høy" | "Moderat" | "Lav" | "Ukjent";
@@ -104,7 +105,7 @@ export default function ClimateRiskCard({ lat, lon, onDataStatus, hideWhenEmpty 
   ];
 
   return (
-    <div className={`rounded-xl border p-4 sm:p-6 ${hasRisk ? "border-yellow-500/30 bg-yellow-500/5" : "border-card-border bg-card-bg"}`}>
+    <TopographicHover className={`rounded-xl border p-4 sm:p-6 ${hasRisk ? "border-yellow-500/30 bg-yellow-500/5" : "border-card-border bg-card-bg"}`}>
       <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold">
         <AlertTriangle className={`h-5 w-5 ${hasRisk ? "text-yellow-500" : "text-green-500"}`} />
         Klimarisiko
@@ -134,6 +135,6 @@ export default function ClimateRiskCard({ lat, lon, onDataStatus, hideWhenEmpty 
       <p className="mt-3 text-xs text-text-tertiary">
         Kilde: NVE — Norges vassdrags- og energidirektorat
       </p>
-    </div>
+    </TopographicHover>
   );
 }

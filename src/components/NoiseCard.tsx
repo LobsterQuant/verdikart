@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 
 interface NoiseData {
   road?: number;
@@ -102,7 +103,7 @@ export default function NoiseCard({ lat, lon, onDataStatus, hideWhenEmpty }: Noi
   ];
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <h3 className="mb-4 text-lg font-semibold">Støynivå</h3>
       <div className="space-y-3">
         {sources.map((source) => {
@@ -135,6 +136,6 @@ export default function NoiseCard({ lat, lon, onDataStatus, hideWhenEmpty }: Noi
           );
         })}
       </div>
-    </div>
+    </TopographicHover>
   );
 }

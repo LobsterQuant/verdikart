@@ -1,4 +1,5 @@
 import { AlertTriangle } from "lucide-react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { environmentalRiskData, type RiskLevel } from "@/data/environmentalRisk";
 
 const riskColors: Record<RiskLevel, { text: string; bg: string }> = {
@@ -28,7 +29,7 @@ export default function EnvironmentalRiskCard({ kommunenummer }: { kommunenummer
   const floodColor = riskColors[data.floodRisk];
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex items-center gap-2">
         <AlertTriangle className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Miljørisiko</h3>
@@ -81,6 +82,6 @@ export default function EnvironmentalRiskCard({ kommunenummer }: { kommunenummer
           høyest risiko.
         </p>
       </details>
-    </div>
+    </TopographicHover>
   );
 }

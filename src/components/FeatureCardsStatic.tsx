@@ -1,4 +1,5 @@
 import NewBadge from "@/components/NewBadge";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { featureCards } from "./featureCardsData";
 
 /**
@@ -9,15 +10,16 @@ import { featureCards } from "./featureCardsData";
  *
  * Layout MUST match FeatureCardsAnimated exactly — same grid, same card
  * padding, same border — so that when the motion chunk hydrates and takes
- * over, there is zero CLS.
+ * over, there is zero CLS. TopographicHover is used on both versions so
+ * hover rings survive the hydration swap (Package 6).
  */
 export function FeatureCardsStatic() {
   return (
     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
       {featureCards.map(({ Icon, title, description, isNew }) => (
-        <div
+        <TopographicHover
           key={title}
-          className="group relative overflow-hidden rounded-xl border border-card-border bg-card-bg p-6 transition-colors duration-200 hover:border-accent/40"
+          className="group relative rounded-xl border border-card-border bg-card-bg p-6"
         >
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-[rgba(0,102,255,0.1)]">
             <Icon className="h-5 w-5" strokeWidth={1.5} style={{ color: "#0066FF" }} />
@@ -28,7 +30,7 @@ export function FeatureCardsStatic() {
             {isNew && <NewBadge />}
           </div>
           <p className="text-sm leading-relaxed text-text-secondary">{description}</p>
-        </div>
+        </TopographicHover>
       ))}
     </div>
   );

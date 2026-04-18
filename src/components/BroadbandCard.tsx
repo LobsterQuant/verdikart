@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Wifi } from "lucide-react";
 import DataAgeChip from "@/components/DataAgeChip";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { nb } from "@/lib/format";
 
 interface BroadbandData {
@@ -86,7 +87,7 @@ export default function BroadbandCard({ lat, lon, onDataStatus, hideWhenEmpty }:
   const color = speedColor(data.maxDownload);
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <h3 className="flex items-center gap-2 text-lg font-semibold">
           <Wifi className="h-5 w-5 text-text-secondary" />
@@ -157,6 +158,6 @@ export default function BroadbandCard({ lat, lon, onDataStatus, hideWhenEmpty }:
       <p className="mt-2 text-xs text-text-tertiary">
         Kilde: {data.coverageSource ?? "Nkom"}
       </p>
-    </div>
+    </TopographicHover>
   );
 }

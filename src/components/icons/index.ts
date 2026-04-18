@@ -16,4 +16,8 @@ export { KriminalitetIcon } from "./KriminalitetIcon";
 export { EiendomsskattIcon } from "./EiendomsskattIcon";
 export { ManedskostnadIcon } from "./ManedskostnadIcon";
 export { PdfRapportIcon } from "./PdfRapportIcon";
+export { EneboligIcon } from "./EneboligIcon";
+export { SmaahusIcon } from "./SmaahusIcon";
+export { BlokkIcon } from "./BlokkIcon";
+export { BarnehageIcon } from "./BarnehageIcon";
 export type { IconProps } from "./Icon";

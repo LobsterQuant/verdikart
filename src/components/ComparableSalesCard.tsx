@@ -2,7 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { BarChart2 } from "lucide-react";
-import { BoligIcon } from "@/components/icons";
+import {
+  BoligIcon,
+  EneboligIcon,
+  SmaahusIcon,
+  BlokkIcon,
+  type IconProps,
+} from "@/components/icons";
+
+// SSB delivers exactly these 3 housing-type labels (see /api/comparable-sales
+// route, Boligtype code table 01/02/03). Map each to a distinct silhouette so
+// the three rows aren't visually identical.
+const TYPE_ICONS: Record<string, (p: IconProps) => React.ReactElement> = {
+  Eneboliger: EneboligIcon,
+  Småhus: SmaahusIcon,
+  Blokkleiligheter: BlokkIcon,
+};
 
 interface HousingTypeRow {
   type: string;
@@ -119,11 +134,12 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
           </p>
           {data.byType.map((row) => {
             const pct = Math.round((row.pricePerSqm / peak) * 100);
+            const RowIcon = TYPE_ICONS[row.type] ?? BoligIcon;
             return (
               <div key={row.type}>
                 <div className="mb-1 flex items-center justify-between gap-2">
                   <span className="flex items-center gap-1.5 text-sm">
-                    <BoligIcon size={16} className="text-accent shrink-0" />
+                    <RowIcon size={16} className="text-accent shrink-0" />
                     <span>{row.type}</span>
                   </span>
                   <div className="flex items-center gap-3 text-right">

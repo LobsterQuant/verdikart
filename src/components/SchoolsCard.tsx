@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { GraduationCap, ExternalLink } from "lucide-react";
-import { SkolerIcon } from "@/components/icons";
+import { SkolerIcon, BarnehageIcon } from "@/components/icons";
 
 interface School {
   name: string;
@@ -133,7 +133,7 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
             {kindergartens.slice(0, 4).map(s => (
               <div key={s.name} className="flex items-center justify-between rounded-lg bg-background px-3 py-2.5">
                 <div className="flex items-center gap-2 min-w-0">
-                  <SkolerIcon size={16} className="text-accent shrink-0" />
+                  <BarnehageIcon size={16} className="text-accent shrink-0" />
                   <div className="min-w-0">
                     <span className="truncate text-sm text-text-secondary">{s.name}</span>
                     {s.isPrivate && (

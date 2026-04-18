@@ -86,10 +86,16 @@ async function fetchComparableSales(knr: string): Promise<ComparableSalesResult>
     // Format as "Årsgjennomsnitt 2024" — SSB table 06035 is annual, not quarterly
     const period = rawPeriod ? `Årsgjennomsnitt ${rawPeriod}` : "";
 
-    // Kommune name from dimension label
-    const kommuneName = Object.values(
+    // Kommune name from dimension label — SSB sometimes appends historical
+    // date-range suffixes like "Oslo (-2019)" or "Oslo - Oslo (historisk)".
+    // Strip parenthetical content and anything after " - " before returning.
+    const rawKommuneName = Object.values(
       data.dimension?.Region?.category?.label ?? {}
     )[0] as string ?? "";
+    const kommuneName = rawKommuneName
+      .replace(/\s*\([^)]*\)\s*/g, "")
+      .replace(/\s*-\s*.+$/, "")
+      .trim();
 
     return {
       kommuneAvg,

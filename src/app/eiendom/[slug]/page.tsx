@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import TransitCard from "@/components/TransitCard";
 import SchoolsCard from "@/components/SchoolsCard";
 import CrimeCard from "@/components/CrimeCard";
@@ -153,20 +154,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
   }
 
   if (!latNum || !lonNum) {
-    return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
-        <div className="mx-auto w-full max-w-xl">
-          <h1 className="mb-2 text-2xl font-bold">Søk på en adresse</h1>
-          <p className="mb-8 text-text-secondary">
-            Skriv inn adressen du vil sjekke — transport, priser og nabolagsdata hentes automatisk.
-          </p>
-          <AddressSearch initialValue={displayAddress !== "eiendom" ? displayAddress : ""} />
-          <p className="mt-4 text-xs text-text-tertiary">
-            Eksempel: <span className="font-mono">Karl Johans gate 1, Oslo</span>
-          </p>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
     const canonicalUrl = `https://verdikart.no/eiendom/${params.slug}`;

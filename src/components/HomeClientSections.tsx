@@ -175,7 +175,7 @@ export function StatsGrid() {
           </span>
           Gratis
         </span>
-        <span className="mt-1 text-xs leading-tight text-text-tertiary">Ingen registrering</span>
+        <span className="mt-1 text-xs leading-tight text-text-tertiary">Se full rapport uten konto</span>
       </div>
       {/* Addresses */}
       <div className="flex flex-col items-center justify-center px-3 py-4 text-center">

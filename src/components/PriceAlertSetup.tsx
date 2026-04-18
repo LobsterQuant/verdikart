@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { Bell, BellRing, Check } from "lucide-react";
+import { useToast } from "./Toast";
 
 interface PriceAlertSetupProps {
   kommunenummer: string;
@@ -11,6 +12,7 @@ interface PriceAlertSetupProps {
 
 export default function PriceAlertSetup({ kommunenummer, postnummer }: PriceAlertSetupProps) {
   const { data: session } = useSession();
+  const toast = useToast();
   const [created, setCreated] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -25,9 +27,14 @@ export default function PriceAlertSetup({ kommunenummer, postnummer }: PriceAler
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ kommunenummer, postnummer, thresholdPct: 5 }),
       });
-      if (res.ok) setCreated(true);
+      if (res.ok) {
+        setCreated(true);
+        toast.success("Prisvarsel aktivert");
+      } else {
+        toast.error("Kunne ikke opprette varsel — prøv igjen");
+      }
     } catch {
-      // Silent fail
+      toast.error("Kunne ikke opprette varsel — prøv igjen");
     } finally {
       setLoading(false);
     }

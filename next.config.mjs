@@ -2,6 +2,11 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
+    ],
+  },
   async redirects() {
     return [
       // Demo URL shortcut → real slug with coordinates

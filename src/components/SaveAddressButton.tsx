@@ -1,9 +1,9 @@
 "use client";
 
 import { Heart } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useState, useCallback } from "react";
 import { useSavedAddresses } from "@/hooks/useSavedAddresses";
-import { useState, useEffect, useCallback } from "react";
+import { useToast } from "./Toast";
 
 interface SaveAddressButtonProps {
   slug: string;
@@ -22,67 +22,49 @@ export default function SaveAddressButton({
   kommunenummer,
   postnummer,
 }: SaveAddressButtonProps) {
-  const { data: session } = useSession();
-  const localStore = useSavedAddresses();
-  const [dbSaved, setDbSaved] = useState(false);
+  const { saveAddress, removeAddress, isSaved } = useSavedAddresses();
+  const toast = useToast();
   const [loading, setLoading] = useState(false);
-
-  // Check DB state on mount when logged in
-  useEffect(() => {
-    if (!session?.user) return;
-    fetch("/api/saved-properties")
-      .then((r) => r.json())
-      .then((data) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const found = data.items?.some((item: any) => item.slug === slug);
-        if (found) setDbSaved(true);
-      })
-      .catch(() => {});
-  }, [session, slug]);
-
-  const saved = session?.user ? dbSaved : localStore.isSaved(slug);
+  const saved = isSaved(slug);
 
   const toggle = useCallback(async () => {
     if (loading) return;
-
-    if (session?.user) {
-      setLoading(true);
-      try {
-        if (dbSaved) {
-          await fetch("/api/saved-properties", {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ slug }),
-          });
-          setDbSaved(false);
-        } else {
-          await fetch("/api/saved-properties", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              slug,
-              address: adressetekst,
-              lat,
-              lon,
-              kommunenummer,
-              postnummer,
-            }),
-          });
-          setDbSaved(true);
-        }
-      } catch {
-        // Silent fail
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      if (localStore.isSaved(slug)) {
-        localStore.removeAddress(slug);
+    setLoading(true);
+    try {
+      if (saved) {
+        await removeAddress(slug);
+        toast.success("Fjernet fra lagrede");
       } else {
-        localStore.saveAddress({ slug, adressetekst, lat, lon });
+        await saveAddress({
+          slug,
+          adressetekst,
+          lat,
+          lon,
+          kommunenummer,
+          postnummer,
+        });
+        toast.success("Lagret");
       }
+    } catch {
+      toast.error(
+        saved ? "Kunne ikke fjerne — prøv igjen" : "Kunne ikke lagre — prøv igjen",
+      );
+    } finally {
+      setLoading(false);
     }
-  }, [session, dbSaved, slug, adressetekst, lat, lon, kommunenummer, postnummer, loading, localStore]);
+  }, [
+    loading,
+    saved,
+    saveAddress,
+    removeAddress,
+    toast,
+    slug,
+    adressetekst,
+    lat,
+    lon,
+    kommunenummer,
+    postnummer,
+  ]);
 
   return (
     <button
@@ -101,7 +83,9 @@ export default function SaveAddressButton({
       />
       <span
         className={`text-xs font-medium transition-colors ${
-          saved ? "text-accent" : "text-text-secondary group-hover:text-foreground"
+          saved
+            ? "text-accent"
+            : "text-text-secondary group-hover:text-foreground"
         }`}
       >
         {loading ? "…" : saved ? "Lagret" : "Lagre"}

@@ -1,33 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
-import type { MatrikkelData } from "@/lib/types/matrikkel";
+import { NextResponse } from "next/server";
 import { EMPTY_MATRIKKEL } from "@/lib/types/matrikkel";
 
 /**
- * Matrikkel API stub.
+ * Matrikkel / Grunnbok stub.
  *
- * When Kartverket Grunnbok API access is granted, replace the fetchMatrikkel
- * function body with actual API calls. The response shape stays the same.
+ * Real Grunnbok integration is on hold due to privacy regulations around
+ * ownership and encumbrance data. Matrikkel (building year, area, floors)
+ * requires a separate Kartverket API we don't yet have access to.
+ *
+ * This endpoint intentionally returns EMPTY_MATRIKKEL so the frontend
+ * contract stays stable for the day one of those unblocks.
  */
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function fetchMatrikkel(_lat: number, _lon: number, _knr: string): Promise<MatrikkelData> {
-  // TODO: Replace with actual Kartverket API call when credentials arrive.
-  // Expected endpoint pattern:
-  //   GET https://api.kartverket.no/grunnbok/v1/matrikkel?kommunenummer={knr}&gaardsnummer=...&bruksnummer=...
-  // or:
-  //   GET https://api.kartverket.no/grunnbok/v1/matrikkel/punkt?lat={lat}&lon={lon}
-  return EMPTY_MATRIKKEL;
-}
-
-export async function GET(request: NextRequest) {
-  const lat = parseFloat(request.nextUrl.searchParams.get("lat") ?? "");
-  const lon = parseFloat(request.nextUrl.searchParams.get("lon") ?? "");
-  const knr = request.nextUrl.searchParams.get("knr") ?? "";
-
-  if (isNaN(lat) || isNaN(lon)) {
-    return NextResponse.json(EMPTY_MATRIKKEL);
-  }
-
-  const result = await fetchMatrikkel(lat, lon, knr);
-  return NextResponse.json(result);
+export async function GET() {
+  return NextResponse.json(EMPTY_MATRIKKEL);
 }

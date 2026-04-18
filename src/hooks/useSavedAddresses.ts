@@ -1,4 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+"use client";
+
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useSession } from "next-auth/react";
 
 const SAVED_KEY = "verdikart_saved_v1";
 const MAX_SAVED = 20;
@@ -9,9 +12,11 @@ export interface SavedAddress {
   lat: number;
   lon: number;
   savedAt: string;
+  kommunenummer?: string;
+  postnummer?: string;
 }
 
-function load(): SavedAddress[] {
+function localLoad(): SavedAddress[] {
   if (typeof window === "undefined") return [];
   try {
     return JSON.parse(localStorage.getItem(SAVED_KEY) ?? "[]");
@@ -20,7 +25,7 @@ function load(): SavedAddress[] {
   }
 }
 
-function persist(entries: SavedAddress[]) {
+function localPersist(entries: SavedAddress[]) {
   try {
     localStorage.setItem(SAVED_KEY, JSON.stringify(entries));
   } catch {
@@ -28,43 +33,165 @@ function persist(entries: SavedAddress[]) {
   }
 }
 
-export function useSavedAddresses() {
-  const [saved, setSaved] = useState<SavedAddress[]>([]);
+function localClear() {
+  try {
+    localStorage.removeItem(SAVED_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
-  // Hydrate from localStorage after mount (SSR-safe)
+interface DbItem {
+  slug: string;
+  address: string;
+  lat: number | string;
+  lon: number | string;
+  savedAt: string;
+  kommunenummer: string | null;
+  postnummer: string | null;
+}
+
+function fromDb(it: DbItem): SavedAddress {
+  return {
+    slug: it.slug,
+    adressetekst: it.address,
+    lat: Number(it.lat),
+    lon: Number(it.lon),
+    savedAt: it.savedAt,
+    kommunenummer: it.kommunenummer ?? undefined,
+    postnummer: it.postnummer ?? undefined,
+  };
+}
+
+/**
+ * Saved addresses hook — single source of truth.
+ *
+ * Logged in → database (`/api/saved-properties`). On first login we migrate
+ * any localStorage entries up to the DB and clear local storage, so the two
+ * stores never diverge.
+ *
+ * Logged out → localStorage only (capped at {@link MAX_SAVED} entries).
+ */
+export function useSavedAddresses() {
+  const { data: session, status } = useSession();
+  const loggedIn = !!session?.user;
+
+  const [saved, setSaved] = useState<SavedAddress[]>([]);
+  const [ready, setReady] = useState(false);
+  const migratedRef = useRef(false);
+
   useEffect(() => {
-    setSaved(load());
-  }, []);
+    if (status === "loading") return;
+    let cancelled = false;
+
+    async function load() {
+      if (loggedIn) {
+        // One-shot migration of local entries into DB
+        if (!migratedRef.current) {
+          migratedRef.current = true;
+          const local = localLoad();
+          if (local.length > 0) {
+            await Promise.all(
+              local.map((a) =>
+                fetch("/api/saved-properties", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    slug: a.slug,
+                    address: a.adressetekst,
+                    lat: a.lat,
+                    lon: a.lon,
+                    kommunenummer: a.kommunenummer,
+                    postnummer: a.postnummer,
+                  }),
+                }).catch(() => null),
+              ),
+            );
+            localClear();
+          }
+        }
+
+        try {
+          const res = await fetch("/api/saved-properties");
+          if (!res.ok) throw new Error("load failed");
+          const data = await res.json();
+          if (cancelled) return;
+          setSaved((data.items ?? []).map(fromDb));
+        } catch {
+          if (!cancelled) setSaved([]);
+        } finally {
+          if (!cancelled) setReady(true);
+        }
+      } else {
+        setSaved(localLoad());
+        setReady(true);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [loggedIn, status]);
 
   const saveAddress = useCallback(
-    (address: Omit<SavedAddress, "savedAt">) => {
+    async (address: Omit<SavedAddress, "savedAt">) => {
+      const entry: SavedAddress = {
+        ...address,
+        savedAt: new Date().toISOString(),
+      };
       setSaved((prev) => {
-        const without = prev.filter((a) => a.slug !== address.slug);
-        const next: SavedAddress[] = [
-          { ...address, savedAt: new Date().toISOString() },
-          ...without,
-        ].slice(0, MAX_SAVED);
-        persist(next);
+        const next = [entry, ...prev.filter((a) => a.slug !== entry.slug)].slice(
+          0,
+          MAX_SAVED,
+        );
+        if (!loggedIn) localPersist(next);
         return next;
       });
+
+      if (loggedIn) {
+        const res = await fetch("/api/saved-properties", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            slug: address.slug,
+            address: address.adressetekst,
+            lat: address.lat,
+            lon: address.lon,
+            kommunenummer: address.kommunenummer,
+            postnummer: address.postnummer,
+          }),
+        });
+        if (!res.ok) throw new Error("save failed");
+      }
     },
-    [],
+    [loggedIn],
   );
 
-  const removeAddress = useCallback((slug: string) => {
-    setSaved((prev) => {
-      const next = prev.filter((a) => a.slug !== slug);
-      persist(next);
-      return next;
-    });
-  }, []);
+  const removeAddress = useCallback(
+    async (slug: string) => {
+      setSaved((prev) => {
+        const next = prev.filter((a) => a.slug !== slug);
+        if (!loggedIn) localPersist(next);
+        return next;
+      });
+
+      if (loggedIn) {
+        const res = await fetch("/api/saved-properties", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slug }),
+        });
+        if (!res.ok) throw new Error("delete failed");
+      }
+    },
+    [loggedIn],
+  );
 
   const isSaved = useCallback(
     (slug: string) => saved.some((a) => a.slug === slug),
     [saved],
   );
 
-  const getSavedAddresses = useCallback(() => saved, [saved]);
-
-  return { saved, saveAddress, removeAddress, isSaved, getSavedAddresses };
+  return { saved, saveAddress, removeAddress, isSaved, ready };
 }

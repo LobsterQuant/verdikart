@@ -2,6 +2,7 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LogIn, LogOut, User } from "lucide-react";
+import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
 export default function AuthButton() {
@@ -42,11 +43,13 @@ export default function AuthButton() {
         className="flex items-center gap-2 rounded-lg border border-card-border px-2 py-1.5 text-sm transition-colors hover:border-accent"
       >
         {session.user?.image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={session.user.image}
             alt=""
+            width={24}
+            height={24}
             className="h-6 w-6 rounded-full"
+            unoptimized
           />
         ) : (
           <User className="h-5 w-5 text-text-secondary" />

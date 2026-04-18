@@ -1,28 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { isRateLimited } from "@/lib/rate-limit";
 
-// Simple in-memory rate limiter for API routes
-// Uses a sliding window per IP. Resets when the edge function cold-starts,
-// which is acceptable for Vercel's serverless model.
-const rateMap = new Map<string, { count: number; resetAt: number }>();
+const MAX_REQUESTS_PER_MINUTE = 30;
 
-const WINDOW_MS = 60_000; // 1 minute
-const MAX_REQUESTS = 30; // per window per IP
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateMap.get(ip);
-
-  if (!entry || now > entry.resetAt) {
-    rateMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-    return false;
-  }
-
-  entry.count++;
-  return entry.count > MAX_REQUESTS;
-}
-
-export function middleware(request: NextRequest) {
-  // Only rate-limit API routes (exclude auth routes)
+export async function middleware(request: NextRequest) {
+  // Only rate-limit API routes (exclude NextAuth routes)
   if (!request.nextUrl.pathname.startsWith("/api/")) {
     return NextResponse.next();
   }
@@ -35,13 +17,13 @@ export function middleware(request: NextRequest) {
     request.headers.get("x-real-ip") ??
     "unknown";
 
-  if (isRateLimited(ip)) {
+  if (await isRateLimited(ip, MAX_REQUESTS_PER_MINUTE)) {
     return NextResponse.json(
       { error: "For mange forespørsler. Prøv igjen om litt." },
       {
         status: 429,
         headers: { "Retry-After": "60" },
-      }
+      },
     );
   }
 

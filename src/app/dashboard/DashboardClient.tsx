@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Heart, Bell, Trash2, ExternalLink, MapPin, StickyNote, Check, X } from "lucide-react";
 import Link from "next/link";
+import { useToast } from "@/components/Toast";
 
 interface SavedProperty {
   id: string;
@@ -24,17 +25,20 @@ export default function DashboardClient({
   const [properties, setProperties] = useState(initialProperties);
   const [editingNote, setEditingNote] = useState<string | null>(null);
   const [noteText, setNoteText] = useState("");
+  const toast = useToast();
 
   async function removeProperty(slug: string) {
     try {
-      await fetch("/api/saved-properties", {
+      const res = await fetch("/api/saved-properties", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slug }),
       });
+      if (!res.ok) throw new Error("delete failed");
       setProperties((prev) => prev.filter((p) => p.slug !== slug));
+      toast.success("Fjernet");
     } catch {
-      // Silent fail
+      toast.error("Kunne ikke fjerne — prøv igjen");
     }
   }
 
@@ -50,13 +54,13 @@ export default function DashboardClient({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slug, notes: noteText }),
       });
-      if (res.ok) {
-        setProperties((prev) =>
-          prev.map((p) => (p.slug === slug ? { ...p, notes: noteText || null } : p))
-        );
-      }
+      if (!res.ok) throw new Error("patch failed");
+      setProperties((prev) =>
+        prev.map((p) => (p.slug === slug ? { ...p, notes: noteText || null } : p))
+      );
+      toast.success("Notat lagret");
     } catch {
-      // Silent fail
+      toast.error("Kunne ikke lagre notat — prøv igjen");
     } finally {
       setEditingNote(null);
     }

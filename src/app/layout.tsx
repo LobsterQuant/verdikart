@@ -25,6 +25,9 @@ const display = Instrument_Serif({
   style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
+  // Explicit preload (also the next/font default) — the hero H1 uses .display-1
+  // which resolves to var(--font-display), making this font LCP-critical.
+  preload: true,
 });
 
 const mono = JetBrains_Mono({
@@ -88,17 +91,6 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="preconnect" href="https://ws.geonorge.no" />
-        <link rel="dns-prefetch" href="https://ws.geonorge.no" />
-        <link rel="preconnect" href="https://api.entur.io" />
-        <link rel="dns-prefetch" href="https://api.entur.io" />
-        <link rel="preconnect" href="https://data.ssb.no" />
-        <link rel="dns-prefetch" href="https://data.ssb.no" />
-        <link
-          rel="stylesheet"
-          href="/leaflet.css"
-          crossOrigin=""
-        />
         {/* Privacy-friendly analytics by Plausible */}
         <Script
           async
@@ -157,7 +149,7 @@ export default function RootLayout({
           {/* Skip-to-content — visible on keyboard focus only */}
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:outline-none"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-accent-ink focus:outline-none"
           >
             Hopp til innhold
           </a>

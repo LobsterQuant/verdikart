@@ -174,7 +174,7 @@ export default function CookieBanner() {
       <div className="flex gap-2">
         <button
           onClick={handleAcceptAll}
-          className="flex-1 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-white transition-opacity hover:opacity-80"
+          className="flex-1 rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-accent-ink transition-opacity hover:opacity-80"
         >
           Godta alle
         </button>

@@ -184,7 +184,7 @@ export default function CompareCitiesPage() {
           </p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 font-semibold text-white hover:bg-accent/90 transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-2.5 font-semibold text-accent-ink hover:bg-accent/90 transition-colors"
           >
             Til forsiden
             <ArrowRight className="h-4 w-4" />

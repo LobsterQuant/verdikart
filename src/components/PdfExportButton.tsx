@@ -30,7 +30,7 @@ export default function PdfExportButton({ address }: PdfExportButtonProps) {
     <button
       onClick={handleExport}
       disabled={loading}
-      className="inline-flex h-9 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-semibold text-white transition-all hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/30 disabled:opacity-60"
+      className="inline-flex h-9 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-semibold text-accent-ink transition-all hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/30 disabled:opacity-60"
       title="Last ned full eiendomsrapport som PDF"
     >
       <FileDown className="h-4 w-4" strokeWidth={2} />

@@ -96,7 +96,7 @@ const HOW_STEPS: HowStep[] = [
         ].map(({ src, label, color }) => (
           <div key={src} className={`rounded-lg border px-2 py-2 text-center ${color}`}>
             <div className="font-bold">{src}</div>
-            <div className="text-[10px] opacity-70">{label}</div>
+            <div className="text-[11px] opacity-90">{label}</div>
             <div className="mt-1 flex justify-center">
               <span className="relative inline-flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 bg-current"/><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-current"/></span>
             </div>
@@ -183,9 +183,9 @@ function ComparisonSection() {
                   {logo}
                 </div>
                 <p className={`text-sm font-bold leading-tight ${accent ? "text-foreground" : "text-text-secondary"}`}>{name}</p>
-                <p className="text-[10px] text-text-tertiary mt-0.5">{tagline}</p>
+                <p className="text-[11px] text-text-secondary mt-0.5">{tagline}</p>
                 {accent && (
-                  <div className="mt-2 inline-block rounded-full bg-accent/20 px-2 py-0.5 text-[10px] font-semibold text-accent">
+                  <div className="mt-2 inline-block rounded-full bg-accent px-2 py-0.5 text-[11px] font-semibold text-accent-ink">
                     Anbefalt
                   </div>
                 )}
@@ -241,7 +241,7 @@ function ComparisonSection() {
       </div>
 
       {/* Mobile scroll hint */}
-      <p className="mt-2 text-center text-[10px] text-text-tertiary sm:hidden">← Sveip for å se alle kolonner →</p>
+      <p className="mt-2 text-center text-[11px] text-text-secondary sm:hidden">← Sveip for å se alle kolonner →</p>
     </section>
   );
 }
@@ -262,7 +262,7 @@ function HowItWorksSection() {
             key={n}
             className="flex gap-4"
           >
-            <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white shadow-lg shadow-accent/30 mt-0.5">
+            <span className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-ink shadow-lg shadow-accent/30 mt-0.5">
               {n}
             </span>
             <div className="flex-1 min-w-0">
@@ -330,7 +330,7 @@ export default function HomePage() {
         />
 
         {/* Eyebrow */}
-        <p className="caption mb-4 uppercase tracking-[0.14em] text-accent/80">
+        <p className="caption mb-4 uppercase tracking-[0.14em] text-accent">
           Forstå boligen. Ikke bare se den.
         </p>
 

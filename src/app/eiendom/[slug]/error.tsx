@@ -23,7 +23,7 @@ export default function Error({
       </p>
       <button
         onClick={reset}
-        className="rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-80"
+        className="rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-accent-ink transition-opacity hover:opacity-80"
       >
         Prøv igjen
       </button>

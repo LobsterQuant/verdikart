@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import AddressSearch from "@/components/AddressSearch";
 import SavedAddressesList from "@/components/SavedAddressesList";
 import { fadeUp, staggerParent } from "@/lib/motion";
@@ -23,38 +23,38 @@ const EXAMPLES: ReadonlyArray<readonly [string, string]> = [
  */
 export default function HeroEntry() {
   return (
-    <motion.div
+    <m.div
       className="flex w-full flex-col items-center"
       variants={staggerParent(60)}
       initial="hidden"
       animate="visible"
     >
       {/* Eyebrow */}
-      <motion.p variants={fadeUp} className="caption mb-4 uppercase tracking-[0.14em] text-accent">
+      <m.p variants={fadeUp} className="caption mb-4 uppercase tracking-[0.14em] text-accent">
         Forstå boligen. Ikke bare se den.
-      </motion.p>
+      </m.p>
 
       {/* H1 — whole block animates as a single unit per Package 5 spec */}
-      <motion.h1 variants={fadeUp} className="display-1 max-w-3xl text-text">
+      <m.h1 variants={fadeUp} className="display-1 max-w-3xl text-text">
         Er nabolaget verdt prisen?
         <br />
         <span className="italic text-text-muted">
           Finn svaret på&nbsp;10&nbsp;sekunder.
         </span>
-      </motion.h1>
+      </m.h1>
 
       {/* Supporting paragraph */}
-      <motion.p
+      <m.p
         variants={fadeUp}
         className="mt-6 max-w-xl text-base leading-relaxed text-text-secondary sm:text-lg"
       >
         Søk på hvilken som helst norsk adresse og få full rapport om
         kollektivtransport, boligprisutvikling, støynivå og nabolagsdata —
         direkte fra SSB, Kartverket og Entur.
-      </motion.p>
+      </m.p>
 
       {/* Search field + example chips. `id=sok` preserved as hash anchor target. */}
-      <motion.div variants={fadeUp} id="sok" className="mt-block w-full max-w-xl">
+      <m.div variants={fadeUp} id="sok" className="mt-block w-full max-w-xl">
         <AddressSearch />
         <div className="mt-2.5 flex flex-wrap items-center justify-center gap-1.5">
           <span className="text-[11px] text-text-tertiary">Eksempler:</span>
@@ -68,12 +68,12 @@ export default function HeroEntry() {
             </a>
           ))}
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Saved addresses */}
-      <motion.div variants={fadeUp} className="mt-4 w-full max-w-md">
+      <m.div variants={fadeUp} className="mt-4 w-full max-w-md">
         <SavedAddressesList />
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }

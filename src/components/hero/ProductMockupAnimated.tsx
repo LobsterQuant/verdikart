@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Children, type ReactNode } from "react";
 import { fadeUp, staggerParent } from "@/lib/motion";
 
@@ -15,7 +15,7 @@ import { fadeUp, staggerParent } from "@/lib/motion";
  */
 export default function ProductMockupAnimated({ children }: { children: ReactNode }) {
   return (
-    <motion.div
+    <m.div
       className="relative mx-auto w-full max-w-[640px] rounded-2xl border border-border bg-bg-elevated p-4 text-left sm:p-6"
       style={{
         boxShadow:
@@ -28,11 +28,11 @@ export default function ProductMockupAnimated({ children }: { children: ReactNod
     >
       {Children.map(children, (child, i) =>
         child == null ? null : (
-          <motion.div key={i} variants={fadeUp}>
+          <m.div key={i} variants={fadeUp}>
             {child}
-          </motion.div>
+          </m.div>
         )
       )}
-    </motion.div>
+    </m.div>
   );
 }

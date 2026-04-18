@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Clock, X } from "lucide-react";
 import { fadeUp, staggerParent } from "@/lib/motion";
 
@@ -246,7 +246,7 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           exception: suggestions should feel snappy, not theatrical). */}
       <AnimatePresence>
         {isOpen && results.length > 0 && (
-          <motion.div
+          <m.div
             ref={dropdownRef}
             id="address-listbox"
             role="listbox"
@@ -258,7 +258,7 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
             exit={{ opacity: 0, transition: { duration: 0.1 } }}
           >
             {results.map((result, index) => (
-              <motion.button
+              <m.button
                 key={`${result.adressetekst}-${index}`}
                 variants={fadeUp}
                 role="option"
@@ -279,9 +279,9 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
                     {result.postnummer} {result.poststed}
                   </span>
                 )}
-              </motion.button>
+              </m.button>
             ))}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { X, Menu, ChevronDown } from "lucide-react";
 import Logo from "@/components/Logo";
 import AuthButton from "@/components/AuthButton";
@@ -88,13 +88,13 @@ export default function NavBar() {
         <Link href="/" className="flex items-center gap-2 min-w-0">
           {/* Logo pulse — migrated from CSS keyframe to motion in Package 5.
               Opacity oscillates subtly to signal a live product. */}
-          <motion.div
+          <m.div
             className="shrink-0"
             animate={{ opacity: [1, 0.85, 1] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
           >
             <Logo className="h-8 w-8" />
-          </motion.div>
+          </m.div>
           <span className="font-bold text-base xs:text-lg tracking-tight text-foreground">
             Verdikart
           </span>

@@ -17,7 +17,7 @@ export default function CardsCascade({ children, className = "" }: Props) {
         <div
           key={i}
           className="animate-card-enter"
-          style={{ animationDelay: `${i * 70}ms`, animationFillMode: "both" }}
+          style={{ animationDelay: `${Math.min(i, 6) * 70}ms`, animationFillMode: "both" }}
         >
           {child}
         </div>

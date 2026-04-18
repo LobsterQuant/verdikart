@@ -157,7 +157,7 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
           </div>
           {sqmPrice && (
             <p className="mt-2 text-xs text-text-tertiary">
-              Snittjm²pris: {sqmPrice.toLocaleString("nb-NO")} kr/m² ({source})
+              Snitt m²-pris: {sqmPrice.toLocaleString("nb-NO")} kr/m² ({source})
             </p>
           )}
         </div>

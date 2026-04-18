@@ -339,6 +339,16 @@ input::placeholder {
     animation: none;
     background: #1a1b2e;
   }
+  /* Force end-state for reveal animations so reduced-motion users don't see
+     content frozen at 0 opacity / mid-transform. */
+  .animate-page-enter,
+  .animate-card-enter,
+  .animate-fade-in,
+  .content-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 /* ── Glow pulse for CTA button ── */

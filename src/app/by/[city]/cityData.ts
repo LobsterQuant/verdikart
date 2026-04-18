@@ -193,7 +193,7 @@ const cities: Record<string, CityData> = {
   },
 
   drammen: {
-    slug: "drammen", name: "Drammen", county: "Viken", kommunenummer: "3005", population: "101 000",
+    slug: "drammen", name: "Drammen", county: "Buskerud", kommunenummer: "3005", population: "101 000",
     avgSqmPrice: 44_700, avgSqmPriceYoY: 5.3, medianPrice: 3_000_000, avgCommute: 24,
     topNeighbourhoods: ["Bragernes", "Strømsø", "Fjell", "Konnerud", "Åssiden"],
     metaTitle: "Boligpriser Drammen 2026 – Kjøpe bolig i Drammen | Verdikart",

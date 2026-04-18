@@ -79,45 +79,47 @@ export default function BydelPage({ params }: { params: { bydel: string } }) {
           <div aria-hidden className="pointer-events-none absolute inset-0 -z-10"
             style={{ background: "radial-gradient(ellipse at 50% -5%, rgba(99,102,241,0.14) 0%, transparent 65%)" }} />
 
-          {/* Breadcrumb */}
-          <nav className="mb-5 flex items-center gap-1.5 text-xs text-text-tertiary">
-            <Link href="/" className="hover:text-foreground transition-colors">Hjem</Link>
-            <ChevronRight className="h-3 w-3" />
-            <Link href="/by/oslo" className="hover:text-foreground transition-colors">Oslo</Link>
-            <ChevronRight className="h-3 w-3" />
-            <span className="text-text-secondary">{bydel.name}</span>
-          </nav>
+          <div className="mx-auto max-w-3xl">
+            {/* Breadcrumb */}
+            <nav className="mb-5 flex items-center gap-1.5 text-xs text-text-tertiary">
+              <Link href="/" className="hover:text-foreground transition-colors">Hjem</Link>
+              <ChevronRight className="h-3 w-3" />
+              <Link href="/by/oslo" className="hover:text-foreground transition-colors">Oslo</Link>
+              <ChevronRight className="h-3 w-3" />
+              <span className="text-text-secondary">{bydel.name}</span>
+            </nav>
 
-          <h1 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
-            {bydel.heroHeading}
-          </h1>
+            <h1 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
+              {bydel.heroHeading}
+            </h1>
 
-          {/* Stats strip */}
-          <div className="mt-6 flex flex-wrap gap-3">
-            <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
-              <p className="text-xs text-text-tertiary">Kvadratmeterpris (estimert)</p>
-              <p className="text-lg font-bold">{formatPrice(bydel.avgSqmPrice)} kr/m²</p>
-              <p className="mt-0.5 text-[10px] text-text-tertiary/60">Estimert basert på SSB kommunedata 2024</p>
-            </div>
-            <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
-              <p className="text-xs text-text-tertiary">Prisvekst (12 mnd)</p>
-              <p className="text-lg font-bold text-green-400">+{bydel.avgSqmPriceYoY}%</p>
-              <p className="mt-0.5 text-[10px] text-text-tertiary/60">SSB 2023–2024</p>
-            </div>
-            <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
-              <p className="text-xs text-text-tertiary">Befolkning</p>
-              <p className="text-lg font-bold">{bydel.population}</p>
-            </div>
-            <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
-              <p className="text-xs text-text-tertiary">Prissegment</p>
-              <p className="text-lg font-bold flex items-center gap-2">
-                <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: segmentColor[bydel.priceSegment] ?? "#fff" }} aria-hidden="true" />
-                {bydel.priceSegment}
-              </p>
-            </div>
-            <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
-              <p className="text-xs text-text-tertiary">Kollektiv</p>
-              <p className="text-lg font-bold text-accent">{bydel.transitScore}</p>
+            {/* Stats strip */}
+            <div className="mt-6 flex flex-wrap gap-3">
+              <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
+                <p className="text-xs text-text-tertiary">Kvadratmeterpris (estimert)</p>
+                <p className="text-lg font-bold">{formatPrice(bydel.avgSqmPrice)} kr/m²</p>
+                <p className="mt-0.5 text-[10px] text-text-tertiary/60">Estimert basert på SSB kommunedata 2024</p>
+              </div>
+              <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
+                <p className="text-xs text-text-tertiary">Prisvekst (12 mnd)</p>
+                <p className="text-lg font-bold text-green-400">+{bydel.avgSqmPriceYoY}%</p>
+                <p className="mt-0.5 text-[10px] text-text-tertiary/60">SSB 2023–2024</p>
+              </div>
+              <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
+                <p className="text-xs text-text-tertiary">Befolkning</p>
+                <p className="text-lg font-bold">{bydel.population}</p>
+              </div>
+              <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
+                <p className="text-xs text-text-tertiary">Prissegment</p>
+                <p className="text-lg font-bold flex items-center gap-2">
+                  <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: segmentColor[bydel.priceSegment] ?? "#fff" }} aria-hidden="true" />
+                  {bydel.priceSegment}
+                </p>
+              </div>
+              <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
+                <p className="text-xs text-text-tertiary">Kollektiv</p>
+                <p className="text-lg font-bold text-accent">{bydel.transitScore}</p>
+              </div>
             </div>
           </div>
         </section>

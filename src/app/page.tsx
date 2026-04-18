@@ -1,5 +1,4 @@
 import AddressSearch from "@/components/AddressSearch";
-import ProductDemo from "@/components/ProductDemo";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
 import SiteFooter from "@/components/SiteFooter";
@@ -351,11 +350,6 @@ export default function HomePage() {
 
         {/* Social proof strip — above the fold */}
         <div className="mt-7 w-full max-w-lg">
-          {/* Live demo widget */}
-          <div className="mx-auto w-full max-w-md">
-            <ProductDemo />
-          </div>
-
           {/* Stats grid — animated count-up on scroll */}
           <div className="px-4 sm:px-0">
             <StatsGrid />

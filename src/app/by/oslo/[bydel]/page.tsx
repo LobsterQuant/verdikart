@@ -95,7 +95,7 @@ export default function BydelPage({ params }: { params: { bydel: string } }) {
             </h1>
 
             {/* Stats strip */}
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-5">
               <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
                 <p className="text-xs text-text-tertiary">Kvadratmeterpris (estimert)</p>
                 <p className="text-lg font-bold">{formatPrice(bydel.avgSqmPrice)} kr/m²</p>

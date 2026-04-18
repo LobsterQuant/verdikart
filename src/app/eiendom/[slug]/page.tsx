@@ -268,16 +268,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
             </div>
           </header>
 
-          {/* ── AI SUMMARY (full width, above fold) ───────────────────────── */}
-          {latNum && lonNum && (
-            <div className="mb-8">
-              <CardErrorBoundary fallbackTitle="AI-oppsummering feilet">
-                <AISummary address={displayAddress} kommunenummer={kommunenummer} lat={latNum} lon={lonNum} />
-              </CardErrorBoundary>
-            </div>
-          )}
-
-          {/* ── VALUATION (full width, headline number) ──────────────────── */}
+          {/* ── VALUATION (full width, headline number — buyer's #1 question first) ──── */}
           <div className="mb-8">
             <CardErrorBoundary fallbackTitle="Verdiestimat feilet">
               <ValuationCard
@@ -291,34 +282,31 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
           {/* ── EDITORIAL GRID: 2/3 main + 1/3 sidebar ───────────────────── */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
 
-            {/* ── LEFT / MAIN ─────────────────────────────────────────────── */}
+            {/* ── LEFT / MAIN ─────────────────────────────────────────────────
+                Order follows buyer mental model:
+                1. Market context (comparables, trend) — is the asking price fair?
+                2. Daily life (transit, schools, amenities) — can I live here?
+                3. AI synthesis — ties it all together
+                4. Neighbor voices — social proof at the end
+            */}
             <CardsCascade className="space-y-6">
               {[
-                <CardErrorBoundary key="transit" fallbackTitle="Kollektivtransport feilet"><TransitCard lat={latNum} lon={lonNum} address={displayAddress} /></CardErrorBoundary>,
-                <CardErrorBoundary key="price" fallbackTitle="Prisutvikling feilet"><PriceTrendCard kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} /></CardErrorBoundary>,
                 <CardErrorBoundary key="sales" fallbackTitle="Markedsdata feilet"><ComparableSalesCard kommunenummer={kommunenummer} /></CardErrorBoundary>,
+                <CardErrorBoundary key="price" fallbackTitle="Prisutvikling feilet"><PriceTrendCard kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} /></CardErrorBoundary>,
+                <CardErrorBoundary key="transit" fallbackTitle="Kollektivtransport feilet"><TransitCard lat={latNum} lon={lonNum} address={displayAddress} /></CardErrorBoundary>,
                 ...(latNum && lonNum ? [<CardErrorBoundary key="schools" fallbackTitle="Skoler feilet"><SchoolsCard lat={latNum} lon={lonNum} kommunenummer={kommunenummer} /></CardErrorBoundary>] : []),
                 ...(latNum && lonNum ? [<CardErrorBoundary key="amenities" fallbackTitle="Fasiliteter feilet"><AmenitiesCard lat={latNum} lon={lonNum} /></CardErrorBoundary>] : []),
+                ...(latNum && lonNum ? [<CardErrorBoundary key="ai" fallbackTitle="AI-oppsummering feilet"><AISummary address={displayAddress} kommunenummer={kommunenummer} lat={latNum} lon={lonNum} /></CardErrorBoundary>] : []),
                 <CardErrorBoundary key="reviews" fallbackTitle="Nabolagsvurderinger feilet"><NeighborhoodReviewsCard kommunenummer={kommunenummer} postnummer={searchParams.pnr} /></CardErrorBoundary>,
               ]}
             </CardsCascade>
 
-            {/* ── RIGHT / SIDEBAR ─────────────────────────────────────────── */}
+            {/* ── RIGHT / SIDEBAR ─────────────────────────────────────────────
+                Grouped: risk cluster first (what could hurt you?),
+                then neighborhood facts, then property facts, then actions.
+            */}
             <aside className="space-y-6 lg:sticky lg:top-20 lg:self-start">
-              <CardErrorBoundary fallbackTitle="Klimarisiko feilet"><ClimateRiskCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
-              <CardErrorBoundary fallbackTitle="Støynivå feilet"><NoiseCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
-              <CardErrorBoundary fallbackTitle="Luftkvalitet feilet"><AirQualityCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
-              <CardErrorBoundary fallbackTitle="Bredbånd feilet"><BroadbandCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
-              <CardErrorBoundary fallbackTitle="Kriminalitet feilet"><CrimeCard kommunenummer={kommunenummer} /></CardErrorBoundary>
-              <CardErrorBoundary fallbackTitle="Befolkningsprofil feilet"><DemographicsCard kommunenummer={kommunenummer} /></CardErrorBoundary>
-              <CardErrorBoundary fallbackTitle="Eiendomsskatt feilet"><EiendomsskattCard kommunenummer={kommunenummer} /></CardErrorBoundary>
-              <CardErrorBoundary fallbackTitle="Miljørisiko feilet"><EnvironmentalRiskCard kommunenummer={kommunenummer} /></CardErrorBoundary>
-              <FinnLink
-                postnummer={searchParams.pnr}
-                address={displayAddress}
-                kommunenavn={searchParams.poststed}
-              />
-              <FellesgjeldReminder />
+              {/* Actions + save first (above-fold on mobile, since sidebar stacks below main on mobile) */}
               <div className="no-print">
                 <SaveAddressButton
                   slug={params.slug}
@@ -329,10 +317,32 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                   postnummer={searchParams.pnr}
                 />
               </div>
+
+              {/* Risk cluster — what could hurt you? */}
+              <CardErrorBoundary fallbackTitle="Klimarisiko feilet"><ClimateRiskCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Støynivå feilet"><NoiseCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Luftkvalitet feilet"><AirQualityCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Bredbånd feilet"><BroadbandCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Kriminalitet feilet"><CrimeCard kommunenummer={kommunenummer} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Miljørisiko feilet"><EnvironmentalRiskCard kommunenummer={kommunenummer} /></CardErrorBoundary>
+
+              {/* Neighborhood facts */}
+              <CardErrorBoundary fallbackTitle="Befolkningsprofil feilet"><DemographicsCard kommunenummer={kommunenummer} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Eiendomsskatt feilet"><EiendomsskattCard kommunenummer={kommunenummer} /></CardErrorBoundary>
+
+              {/* Property-specific facts */}
               <CardErrorBoundary fallbackTitle="Energiattest feilet"><PropertyEnergimerke
                 postnummer={searchParams.pnr ?? ""}
                 adresse={displayAddress}
               /></CardErrorBoundary>
+
+              {/* Listing reference + reminders */}
+              <FinnLink
+                postnummer={searchParams.pnr}
+                address={displayAddress}
+                kommunenavn={searchParams.poststed}
+              />
+              <FellesgjeldReminder />
 
               {/* Trust strip (sidebar) */}
               <div className="rounded-xl border border-card-border bg-card-bg p-4">

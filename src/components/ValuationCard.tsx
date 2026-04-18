@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TrendingUp } from "lucide-react";
+import { TrendingUp, Calculator, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface ValuationCardProps {
   kommunenummer: string;
@@ -120,6 +121,23 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
             </p>
             <p>Prisgrunnlag: {source}</p>
           </div>
+
+          {/* Deep link to calculator with price + kommune pre-filled */}
+          <Link
+            href={`/kalkulator?pris=${estimatedValue}&knr=${kommunenummer}`}
+            className="group/cta relative mt-4 flex items-center justify-between gap-3 rounded-xl border border-accent/25 bg-background/60 px-4 py-3 transition-all hover:border-accent/50 hover:bg-background"
+          >
+            <div className="flex items-center gap-2.5">
+              <Calculator className="h-4 w-4 text-accent" strokeWidth={1.5} />
+              <div>
+                <p className="text-sm font-semibold">Hva koster dette per måned?</p>
+                <p className="text-[11px] text-text-tertiary">
+                  Lån, eiendomsskatt og stresstest for {formatNok(estimatedValue)}
+                </p>
+              </div>
+            </div>
+            <ArrowRight className="h-4 w-4 shrink-0 text-accent transition-transform group-hover/cta:translate-x-0.5" strokeWidth={2} />
+          </Link>
         </>
       ) : (
         <div className="mt-2">

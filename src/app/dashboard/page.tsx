@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { savedProperties } from "@/lib/schema";
+import { savedProperties, priceAlerts } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
 import SiteFooter from "@/components/SiteFooter";
 import DashboardClient from "./DashboardClient";
@@ -20,12 +20,20 @@ export default async function DashboardPage() {
     redirect("/api/auth/signin?callbackUrl=/dashboard");
   }
 
-  const properties = await db
-    .select()
-    .from(savedProperties)
-    .where(eq(savedProperties.userId, session.user.id))
-    .orderBy(desc(savedProperties.savedAt))
-    .limit(50);
+  const [properties, alerts] = await Promise.all([
+    db
+      .select()
+      .from(savedProperties)
+      .where(eq(savedProperties.userId, session.user.id))
+      .orderBy(desc(savedProperties.savedAt))
+      .limit(50),
+    db
+      .select()
+      .from(priceAlerts)
+      .where(eq(priceAlerts.userId, session.user.id))
+      .orderBy(desc(priceAlerts.createdAt))
+      .limit(50),
+  ]);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
@@ -35,12 +43,13 @@ export default async function DashboardPage() {
             Mine eiendommer
           </h1>
           <p className="mt-1 text-sm text-text-secondary">
-            Dine lagrede adresser
+            Dine lagrede adresser og prisvarsler
           </p>
         </header>
 
         <DashboardClient
           initialProperties={JSON.parse(JSON.stringify(properties))}
+          initialAlerts={JSON.parse(JSON.stringify(alerts))}
         />
       </div>
       <SiteFooter />

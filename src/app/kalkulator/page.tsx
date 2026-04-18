@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import JsonLd from "@/components/JsonLd";
-import AffordabilityCalculator from "@/components/AffordabilityCalculator";
+import KalkulatorTabs from "./KalkulatorTabs";
 
 export const metadata: Metadata = {
-  title: "Boligkalkulator — Hva har du råd til? | Verdikart",
-  description: "Beregn hvor mye bolig du har råd til i Norge. Basert på inntekt, egenkapital og gjeldende norske boliglånsforskrift (maks 5× inntekt, 15% egenkapital).",
+  title: "Boligkalkulator — Kjøpekraft + månedskostnad | Verdikart",
+  description: "Beregn hvor mye bolig du har råd til og hva en spesifikk bolig koster per måned — inkl. eiendomsskatt, renter og stresstest. Basert på norske bankstandarder.",
   alternates: { canonical: "https://verdikart.no/kalkulator" },
   openGraph: {
-    title: "Boligkalkulator — Hva har du råd til?",
-    description: "Beregn kjøpekraft, månedlig kostnad og maksimalt lån basert på norske bankstandarder.",
+    title: "Boligkalkulator — Verdikart",
+    description: "Kjøpekraft, månedskostnad og eiendomsskatt basert på norske bankstandarder.",
     url: "https://verdikart.no/kalkulator",
     siteName: "Verdikart",
     locale: "nb_NO",
@@ -22,14 +23,13 @@ export default function KalkulatorPage() {
       "@context": "https://schema.org",
       "@type": "HowTo",
       name: "Slik beregner du kjøpskostnader for bolig i Norge",
-      description: "Beregn dokumentavgift, lånekapasitet og totale kjøpskostnader for bolig i Norge med Verdikarts gratis kalkulator.",
+      description: "Beregn dokumentavgift, lånekapasitet, månedskostnad og eiendomsskatt for bolig i Norge med Verdikarts gratis kalkulator.",
       url: "https://verdikart.no/kalkulator",
       totalTime: "PT2M",
       step: [
-        { "@type": "HowToStep", position: 1, name: "Skriv inn boligpris", text: "Fyll inn kjøpsprisen for boligen du vurderer." },
-        { "@type": "HowToStep", position: 2, name: "Velg boligtype", text: "Velg mellom selveier, borettslag eller aksjeleilighet. Kun selveierboliger har dokumentavgift (2,5%)." },
-        { "@type": "HowToStep", position: 3, name: "Oppgi egenkapital og inntekt", text: "Kalkulatoren beregner lånekapasitet basert på bankenes standardkrav (5× inntekt, 15% egenkapital)." },
-        { "@type": "HowToStep", position: 4, name: "Se totale kjøpskostnader", text: "Få full oversikt over dokumentavgift, tinglysingsgebyr og finansieringsbehov." },
+        { "@type": "HowToStep", position: 1, name: "Velg kalkulator", text: "Kjøpekraft viser hva du har råd til. Månedskostnad viser hva en spesifikk bolig vil koste deg per måned." },
+        { "@type": "HowToStep", position: 2, name: "Fyll inn økonomi", text: "Inntekt og egenkapital for kjøpekraft, boligpris og kommune for månedskostnad." },
+        { "@type": "HowToStep", position: 3, name: "Se resultat", text: "Inkluderer eiendomsskatt, rentekostnad over lånets løpetid, og stresstest ved høyere rente." },
       ],
     },
     {
@@ -57,10 +57,12 @@ export default function KalkulatorPage() {
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-accent">Verktøy</p>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Boligkalkulator</h1>
             <p className="mt-3 leading-relaxed text-text-secondary">
-              Beregn hva du faktisk har råd til — basert på norske bankstandarder og boliglånsforskriften.
+              To spørsmål, ett verktøy: Hva har jeg råd til? Og hva koster denne spesifikke boligen meg per måned?
             </p>
           </div>
-          <AffordabilityCalculator />
+          <Suspense fallback={<div className="skeleton h-96 w-full rounded-xl" />}>
+            <KalkulatorTabs />
+          </Suspense>
         </div>
       </div>
     </>

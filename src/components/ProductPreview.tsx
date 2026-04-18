@@ -151,8 +151,11 @@ export default function ProductPreview() {
           ))}
         </div>
 
-        {/* Card content — switches per tab */}
-        <div className="p-4 sm:p-5">
+        {/* Card content — switches per tab.
+            min-h reserves space for the tallest tab (Prisutvikling has a
+            sparkline the other two don't) so auto-cycling tabs don't shift
+            the page below. Prevents CLS during scroll. */}
+        <div className="p-4 sm:p-5 min-h-[340px] sm:min-h-[220px]">
           {activeTab === "Transport" && (
             <div className="animate-fade-in">
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">

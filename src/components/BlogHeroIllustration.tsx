@@ -29,15 +29,15 @@ function ChecklistSvg() {
         ))
       )}
       {/* Clipboard shape */}
-      <rect x="140" y="28" width="200" height="164" rx="8" fill="#0f101a" stroke="rgba(99,102,241,0.3)" strokeWidth="1" />
+      <rect x="140" y="28" width="200" height="164" rx="8" fill="#111118" stroke="rgba(99,102,241,0.3)" strokeWidth="1" />
       {/* Clipboard top */}
-      <rect x="180" y="20" width="120" height="20" rx="6" fill="#0f101a" stroke="rgba(99,102,241,0.25)" strokeWidth="1" />
-      <rect x="215" y="24" width="50" height="8" rx="4" fill="#1e2035" />
+      <rect x="180" y="20" width="120" height="20" rx="6" fill="#111118" stroke="rgba(99,102,241,0.25)" strokeWidth="1" />
+      <rect x="215" y="24" width="50" height="8" rx="4" fill="#26272F" />
       {/* Check rows */}
       {[0,1,2,3,4].map((i) => (
         <g key={i} transform={`translate(160, ${60 + i * 26})`}>
           {/* Check box */}
-          <rect width="16" height="16" rx="4" fill={i < 3 ? "rgba(99,102,241,0.3)" : "#1e2035"} stroke="rgba(99,102,241,0.4)" strokeWidth="1" />
+          <rect width="16" height="16" rx="4" fill={i < 3 ? "rgba(99,102,241,0.3)" : "#26272F"} stroke="rgba(99,102,241,0.4)" strokeWidth="1" />
           {i < 3 && (
             <polyline points="3,8 7,12 13,5" fill="none" stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           )}
@@ -67,8 +67,8 @@ function TransitSvg() {
       </defs>
       <rect width="480" height="220" fill="url(#tlg1)" rx="12" />
       {/* Grid lines like a map */}
-      {[60,110,160].map(y => <line key={y} x1="40" y1={y} x2="440" y2={y} stroke="#1e2035" strokeWidth="1" />)}
-      {[100,180,260,340].map(x => <line key={x} x1={x} y1="30" x2={x} y2="190" stroke="#1e2035" strokeWidth="1" />)}
+      {[60,110,160].map(y => <line key={y} x1="40" y1={y} x2="440" y2={y} stroke="#26272F" strokeWidth="1" />)}
+      {[100,180,260,340].map(x => <line key={x} x1={x} y1="30" x2={x} y2="190" stroke="#26272F" strokeWidth="1" />)}
       {/* Transit line — T-bane */}
       <path d="M 60 110 C 130 110 150 80 260 80 S 380 110 420 110" fill="none" stroke="#3b82f6" strokeWidth="4" strokeLinecap="round" />
       {/* Station dots */}
@@ -80,10 +80,10 @@ function TransitSvg() {
         { cx: 420, cy: 110, label: "C" },
       ].map(({ cx, cy, label }, i) => (
         <g key={i}>
-          <circle cx={cx} cy={cy} r="7" fill="#0f101a" stroke="#3b82f6" strokeWidth="2" />
+          <circle cx={cx} cy={cy} r="7" fill="#111118" stroke="#3b82f6" strokeWidth="2" />
           <circle cx={cx} cy={cy} r="3" fill="#3b82f6" />
           {label && (
-            <rect x={cx - 14} y={cy - 28} width="28" height="16" rx="4" fill="#0f101a" stroke="rgba(59,130,246,0.4)" strokeWidth="1" />
+            <rect x={cx - 14} y={cy - 28} width="28" height="16" rx="4" fill="#111118" stroke="rgba(59,130,246,0.4)" strokeWidth="1" />
           )}
           {label && (
             <text x={cx} y={cy - 16} textAnchor="middle" fill="#60a5fa" fontSize="9" fontWeight="700">{label}</text>
@@ -94,12 +94,12 @@ function TransitSvg() {
       <path d="M 80 155 L 180 155 L 240 140 L 380 140 L 420 155" fill="none" stroke="#8b5cf6" strokeWidth="3" strokeDasharray="8 4" strokeLinecap="round" />
       {[80,180,300,420].map((cx, i) => (
         <g key={i}>
-          <circle cx={cx} cy={i === 1 ? 155 : i === 2 ? 140 : 155} r="5" fill="#0f101a" stroke="#8b5cf6" strokeWidth="1.5" />
+          <circle cx={cx} cy={i === 1 ? 155 : i === 2 ? 140 : 155} r="5" fill="#111118" stroke="#8b5cf6" strokeWidth="1.5" />
           <circle cx={cx} cy={i === 1 ? 155 : i === 2 ? 140 : 155} r="2" fill="#8b5cf6" />
         </g>
       ))}
       {/* Legend */}
-      <rect x="300" y="170" width="130" height="36" rx="8" fill="#0f101a" stroke="rgba(59,130,246,0.25)" strokeWidth="1" />
+      <rect x="300" y="170" width="130" height="36" rx="8" fill="#111118" stroke="rgba(59,130,246,0.25)" strokeWidth="1" />
       <line x1="312" y1="182" x2="332" y2="182" stroke="#3b82f6" strokeWidth="3" />
       <text x="337" y="185" fill="#94a3b8" fontSize="9">T-bane</text>
       <line x1="312" y1="196" x2="332" y2="196" stroke="#8b5cf6" strokeWidth="2" strokeDasharray="4 2" />
@@ -132,7 +132,7 @@ function PriceSvg() {
       </defs>
       <rect width="480" height="220" fill="url(#plg1)" rx="12" />
       {/* Y grid lines */}
-      {[60,100,140].map(y => <line key={y} x1="60" y1={y} x2="420" y2={y} stroke="#1e2035" strokeWidth="1" />)}
+      {[60,100,140].map(y => <line key={y} x1="60" y1={y} x2="420" y2={y} stroke="#26272F" strokeWidth="1" />)}
       {/* Area fill */}
       <path d={area} fill="url(#plg2)" />
       {/* Line */}
@@ -145,7 +145,7 @@ function PriceSvg() {
         <text key={y} x={80 + i * (320/3)} y="185" textAnchor="middle" fill="#64748b" fontSize="9">{y}</text>
       ))}
       {/* Stat badge */}
-      <rect x="295" y="28" width="100" height="38" rx="8" fill="#0f101a" stroke="rgba(99,102,241,0.3)" strokeWidth="1" />
+      <rect x="295" y="28" width="100" height="38" rx="8" fill="#111118" stroke="rgba(99,102,241,0.3)" strokeWidth="1" />
       <text x="345" y="45" textAnchor="middle" fill="#22c55e" fontSize="14" fontWeight="700">+5.2%</text>
       <text x="345" y="59" textAnchor="middle" fill="#64748b" fontSize="9">siste 12 mnd</text>
       {/* Y axis labels */}

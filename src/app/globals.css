@@ -18,8 +18,15 @@ body {
   color: #FFFFFF;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Inter "ss01" stylistic set — disambiguates single-story a, rounder terminals */
+  font-feature-settings: "ss01", "cv11";
   overflow-x: hidden;
   min-width: 0;
+}
+
+/* Tighter optical leading for the display headline */
+h1 {
+  letter-spacing: -0.03em;
 }
 
 ::selection {
@@ -89,9 +96,9 @@ input::placeholder {
 .leaflet-control-container { z-index: 10 !important; }
 
 .leaflet-control-zoom a {
-  background: #0f101a !important;
+  background: #111118 !important;
   color: #FFFFFF !important;
-  border-color: #1e2035 !important;
+  border-color: #26272F !important;
 }
 
 .leaflet-control-attribution {
@@ -284,7 +291,7 @@ input::placeholder {
 
 /* ── Glass card: frosted glass effect for premium feel ── */
 .glass-card {
-  background: rgba(15, 16, 26, 0.7);
+  background: rgba(17, 17, 24, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -369,9 +376,9 @@ input::placeholder {
   box-shadow: 0 4px 20px rgba(99,102,241,0.35);
 }
 .btn-secondary {
-  background-color: #0f101a;
+  background-color: #111118;
   color: #e5e5e5;
-  border: 1px solid #1e2035;
+  border: 1px solid #26272F;
 }
 .btn-secondary:hover:not(:disabled) {
   border-color: rgba(99,102,241,0.4);

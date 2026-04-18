@@ -13,8 +13,9 @@ const DEMO_STEPS = [
   { delay: 200,  phase: "dropdown" },
   { delay: 600,  phase: "selected" },
   { delay: 400,  phase: "loading" },
-  { delay: 1200, phase: "results" },
-  { delay: 4000, phase: "reset" },
+  { delay: 3800, phase: "results" },
+  // Fade phase: results + search bar dim out before the typing loop restarts
+  { delay: 450,  phase: "reset" },
 ];
 
 type Phase = "idle" | "typing" | "dropdown" | "selected" | "loading" | "results" | "reset";
@@ -80,8 +81,10 @@ export default function ProductDemo() {
         </span>
       </div>
 
-      {/* Search area */}
-      <div className="p-4">
+      {/* Search area — fades out during reset so the loop restart isn't abrupt */}
+      <div
+        className={`p-4 transition-opacity duration-500 ${phase === "reset" ? "opacity-0" : "opacity-100"}`}
+      >
         <div className={`flex items-center gap-2 rounded-xl border px-4 py-3 transition-all duration-300 ${phase === "selected" || phase === "loading" || phase === "results" ? "border-accent/60 bg-accent/5" : "border-card-border bg-background"}`}>
           <svg className="h-4 w-4 shrink-0 text-text-tertiary" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" strokeLinecap="round" />

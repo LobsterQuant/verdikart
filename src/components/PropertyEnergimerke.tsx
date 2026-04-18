@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Zap, ExternalLink } from "lucide-react";
+import { nb } from "@/lib/format";
 
 interface EnergimerkeData {
   energikarakter: string | null;
@@ -128,7 +129,7 @@ export default function PropertyEnergimerke({
           <p className={`text-sm font-semibold ${badge.text}`}>{desc}</p>
           {data.kwhM2 && (
             <p className="mt-0.5 text-xs text-text-tertiary">
-              {data.kwhM2.toFixed(0)} kWh/m² per år
+              {nb(data.kwhM2, 0)} kWh/m² per år
             </p>
           )}
           {data.byggear && (

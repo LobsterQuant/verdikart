@@ -11,7 +11,7 @@ const USE_CASES = [
   },
   {
     emoji: "🌊",
-    headline: "Flomrisiko ingen fortalte deg om",
+    headline: "Flomrisikoen ingen andre nevner",
     body: "NVE-data avslører flomfare, kvikkleire og stormflo. Verdikart sjekker klimarisikoen automatisk — noe verken Finn.no eller megleren gjør.",
     tag: "Klimarisiko · Bergen",
   },

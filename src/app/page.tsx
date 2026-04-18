@@ -6,6 +6,7 @@ import EmailCapture from "@/components/EmailCapture";
 import SiteFooter from "@/components/SiteFooter";
 import SavedAddressesList from "@/components/SavedAddressesList";
 import { FeatureCards, StatsGrid } from "@/components/HomeClientSections";
+import NewBadge from "@/components/NewBadge";
 import { Check, Minus, CircleDollarSign, Droplets, BarChart3, Bus, FileText, Sparkles } from "lucide-react";
 
 type ComparisonRow = {
@@ -170,9 +171,7 @@ function ComparisonSection() {
                 <span className="text-xs text-text-secondary leading-snug">
                   <span className="sm:hidden">{short}</span>
                   <span className="hidden sm:inline">{feature}</span>
-                  {isNew && (
-                    <span className="ml-1.5 inline-block rounded-full bg-accent/15 px-1.5 py-px text-[9px] font-bold uppercase tracking-widest text-accent">Nytt</span>
-                  )}
+                  {isNew && <NewBadge className="ml-1.5" />}
                 </span>
               </div>
               {/* Verdikart */}

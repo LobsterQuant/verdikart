@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import React from "react";
 import { Bus, TrendingUp, Home, Droplets, Wind, CircleDollarSign } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
+import NewBadge from "@/components/NewBadge";
 
 // ── Count-up hook — runs once when active flips true ──────────────────────
 function useCountUp(target: number, duration = 1200, active = false) {
@@ -86,11 +87,7 @@ export function FeatureCard({
         >
           {title}
         </h3>
-        {isNew && (
-          <span className="rounded-full bg-green-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-green-400">
-            Nytt
-          </span>
-        )}
+        {isNew && <NewBadge />}
       </div>
       <p className="text-sm leading-relaxed text-text-secondary">{description}</p>
     </div>

@@ -1,6 +1,7 @@
 import { Users } from "lucide-react";
 import { getDemographics } from "@/data/demographics";
 import DataAgeChip from "@/components/DataAgeChip";
+import { nb } from "@/lib/format";
 
 export default function DemographicsCard({ kommunenummer }: { kommunenummer: string }) {
   const data = getDemographics(kommunenummer);
@@ -42,7 +43,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
         <div className="rounded-lg bg-background p-3">
           <p className="text-xs text-text-tertiary mb-1">Høyere utdanning</p>
           <p className="text-lg font-bold text-foreground tabular-nums">
-            {data.higherEducationPct.toFixed(1)} %
+            {nb(data.higherEducationPct)} %
           </p>
           <p className="text-xs text-text-tertiary">av befolkn. 25–66 år</p>
         </div>
@@ -59,7 +60,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
             <div className="mb-1 flex justify-between text-xs">
               <span className="text-text-secondary">Barn og unge (0–17 år)</span>
               <span className="font-semibold tabular-nums text-foreground">
-                {data.childrenPct.toFixed(1)} %
+                {nb(data.childrenPct)} %
               </span>
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-background">
@@ -74,7 +75,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
             <div className="mb-1 flex justify-between text-xs">
               <span className="text-text-secondary">Voksen alder (18–66 år)</span>
               <span className="font-semibold tabular-nums text-foreground">
-                {(100 - data.childrenPct - data.elderlyPct).toFixed(1)} %
+                {nb(100 - data.childrenPct - data.elderlyPct)} %
               </span>
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-background">
@@ -89,7 +90,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
             <div className="mb-1 flex justify-between text-xs">
               <span className="text-text-secondary">Eldre (67+ år)</span>
               <span className="font-semibold tabular-nums text-foreground">
-                {data.elderlyPct.toFixed(1)} %
+                {nb(data.elderlyPct)} %
               </span>
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-background">
@@ -114,7 +115,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
               : "text-red-400"
           }`}
         >
-          {growthSign}{data.populationGrowthPct.toFixed(1)} %
+          {growthSign}{nb(data.populationGrowthPct)} %
         </span>
       </div>
 

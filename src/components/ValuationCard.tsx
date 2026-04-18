@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { TrendingUp, Calculator, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { nb } from "@/lib/format";
 
 interface ValuationCardProps {
   kommunenummer: string;
@@ -78,7 +79,7 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
 
   function formatNok(value: number): string {
     if (value >= 1_000_000) {
-      return `${(value / 1_000_000).toFixed(1)} MNOK`;
+      return `${nb(value / 1_000_000)} MNOK`;
     }
     return `${Math.round(value / 1000)} TNOK`;
   }

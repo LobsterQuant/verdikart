@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Wifi } from "lucide-react";
 import DataAgeChip from "@/components/DataAgeChip";
+import { nb } from "@/lib/format";
 
 interface BroadbandData {
   maxDownload: number | null;
@@ -83,7 +84,7 @@ export default function BroadbandCard({ lat, lon }: { lat: number; lon: number }
       <div className="mb-3 flex items-baseline gap-2">
         <span className="text-2xl font-bold tabular-nums" style={{ color }}>
           {data.maxDownload >= 1000
-            ? `${(data.maxDownload / 1000).toFixed(1)} Gbps`
+            ? `${nb(data.maxDownload / 1000)} Gbps`
             : `${data.maxDownload} Mbps`}
         </span>
         <span className="text-xs text-text-tertiary">maks nedlasting</span>

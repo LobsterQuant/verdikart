@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Star, MessageSquare, ChevronDown, Send } from "lucide-react";
+import { nb } from "@/lib/format";
 
 interface Review {
   id: string;
@@ -122,7 +123,7 @@ export default function NeighborhoodReviewsCard({
           <div className="flex items-center gap-2">
             <Stars rating={Math.round(data.avgRating)} />
             <span className="text-sm font-medium tabular-nums">
-              {data.avgRating.toFixed(1)}
+              {nb(data.avgRating)}
             </span>
             <span className="text-xs text-text-tertiary">
               ({data.count})

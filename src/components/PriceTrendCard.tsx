@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import { nb } from "@/lib/format";
 
 const PriceTrendChart = dynamic(() => import("@/components/PriceTrendChart"), {
   ssr: false,
@@ -131,7 +132,7 @@ export default function PriceTrendCard({
           {isPositive
             ? <TrendingUp className="h-5 w-5" strokeWidth={2} />
             : <TrendingDown className="h-5 w-5" strokeWidth={2} />}
-          {Math.abs(data.yoyChange).toFixed(1)}%
+          {nb(Math.abs(data.yoyChange))} %
         </span>
         <span className="text-sm text-text-secondary">siste 12 mnd</span>
         {data.sourceLabel && (

@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { Calculator, Info, TrendingUp, Home, AlertTriangle } from "lucide-react";
 import Link from "next/link";
+import { nb } from "@/lib/format";
 
 // Norwegian boliglånsforskrift rules (2024):
 // - Max loan = 5× gross annual income
@@ -157,7 +158,7 @@ export default function AffordabilityCalculator() {
               <p className="text-xs font-semibold uppercase tracking-widest text-accent mb-1">Maks boligpris</p>
               <p className="text-4xl font-bold tabular-nums">{fmt(results.maxPrice)} kr</p>
               <p className="mt-1 text-xs text-text-tertiary">
-                Lån: {fmt(results.maxLoan)} kr · Egenkapital: {results.equityPct.toFixed(1)}%
+                Lån: {fmt(results.maxLoan)} kr · Egenkapital: {nb(results.equityPct)} %
               </p>
             </div>
 
@@ -171,7 +172,7 @@ export default function AffordabilityCalculator() {
               <div className="rounded-xl border border-card-border bg-background p-4">
                 <p className="text-xs text-text-tertiary mb-1">Stresstest (+5pp)</p>
                 <p className="text-xl font-bold tabular-nums text-amber-400">{fmt(results.stressPayment)} kr</p>
-                <p className="text-[10px] text-text-tertiary mt-0.5">ved {(rate + 5).toFixed(1)}%</p>
+                <p className="text-[10px] text-text-tertiary mt-0.5">ved {nb(rate + 5)} %</p>
               </div>
               <div className="rounded-xl border border-card-border bg-background p-4">
                 <p className="text-xs text-text-tertiary mb-1">Maks lån (5× regel)</p>
@@ -181,7 +182,7 @@ export default function AffordabilityCalculator() {
               <div className="rounded-xl border border-card-border bg-background p-4">
                 <p className="text-xs text-text-tertiary mb-1">Egenkapitalprosent</p>
                 <p className={`text-xl font-bold tabular-nums ${results.equityPct >= 15 ? "text-green-400" : "text-red-400"}`}>
-                  {results.equityPct.toFixed(1)}%
+                  {nb(results.equityPct)} %
                 </p>
                 <p className="text-[10px] text-text-tertiary mt-0.5">krav: min. 15%</p>
               </div>

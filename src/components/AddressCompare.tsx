@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { X, ArrowLeftRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { nb } from "@/lib/format";
 
 interface AddressResult {
   adressetekst: string;
@@ -129,7 +130,7 @@ function SearchSlot({
                   <p className="text-xs text-text-secondary">{slot.price.sourceLabel}</p>
                   {slot.price.yoyChange !== null && (
                     <p className={`text-xs font-semibold ${slot.price.yoyChange >= 0 ? "text-green-400" : "text-red-400"}`}>
-                      {slot.price.yoyChange >= 0 ? "+" : ""}{slot.price.yoyChange.toFixed(1)}% siste 12 mnd
+                      {slot.price.yoyChange >= 0 ? "+" : ""}{nb(slot.price.yoyChange)} % siste 12 mnd
                     </p>
                   )}
                 </>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { nb } from "@/lib/format";
 
 export default function RentalYieldCalc() {
   const [kjøpesum, setKjøpesum] = useState(4_000_000);
@@ -48,19 +49,19 @@ export default function RentalYieldCalc() {
         <div className="rounded-lg border border-card-border bg-background/50 p-3 text-center">
           <p className="text-xs font-medium text-text-tertiary">Brutto</p>
           <p className={`mt-1 text-2xl font-bold tabular-nums ${bruttoColor}`}>
-            {bruttoAvkastning.toFixed(1)}%
+            {nb(bruttoAvkastning)} %
           </p>
         </div>
         <div className="rounded-lg border border-card-border bg-background/50 p-3 text-center">
           <p className="text-xs font-medium text-text-tertiary">Netto</p>
           <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">
-            {nettoAvkastning.toFixed(1)}%
+            {nb(nettoAvkastning)} %
           </p>
         </div>
         <div className="rounded-lg border border-card-border bg-background/50 p-3 text-center">
           <p className="text-xs font-medium text-text-tertiary">Breakeven</p>
           <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">
-            {breakEven > 0 ? `${breakEven.toFixed(1)} år` : "—"}
+            {breakEven > 0 ? `${nb(breakEven)} år` : "—"}
           </p>
         </div>
       </div>

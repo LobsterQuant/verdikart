@@ -22,6 +22,13 @@ export default function EiendomsskattCard({ kommunenummer }: { kommunenummer: st
   }
 
   const exampleValues = [3_000_000, 5_000_000, 8_000_000];
+  const reductionFactor = data.reductionFactor ?? 1;
+  const bunnfradrag = data.bunnfradrag ?? 0;
+  const promille = data.promille ?? 0;
+  function annualTax(marketValue: number): number {
+    const taxable = Math.max(0, marketValue * reductionFactor - bunnfradrag);
+    return Math.round((taxable * promille) / 1000);
+  }
 
   return (
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -45,7 +52,11 @@ export default function EiendomsskattCard({ kommunenummer }: { kommunenummer: st
             <span className="inline-block rounded-full bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400">
               {data.promille} ‰
             </span>
-            <span className="text-sm text-text-tertiary">promille av beregnet markedsverdi</span>
+            <span className="text-sm text-text-tertiary">
+              {bunnfradrag > 0
+                ? `av skattegrunnlag (${Math.round(reductionFactor * 100)} % av markedsverdi, minus ${fmt(bunnfradrag)} kr bunnfradrag)`
+                : "promille av beregnet markedsverdi"}
+            </span>
           </div>
           {data.note && (
             <p className="mb-4 text-sm leading-relaxed text-text-secondary">{data.note}</p>
@@ -64,7 +75,7 @@ export default function EiendomsskattCard({ kommunenummer }: { kommunenummer: st
                   <tr key={value} className="border-b border-card-border last:border-0">
                     <td className="px-3 py-2 text-text-secondary">{fmt(value)} kr</td>
                     <td className="px-3 py-2 text-right font-semibold tabular-nums">
-                      {fmt(Math.round(value * (data.promille ?? 0) / 1000))} kr
+                      {fmt(annualTax(value))} kr
                     </td>
                   </tr>
                 ))}

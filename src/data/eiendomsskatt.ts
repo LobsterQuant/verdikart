@@ -3,11 +3,23 @@ export interface EiendomsskattData {
   name: string;
   hasTax: boolean;
   promille?: number;
+  /** Bunnfradrag in NOK subtracted from skattegrunnlag before tax applies. */
+  bunnfradrag?: number;
+  /** Obligatorisk reduksjonsfaktor — market value × this = skattegrunnlag (before bunnfradrag). */
+  reductionFactor?: number;
   note?: string;
 }
 
 export const eiendomsskattData: Record<string, EiendomsskattData> = {
-  "0301": { kommunenummer: "0301", name: "Oslo", hasTax: false, note: "Oslo avviklet eiendomsskatt på bolig i 2017." },
+  "0301": {
+    kommunenummer: "0301",
+    name: "Oslo",
+    hasTax: true,
+    promille: 1.7,
+    bunnfradrag: 4_900_000,
+    reductionFactor: 0.7,
+    note: "Primærbolig: skattegrunnlag er 70 % av markedsverdi, minus bunnfradrag på 4,9 MNOK. Boliger under ca. 7 MNOK i markedsverdi betaler ingen eiendomsskatt.",
+  },
   "4601": { kommunenummer: "4601", name: "Bergen", hasTax: true, promille: 2.8, note: "Bergen innførte eiendomsskatt fra 2024. Gjelder primær- og sekundærbolig." },
   "5001": { kommunenummer: "5001", name: "Trondheim", hasTax: true, promille: 2.0, note: "Trondheim har eiendomsskatt på 2,0 promille av beregningsgrunnlaget." },
   "1103": { kommunenummer: "1103", name: "Stavanger", hasTax: true, promille: 2.0, note: "Stavanger kommune har eiendomsskatt på boliger." },

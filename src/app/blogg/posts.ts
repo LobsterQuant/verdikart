@@ -589,9 +589,9 @@ export const posts: BlogPost[] = [
       },
       {
         heading: "Store forskjeller mellom kommuner",
-        body: "Oslo har per 2026 ingen eiendomsskatt på boliger — noe som gjør det enklere for boligeiere i hovedstaden, men som også er en av grunnene til at Oslo kompenserer med høyere kommunale avgifter på andre områder. Bergen har en sats på 2,8 promille, som betyr at en bolig med skattetakst 4 millioner gir en årlig skatt på 11 200 kroner. Trondheim ligger på 2,0 promille, noe som for samme bolig gir 8 000 kroner.\n\nStavanger har 2,3 promille, Kristiansand 3,4 promille, og Tromsø 3,0 promille. Mange mindre kommuner, særlig i distriktene, har høyere satser — opptil 5–7 promille — som kan utgjøre en vesentlig fast kostnad.",
+        body: "Oslo har eiendomsskatt på primærbolig i 2026, men kombinasjonen av et høyt bunnfradrag og en relativt lav sats gjør at mange boligeiere likevel betaler null. Satsen er 1,7 promille, skattegrunnlaget er 70 prosent av markedsverdien, og deretter trekkes et bunnfradrag på 4,9 millioner kroner. Boliger verdt under ca. 7 millioner kroner faller derfor utenfor skatten i praksis. Bergen har en sats på 2,8 promille uten bunnfradrag, som betyr at en bolig med skattetakst 4 millioner gir en årlig skatt på 11 200 kroner. Trondheim ligger på 2,0 promille, noe som for samme bolig gir 8 000 kroner.\n\nStavanger har 2,3 promille, Kristiansand 3,4 promille, og Tromsø 3,0 promille. Mange mindre kommuner, særlig i distriktene, har høyere satser — opptil 5–7 promille — som kan utgjøre en vesentlig fast kostnad.",
         list: [
-          "Oslo: 0 promille — ingen eiendomsskatt på boliger",
+          "Oslo: 1,7 promille, 4,9 MNOK bunnfradrag, 70 % reduksjonsfaktor — 0 kr for boliger under ca. 7 MNOK",
           "Bergen: 2,8 promille — ca. 11 200 kr/år for 4M skattetakst",
           "Trondheim: 2,0 promille — ca. 8 000 kr/år for 4M skattetakst",
           "Stavanger: 2,3 promille — ca. 9 200 kr/år for 4M skattetakst",
@@ -599,7 +599,7 @@ export const posts: BlogPost[] = [
       },
       {
         heading: "Eksempel: samme bolig i tre byer",
-        body: "La oss si at du vurderer en bolig til 4 millioner kroner i tre forskjellige byer. I Oslo betaler du null i eiendomsskatt. I Trondheim betaler du rundt 5 600 kroner i året (med 30 % reduksjonsfaktor og 2,0 promille). I Bergen blir det omtrent 7 840 kroner (med 30 % reduksjon og 2,8 promille).\n\nOver 10 år utgjør dette henholdsvis 0, 56 000 og 78 400 kroner — en forskjell som absolutt bør tas med i regnestykket når du sammenligner boligkjøp i ulike kommuner. Eiendomsskatten kommer i tillegg til felleskostnader, kommunale avgifter for vann og avløp, og eventuelle vedlikeholdskostnader.",
+        body: "La oss si at du vurderer en bolig til 8 millioner kroner i tre forskjellige byer. I Oslo blir skattegrunnlaget 8 × 0,7 − 4,9 = 0,7 millioner, og eiendomsskatten ca. 1 190 kroner i året. I Trondheim betaler du rundt 11 200 kroner i året (med 30 % reduksjonsfaktor og 2,0 promille). I Bergen blir det omtrent 15 680 kroner (med 30 % reduksjon og 2,8 promille).\n\nOver 10 år utgjør dette henholdsvis 11 900, 112 000 og 156 800 kroner — en forskjell som absolutt bør tas med i regnestykket når du sammenligner boligkjøp i ulike kommuner. Eiendomsskatten kommer i tillegg til felleskostnader, kommunale avgifter for vann og avløp, og eventuelle vedlikeholdskostnader.",
         tip: "Sjekk alltid kommunens nettsider for oppdaterte satser — de kan endres fra år til år. Noen kommuner har også bunnfradrag som reduserer skatten ytterligere.",
       },
     ],

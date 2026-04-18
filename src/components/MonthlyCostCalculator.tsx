@@ -66,12 +66,16 @@ export default function MonthlyCostCalculator() {
             (Math.pow(1 + stressMonthlyRate, n) - 1)
           : loan / n;
 
-    // Eiendomsskatt — annual, divided by 12
+    // Eiendomsskatt — annual, divided by 12. Honours reduksjonsfaktor (e.g. 0.7)
+    // and bunnfradrag when the kommune has them (Oslo: 70 % × boligverdi − 4,9 MNOK).
     const taxData = eiendomsskattData[kommunenummer];
-    const annualTax =
-      taxData?.hasTax && taxData.promille
-        ? Math.round((price * taxData.promille) / 1000)
-        : 0;
+    let annualTax = 0;
+    if (taxData?.hasTax && taxData.promille) {
+      const reduction = taxData.reductionFactor ?? 1;
+      const bunnfradrag = taxData.bunnfradrag ?? 0;
+      const taxable = Math.max(0, price * reduction - bunnfradrag);
+      annualTax = Math.round((taxable * taxData.promille) / 1000);
+    }
     const monthlyTax = annualTax / 12;
 
     // Document fee (dokumentavgift) — one-time, 2.5% of price for selveier (informational)
@@ -213,7 +217,9 @@ export default function MonthlyCostCalculator() {
                 {fmt(results.monthlyTax)} kr
               </p>
               <p className="mt-0.5 text-[10px] text-text-tertiary">
-                {results.taxData.promille}‰ av {fmt(price)} kr · {fmt(results.annualTax)} kr/år
+                {results.taxData.bunnfradrag
+                  ? `${results.taxData.promille}‰ etter bunnfradrag · ${fmt(results.annualTax)} kr/år`
+                  : `${results.taxData.promille}‰ av ${fmt(price)} kr · ${fmt(results.annualTax)} kr/år`}
               </p>
             </>
           ) : (

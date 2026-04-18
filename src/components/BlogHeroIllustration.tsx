@@ -155,9 +155,24 @@ function PriceSvg() {
   );
 }
 
-// Generic fallback — abstract data visualization
-function GenericSvg({ title }: { title: string }) {
-  const words = title.split(" ").slice(0, 3);
+// Generic fallback — abstract SSB/data-viz motif (bar chart silhouette + connecting line)
+function GenericSvg() {
+  const bars = [
+    { x: 60, h: 58 },
+    { x: 100, h: 82 },
+    { x: 140, h: 46 },
+    { x: 180, h: 96 },
+    { x: 220, h: 74 },
+    { x: 260, h: 110 },
+    { x: 300, h: 88 },
+    { x: 340, h: 128 },
+    { x: 380, h: 104 },
+  ];
+  const baseY = 170;
+  // Connecting line endpoints sit at each bar's top-center
+  const linePts = bars
+    .map((b) => `${b.x + 14},${baseY - b.h - 8}`)
+    .join(" ");
   return (
     <svg viewBox="0 0 480 220" className="h-full w-full" aria-hidden>
       <defs>
@@ -165,20 +180,55 @@ function GenericSvg({ title }: { title: string }) {
           <stop offset="0%" stopColor="#6366f1" stopOpacity="0.2" />
           <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.08" />
         </linearGradient>
+        <linearGradient id="glg-bar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#818cf8" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#6366f1" stopOpacity="0.15" />
+        </linearGradient>
       </defs>
       <rect width="480" height="220" fill="url(#glg)" rx="12" />
-      {Array.from({ length: 8 }, (_, row) =>
+      {/* Dot grid backdrop */}
+      {Array.from({ length: 6 }, (_, row) =>
         Array.from({ length: 14 }, (_, col) => (
-          <circle key={`${row}-${col}`} cx={col * 34 + 17} cy={row * 28 + 14} r="1.2" fill="#818cf8" opacity="0.1" />
+          <circle
+            key={`${row}-${col}`}
+            cx={col * 34 + 17}
+            cy={row * 28 + 14}
+            r="1"
+            fill="#818cf8"
+            opacity="0.08"
+          />
         ))
       )}
-      {/* Abstract shapes */}
-      <circle cx="380" cy="55" r="55" fill="rgba(99,102,241,0.06)" />
-      <circle cx="380" cy="55" r="35" fill="rgba(99,102,241,0.08)" />
-      <circle cx="380" cy="55" r="16" fill="rgba(99,102,241,0.15)" />
-      {/* Text hint */}
-      {words.map((w, i) => (
-        <text key={w} x="80" y={80 + i * 36} fill="rgba(148,163,184,0.25)" fontSize="32" fontWeight="700">{w}</text>
+      {/* Horizontal axis rule */}
+      <line x1="40" y1={baseY + 4} x2="440" y2={baseY + 4} stroke="#26272F" strokeWidth="1" />
+      {/* Faint gridlines */}
+      {[60, 100, 140].map((y) => (
+        <line key={y} x1="40" y1={y} x2="440" y2={y} stroke="#26272F" strokeWidth="1" opacity="0.5" />
+      ))}
+      {/* Bars */}
+      {bars.map((b, i) => (
+        <rect
+          key={i}
+          x={b.x}
+          y={baseY - b.h}
+          width="28"
+          height={b.h}
+          rx="3"
+          fill="url(#glg-bar)"
+        />
+      ))}
+      {/* Connecting trend line */}
+      <polyline
+        points={linePts}
+        fill="none"
+        stroke="#6366f1"
+        strokeWidth="2"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+      {/* Line endpoint dots */}
+      {bars.map((b, i) => (
+        <circle key={i} cx={b.x + 14} cy={baseY - b.h - 8} r="2.5" fill="#818cf8" />
       ))}
     </svg>
   );
@@ -196,7 +246,7 @@ export default function BlogHeroIllustration({ category, title }: Props) {
   } else if (cat.includes("marked") || cat.includes("pris") || t.includes("pris") || t.includes("bydel")) {
     Illustration = <PriceSvg />;
   } else {
-    Illustration = <GenericSvg title={title} />;
+    Illustration = <GenericSvg />;
   }
 
   return (

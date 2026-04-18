@@ -24,7 +24,14 @@ function getNoiseLabel(db: number): string {
   return "Høyt";
 }
 
-export default function NoiseCard({ lat, lon }: { lat: number; lon: number }) {
+interface NoiseCardProps {
+  lat: number;
+  lon: number;
+  onDataStatus?: (hasData: boolean) => void;
+  hideWhenEmpty?: boolean;
+}
+
+export default function NoiseCard({ lat, lon, onDataStatus, hideWhenEmpty }: NoiseCardProps) {
   const [data, setData] = useState<NoiseData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -50,6 +57,12 @@ export default function NoiseCard({ lat, lon }: { lat: number; lon: number }) {
     fetchNoise();
   }, [lat, lon]);
 
+  useEffect(() => {
+    if (loading) return;
+    const hasData = !!data && (data.road != null || data.air != null || data.rail != null);
+    onDataStatus?.(hasData && !error);
+  }, [loading, data, error, onDataStatus]);
+
   if (loading) {
     return (
       <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -66,6 +79,7 @@ export default function NoiseCard({ lat, lon }: { lat: number; lon: number }) {
   const hasData = data && (data.road != null || data.air != null || data.rail != null);
 
   if (error || !hasData) {
+    if (hideWhenEmpty) return null;
     return (
       <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
         <h3 className="mb-2 text-lg font-semibold">Støynivå</h3>

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import NoiseCard from "@/components/NoiseCard";
 import TransitCard from "@/components/TransitCard";
 import SchoolsCard from "@/components/SchoolsCard";
 import CrimeCard from "@/components/CrimeCard";
@@ -19,10 +18,8 @@ import PropertyShareBar from "@/components/PropertyShareBar";
 import NearbyProperties from "@/components/NearbyProperties";
 import AISummary from "@/components/AISummary";
 import ValuationCard from "@/components/ValuationCard";
-import ClimateRiskCard from "@/components/ClimateRiskCard";
-import AirQualityCard from "@/components/AirQualityCard";
 import AmenitiesCard from "@/components/AmenitiesCard";
-import BroadbandCard from "@/components/BroadbandCard";
+import SidebarDataCluster from "@/components/SidebarDataCluster";
 
 import NeighborhoodReviewsCard from "@/components/NeighborhoodReviewsCard";
 import PdfExportButton from "@/components/PdfExportButton";
@@ -343,11 +340,8 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 />
               </div>
 
-              {/* Risk cluster — what could hurt you? */}
-              <CardErrorBoundary fallbackTitle="Klimarisiko feilet"><ClimateRiskCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
-              <CardErrorBoundary fallbackTitle="Støynivå feilet"><NoiseCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
-              <CardErrorBoundary fallbackTitle="Luftkvalitet feilet"><AirQualityCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
-              <CardErrorBoundary fallbackTitle="Bredbånd feilet"><BroadbandCard lat={latNum} lon={lonNum} /></CardErrorBoundary>
+              {/* Risk + coverage cluster — consolidated "Mer data kommer" when all four empty */}
+              <SidebarDataCluster lat={latNum} lon={lonNum} />
               <CardErrorBoundary fallbackTitle="Kriminalitet feilet"><CrimeCard kommunenummer={kommunenummer} /></CardErrorBoundary>
               <CardErrorBoundary fallbackTitle="Miljørisiko feilet"><EnvironmentalRiskCard kommunenummer={kommunenummer} /></CardErrorBoundary>
 

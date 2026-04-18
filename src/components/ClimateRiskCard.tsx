@@ -15,7 +15,14 @@ function riskColor(risk: string): string {
   return "#22C55E";
 }
 
-export default function ClimateRiskCard({ lat, lon }: { lat: number; lon: number }) {
+interface ClimateRiskCardProps {
+  lat: number;
+  lon: number;
+  onDataStatus?: (hasData: boolean) => void;
+  hideWhenEmpty?: boolean;
+}
+
+export default function ClimateRiskCard({ lat, lon, onDataStatus, hideWhenEmpty }: ClimateRiskCardProps) {
   const [data, setData] = useState<ClimateRiskData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -34,6 +41,12 @@ export default function ClimateRiskCard({ lat, lon }: { lat: number; lon: number
     fetchData();
   }, [lat, lon]);
 
+  useEffect(() => {
+    if (loading) return;
+    const hasData = !!data && data.floodRisk !== "Ukjent";
+    onDataStatus?.(hasData);
+  }, [loading, data, onDataStatus]);
+
   if (loading) {
     return (
       <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -48,6 +61,7 @@ export default function ClimateRiskCard({ lat, lon }: { lat: number; lon: number
   }
 
   if (!data || data.floodRisk === "Ukjent") {
+    if (hideWhenEmpty) return null;
     return (
       <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
         <h3 className="mb-2 flex items-center gap-2 text-lg font-semibold">

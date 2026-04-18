@@ -27,7 +27,14 @@ function speedLabel(mbps: number): string {
   return "Lav hastighet";
 }
 
-export default function BroadbandCard({ lat, lon }: { lat: number; lon: number }) {
+interface BroadbandCardProps {
+  lat: number;
+  lon: number;
+  onDataStatus?: (hasData: boolean) => void;
+  hideWhenEmpty?: boolean;
+}
+
+export default function BroadbandCard({ lat, lon, onDataStatus, hideWhenEmpty }: BroadbandCardProps) {
   const [data, setData] = useState<BroadbandData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +53,12 @@ export default function BroadbandCard({ lat, lon }: { lat: number; lon: number }
     fetchData();
   }, [lat, lon]);
 
+  useEffect(() => {
+    if (loading) return;
+    const hasData = !!data && data.maxDownload !== null;
+    onDataStatus?.(hasData);
+  }, [loading, data, onDataStatus]);
+
   if (loading) {
     return (
       <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -56,6 +69,7 @@ export default function BroadbandCard({ lat, lon }: { lat: number; lon: number }
   }
 
   if (!data || data.maxDownload === null) {
+    if (hideWhenEmpty) return null;
     return (
       <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
         <h3 className="mb-2 flex items-center gap-2 text-lg font-semibold">

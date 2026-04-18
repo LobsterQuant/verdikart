@@ -20,7 +20,14 @@ function aqiColor(aqi: string): string {
   return "#94a3b8";
 }
 
-export default function AirQualityCard({ lat, lon }: { lat: number; lon: number }) {
+interface AirQualityCardProps {
+  lat: number;
+  lon: number;
+  onDataStatus?: (hasData: boolean) => void;
+  hideWhenEmpty?: boolean;
+}
+
+export default function AirQualityCard({ lat, lon, onDataStatus, hideWhenEmpty }: AirQualityCardProps) {
   const [data, setData] = useState<AirQualityData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -39,6 +46,12 @@ export default function AirQualityCard({ lat, lon }: { lat: number; lon: number 
     fetchData();
   }, [lat, lon]);
 
+  useEffect(() => {
+    if (loading) return;
+    const hasData = !!data && data.aqi !== "Ukjent";
+    onDataStatus?.(hasData);
+  }, [loading, data, onDataStatus]);
+
   if (loading) {
     return (
       <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -49,6 +62,7 @@ export default function AirQualityCard({ lat, lon }: { lat: number; lon: number 
   }
 
   if (!data || data.aqi === "Ukjent") {
+    if (hideWhenEmpty) return null;
     return (
       <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
         <h3 className="mb-2 flex items-center gap-2 text-lg font-semibold">

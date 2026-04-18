@@ -46,16 +46,16 @@ export function FeatureCard({
         transformStyle: "preserve-3d" as const,
         perspective: 800,
         boxShadow: hovered
-          ? "0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.3), inset 0 1px 0 rgba(255,255,255,0.06)"
+          ? "0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgb(var(--accent-rgb) / 0.3), inset 0 1px 0 rgba(255,255,255,0.06)"
           : "0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)",
-        borderColor: hovered ? "rgba(99,102,241,0.4)" : "rgba(255,255,255,0.08)",
+        borderColor: hovered ? "rgb(var(--accent-rgb) / 0.4)" : "rgba(255,255,255,0.08)",
       }}
     >
       {/* Spotlight shimmer on hover */}
       <div
         className="pointer-events-none absolute inset-0 rounded-xl transition-opacity duration-300"
         style={{
-          background: "radial-gradient(circle at 50% 0%, rgba(99,102,241,0.10) 0%, transparent 65%)",
+          background: "radial-gradient(circle at 50% 0%, rgb(var(--accent-rgb) / 0.10) 0%, transparent 65%)",
           opacity: hovered ? 1 : 0,
         }}
       />
@@ -64,7 +64,7 @@ export function FeatureCard({
       <div
         className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-300"
         style={{
-          backgroundColor: hovered ? "rgba(99,102,241,0.2)" : "rgba(0,102,255,0.1)",
+          backgroundColor: hovered ? "rgb(var(--accent-rgb) / 0.2)" : "rgba(0,102,255,0.1)",
           transform: hovered ? "scale(1.12)" : "scale(1)",
         }}
       >
@@ -75,7 +75,7 @@ export function FeatureCard({
           <Icon
             className="h-5 w-5"
             strokeWidth={1.5}
-            style={{ color: hovered ? "#818cf8" : "#0066FF" }}
+            style={{ color: hovered ? "var(--accent-hover)" : "#0066FF" }}
           />
         </div>
       </div>

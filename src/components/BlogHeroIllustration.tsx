@@ -12,12 +12,12 @@ function ChecklistSvg() {
     <svg viewBox="0 0 480 220" className="h-full w-full" aria-hidden>
       <defs>
         <linearGradient id="blg1" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.18" />
+          <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.18" />
           <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.06" />
         </linearGradient>
         <linearGradient id="blg2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#6366f1" />
-          <stop offset="100%" stopColor="#818cf8" />
+          <stop offset="0%" stopColor="var(--accent)" />
+          <stop offset="100%" stopColor="var(--accent-hover)" />
         </linearGradient>
       </defs>
       {/* Background */}
@@ -25,32 +25,32 @@ function ChecklistSvg() {
       {/* Dot grid */}
       {Array.from({ length: 12 }, (_, row) =>
         Array.from({ length: 20 }, (_, col) => (
-          <circle key={`${row}-${col}`} cx={col * 26 + 13} cy={row * 20 + 10} r="1" fill="#818cf8" opacity="0.12" />
+          <circle key={`${row}-${col}`} cx={col * 26 + 13} cy={row * 20 + 10} r="1" fill="var(--accent-hover)" opacity="0.12" />
         ))
       )}
       {/* Clipboard shape */}
-      <rect x="140" y="28" width="200" height="164" rx="8" fill="#111118" stroke="rgba(99,102,241,0.3)" strokeWidth="1" />
+      <rect x="140" y="28" width="200" height="164" rx="8" fill="#111118" stroke="rgb(var(--accent-rgb) / 0.3)" strokeWidth="1" />
       {/* Clipboard top */}
-      <rect x="180" y="20" width="120" height="20" rx="6" fill="#111118" stroke="rgba(99,102,241,0.25)" strokeWidth="1" />
+      <rect x="180" y="20" width="120" height="20" rx="6" fill="#111118" stroke="rgb(var(--accent-rgb) / 0.25)" strokeWidth="1" />
       <rect x="215" y="24" width="50" height="8" rx="4" fill="#26272F" />
       {/* Check rows */}
       {[0,1,2,3,4].map((i) => (
         <g key={i} transform={`translate(160, ${60 + i * 26})`}>
           {/* Check box */}
-          <rect width="16" height="16" rx="4" fill={i < 3 ? "rgba(99,102,241,0.3)" : "#26272F"} stroke="rgba(99,102,241,0.4)" strokeWidth="1" />
+          <rect width="16" height="16" rx="4" fill={i < 3 ? "rgb(var(--accent-rgb) / 0.3)" : "#26272F"} stroke="rgb(var(--accent-rgb) / 0.4)" strokeWidth="1" />
           {i < 3 && (
-            <polyline points="3,8 7,12 13,5" fill="none" stroke="#818cf8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <polyline points="3,8 7,12 13,5" fill="none" stroke="var(--accent-hover)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           )}
           {/* Line */}
           <rect x="24" y="6" width={i < 3 ? 100 : 80} height="4" rx="2" fill={i < 3 ? "rgba(129,140,248,0.4)" : "rgba(100,116,139,0.25)"} />
         </g>
       ))}
       {/* Accent circle */}
-      <circle cx="380" cy="60" r="36" fill="rgba(99,102,241,0.08)" stroke="rgba(99,102,241,0.2)" strokeWidth="1" />
-      <text x="380" y="65" textAnchor="middle" fill="#818cf8" fontSize="24">✓</text>
+      <circle cx="380" cy="60" r="36" fill="rgb(var(--accent-rgb) / 0.08)" stroke="rgb(var(--accent-rgb) / 0.2)" strokeWidth="1" />
+      <text x="380" y="65" textAnchor="middle" fill="var(--accent-hover)" fontSize="24">✓</text>
       {/* Floating badge */}
-      <rect x="300" y="148" width="88" height="28" rx="14" fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.3)" strokeWidth="1" />
-      <text x="344" y="166" textAnchor="middle" fill="#818cf8" fontSize="11" fontWeight="600">12 punkter</text>
+      <rect x="300" y="148" width="88" height="28" rx="14" fill="rgb(var(--accent-rgb) / 0.15)" stroke="rgb(var(--accent-rgb) / 0.3)" strokeWidth="1" />
+      <text x="344" y="166" textAnchor="middle" fill="var(--accent-hover)" fontSize="11" fontWeight="600">12 punkter</text>
     </svg>
   );
 }
@@ -122,12 +122,12 @@ function PriceSvg() {
     <svg viewBox="0 0 480 220" className="h-full w-full" aria-hidden>
       <defs>
         <linearGradient id="plg1" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.18" />
+          <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.18" />
           <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.07" />
         </linearGradient>
         <linearGradient id="plg2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
+          <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
         </linearGradient>
       </defs>
       <rect width="480" height="220" fill="url(#plg1)" rx="12" />
@@ -136,16 +136,16 @@ function PriceSvg() {
       {/* Area fill */}
       <path d={area} fill="url(#plg2)" />
       {/* Line */}
-      <polyline points={pts} fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+      <polyline points={pts} fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
       {/* Last point highlight */}
-      <circle cx={320 + 80} cy={H - ((88 - min) / (max - min)) * H + 50} r="5" fill="#6366f1" />
-      <circle cx={320 + 80} cy={H - ((88 - min) / (max - min)) * H + 50} r="10" fill="rgba(99,102,241,0.2)" />
+      <circle cx={320 + 80} cy={H - ((88 - min) / (max - min)) * H + 50} r="5" fill="var(--accent)" />
+      <circle cx={320 + 80} cy={H - ((88 - min) / (max - min)) * H + 50} r="10" fill="rgb(var(--accent-rgb) / 0.2)" />
       {/* Labels */}
       {["2022","2023","2024","2025"].map((y, i) => (
         <text key={y} x={80 + i * (320/3)} y="185" textAnchor="middle" fill="#64748b" fontSize="9">{y}</text>
       ))}
       {/* Stat badge */}
-      <rect x="295" y="28" width="100" height="38" rx="8" fill="#111118" stroke="rgba(99,102,241,0.3)" strokeWidth="1" />
+      <rect x="295" y="28" width="100" height="38" rx="8" fill="#111118" stroke="rgb(var(--accent-rgb) / 0.3)" strokeWidth="1" />
       <text x="345" y="45" textAnchor="middle" fill="#22c55e" fontSize="14" fontWeight="700">+5.2%</text>
       <text x="345" y="59" textAnchor="middle" fill="#64748b" fontSize="9">siste 12 mnd</text>
       {/* Y axis labels */}
@@ -177,12 +177,12 @@ function GenericSvg() {
     <svg viewBox="0 0 480 220" className="h-full w-full" aria-hidden>
       <defs>
         <linearGradient id="glg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#6366f1" stopOpacity="0.2" />
+          <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.2" />
           <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.08" />
         </linearGradient>
         <linearGradient id="glg-bar" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#818cf8" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="#6366f1" stopOpacity="0.15" />
+          <stop offset="0%" stopColor="var(--accent-hover)" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.15" />
         </linearGradient>
       </defs>
       <rect width="480" height="220" fill="url(#glg)" rx="12" />
@@ -194,7 +194,7 @@ function GenericSvg() {
             cx={col * 34 + 17}
             cy={row * 28 + 14}
             r="1"
-            fill="#818cf8"
+            fill="var(--accent-hover)"
             opacity="0.08"
           />
         ))
@@ -221,14 +221,14 @@ function GenericSvg() {
       <polyline
         points={linePts}
         fill="none"
-        stroke="#6366f1"
+        stroke="var(--accent)"
         strokeWidth="2"
         strokeLinejoin="round"
         strokeLinecap="round"
       />
       {/* Line endpoint dots */}
       {bars.map((b, i) => (
-        <circle key={i} cx={b.x + 14} cy={baseY - b.h - 8} r="2.5" fill="#818cf8" />
+        <circle key={i} cx={b.x + 14} cy={baseY - b.h - 8} r="2.5" fill="var(--accent-hover)" />
       ))}
     </svg>
   );
@@ -250,7 +250,7 @@ export default function BlogHeroIllustration({ category, title }: Props) {
   }
 
   return (
-    <div className="mb-6 h-48 w-full overflow-hidden rounded-xl sm:h-56" style={{ border: "1px solid rgba(99,102,241,0.2)" }}>
+    <div className="mb-6 h-48 w-full overflow-hidden rounded-xl sm:h-56" style={{ border: "1px solid rgb(var(--accent-rgb) / 0.2)" }}>
       {Illustration}
     </div>
   );

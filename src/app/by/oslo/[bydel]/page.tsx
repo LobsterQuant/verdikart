@@ -78,7 +78,7 @@ export default function BydelPage({ params }: { params: { bydel: string } }) {
         {/* Hero */}
         <section className="relative overflow-hidden px-4 pb-14 pt-16 sm:px-6 sm:pt-24">
           <div aria-hidden className="pointer-events-none absolute inset-0 -z-10"
-            style={{ background: "radial-gradient(ellipse at 50% -5%, rgba(99,102,241,0.14) 0%, transparent 65%)" }} />
+            style={{ background: "radial-gradient(ellipse at 50% -5%, rgb(var(--accent-rgb) / 0.14) 0%, transparent 65%)" }} />
 
           <div className="mx-auto max-w-3xl">
             {/* Breadcrumb */}

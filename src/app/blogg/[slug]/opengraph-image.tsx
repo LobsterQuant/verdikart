@@ -47,7 +47,7 @@ export default function OgImage({ params }: { params: { slug: string } }) {
             width: 480,
             height: 480,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(99,102,241,0.22) 0%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(127, 227, 212, 0.22) 0%, transparent 65%)",
           }}
         />
         {/* Blue glow bottom-right */}
@@ -72,7 +72,7 @@ export default function OgImage({ params }: { params: { slug: string } }) {
                 width: 12,
                 height: 12,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #6366f1, #818cf8)",
+                background: "linear-gradient(135deg, #7FE3D4, #9AEBDF)",
               }}
             />
             <span style={{ color: "#FFFFFF", fontSize: 20, fontWeight: 700, letterSpacing: "0.06em" }}>
@@ -82,11 +82,11 @@ export default function OgImage({ params }: { params: { slug: string } }) {
           {/* Category pill */}
           <div
             style={{
-              background: "rgba(99,102,241,0.15)",
-              border: "1px solid rgba(99,102,241,0.35)",
+              background: "rgba(127, 227, 212, 0.15)",
+              border: "1px solid rgba(127, 227, 212, 0.35)",
               borderRadius: 32,
               padding: "8px 20px",
-              color: "#818cf8",
+              color: "#9AEBDF",
               fontSize: 15,
               fontWeight: 600,
               letterSpacing: "0.04em",
@@ -119,12 +119,12 @@ export default function OgImage({ params }: { params: { slug: string } }) {
                 width: 44,
                 height: 44,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, rgba(99,102,241,0.3), rgba(129,140,248,0.15))",
-                border: "1px solid rgba(99,102,241,0.4)",
+                background: "linear-gradient(135deg, rgba(127, 227, 212, 0.3), rgba(129,140,248,0.15))",
+                border: "1px solid rgba(127, 227, 212, 0.4)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "#818cf8",
+                color: "#9AEBDF",
                 fontSize: 16,
                 fontWeight: 700,
               }}

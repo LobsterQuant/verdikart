@@ -92,11 +92,11 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-accent/30 p-4 sm:p-6" style={{
-      background: "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(59,130,246,0.04) 50%, rgba(99,102,241,0.02) 100%)",
+      background: "linear-gradient(135deg, rgb(var(--accent-rgb) / 0.08) 0%, rgba(59,130,246,0.04) 50%, rgb(var(--accent-rgb) / 0.02) 100%)",
     }}>
       {/* Subtle glow in top-right */}
       <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full" style={{
-        background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+        background: "radial-gradient(circle, rgb(var(--accent-rgb) / 0.12) 0%, transparent 70%)",
       }} aria-hidden />
       <h3 className="relative mb-1 flex items-center gap-2 text-lg font-semibold">
         <TrendingUp className="h-5 w-5 text-accent" />
@@ -107,7 +107,7 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
         <>
           <div className="relative mb-2">
             <span className="text-4xl font-bold tracking-tight sm:text-5xl" style={{
-              background: "linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #a78bfa 100%)",
+              background: "linear-gradient(135deg, var(--accent-hover) 0%, var(--accent) 50%, var(--warm) 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",

@@ -90,7 +90,7 @@ export default function FinnBoligPage() {
             className="pointer-events-none absolute inset-0 -z-10"
             style={{
               background:
-                "radial-gradient(ellipse at 50% -10%, rgba(99,102,241,0.18) 0%, rgba(59,130,246,0.06) 40%, transparent 70%)",
+                "radial-gradient(ellipse at 50% -10%, rgb(var(--accent-rgb) / 0.18) 0%, rgba(59,130,246,0.06) 40%, transparent 70%)",
             }}
           />
           <nav className="mb-6 flex items-center justify-center gap-1.5 text-xs text-text-tertiary">
@@ -102,7 +102,7 @@ export default function FinnBoligPage() {
           <h1 className="mx-auto max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl">
             <span
               style={{
-                background: "linear-gradient(135deg, #ffffff 0%, #c7d2fe 45%, #818cf8 100%)",
+                background: "linear-gradient(135deg, #ffffff 0%, var(--accent-hover) 45%, var(--accent-hover) 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",

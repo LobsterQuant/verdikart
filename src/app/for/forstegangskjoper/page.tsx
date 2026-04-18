@@ -68,7 +68,7 @@ export default function FørstegangskjøperPage() {
         {/* Hero */}
         <section className="relative overflow-hidden px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-28">
           <div aria-hidden className="pointer-events-none absolute inset-0 -z-10"
-            style={{ background: "radial-gradient(ellipse at 50% -10%, rgba(99,102,241,0.16) 0%, transparent 65%)" }} />
+            style={{ background: "radial-gradient(ellipse at 50% -10%, rgb(var(--accent-rgb) / 0.16) 0%, transparent 65%)" }} />
           <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">For førstegangskjøpere</p>
           <h1 className="mx-auto max-w-2xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl md:text-5xl">
             Kjøp din første bolig med åpne øyne

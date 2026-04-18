@@ -1,10 +1,38 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import NavBar from "@/components/NavBar";
 import CookieBanner from "@/components/CookieBanner";
 import JsonLd from "@/components/JsonLd";
 import Providers from "@/components/Providers";
 import "./globals.css";
+
+// ── Design-system fonts (audit package 1/9) ──────────────────────────────
+// Loaded via next/font so Next.js self-hosts + preloads them (no render-block
+// from Google Fonts CDN). Display and mono are INSTALLED but not applied to
+// any element yet — package 4 (hero) will start consuming them via the
+// .display-1 / .stat-hero utility classes.
+const sans = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const display = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://verdikart.no"),
@@ -42,7 +70,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#6366f1",
+  // Meta tags can't resolve CSS vars — keep in sync with --accent in globals.css.
+  themeColor: "#7FE3D4",
 };
 
 export default function RootLayout({
@@ -51,7 +80,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nb">
+    <html lang="nb" className={`${sans.variable} ${display.variable} ${mono.variable}`}>
       <head>
         <meta charSet="utf-8" />
         <meta name="google-site-verification" content="4CfcfTbdMps13rua_a3oxyYzllQ--raYjuvHw0vGRdE" />

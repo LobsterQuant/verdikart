@@ -63,8 +63,8 @@ export default function OmOss() {
                       <stop offset="100%" stopColor="#1e1b4b" />
                     </linearGradient>
                     <linearGradient id="avatarAccent" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stopColor="#6366f1" />
-                      <stop offset="100%" stopColor="#818cf8" />
+                      <stop offset="0%" stopColor="var(--accent)" />
+                      <stop offset="100%" stopColor="var(--accent-hover)" />
                     </linearGradient>
                     <clipPath id="avatarCircle">
                       <circle cx="32" cy="32" r="31" />
@@ -74,13 +74,13 @@ export default function OmOss() {
                   <circle cx="32" cy="32" r="32" fill="url(#avatarBg)" />
                   {/* Subtle dot pattern */}
                   {[0,1,2,3].map(row => [0,1,2,3].map(col => (
-                    <circle key={`${row}-${col}`} cx={col*16+8} cy={row*16+8} r="0.8" fill="#6366f1" opacity="0.15" />
+                    <circle key={`${row}-${col}`} cx={col*16+8} cy={row*16+8} r="0.8" fill="var(--accent)" opacity="0.15" />
                   )))}
                   {/* Torso / shoulders */}
                   <ellipse cx="32" cy="58" rx="18" ry="10" fill="#1e1b4b" clipPath="url(#avatarCircle)" />
                   <rect x="18" y="50" width="28" height="20" fill="#1e1b4b" clipPath="url(#avatarCircle)" />
                   {/* Shirt collar */}
-                  <path d="M 26 50 L 32 56 L 38 50" fill="none" stroke="#6366f1" strokeWidth="1.5" strokeLinejoin="round" />
+                  <path d="M 26 50 L 32 56 L 38 50" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinejoin="round" />
                   {/* Neck */}
                   <rect x="28" y="42" width="8" height="10" rx="2" fill="#c4a882" />
                   {/* Head */}

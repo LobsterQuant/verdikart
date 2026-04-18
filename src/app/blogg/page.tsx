@@ -75,7 +75,7 @@ export default function BlogIndex() {
               "Investering":    { bg: "bg-teal-500/10",    text: "text-teal-400" },
               "Økonomiguide":   { bg: "bg-yellow-500/10",  text: "text-yellow-400" },
               "Livsendringer":  { bg: "bg-pink-500/10",    text: "text-pink-400" },
-              "Strategi":       { bg: "bg-indigo-500/10",  text: "text-indigo-400" },
+              "Strategi":       { bg: "bg-accent/10",      text: "text-accent" },
             };
 
             const [featured, ...rest] = sorted;

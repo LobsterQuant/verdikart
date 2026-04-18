@@ -2,7 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* ── Design-system tokens (audit package 1/9) ───────────────────────────────
+   Named CSS custom properties consumed by tailwind.config.ts. Every future
+   package reads from here — change a token, it propagates everywhere. */
+:root {
+  /* Surface */
+  --bg: #0A0B0D;
+  --bg-elevated: #111216;
+  --bg-card: #14161B;
+  --bg-overlay: #1A1D24;
+
+  /* Borders */
+  --border: #1F2127;
+  --border-strong: #2A2D35;
+
+  /* Text */
+  --text: #F4F4F6;
+  --text-muted: #8B8E98;
+  --text-subtle: #5C5F68;
+
+  /* Primary accent — "Nordic Glacier" (replaces indigo) */
+  --accent: #7FE3D4;
+  --accent-hover: #9AEBDF;
+  --accent-glow: #7FE3D466;
+  --accent-ink: #0E3B34;
+  /* Accent as space-separated RGB channels — lets Tailwind generate
+     bg-accent/10, border-accent/30 etc. via the <alpha-value> placeholder
+     (see tailwind.config.ts) AND works in direct CSS via rgb(var(--accent-rgb) / X).
+     Keep in sync with --accent hex above. */
+  --accent-rgb: 127 227 212;
+
+  /* Secondary / data semantics */
+  --warm: #E8A87C;
+  --warn: #F0B34D;
+  --danger: #D65A5A;
+  --success: #7FC8A4;
+}
 
 * {
   box-sizing: border-box;
@@ -13,8 +48,8 @@ html {
 }
 
 body {
-  background-color: #080810;
-  color: #FFFFFF;
+  background-color: var(--bg);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* Inter "ss01" stylistic set — disambiguates single-story a, rounder terminals */
@@ -29,17 +64,19 @@ h1 {
 }
 
 ::selection {
-  background-color: rgba(99, 102, 241, 0.35);
-  color: #FFFFFF;
+  background-color: rgb(var(--accent-rgb) / 0.35);
+  color: var(--text);
 }
 
 /* ── Global focus-visible indicator (WCAG 2.1 AA) ── */
 /* Applies to all interactive elements when navigated by keyboard.
    Uses :focus-visible so mouse clicks don't show the ring. */
-:focus-visible {
-  outline: 2px solid rgba(99, 102, 241, 0.85);
-  outline-offset: 2px;
-  border-radius: 4px;
+@layer base {
+  *:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 }
 
 /* Suppress outline on mouse/touch — only show for keyboard nav */
@@ -47,12 +84,58 @@ h1 {
   outline: none;
 }
 
-/* Gradient headline utility */
+/* Gradient headline utility — mint (accent) → warm terracotta */
 .text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 20%, #818cf8 45%, #6366f1 65%, #a78bfa 85%, #e0e7ff 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 35%, var(--warm) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* ── Typography utility classes (audit package 1/9) ─────────────────────────
+   Installed but NOT applied anywhere yet. Package 4 (hero redesign) will
+   start consuming them. display = Instrument Serif, sans = Inter. */
+@layer utilities {
+  .display-1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(48px, 6vw, 84px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+  .display-2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .title-lg {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+  .stat-hero {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(48px, 5vw, 72px);
+    line-height: 1;
+    font-feature-settings: "tnum";
+    letter-spacing: -0.02em;
+  }
+  .body-lg {
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  .caption {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
 }
 
 /* Hero noise texture overlay */
@@ -119,11 +202,11 @@ input::placeholder {
   background-image: linear-gradient(
     90deg,
     #ffffff 0%,
-    #e0e7ff 15%,
-    #a5b4fc 30%,
-    #6366f1 45%,
-    #a5b4fc 60%,
-    #e0e7ff 75%,
+    var(--text) 15%,
+    var(--accent-hover) 30%,
+    var(--accent) 45%,
+    var(--accent-hover) 60%,
+    var(--text) 75%,
     #ffffff 100%
   );
   background-size: 200% auto;
@@ -144,7 +227,7 @@ input::placeholder {
   left: 0;
   right: 0;
   height: 1px;
-  background: #6366f1;
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 0.22s ease;
@@ -156,8 +239,8 @@ input::placeholder {
 
 /* Logo pulse */
 @keyframes logo-pulse {
-  0%, 100% { opacity: 1; filter: drop-shadow(0 0 0px rgba(99,102,241,0)); }
-  50%       { opacity: 0.85; filter: drop-shadow(0 0 6px rgba(99,102,241,0.5)); }
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 0px rgb(var(--accent-rgb) / 0)); }
+  50%       { opacity: 0.85; filter: drop-shadow(0 0 6px rgb(var(--accent-rgb) / 0.5)); }
 }
 .logo-pulse { animation: logo-pulse 4s ease-in-out infinite; }
 
@@ -166,7 +249,7 @@ input::placeholder {
    the hero's own layer; radial-gradients scale with the viewport. */
 .hero-orbs {
   background-image:
-    radial-gradient(circle 420px at -2% 30%, rgba(99,102,241,0.12) 0%, transparent 70%),
+    radial-gradient(circle 420px at -2% 30%, rgb(var(--accent-rgb) / 0.12) 0%, transparent 70%),
     radial-gradient(circle 360px at 102% 40%, rgba(59,130,246,0.10) 0%, transparent 70%);
   background-repeat: no-repeat;
 }
@@ -284,7 +367,7 @@ input::placeholder {
 
 /* ── Card depth: subtle radial gradient top-left + colored box-shadow ── */
 .bg-card-bg {
-  background-image: radial-gradient(ellipse at 0% 0%, rgba(99,102,241,0.04) 0%, transparent 60%);
+  background-image: radial-gradient(ellipse at 0% 0%, rgb(var(--accent-rgb) / 0.04) 0%, transparent 60%);
 }
 
 /* ── Glass card: frosted glass effect for premium feel ── */
@@ -301,13 +384,13 @@ input::placeholder {
 }
 .card-hover:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(99,102,241,0.15);
-  border-color: rgba(99,102,241,0.25) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgb(var(--accent-rgb) / 0.15);
+  border-color: rgb(var(--accent-rgb) / 0.25) !important;
 }
 
 /* ── Search bar glow on focus ── */
 .search-glow:focus-within {
-  box-shadow: 0 0 0 2px rgba(99,102,241,0.35), 0 4px 24px rgba(99,102,241,0.12);
+  box-shadow: 0 0 0 2px rgb(var(--accent-rgb) / 0.35), 0 4px 24px rgb(var(--accent-rgb) / 0.12);
 }
 
 /* ── Skeleton shimmer ── */
@@ -350,8 +433,8 @@ input::placeholder {
 
 /* ── Glow pulse for CTA button ── */
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 8px rgba(99,102,241,0.4); }
-  50%       { box-shadow: 0 0 24px rgba(99,102,241,0.7), 0 0 48px rgba(99,102,241,0.2); }
+  0%, 100% { box-shadow: 0 0 8px rgb(var(--accent-rgb) / 0.4); }
+  50%       { box-shadow: 0 0 24px rgb(var(--accent-rgb) / 0.7), 0 0 48px rgb(var(--accent-rgb) / 0.2); }
 }
 .btn-glow {
   animation: glow-pulse 2.5s ease-in-out infinite;
@@ -375,12 +458,14 @@ input::placeholder {
   cursor: not-allowed;
 }
 .btn-primary {
-  background-color: #6366f1;
-  color: #ffffff;
+  background-color: var(--accent);
+  /* accent-ink: dark teal that passes WCAG AA on mint. White text on mint
+     would fail contrast — this was safe with indigo, not with the new accent. */
+  color: var(--accent-ink);
 }
 .btn-primary:hover:not(:disabled) {
-  background-color: #818cf8;
-  box-shadow: 0 4px 20px rgba(99,102,241,0.35);
+  background-color: var(--accent-hover);
+  box-shadow: 0 4px 20px rgb(var(--accent-rgb) / 0.35);
 }
 .btn-secondary {
   background-color: #111118;
@@ -388,7 +473,7 @@ input::placeholder {
   border: 1px solid #26272F;
 }
 .btn-secondary:hover:not(:disabled) {
-  border-color: rgba(99,102,241,0.4);
+  border-color: rgb(var(--accent-rgb) / 0.4);
   color: #ffffff;
 }
 .btn-ghost {

@@ -181,8 +181,8 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
       <div
         className="rounded-2xl p-px transition-all duration-300"
         style={{
-          background: "linear-gradient(135deg, rgba(99,102,241,0.6) 0%, rgba(59,130,246,0.4) 50%, rgba(99,102,241,0.2) 100%)",
-          boxShadow: "0 0 24px rgba(99,102,241,0.12), 0 2px 8px rgba(0,0,0,0.4)",
+          background: "linear-gradient(135deg, rgb(var(--accent-rgb) / 0.6) 0%, rgba(59,130,246,0.4) 50%, rgb(var(--accent-rgb) / 0.2) 100%)",
+          boxShadow: "0 0 24px rgb(var(--accent-rgb) / 0.12), 0 2px 8px rgba(0,0,0,0.4)",
         }}
         ref={(el) => {
           // Brighten gradient border on focus
@@ -190,14 +190,14 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           if (!input) return;
           input.addEventListener("focus", () => {
             if (el) {
-              el.style.background = "linear-gradient(135deg, rgba(99,102,241,0.9) 0%, rgba(59,130,246,0.7) 50%, rgba(139,92,246,0.6) 100%)";
-              el.style.boxShadow = "0 0 32px rgba(99,102,241,0.25), 0 0 64px rgba(99,102,241,0.1), 0 2px 8px rgba(0,0,0,0.4)";
+              el.style.background = "linear-gradient(135deg, rgb(var(--accent-rgb) / 0.9) 0%, rgba(59,130,246,0.7) 50%, rgba(139,92,246,0.6) 100%)";
+              el.style.boxShadow = "0 0 32px rgb(var(--accent-rgb) / 0.25), 0 0 64px rgb(var(--accent-rgb) / 0.1), 0 2px 8px rgba(0,0,0,0.4)";
             }
           });
           input.addEventListener("blur", () => {
             if (el) {
-              el.style.background = "linear-gradient(135deg, rgba(99,102,241,0.6) 0%, rgba(59,130,246,0.4) 50%, rgba(99,102,241,0.2) 100%)";
-              el.style.boxShadow = "0 0 24px rgba(99,102,241,0.12), 0 2px 8px rgba(0,0,0,0.4)";
+              el.style.background = "linear-gradient(135deg, rgb(var(--accent-rgb) / 0.6) 0%, rgba(59,130,246,0.4) 50%, rgb(var(--accent-rgb) / 0.2) 100%)";
+              el.style.boxShadow = "0 0 24px rgb(var(--accent-rgb) / 0.12), 0 2px 8px rgba(0,0,0,0.4)";
             }
           });
         }}
@@ -216,7 +216,7 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           placeholder="Søk på en adresse..."
           className="w-full rounded-[15px] border-0 bg-[#0e0e12] px-4 py-3 text-base text-foreground placeholder:text-text-tertiary outline-none transition-all duration-200 sm:px-6 sm:py-4 sm:text-lg"
           style={{
-            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), inset 0 0 20px rgba(99,102,241,0.03)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), inset 0 0 20px rgb(var(--accent-rgb) / 0.03)",
           }}
           role="combobox"
           aria-label="Søk på norsk adresse"

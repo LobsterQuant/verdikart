@@ -51,7 +51,7 @@ export default function PropertyMapInner({ lat, lon, address, stops }: PropertyM
         shadowSize: [41, 41],
       }),
       stopIcon: L.divIcon({
-        html: '<div style="width:10px;height:10px;background:#6366f1;border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 3px rgba(99,102,241,0.25)"></div>',
+        html: '<div style="width:10px;height:10px;background:var(--accent);border:2px solid #fff;border-radius:50%;box-shadow:0 0 0 3px rgb(var(--accent-rgb) / 0.25)"></div>',
         iconSize: [10, 10],
         iconAnchor: [5, 5],
         className: "",
@@ -83,7 +83,7 @@ export default function PropertyMapInner({ lat, lon, address, stops }: PropertyM
           >
             <defs>
               <pattern id="map-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#818cf8" strokeWidth="0.5"/>
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--accent-hover)" strokeWidth="0.5"/>
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#map-grid)" />

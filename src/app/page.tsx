@@ -283,13 +283,13 @@ export default function HomePage() {
               "radial-gradient(ellipse at 50% 50%, transparent 30%, #080810 80%)",
           }}
         />
-        {/* 3. Primary indigo glow — top-center */}
+        {/* 3. Primary accent glow — top-center */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(ellipse 80% 50% at 50% -5%, rgba(99,102,241,0.22) 0%, rgba(59,130,246,0.08) 50%, transparent 75%)",
+              "radial-gradient(ellipse 80% 50% at 50% -5%, rgb(var(--accent-rgb) / 0.22) 0%, rgba(59,130,246,0.08) 50%, transparent 75%)",
           }}
         />
         {/* 4+5. Orb glow baked into hero-orbs background (no separate layers → no compositor drop) */}

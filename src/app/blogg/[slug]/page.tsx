@@ -144,8 +144,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                     <stop offset="100%" stopColor="#1e1b4b" />
                   </linearGradient>
                   <linearGradient id="blogAvatarRing" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#6366f1" />
-                    <stop offset="100%" stopColor="#818cf8" />
+                    <stop offset="0%" stopColor="var(--accent)" />
+                    <stop offset="100%" stopColor="var(--accent-hover)" />
                   </linearGradient>
                   <clipPath id="blogAvatarClip"><circle cx="18" cy="18" r="17" /></clipPath>
                 </defs>

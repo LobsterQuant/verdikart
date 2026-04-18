@@ -51,7 +51,7 @@ function Slider({
           className="relative z-10 h-5 w-full cursor-pointer appearance-none bg-transparent
             [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none
             [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent
-            [&::-webkit-slider-thumb]:shadow-[0_0_0_3px_rgba(99,102,241,0.25)]
+            [&::-webkit-slider-thumb]:shadow-[0_0_0_3px_rgb(var(--accent-rgb) / 0.25)]
             [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full
             [&::-moz-range-thumb]:bg-accent [&::-moz-range-thumb]:border-0"
         />

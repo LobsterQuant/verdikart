@@ -5,6 +5,7 @@ import { TrendingUp, Train, Home, ChevronRight } from "lucide-react";
 import { getBydel, getAllBydelSlugs, bydeler } from "./bydelData";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
+import { formatPct } from "@/lib/format";
 
 export async function generateStaticParams() {
   return getAllBydelSlugs();
@@ -102,7 +103,7 @@ export default function BydelPage({ params }: { params: { bydel: string } }) {
               </div>
               <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
                 <p className="text-xs text-text-tertiary">Prisvekst (12 mnd)</p>
-                <p className="text-lg font-bold text-green-400">+{bydel.avgSqmPriceYoY}%</p>
+                <p className="text-lg font-bold text-green-400">+{formatPct(bydel.avgSqmPriceYoY)}</p>
                 <p className="mt-0.5 text-[10px] text-text-tertiary/60">SSB 2023–2024</p>
               </div>
               <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
@@ -164,7 +165,7 @@ export default function BydelPage({ params }: { params: { bydel: string } }) {
               Prisutvikling
             </h2>
             <p className="text-sm leading-relaxed text-text-secondary">
-              Estimert kvadratmeterpris i {bydel.name} er <strong className="text-foreground">{formatPrice(bydel.avgSqmPrice)} kr/m²</strong> basert på SSB-data for Oslo, justert for bydelnivå. Det er en estimert økning på <strong className="text-green-400">+{bydel.avgSqmPriceYoY}%</strong> sammenlignet med samme periode i fjor.
+              Estimert kvadratmeterpris i {bydel.name} er <strong className="text-foreground">{formatPrice(bydel.avgSqmPrice)} kr/m²</strong> basert på SSB-data for Oslo, justert for bydelnivå. Det er en estimert økning på <strong className="text-green-400">+{formatPct(bydel.avgSqmPriceYoY)}</strong> sammenlignet med samme periode i fjor.
             </p>
             <p className="mt-2 text-xs text-text-tertiary">Kilde: SSB boligprisstatistikk, kommunenummer {bydel.kommunenummer}. Bydeltall er estimerte verdier — eksakt adressedata er tilgjengelig i <a href="/" className="text-accent hover:underline">adresserapporten</a>.</p>
           </section>

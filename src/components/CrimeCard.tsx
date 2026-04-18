@@ -2,7 +2,7 @@
 
 import { Shield } from "lucide-react";
 import DataAgeChip from "@/components/DataAgeChip";
-import { nb } from "@/lib/format";
+import { nb, formatPct } from "@/lib/format";
 
 // SSB table 08484 — Anmeldte lovbrudd per 1000 innbyggere (2023, kommunenivå)
 // Source: SSB Kriminalstatistikk 2023 (published 2024)
@@ -292,7 +292,7 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
           <span className="text-[10px] text-text-tertiary">anmeldelser/1000</span>
         </div>
         <div className="flex-1 text-sm text-text-secondary leading-relaxed">
-          <strong className="text-foreground">{nb(Math.abs(Number(pctVsNational)))}%</strong>{" "}
+          <strong className="text-foreground">{formatPct(Math.abs(Number(pctVsNational)), 0)}</strong>{" "}
           {aboveBelow} landsgjennomsnittet på {nb(NATIONAL_AVG)} anmeldelser per 1 000 innbyggere.
           {kommunenummer === "0301" && (
             <p className="mt-1 text-xs text-text-tertiary">Adresser i Frogner og Majorstuen har typisk lavere nivå enn Oslo-snittet.</p>

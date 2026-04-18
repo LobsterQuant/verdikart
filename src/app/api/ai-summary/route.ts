@@ -18,7 +18,7 @@ function buildPrompt(address: string, ctx: ContextData): string {
     lines.push(`- Kvadratmeterpris: ${ctx.sqmPrice.toLocaleString("nb-NO")} kr/m² (${ctx.priceLabel ?? "kommunedata"})`);
   }
   if (ctx.yoyChange != null) {
-    lines.push(`- Prisutvikling siste år: ${ctx.yoyChange > 0 ? "+" : ""}${ctx.yoyChange.toFixed(1)}%`);
+    lines.push(`- Prisutvikling siste år: ${ctx.yoyChange > 0 ? "+" : ""}${ctx.yoyChange.toFixed(1).replace(".", ",")} %`);
   }
   if (ctx.transitMinutes != null && ctx.transitMinutes > 0 && ctx.transitDestination) {
     lines.push(`- Kollektivtransport til ${ctx.transitDestination}: ${ctx.transitMinutes} min`);
@@ -53,7 +53,7 @@ function buildFallbackSummary(address: string, ctx: ContextData): string {
     parts.push(`Gjennomsnittlig kvadratmeterpris i kommunen er ${ctx.sqmPrice.toLocaleString("nb-NO")} kr/m²${ctx.priceLabel ? ` (${ctx.priceLabel})` : ""}.`);
   }
   if (ctx.yoyChange != null) {
-    parts.push(`Prisene har endret seg ${ctx.yoyChange > 0 ? "+" : ""}${ctx.yoyChange.toFixed(1)}% siste år.`);
+    parts.push(`Prisene har endret seg ${ctx.yoyChange > 0 ? "+" : ""}${ctx.yoyChange.toFixed(1).replace(".", ",")} % siste år.`);
   }
   if (ctx.transitMinutes != null && ctx.transitMinutes > 0 && ctx.transitDestination) {
     parts.push(`Kollektivtransport til ${ctx.transitDestination} tar ${ctx.transitMinutes} minutter.`);

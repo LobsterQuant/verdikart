@@ -5,6 +5,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronRight, TrendingUp } from "lucide-react";
+import { formatPct } from "@/lib/format";
 import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from "react-leaflet";
 import { useEffect } from "react";
 
@@ -179,7 +180,7 @@ export default function CityOverviewMapInner() {
                 <p className="text-xs text-text-tertiary">Prisvekst (12 mnd)</p>
                 <p className="text-xl font-bold text-green-400 flex items-center gap-1">
                   <TrendingUp className="h-4 w-4" strokeWidth={2} />
-                  +{selected.yoy}%
+                  +{formatPct(selected.yoy)}
                 </p>
               </div>
             </div>
@@ -214,7 +215,7 @@ export default function CityOverviewMapInner() {
                       <p className="text-xs font-bold tabular-nums">
                         {city.avgSqmPrice.toLocaleString("nb-NO")}
                       </p>
-                      <p className="text-[10px] text-green-400">+{city.yoy}%</p>
+                      <p className="text-[10px] text-green-400">+{formatPct(city.yoy)}</p>
                     </div>
                   </button>
                 ))}

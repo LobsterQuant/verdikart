@@ -21,3 +21,22 @@ export function nb(value: number, decimals = 1): string {
     maximumFractionDigits: decimals,
   });
 }
+
+/**
+ * Format a number as a Norwegian percentage — comma separator + space before %.
+ * Replaces the common `.toFixed(1) + '%'` pattern.
+ *
+ * @example
+ *   formatPct(5.1)     // "5,1 %"
+ *   formatPct(93.2, 1) // "93,2 %"
+ *   formatPct(150, 0)  // "150 %"
+ */
+export function formatPct(value: number, decimals = 1): string {
+  if (!Number.isFinite(value)) return "–";
+  return (
+    value.toLocaleString("nb-NO", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    }) + " %"
+  );
+}

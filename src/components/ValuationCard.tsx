@@ -72,7 +72,13 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
     return null; // Don't show card if no price data
   }
 
-  const effectiveArea = bruksareal ?? (manualArea ? parseFloat(manualArea) : null);
+  // Safety: energiattest returns building GFA for multi-unit addresses
+  // (e.g. Bygdøy allé 2 → 2635 m²). Anything over 500 m² is almost certainly
+  // not a single residential unit — refuse to multiply and force manual input.
+  const areaTooLarge = bruksareal != null && bruksareal > 500;
+  const effectiveArea = areaTooLarge
+    ? (manualArea ? parseFloat(manualArea) : null)
+    : (bruksareal ?? (manualArea ? parseFloat(manualArea) : null));
   const estimatedValue = effectiveArea && sqmPrice ? Math.round(effectiveArea * sqmPrice) : null;
   const lowEstimate = estimatedValue ? Math.round(estimatedValue * 0.85) : null;
   const highEstimate = estimatedValue ? Math.round(estimatedValue * 1.15) : null;
@@ -142,6 +148,11 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
         </>
       ) : (
         <div className="mt-2">
+          {areaTooLarge && (
+            <p className="mb-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-400">
+              Fant bygningens totalareal ({bruksareal} m²). Oppgi enhetens BRA for et riktig estimat.
+            </p>
+          )}
           <p className="mb-2 text-sm text-text-secondary">
             Oppgi boligens areal for å beregne estimert verdi
           </p>

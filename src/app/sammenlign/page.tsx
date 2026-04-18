@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
 import { cities } from "@/app/by/[city]/cityData";
 import { getDemographics } from "@/data/demographics";
+import { formatPct } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Sammenlign byer — Oslo, Bergen, Trondheim, Stavanger | Verdikart",
@@ -82,13 +83,13 @@ export default function CompareCitiesPage() {
                         {(demo.medianIncome / 1000).toFixed(0)}k kr
                       </td>
                       <td className="px-4 py-3 text-right tabular-nums text-text-secondary">
-                        {demo.higherEducationPct.toFixed(1)}%
+                        {formatPct(demo.higherEducationPct)}
                       </td>
                       <td className="px-4 py-3 text-right tabular-nums text-text-secondary">
-                        {demo.childrenPct.toFixed(1)}%
+                        {formatPct(demo.childrenPct)}
                       </td>
                       <td className="px-4 py-3 text-right tabular-nums text-text-secondary">
-                        {demo.elderlyPct.toFixed(1)}%
+                        {formatPct(demo.elderlyPct)}
                       </td>
                       <td className="px-4 py-3 text-right tabular-nums font-semibold">
                         <span
@@ -101,7 +102,7 @@ export default function CompareCitiesPage() {
                           }
                         >
                           {demo.populationGrowthPct >= 0 ? "+" : ""}
-                          {demo.populationGrowthPct.toFixed(1)}%
+                          {formatPct(demo.populationGrowthPct)}
                         </span>
                       </td>
                     </tr>

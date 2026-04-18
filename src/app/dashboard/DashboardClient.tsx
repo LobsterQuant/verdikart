@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/components/Toast";
+import { formatPct } from "@/lib/format";
 
 interface SavedProperty {
   id: string;
@@ -355,7 +356,7 @@ function AlertsTab({
               <div className="min-w-0 flex-1">
                 <p className="text-xs text-text-tertiary">Terskel</p>
                 <p className="text-sm font-semibold">
-                  ±{(a.thresholdPct ?? 5).toFixed(1)}% endring
+                  ±{formatPct(a.thresholdPct ?? 5)} endring
                 </p>
               </div>
               {a.lastNotifiedAt ? (

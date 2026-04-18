@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MapPin, TrendingUp } from "lucide-react";
 import { cities } from "./[city]/cityData";
 import SiteFooter from "@/components/SiteFooter";
+import { formatPct } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Norske byer — boligpriser og markedsdata | Verdikart",
@@ -60,7 +61,7 @@ export default function CitiesIndexPage() {
                     style={{ color: isPositive ? "#22C55E" : "#EF4444" }}
                   >
                     <TrendingUp className="h-3.5 w-3.5" strokeWidth={2} />
-                    {isPositive ? "+" : ""}{city.avgSqmPriceYoY.toFixed(1)}%
+                    {isPositive ? "+" : ""}{formatPct(city.avgSqmPriceYoY)}
                   </span>
                 </div>
               </Link>

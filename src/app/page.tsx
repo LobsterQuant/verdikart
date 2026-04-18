@@ -248,7 +248,10 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       {/* Hero */}
-      <main className="hero-noise relative flex flex-col items-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden">
+      <main
+        className="hero-noise relative isolate flex flex-col items-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden"
+        style={{ contain: "paint" }}
+      >
 
         {/* ── Background layer stack ── */}
         {/* 1. Dot grid */}

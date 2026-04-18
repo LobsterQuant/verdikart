@@ -1,5 +1,4 @@
 import AddressSearch from "@/components/AddressSearch";
-import ProductPreview from "@/components/ProductPreview";
 import ProductDemo from "@/components/ProductDemo";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
@@ -391,11 +390,6 @@ export default function HomePage() {
             </a>
           ))}
         </div>
-      </section>
-
-      {/* Product preview — fades in on scroll */}
-      <section className="mx-auto w-full max-w-2xl px-4 pb-16 sm:px-6">
-        <ProductPreview />
       </section>
 
       {/* Social proof: report counter + use-case carousel */}

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPin, TrendingUp, Train, ChevronRight, HelpCircle, Lightbulb, ArrowRight } from "lucide-react";
 import { getCityData, allCitySlugs, cities } from "./cityData";
+import { formatPct } from "@/lib/format";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 import EiendomsskattCard from "@/components/EiendomsskattCard";
@@ -127,7 +128,7 @@ export default function CityPage({ params }: { params: { city: string } }) {
               <p className="mt-0.5 text-[10px] text-text-tertiary/60">SSB årsgjennomsnitt 2024</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold tabular-nums text-green-400">+{city.avgSqmPriceYoY}%</p>
+              <p className="text-2xl font-bold tabular-nums text-green-400">+{formatPct(city.avgSqmPriceYoY)}</p>
               <p className="mt-1 text-xs text-text-tertiary">prisendring siste år</p>
               <p className="mt-0.5 text-[10px] text-text-tertiary/60">SSB 2023–2024</p>
             </div>

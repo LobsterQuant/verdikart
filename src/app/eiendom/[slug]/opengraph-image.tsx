@@ -5,11 +5,12 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export default function OgImage({ params }: Props) {
-  const address = decodeURIComponent(params.slug)
+export default async function OgImage({ params }: Props) {
+  const { slug } = await params;
+  const address = decodeURIComponent(slug)
     .replace(/-/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase());
 

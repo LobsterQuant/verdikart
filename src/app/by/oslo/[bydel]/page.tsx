@@ -11,8 +11,9 @@ export async function generateStaticParams() {
   return getAllBydelSlugs();
 }
 
-export async function generateMetadata({ params }: { params: { bydel: string } }): Promise<Metadata> {
-  const bydel = getBydel(params.bydel);
+export async function generateMetadata({ params }: { params: Promise<{ bydel: string }> }): Promise<Metadata> {
+  const { bydel: bydelSlug } = await params;
+  const bydel = getBydel(bydelSlug);
   if (!bydel) return {};
   return {
     title: bydel.metaTitle,
@@ -33,8 +34,9 @@ function formatPrice(n: number) {
   return n.toLocaleString("nb-NO");
 }
 
-export default function BydelPage({ params }: { params: { bydel: string } }) {
-  const bydel = getBydel(params.bydel);
+export default async function BydelPage({ params }: { params: Promise<{ bydel: string }> }) {
+  const { bydel: bydelSlug } = await params;
+  const bydel = getBydel(bydelSlug);
   if (!bydel) notFound();
 
   const url = `https://verdikart.no/by/oslo/${bydel.slug}`;
@@ -167,7 +169,7 @@ export default function BydelPage({ params }: { params: { bydel: string } }) {
             <p className="text-sm leading-relaxed text-text-secondary">
               Estimert kvadratmeterpris i {bydel.name} er <strong className="text-foreground">{formatPrice(bydel.avgSqmPrice)} kr/m²</strong> basert på SSB-data for Oslo, justert for bydelnivå. Det er en estimert økning på <strong className="text-green-400">+{formatPct(bydel.avgSqmPriceYoY)}</strong> sammenlignet med samme periode i fjor.
             </p>
-            <p className="mt-2 text-xs text-text-tertiary">Kilde: SSB boligprisstatistikk, kommunenummer {bydel.kommunenummer}. Bydeltall er estimerte verdier — eksakt adressedata er tilgjengelig i <a href="/" className="text-accent hover:underline">adresserapporten</a>.</p>
+            <p className="mt-2 text-xs text-text-tertiary">Kilde: SSB boligprisstatistikk, kommunenummer {bydel.kommunenummer}. Bydeltall er estimerte verdier — eksakt adressedata er tilgjengelig i <Link href="/" className="text-accent hover:underline">adresserapporten</Link>.</p>
           </section>
 
           {/* Search CTA */}

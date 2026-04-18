@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import * as Sentry from "@sentry/nextjs";
 
 export default function GlobalError({
@@ -28,12 +29,12 @@ export default function GlobalError({
         >
           Prøv igjen
         </button>
-        <a
+        <Link
           href="/"
           className="rounded-lg border border-card-border bg-card-bg px-5 py-2.5 text-sm font-medium text-text-secondary transition-colors hover:text-foreground"
         >
           Til forsiden
-        </a>
+        </Link>
       </div>
     </div>
   );

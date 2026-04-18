@@ -18,9 +18,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { city: string };
+  params: Promise<{ city: string }>;
 }): Promise<Metadata> {
-  const city = getCityData(params.city);
+  const { city: citySlug } = await params;
+  const city = getCityData(citySlug);
   if (!city) return {};
   return {
     title: city.metaTitle,
@@ -41,8 +42,9 @@ function fmt(n: number) {
   return n.toLocaleString("nb-NO");
 }
 
-export default function CityPage({ params }: { params: { city: string } }) {
-  const city = getCityData(params.city);
+export default async function CityPage({ params }: { params: Promise<{ city: string }> }) {
+  const { city: citySlug } = await params;
+  const city = getCityData(citySlug);
   if (!city) notFound();
 
   const breadcrumb = {

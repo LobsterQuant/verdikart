@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
 
 /**
@@ -30,12 +31,12 @@ export default function FellesgjeldReminder() {
           50 % av kjøpesummen er et varseltegn.
         </p>
       </div>
-      <a
+      <Link
         href="/blogg/fellesgjeld-forklart"
         className="mt-3 inline-block text-xs font-medium text-amber-300 underline underline-offset-2 hover:text-amber-200 transition-colors"
       >
         Les mer: Fellesgjeld forklart →
-      </a>
+      </Link>
     </div>
   );
 }

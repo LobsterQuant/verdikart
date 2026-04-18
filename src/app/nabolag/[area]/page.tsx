@@ -12,8 +12,9 @@ export async function generateStaticParams() {
   return getAllAreaSlugs();
 }
 
-export async function generateMetadata({ params }: { params: { area: string } }): Promise<Metadata> {
-  const area = getArea(params.area);
+export async function generateMetadata({ params }: { params: Promise<{ area: string }> }): Promise<Metadata> {
+  const { area: areaSlug } = await params;
+  const area = getArea(areaSlug);
   if (!area) return {};
   // When the area is also surfaced as a richer Oslo bydel page,
   // consolidate SEO signals onto that URL via canonical.
@@ -40,8 +41,9 @@ function formatPrice(n: number) {
   return n.toLocaleString("nb-NO");
 }
 
-export default function AreaPage({ params }: { params: { area: string } }) {
-  const area = getArea(params.area);
+export default async function AreaPage({ params }: { params: Promise<{ area: string }> }) {
+  const { area: areaSlug } = await params;
+  const area = getArea(areaSlug);
   if (!area) notFound();
 
   const url = `https://verdikart.no/nabolag/${area.slug}`;
@@ -181,7 +183,7 @@ export default function AreaPage({ params }: { params: { area: string } }) {
             <p className="text-sm leading-relaxed text-text-secondary">
               Estimert kvadratmeterpris i {area.name} er <strong className="text-foreground">{formatPrice(area.avgSqmPrice)} kr/m²</strong> basert på SSB-data for {area.name.includes("Bergen") || area.kommunenummer !== "0301" ? "kommunen" : "Oslo"}, justert for bydelnivå. Det er en estimert økning på <strong className="text-green-400">+{formatPct(area.avgSqmPriceYoY)}</strong> sammenlignet med samme periode i fjor.
             </p>
-            <p className="mt-2 text-xs text-text-tertiary">Kilde: SSB boligprisstatistikk, kommunenummer {area.kommunenummer}. Bydeltall er estimerte verdier — eksakt adressedata er tilgjengelig i <a href="/" className="text-accent hover:underline">adresserapporten</a>.</p>
+            <p className="mt-2 text-xs text-text-tertiary">Kilde: SSB boligprisstatistikk, kommunenummer {area.kommunenummer}. Bydeltall er estimerte verdier — eksakt adressedata er tilgjengelig i <Link href="/" className="text-accent hover:underline">adresserapporten</Link>.</p>
           </section>
 
           {/* Search CTA */}

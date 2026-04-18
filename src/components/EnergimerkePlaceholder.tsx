@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Zap } from "lucide-react";
 
 /**
@@ -38,12 +39,12 @@ export default function EnergimerkePlaceholder() {
         </p>
       </div>
 
-      <a
+      <Link
         href="/blogg/energimerke-norge-forklart"
         className="mt-3 inline-block text-xs font-medium text-accent underline underline-offset-2 hover:text-accent/80 transition-colors"
       >
         Les mer om energimerker →
-      </a>
+      </Link>
 
       <p className="mt-3 text-xs text-text-tertiary">
         Kilde: Enova — Energimerke for bygg i Norge.

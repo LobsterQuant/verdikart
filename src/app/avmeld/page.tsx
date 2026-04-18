@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { CheckCircle, Mail, AlertCircle } from "lucide-react";
 
 export default function Avmeld() {
@@ -33,7 +34,7 @@ export default function Avmeld() {
               <p className="text-text-secondary text-sm">
                 Vi har registrert avmeldingen din og vil ikke sende deg flere e-poster fra Verdikart.
               </p>
-              <a href="/" className="mt-6 inline-block text-sm text-accent hover:underline">Tilbake til forsiden →</a>
+              <Link href="/" className="mt-6 inline-block text-sm text-accent hover:underline">Tilbake til forsiden →</Link>
             </>
           ) : (
             <>

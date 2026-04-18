@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Logo from "@/components/Logo";
 import EmailCapture from "@/components/EmailCapture";
 
@@ -10,10 +11,10 @@ export default function SiteFooter() {
         <div className="mb-10 flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           {/* Brand */}
           <div className="max-w-xs">
-            <a href="/" className="mb-3 flex items-center gap-2">
+            <Link href="/" className="mb-3 flex items-center gap-2">
               <Logo className="h-7 w-7 shrink-0" />
               <span className="text-base font-bold tracking-tight text-foreground">Verdikart</span>
-            </a>
+            </Link>
             <p className="text-sm leading-relaxed text-text-secondary">
               Forstå boligen. Ikke bare se den. Data fra Kartverket, Entur og SSB — ingen provisjon, ingen agenda.
             </p>
@@ -46,29 +47,29 @@ export default function SiteFooter() {
           <div className="space-y-2">
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Byer</p>
             {[["Oslo","/by/oslo"],["Bergen","/by/bergen"],["Trondheim","/by/trondheim"],["Stavanger","/by/stavanger"],["Bærum","/by/baerum"],["Kristiansand","/by/kristiansand"]].map(([l,h]) => (
-              <a key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</a>
+              <Link key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</Link>
             ))}
             <p className="mb-1 mt-4 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Nabolag</p>
             {[["Frogner","/nabolag/frogner"],["Grünerløkka","/nabolag/grunerlokka"],["Majorstuen","/nabolag/majorstuen"],["Nordnes","/nabolag/nordnes"]].map(([l,h]) => (
-              <a key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</a>
+              <Link key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</Link>
             ))}
           </div>
           <div className="space-y-2">
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Flere byer</p>
             {[["Fredrikstad","/by/fredrikstad"],["Drammen","/by/drammen"],["Tromsø","/by/tromso"],["Sandnes","/by/sandnes"],["Bodø","/by/bodoe"],["Skien","/by/skien"],["Sarpsborg","/by/sarpsborg"],["Arendal","/by/arendal"],["Hamar","/by/hamar"]].map(([l,h]) => (
-              <a key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</a>
+              <Link key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</Link>
             ))}
           </div>
           <div className="space-y-2 mt-6 sm:mt-0">
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">For deg</p>
             {[["Førstegangskjøper","/for/forstegangskjoper"],["Boliginvestor","/for/boliginvestor"],["Barnefamilier","/for/barnefamilier"],["Selger","/for/selger"],["Sammenlign adresser","/sammenlign"],["Boligkalkulator","/kalkulator"],["Bykart","/bykart"],["Data & metodologi","/data"],["Blogg","/blogg"],["FAQ","/faq"]].map(([l,h]) => (
-              <a key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</a>
+              <Link key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</Link>
             ))}
           </div>
           <div className="space-y-2 mt-6 sm:mt-0">
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Selskapet</p>
             {[["Om oss","/om-oss"],["Kontakt","/kontakt"],["Presse","/presse"],["Endringslogg","/changelog"],["Personvern","/personvern"],["Vilkår","/vilkar"]].map(([l,h]) => (
-              <a key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</a>
+              <Link key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</Link>
             ))}
           </div>
         </div>

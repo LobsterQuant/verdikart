@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import TransitCard from "@/components/TransitCard";
 import SchoolsCard from "@/components/SchoolsCard";
@@ -31,18 +32,20 @@ import EiendomsskattCard from "@/components/EiendomsskattCard";
 import { eiendomsskattData } from "@/data/eiendomsskatt";
 
 interface PageProps {
-  params: { slug: string };
-  searchParams: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{
     lat?: string;
     lon?: string;
     knr?: string;
     adresse?: string;
     pnr?: string;
     poststed?: string;
-  };
+  }>;
 }
 
-export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   // Short-circuit when the URL has no coordinates — the page will notFound()
   // anyway; avoid leaking a lowercase slug-derived title into the 404 response.
   const slugParsed = parseSlug(params.slug);
@@ -130,7 +133,9 @@ async function reverseGeocode(lat: number, lon: number): Promise<string | null> 
   }
 }
 
-export default async function EiendomPage({ params, searchParams }: PageProps) {
+export default async function EiendomPage(props: PageProps) {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const { lat, lon, knr, adresse } = searchParams;
 
   // Try query params first (legacy / direct navigation), then decode from slug
@@ -250,7 +255,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
           {/* ── HEADER ────────────────────────────────────────────────────── */}
           <header className="mb-8">
             <nav className="mb-3 flex items-center gap-1.5 text-xs text-text-tertiary" aria-label="Brødsmule">
-              <a href="/" className="hover:text-foreground transition-colors">Hjem</a>
+              <Link href="/" className="hover:text-foreground transition-colors">Hjem</Link>
               <svg className="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="m9 18 6-6-6-6"/></svg>
               {(() => {
                 const kommuneName = eiendomsskattData[kommunenummer]?.name;
@@ -258,7 +263,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 const slug = kommuneName.toLowerCase().replace(/ø/g, "o").replace(/å/g, "a").replace(/æ/g, "ae").replace(/\s+/g, "-");
                 return (
                   <>
-                    <a href={`/by/${slug}`} className="hover:text-foreground transition-colors">{kommuneName}</a>
+                    <Link href={`/by/${slug}`} className="hover:text-foreground transition-colors">{kommuneName}</Link>
                     <svg className="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="m9 18 6-6-6-6"/></svg>
                   </>
                 );

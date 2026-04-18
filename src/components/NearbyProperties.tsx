@@ -89,7 +89,7 @@ export default function NearbyProperties({
 
   if (loading) {
     return (
-      <div className="mt-8 rounded-xl border border-card-border bg-card-bg p-5">
+      <div className="mt-8 rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
         <p className="mb-3 text-sm font-semibold">Lignende adresser i nabolaget</p>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {[1, 2, 3, 4].map((i) => (
@@ -103,7 +103,7 @@ export default function NearbyProperties({
   if (nearby.length === 0) return null;
 
   return (
-    <div className="mt-8 rounded-xl border border-card-border bg-card-bg p-5">
+    <div className="mt-8 rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex items-center gap-2">
         <MapPin className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <p className="text-sm font-semibold">Lignende adresser i nabolaget</p>

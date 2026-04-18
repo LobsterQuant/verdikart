@@ -89,7 +89,22 @@ export default function PropertyEnergimerke({
     );
   }
 
-  if (!data) return null;
+  if (!data) {
+    return (
+      <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+        <div className="mb-2 flex items-center gap-2">
+          <Zap className="h-4 w-4 text-text-tertiary" strokeWidth={1.5} />
+          <h3 className="text-lg font-semibold">Energimerke</h3>
+        </div>
+        <p className="text-sm text-text-secondary">
+          Ingen energiattest registrert for denne adressen.
+        </p>
+        <p className="mt-1 text-xs text-text-tertiary">
+          Energimerking har vært påkrevd ved salg siden 2010, men ikke alle boliger er registrert hos Enova.
+        </p>
+      </div>
+    );
+  }
 
   const badge = labelColor(data.energikarakter!);
   const desc = labelDescription(data.energikarakter!);

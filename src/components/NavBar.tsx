@@ -139,7 +139,7 @@ export default function NavBar() {
           {/* Primary CTA */}
           <Link
             href="/#sok"
-            className="ml-1 rounded-lg bg-accent px-4 py-1.5 text-sm font-semibold text-white transition-all hover:opacity-90 hover:scale-105 whitespace-nowrap btn-glow"
+            className="btn-base btn-primary ml-1 px-4 py-1.5 text-sm btn-glow"
           >
             Prøv nå →
           </Link>
@@ -148,7 +148,7 @@ export default function NavBar() {
         {/* Mobile CTA */}
         <Link
           href={CTA_HREF}
-          className="mr-2 rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-white transition-opacity hover:opacity-80 sm:hidden"
+          className="btn-base btn-primary mr-2 px-3 py-1.5 text-xs sm:hidden"
         >
           Prøv nå
         </Link>

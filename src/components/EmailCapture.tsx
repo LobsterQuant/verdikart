@@ -73,7 +73,7 @@ export default function EmailCapture({ address, compact = false }: { address?: s
         <button
           type="submit"
           disabled={status === "loading"}
-          className="shrink-0 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-80 disabled:opacity-50"
+          className="btn-base btn-primary shrink-0 px-4 py-2 text-sm"
         >
           {status === "loading" ? "…" : "Abonnér"}
         </button>
@@ -106,7 +106,7 @@ export default function EmailCapture({ address, compact = false }: { address?: s
         <button
           type="submit"
           disabled={status === "loading"}
-          className="rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-80 disabled:opacity-50 whitespace-nowrap"
+          className="btn-base btn-primary px-5 py-2.5 text-sm"
         >
           {status === "loading" ? "Sender…" : "Varsle meg"}
         </button>

@@ -30,13 +30,13 @@ export interface HeroPropertyData {
   priceSeries: number[];
   /** Years corresponding to priceSeries (same length). */
   priceYears: string[];
-  /** Nearest/first boarding stop from Entur trip-planner, null if unavailable. */
+  /** Nearest transit stop from Entur nearest-places, null if unavailable. */
   transit: {
     stopName: string;
-    /** Norwegian mode label: "T-bane", "Buss", "Trikk", "Tog", "Båt". */
+    /** Norwegian mode label for the primary transport mode at this stop. */
     modeLabel: string;
-    /** Duration in minutes to the city centre. */
-    durationMin: number;
+    /** Walking distance in metres, rounded. */
+    distanceM: number;
   } | null;
 }
 
@@ -45,12 +45,20 @@ export interface HeroPropertyData {
 // ---------------------------------------------------------------------------
 
 interface SsbJsonStat2 {
-  value?: number[];
+  value?: (number | null)[];
   dimension?: {
     Tid?: { category?: { label?: Record<string, string> } };
   };
 }
 
+/**
+ * SSB table 06035 is published per housing type (eneboliger / småhus /
+ * blokkleiligheter), not as an aggregate. To get a single kommune series we
+ * request all three types with both KvPris and Omsetninger, then compute a
+ * volume-weighted average per year — same approach as the production
+ * /api/price-trend route's fetchKommuneData. Keeping the logic inlined here
+ * so the hero helper has zero runtime dependency on the API route.
+ */
 async function fetchKommunePriceSeries(
   kommunenummer: string
 ): Promise<{ values: number[]; years: string[] }> {
@@ -60,67 +68,72 @@ async function fetchKommunePriceSeries(
   const body = {
     query: [
       { code: "Region", selection: { filter: "item", values: [knr] } },
-      { code: "Boligtype", selection: { filter: "item", values: ["00"] } }, // all types
-      { code: "ContentsCode", selection: { filter: "item", values: ["KvPris"] } },
+      { code: "Boligtype", selection: { filter: "item", values: ["01", "02", "03"] } },
+      { code: "ContentsCode", selection: { filter: "item", values: ["KvPris", "Omsetninger"] } },
       { code: "Tid", selection: { filter: "top", values: ["8"] } },
     ],
     response: { format: "json-stat2" },
   };
 
-  return cachedFetch(
-    cacheKey,
-    TTL.ONE_DAY,
-    async () => {
-      try {
-        const res = await fetch("https://data.ssb.no/api/v0/no/table/06035/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-          signal: AbortSignal.timeout(8000),
-        });
-        if (!res.ok) return { values: [], years: [] };
-        const data = (await res.json()) as SsbJsonStat2;
-        const rawValues = Array.isArray(data.value) ? data.value : [];
-        const yearLabels = Object.values(
-          data.dimension?.Tid?.category?.label ?? {}
-        );
-        // Filter out null/zero (SSB uses nulls for missing cells).
-        const values: number[] = [];
-        const years: string[] = [];
-        rawValues.forEach((v, i) => {
-          if (typeof v === "number" && v > 0) {
-            values.push(v);
-            years.push(String(yearLabels[i] ?? ""));
+  return cachedFetch(cacheKey, TTL.ONE_DAY, async () => {
+    try {
+      const res = await fetch("https://data.ssb.no/api/v0/no/table/06035/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!res.ok) return { values: [], years: [] };
+      const data = (await res.json()) as SsbJsonStat2;
+      const rawValues = Array.isArray(data.value) ? data.value : [];
+      const yearLabels = Object.values(
+        data.dimension?.Tid?.category?.label ?? {}
+      ) as string[];
+      const N = yearLabels.length;
+      if (!N || rawValues.length === 0) return { values: [], years: [] };
+
+      // Flat-array layout: rawValues[t*(2*N) + c*N + y] for
+      // t ∈ {0,1,2} (type), c ∈ {0,1} (0=KvPris, 1=Omsetninger), y ∈ [0,N).
+      const weightedByYear: number[] = [];
+      for (let y = 0; y < N; y++) {
+        let sumPxV = 0;
+        let sumV = 0;
+        for (let t = 0; t < 3; t++) {
+          const price = rawValues[t * (2 * N) + 0 * N + y];
+          const vol = rawValues[t * (2 * N) + 1 * N + y];
+          if (
+            typeof price === "number" &&
+            typeof vol === "number" &&
+            vol > 0
+          ) {
+            sumPxV += price * vol;
+            sumV += vol;
           }
-        });
-        return { values, years };
-      } catch {
-        return { values: [], years: [] };
+        }
+        weightedByYear.push(sumV > 0 ? Math.round(sumPxV / sumV) : 0);
       }
+
+      const values: number[] = [];
+      const years: string[] = [];
+      weightedByYear.forEach((v, i) => {
+        if (v > 0) {
+          values.push(v);
+          years.push(yearLabels[i] ?? "");
+        }
+      });
+      return { values, years };
+    } catch {
+      return { values: [], years: [] };
     }
-  );
+  });
 }
 
 // ---------------------------------------------------------------------------
-// Entur nearest-stop via trip-planner (reuses same upstream the /api/transit
-// route hits, narrower consumption — we only need the first boarding leg).
+// Entur nearest-stop via GraphQL `nearest` — purpose-built for
+// "what StopPlaces sit near this coordinate". Much better fit for the hero
+// than trip-planner, which returns foot-only patterns when origin and
+// destination are already adjacent (e.g. Karl Johans gate 1 → Oslo S).
 // ---------------------------------------------------------------------------
-
-interface EnturTripLeg {
-  mode?: string;
-  fromPlace?: { name?: string };
-  line?: { publicCode?: string };
-}
-interface EnturTripResponse {
-  data?: {
-    trip?: {
-      tripPatterns?: {
-        duration?: number;
-        legs?: EnturTripLeg[];
-      }[];
-    };
-  };
-}
 
 const MODE_LABEL: Record<string, string> = {
   rail: "Tog",
@@ -128,24 +141,49 @@ const MODE_LABEL: Record<string, string> = {
   bus: "Buss",
   tram: "Trikk",
   water: "Båt",
+  funicular: "Kabelbane",
+  air: "Fly",
 };
+
+// Preferred mode order — pick the "headline" mode when a stop serves many.
+const MODE_PRIORITY = ["metro", "rail", "tram", "bus", "water"] as const;
+
+interface EnturNearestNode {
+  distance?: number;
+  place?: {
+    __typename?: string;
+    name?: string;
+    transportMode?: string[];
+  };
+}
+interface EnturNearestResponse {
+  data?: {
+    nearest?: {
+      edges?: { node?: EnturNearestNode }[];
+    };
+  };
+}
 
 async function fetchNearestTransit(
   lat: number,
-  lon: number,
-  cityCentre: { lat: number; lon: number }
+  lon: number
 ): Promise<HeroPropertyData["transit"]> {
-  const cacheKey = `hero:entur:${lat.toFixed(3)}:${lon.toFixed(3)}`;
+  const cacheKey = `hero:entur-nearest:${lat.toFixed(3)}:${lon.toFixed(3)}`;
   const query = `{
-    trip(
-      from: { coordinates: { latitude: ${lat}, longitude: ${lon} } }
-      to: { coordinates: { latitude: ${cityCentre.lat}, longitude: ${cityCentre.lon} } }
-      numTripPatterns: 3
-      searchWindow: 1800
+    nearest(
+      latitude: ${lat}
+      longitude: ${lon}
+      maximumDistance: 500
+      filterByPlaceTypes: [stopPlace]
     ) {
-      tripPatterns {
-        duration
-        legs { mode fromPlace { name } line { publicCode } }
+      edges {
+        node {
+          distance
+          place {
+            __typename
+            ... on StopPlace { name transportMode }
+          }
+        }
       }
     }
   }`;
@@ -165,24 +203,20 @@ async function fetchNearestTransit(
         }
       );
       if (!res.ok) return null;
-      const raw = (await res.json()) as EnturTripResponse;
-      const patterns = raw.data?.trip?.tripPatterns ?? [];
-      if (patterns.length === 0) return null;
-      // Pick the pattern whose first non-foot leg has a named stop — that's
-      // the stop the user would actually board at.
-      for (const pattern of patterns) {
-        const firstRide = pattern.legs?.find(
-          (l) => l.mode && l.mode !== "foot"
-        );
-        if (firstRide?.fromPlace?.name) {
-          const durationMin = Math.round((pattern.duration ?? 0) / 60);
-          const modeLabel = MODE_LABEL[firstRide.mode ?? ""] ?? "Kollektiv";
-          return {
-            stopName: firstRide.fromPlace.name,
-            modeLabel,
-            durationMin,
-          };
-        }
+      const raw = (await res.json()) as EnturNearestResponse;
+      const edges = raw.data?.nearest?.edges ?? [];
+      for (const edge of edges) {
+        const node = edge.node;
+        const modes = node?.place?.transportMode ?? [];
+        const name = node?.place?.name;
+        if (!name || modes.length === 0) continue;
+        const primary =
+          MODE_PRIORITY.find((m) => modes.includes(m)) ?? modes[0];
+        return {
+          stopName: name,
+          modeLabel: MODE_LABEL[primary] ?? "Kollektiv",
+          distanceM: Math.round(node?.distance ?? 0),
+        };
       }
       return null;
     } catch {
@@ -205,11 +239,10 @@ export async function getHeroPropertyData(input: {
   lat: number;
   lon: number;
   kommunenummer: string;
-  cityCentre: { lat: number; lon: number };
 }): Promise<HeroPropertyData> {
   const [price, transit] = await Promise.all([
     fetchKommunePriceSeries(input.kommunenummer),
-    fetchNearestTransit(input.lat, input.lon, input.cityCentre),
+    fetchNearestTransit(input.lat, input.lon),
   ]);
 
   const values = price.values;

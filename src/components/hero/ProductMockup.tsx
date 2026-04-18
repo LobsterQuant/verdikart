@@ -12,8 +12,6 @@ const DEMO_PROPERTY = {
   lon: 10.7494,
   kommunenummer: "0301",
   kommuneName: "Oslo",
-  // Oslo S / Jernbanetorget as city-centre anchor for Entur trip-planner.
-  cityCentre: { lat: 59.9112, lon: 10.7522 },
 };
 
 /**
@@ -59,7 +57,7 @@ export async function ProductMockup() {
           <TransitPill
             stopName={data.transit.stopName}
             modeLabel={data.transit.modeLabel}
-            durationMin={data.transit.durationMin}
+            distanceM={data.transit.distanceM}
           />
         </div>
       )}

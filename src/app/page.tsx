@@ -3,8 +3,13 @@ import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
 import SiteFooter from "@/components/SiteFooter";
 import SavedAddressesList from "@/components/SavedAddressesList";
-import { FeatureCards, StatsGrid } from "@/components/HomeClientSections";
+import { FeatureCards } from "@/components/HomeClientSections";
+import { ProductMockup } from "@/components/hero/ProductMockup";
+import { HeroStats } from "@/components/hero/HeroStats";
 import NewBadge from "@/components/NewBadge";
+
+// ISR: SSB and Entur data in the hero mockup revalidate hourly.
+export const revalidate = 3600;
 import { Check, Minus, CircleDollarSign, Droplets, BarChart3, Bus, FileText, Sparkles, Shield, Volume2, GraduationCap, Wind, Wifi, Zap, Users, Calculator, Bell, Leaf, TrendingUp } from "lucide-react";
 import {
   AdresseIcon,
@@ -324,29 +329,21 @@ export default function HomePage() {
           }}
         />
 
-        {/* Badge */}
-        <div className="mb-4">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-medium text-accent">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-            </span>
-            <span className="sm:hidden">Gratis · Se full rapport uten konto</span>
-            <span className="hidden sm:inline">Gratis · Se full rapport uten konto · Norske offentlige data</span>
-          </span>
-        </div>
+        {/* Eyebrow */}
+        <p className="caption mb-4 uppercase tracking-[0.14em] text-accent/80">
+          Forstå boligen. Ikke bare se den.
+        </p>
 
-        {/* Staggered headline */}
-        <h1 className="max-w-3xl text-[1.65rem] font-bold leading-tight tracking-tight xs:text-3xl sm:text-5xl md:text-6xl">
-          <span className="block text-gradient headline-shimmer">
-            Er nabolaget verdt prisen?
-          </span>
-          <span className="block text-foreground/80">
+        {/* Primary headline — display-serif, italic muted second line */}
+        <h1 className="display-1 max-w-3xl text-text">
+          Er nabolaget verdt prisen?
+          <br />
+          <span className="italic text-text-muted">
             Finn svaret på&nbsp;10&nbsp;sekunder.
           </span>
         </h1>
 
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-text-secondary sm:mt-6 sm:text-lg">
+        <p className="mt-6 max-w-xl text-base leading-relaxed text-text-secondary sm:text-lg">
           Søk på hvilken som helst norsk adresse og få full rapport om
           kollektivtransport, boligprisutvikling, støynivå og nabolagsdata —
           direkte fra SSB, Kartverket og Entur.
@@ -354,7 +351,7 @@ export default function HomePage() {
 
         <div
           id="sok"
-          className="mt-8 w-full max-w-xl sm:mt-10"
+          className="mt-block w-full max-w-xl"
         >
           <AddressSearch />
           {/* Quick-start example addresses */}
@@ -377,47 +374,49 @@ export default function HomePage() {
         </div>
 
         {/* Saved addresses */}
-        <div className="mt-5 w-full max-w-md">
+        <div className="mt-4 w-full max-w-md">
           <SavedAddressesList />
         </div>
 
-        {/* Social proof strip — above the fold */}
-        <div className="mt-7 w-full max-w-lg">
-          {/* Stats grid — animated count-up on scroll */}
-          <div className="px-4 sm:px-0">
-            <StatsGrid />
-          </div>
+        {/* Product mockup — real Karl Johans gate 1 data, ISR-cached */}
+        <div className="mt-block w-full">
+          <ProductMockup />
         </div>
 
         {/* Data source trust strip */}
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-          <span className="text-xs text-text-tertiary">Åpne data fra</span>
-          {[
-            { label: "SSB", href: "https://www.ssb.no", title: "Boligpriser og statistikk" },
-            { label: "Kartverket", href: "https://kartverket.no", title: "Adresse, eiendom og støykart" },
-            { label: "Entur", href: "https://entur.no", title: "Kollektivtransport" },
-            { label: "NVE", href: "https://nve.no", title: "Klima- og flomrisiko" },
-            { label: "NILU", href: "https://luftkvalitet.info", title: "Luftkvalitet" },
-            { label: "Nkom", href: "https://nkom.no", title: "Bredbåndsdekning" },
-            { label: "Enova", href: "https://enova.no", title: "Energimerking" },
-            { label: "OSM", href: "https://openstreetmap.org", title: "Skoler og fasiliteter" },
-          ].map(({ label, href, title }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={title}
-              className="inline-flex items-center gap-1 rounded-full border border-card-border bg-card-bg px-3 py-1 text-xs font-medium text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
-            >
-              {label}
-              <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 opacity-40" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-                <path d="M2.5 9.5 L9.5 2.5M5.5 2.5h4v4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
-          ))}
+        <div className="mt-block flex flex-col items-center gap-3">
+          <span className="caption text-text-subtle">Åpne data fra</span>
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {[
+              { label: "SSB", href: "https://www.ssb.no", title: "Boligpriser og statistikk" },
+              { label: "Kartverket", href: "https://kartverket.no", title: "Adresse, eiendom og støykart" },
+              { label: "Entur", href: "https://entur.no", title: "Kollektivtransport" },
+              { label: "NVE", href: "https://nve.no", title: "Klima- og flomrisiko" },
+              { label: "NILU", href: "https://luftkvalitet.info", title: "Luftkvalitet" },
+              { label: "Nkom", href: "https://nkom.no", title: "Bredbåndsdekning" },
+              { label: "Enova", href: "https://enova.no", title: "Energimerking" },
+              { label: "OSM", href: "https://openstreetmap.org", title: "Skoler og fasiliteter" },
+            ].map(({ label, href, title }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={title}
+                className="inline-flex items-center gap-1 rounded-full border border-card-border bg-card-bg px-3 py-1 text-xs font-medium text-text-secondary transition-colors hover:border-accent/40 hover:text-foreground"
+              >
+                {label}
+                <svg viewBox="0 0 12 12" className="h-2.5 w-2.5 opacity-40" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+                  <path d="M2.5 9.5 L9.5 2.5M5.5 2.5h4v4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* Stats — full-width display-serif section bridging hero → how-it-works */}
+      <HeroStats />
 
       {/* Social proof: report counter + use-case carousel */}
       <SocialProofStrip />

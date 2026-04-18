@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { haversineKm } from "@/lib/geo";
 import { nearestCity } from "@/lib/cities";
 import { cachedFetch, TTL } from "@/lib/cache";
+import { EnturResponseSchema, parseUpstream } from "@/lib/schemas";
 
 interface Leg {
   mode: string;
@@ -58,20 +59,24 @@ async function fetchTransit(fromLat: number, fromLon: number): Promise<TransitRe
 
     if (!res.ok) return empty;
 
-    const data = await res.json();
-    const patterns = data?.data?.trip?.tripPatterns;
+    const raw = await res.json();
+    const data = parseUpstream("entur", EnturResponseSchema, raw);
+    if (!data) return empty;
+
+    const patterns = data.data?.trip?.tripPatterns;
     if (!patterns || patterns.length === 0) return empty;
 
-    const pattern = patterns.reduce((best: { duration: number }, p: { duration: number }) =>
-      p.duration < best.duration ? p : best, patterns[0]);
-    const durationSeconds: number = pattern.duration ?? 0;
+    const pattern = patterns.reduce(
+      (best, p) => ((p.duration ?? Infinity) < (best.duration ?? Infinity) ? p : best),
+      patterns[0],
+    );
+    const durationSeconds = pattern.duration ?? 0;
     const durationMinutes = Math.round(durationSeconds / 60);
 
     const directDistKm = haversineKm(fromLat, fromLon, city.lat, city.lon);
     if (directDistKm < 1.5 && durationMinutes > 30) return empty;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const legs: Leg[] = (pattern.legs ?? []).map((leg: any) => ({
+    const legs: Leg[] = (pattern.legs ?? []).map((leg) => ({
       mode: leg.mode,
       from: leg.fromPlace?.name ?? "",
       to: leg.toPlace?.name ?? "",

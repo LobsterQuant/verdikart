@@ -1,12 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-interface GeonorgeAddress {
-  adressetekst: string;
-  representasjonspunkt?: { lat: number; lon: number };
-  kommunenummer?: string;
-  postnummer?: string;
-  poststed?: string;
-}
+import { GeonorgeResponseSchema, parseUpstream } from "@/lib/schemas";
 
 interface AddressResult {
   adressetekst: string;
@@ -33,8 +26,10 @@ async function searchGeonorge(q: string, fuzzy: boolean): Promise<AddressResult[
     const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
     if (!res.ok) return [];
 
-    const data = await res.json();
-    const adresser: GeonorgeAddress[] = data.adresser ?? [];
+    const raw = await res.json();
+    const data = parseUpstream("geonorge-sok", GeonorgeResponseSchema, raw);
+    if (!data) return [];
+    const adresser = data.adresser ?? [];
 
     // Score results: boost those whose poststed appears in the query
     const qLower = q.toLowerCase();

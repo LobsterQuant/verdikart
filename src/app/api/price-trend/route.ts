@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { OSLO_BYDEL_INDEX } from "@/lib/oslo-bydeler";
 import { cachedFetch, TTL } from "@/lib/cache";
+import { SsbJsonStat2Schema, parseUpstream } from "@/lib/schemas";
 
 interface PriceTrendResult {
   quarters: string[];
@@ -43,7 +44,9 @@ async function fetchKommuneData(kommunenummer: string): Promise<PriceTrendResult
 
   if (!res.ok) return null;
 
-  const data = await res.json();
+  const raw = await res.json();
+  const data = parseUpstream("ssb-06035", SsbJsonStat2Schema, raw);
+  if (!data) return null;
   const rawValues: (number | null)[] = data.value ?? [];
   if (!rawValues.length) return null;
 
@@ -106,7 +109,9 @@ async function fetchNationalData(): Promise<PriceTrendResult> {
 
   if (!res.ok) return EMPTY;
 
-  const data = await res.json();
+  const raw = await res.json();
+  const data = parseUpstream("ssb-07241", SsbJsonStat2Schema, raw);
+  if (!data) return EMPTY;
   const timeDimension = data.dimension?.Tid;
   const quarters: string[] = timeDimension
     ? (Object.values(timeDimension.category?.label ?? {}) as string[])

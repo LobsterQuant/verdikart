@@ -26,6 +26,23 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "2.1",
+    date: "18. april 2026",
+    label: "Full design-gjennomgang, verdiestimat med deeplink, prisvarsler-dashboard og schema-validering",
+    items: [
+      { type: "improvement", text: "Fullstendig design-gjennomgang med Opus 4.7 — fire runder med audit og målrettede fikser på tvers av hele produktet." },
+      { type: "feature", text: "Månedskostnad-kalkulator med deeplink fra verdiestimat: klikk «Hva koster dette per måned?» på eiendomsrapporten og få lån, eiendomsskatt og stresstest pre-utfylt." },
+      { type: "feature", text: "Prisvarsler-dashboard med faner — administrer alle aktive varsler, terskelverdier og historikk på én side." },
+      { type: "fix", text: "Oslo eiendomsskatt korrigert til 1,7‰ med bunnfradrag på 4,9 MNOK (var feil promillesats)." },
+      { type: "fix", text: "Verdiestimat — advarer nå ved bygningens totalareal (energiattest returnerer hele bygningens BRA for flerbolighus). Tidligere kunne dette gi estimater på 400 MNOK for en enkelt leilighet; nå krever appen manuell BRA over 500 m²." },
+      { type: "fix", text: "Mid-scroll svart viewport — rotårsak funnet: PageTransition la til permanent transform på full-side-wrapper som promoterte hele dokumentet til et GPU-lag. Fjernet PageTransition og justerte card-enter-keyframe til transform: none ved animasjonsslutt." },
+      { type: "improvement", text: "Norske desimaltegn konsekvent overalt — ny formatPct()-helper bruker Intl.NumberFormat('nb-NO') med mellomrom før %. Erstatter alle .toFixed(1) + '%' på forsiden, bydel-, bykart-, sammenlign-, dashboard- og AI-oppsummerings-sider." },
+      { type: "improvement", text: "Nye datakort-animasjoner og design-system — konsistente fade-in-keyframer, gradient-orb-glow bakt inn i bakgrunn (ikke separate kompositorlag), mer luft og hierarki på forsiden." },
+      { type: "improvement", text: "Zod schema-validering mot Entur, SSB og Geonorge — alle API-rutene validerer nå responser på kjøringstid og feiler trygt hvis skjemaet endres." },
+      { type: "improvement", text: "36 automatiske tester som kjører på hver commit — dekker pris-cache, postnummer-parsing, valuta-format, SSB JSON-stat-parsing og Leaflet-render." },
+    ],
+  },
+  {
     version: "2.0",
     date: "1. april 2026",
     label: "Enova energimerke per bolig — offisielle energikarakterer fra A til G",

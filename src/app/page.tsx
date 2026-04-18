@@ -5,7 +5,7 @@ import SiteFooter from "@/components/SiteFooter";
 import SavedAddressesList from "@/components/SavedAddressesList";
 import { FeatureCards, StatsGrid } from "@/components/HomeClientSections";
 import NewBadge from "@/components/NewBadge";
-import { Check, Minus, CircleDollarSign, Droplets, BarChart3, Bus, FileText, Sparkles } from "lucide-react";
+import { Check, Minus, CircleDollarSign, Droplets, BarChart3, Bus, FileText, Sparkles, Shield, Volume2, GraduationCap, Wind, Wifi, Zap, Users, Calculator, Bell, Leaf, TrendingUp } from "lucide-react";
 
 type ComparisonRow = {
   feature: string;
@@ -18,12 +18,24 @@ type ComparisonRow = {
 };
 
 const COMPARISON_ROWS: ComparisonRow[] = [
-  { feature: "Verdiestimat for boligen",       short: "Verdiestimat",  Icon: CircleDollarSign, verdikart: true, finn: false, google: false, isNew: true },
-  { feature: "Klimarisiko (flom, kvikkleire)", short: "Klimarisiko",   Icon: Droplets,         verdikart: true, finn: false, google: false, isNew: true },
-  { feature: "SSB prisstatistikk (kvartal)",   short: "SSB-statistikk", Icon: BarChart3,       verdikart: true, finn: false, google: false },
-  { feature: "Live Entur — avganger per time", short: "Live Entur",    Icon: Bus,              verdikart: true, finn: false, google: false },
-  { feature: "PDF-rapport til megler/bank",    short: "PDF",           Icon: FileText,         verdikart: true, finn: false, google: false },
-  { feature: "Gratis uten konto",                short: "Gratis",        Icon: Sparkles,         verdikart: true, finn: true,  google: true },
+  { feature: "Verdiestimat for boligen",           short: "Verdiestimat",   Icon: CircleDollarSign, verdikart: true, finn: false, google: false, isNew: true },
+  { feature: "Kollektivtransport — avganger per time", short: "Kollektiv",  Icon: Bus,              verdikart: true, finn: false, google: false },
+  { feature: "SSB prisstatistikk (kvartal)",       short: "SSB-priser",     Icon: BarChart3,        verdikart: true, finn: false, google: false },
+  { feature: "Sammenlignbare salg i kommunen",     short: "Salg",           Icon: TrendingUp,       verdikart: true, finn: true,  google: false },
+  { feature: "Klimarisiko (flom, kvikkleire)",     short: "Klimarisiko",    Icon: Droplets,         verdikart: true, finn: false, google: false, isNew: true },
+  { feature: "Miljørisiko (forurensning, stråling)", short: "Miljø",        Icon: Leaf,             verdikart: true, finn: false, google: false },
+  { feature: "Kriminalitetsstatistikk",            short: "Kriminalitet",   Icon: Shield,           verdikart: true, finn: false, google: false },
+  { feature: "Støykart per adresse",               short: "Støy",           Icon: Volume2,          verdikart: true, finn: false, google: false },
+  { feature: "Skoler og barnehager",               short: "Skoler",         Icon: GraduationCap,    verdikart: true, finn: false, google: false },
+  { feature: "Luftkvalitet",                       short: "Luft",           Icon: Wind,             verdikart: true, finn: false, google: false },
+  { feature: "Bredbånd (fiber, hastighet)",        short: "Bredbånd",       Icon: Wifi,             verdikart: true, finn: false, google: false },
+  { feature: "Energimerke fra Enova",              short: "Energi",         Icon: Zap,              verdikart: true, finn: true,  google: false },
+  { feature: "Demografi (alder, inntekt)",         short: "Demografi",      Icon: Users,            verdikart: true, finn: false, google: false },
+  { feature: "Eiendomsskatt-kalkulator",           short: "Eiendomsskatt",  Icon: Calculator,       verdikart: true, finn: false, google: false },
+  { feature: "Månedskostnad (lån + stresstest)",   short: "Månedskostnad",  Icon: CircleDollarSign, verdikart: true, finn: false, google: false, isNew: true },
+  { feature: "PDF-rapport til megler/bank",        short: "PDF",            Icon: FileText,         verdikart: true, finn: false, google: false },
+  { feature: "Prisvarsler på adresse",             short: "Varsler",        Icon: Bell,             verdikart: true, finn: false, google: false, isNew: true },
+  { feature: "Gratis uten konto",                  short: "Gratis",         Icon: Sparkles,         verdikart: true, finn: true,  google: true },
 ];
 
 const HOW_STEPS = [

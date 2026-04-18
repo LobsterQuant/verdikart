@@ -3,7 +3,6 @@ import Script from "next/script";
 import NavBar from "@/components/NavBar";
 import CookieBanner from "@/components/CookieBanner";
 import JsonLd from "@/components/JsonLd";
-import PageTransition from "@/components/PageTransition";
 import Providers from "@/components/Providers";
 import "./globals.css";
 
@@ -135,7 +134,7 @@ export default function RootLayout({
           </a>
           <NavBar />
           <main id="main-content" className="pt-14">
-            <PageTransition>{children}</PageTransition>
+            {children}
           </main>
           <CookieBanner />
         </Providers>

@@ -340,7 +340,6 @@ input::placeholder {
   }
   /* Force end-state for reveal animations so reduced-motion users don't see
      content frozen at 0 opacity / mid-transform. */
-  .animate-page-enter,
   .animate-card-enter,
   .animate-fade-in,
   .content-reveal {

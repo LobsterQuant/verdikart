@@ -1,5 +1,6 @@
 import { Users } from "lucide-react";
 import { getDemographics } from "@/data/demographics";
+import DataAgeChip from "@/components/DataAgeChip";
 
 export default function DemographicsCard({ kommunenummer }: { kommunenummer: string }) {
   const data = getDemographics(kommunenummer);
@@ -23,9 +24,10 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
 
   return (
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
-      <div className="mb-4 flex items-center gap-2">
+      <div className="mb-4 flex flex-wrap items-center gap-2">
         <Users className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Befolkningsprofil</h3>
+        <DataAgeChip source="SSB" date="2024" className="ml-auto" />
       </div>
 
       {/* Income + Education row */}

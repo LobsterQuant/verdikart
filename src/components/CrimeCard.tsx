@@ -1,6 +1,7 @@
 "use client";
 
 import { Shield } from "lucide-react";
+import DataAgeChip from "@/components/DataAgeChip";
 
 // SSB table 08484 — Anmeldte lovbrudd per 1000 innbyggere (2023, kommunenivå)
 // Source: SSB Kriminalstatistikk 2023 (published 2024)
@@ -248,9 +249,10 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
 
   return (
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
-      <div className="mb-4 flex items-center gap-2">
+      <div className="mb-4 flex flex-wrap items-center gap-2">
         <Shield className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Kriminalitetsnivå (kommunenivå)</h3>
+        <DataAgeChip source="SSB" date={`${data.year}`} className="ml-auto" />
       </div>
 
       {/* Kommune-level disclaimer */}
@@ -277,6 +279,9 @@ export default function CrimeCard({ kommunenummer }: { kommunenummer: string }) 
           className="flex flex-col items-center justify-center rounded-xl px-5 py-3 text-center"
           style={{ background: bg, border: `1px solid ${color}30` }}
         >
+          <span className="text-[9px] font-semibold uppercase tracking-widest text-text-tertiary">
+            Kommunenivå
+          </span>
           <span className="text-xs font-semibold uppercase tracking-widest mb-0.5" style={{ color }}>
             {label}
           </span>

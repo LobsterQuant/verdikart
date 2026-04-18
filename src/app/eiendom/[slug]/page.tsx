@@ -30,6 +30,7 @@ import CardErrorBoundary from "@/components/CardErrorBoundary";
 import DemographicsCard from "@/components/DemographicsCard";
 import EnvironmentalRiskCard from "@/components/EnvironmentalRiskCard";
 import EiendomsskattCard from "@/components/EiendomsskattCard";
+import { eiendomsskattData } from "@/data/eiendomsskatt";
 
 interface PageProps {
   params: { slug: string };
@@ -173,6 +174,11 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
 
     const canonicalUrl = `https://verdikart.no/eiendom/${params.slug}`;
 
+  const kommuneName = eiendomsskattData[kommunenummer]?.name;
+  const kommuneSlug = kommuneName
+    ? kommuneName.toLowerCase().replace(/ø/g, "o").replace(/å/g, "a").replace(/æ/g, "ae").replace(/\s+/g, "-")
+    : "";
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -181,15 +187,23 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
         "@type": "ListItem",
         "position": 1,
         "name": "Hjem",
-        "item": "https://verdikart.no"
+        "item": "https://verdikart.no",
       },
+      ...(kommuneName
+        ? [{
+            "@type": "ListItem" as const,
+            "position": 2,
+            "name": kommuneName,
+            "item": `https://verdikart.no/by/${kommuneSlug}`,
+          }]
+        : []),
       {
         "@type": "ListItem",
-        "position": 2,
+        "position": kommuneName ? 3 : 2,
         "name": displayAddress,
-        "item": canonicalUrl
-      }
-    ]
+        "item": canonicalUrl,
+      },
+    ],
   };
 
   const realEstateSchema = {
@@ -246,6 +260,17 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
             <nav className="mb-3 flex items-center gap-1.5 text-xs text-text-tertiary" aria-label="Brødsmule">
               <a href="/" className="hover:text-foreground transition-colors">Hjem</a>
               <svg className="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="m9 18 6-6-6-6"/></svg>
+              {(() => {
+                const kommuneName = eiendomsskattData[kommunenummer]?.name;
+                if (!kommuneName) return null;
+                const slug = kommuneName.toLowerCase().replace(/ø/g, "o").replace(/å/g, "a").replace(/æ/g, "ae").replace(/\s+/g, "-");
+                return (
+                  <>
+                    <a href={`/by/${slug}`} className="hover:text-foreground transition-colors">{kommuneName}</a>
+                    <svg className="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="m9 18 6-6-6-6"/></svg>
+                  </>
+                );
+              })()}
               <span className="max-w-[260px] truncate text-text-secondary">{displayAddress}</span>
             </nav>
 

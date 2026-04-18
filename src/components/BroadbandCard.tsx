@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Wifi } from "lucide-react";
+import DataAgeChip from "@/components/DataAgeChip";
 
 interface BroadbandData {
   maxDownload: number | null;
@@ -71,10 +72,13 @@ export default function BroadbandCard({ lat, lon }: { lat: number; lon: number }
 
   return (
     <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
-      <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold">
-        <Wifi className="h-5 w-5 text-text-secondary" />
-        Bredbånd
-      </h3>
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <h3 className="flex items-center gap-2 text-lg font-semibold">
+          <Wifi className="h-5 w-5 text-text-secondary" />
+          Bredbånd
+        </h3>
+        <DataAgeChip source="Nkom" date="2024" className="ml-auto" />
+      </div>
 
       <div className="mb-3 flex items-baseline gap-2">
         <span className="text-2xl font-bold tabular-nums" style={{ color }}>

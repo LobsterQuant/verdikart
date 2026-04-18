@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { nb } from "@/lib/format";
 
 const PriceTrendChart = dynamic(() => import("@/components/PriceTrendChart"), {
@@ -118,7 +119,7 @@ export default function PriceTrendCard({
   const isPositive = data.yoyChange >= 0;
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex items-center gap-2">
         <TrendingUp className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Prisutvikling</h3>
@@ -166,6 +167,6 @@ export default function PriceTrendCard({
           Bydelspris er estimert ved å justere kommunesnittet med en bydelsindeks basert på markedsrapporter. Faktiske priser kan avvike.
         </p>
       )}
-    </div>
+    </TopographicHover>
   );
 }

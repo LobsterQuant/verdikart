@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { TrendingUp, Calculator, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { nb } from "@/lib/format";
 
 interface ValuationCardProps {
@@ -91,7 +92,7 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
   }
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-accent/30 p-4 sm:p-6" style={{
+    <TopographicHover className="rounded-2xl border border-accent/30 p-4 sm:p-6" style={{
       background: "linear-gradient(135deg, rgb(var(--accent-rgb) / 0.08) 0%, rgba(59,130,246,0.04) 50%, rgb(var(--accent-rgb) / 0.02) 100%)",
     }}>
       {/* Subtle glow in top-right */}
@@ -177,6 +178,6 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
       <p className="mt-3 text-xs text-text-tertiary">
         Estimatet er basert på SSB-prisstatistikk for området og er kun veiledende. Ikke en takst.
       </p>
-    </div>
+    </TopographicHover>
   );
 }

@@ -1,4 +1,5 @@
 import { Zap } from "lucide-react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { getEnergimerke } from "@/data/energimerke";
 
 function labelColor(label: string): { text: string; bg: string; border: string } {
@@ -26,7 +27,7 @@ export default function EnergimerkeCard({ kommunenummer }: { kommunenummer: stri
   const badge = labelColor(data.dominantLabel);
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex items-center gap-2">
         <Zap className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Energimerke-fordeling</h3>
@@ -100,6 +101,6 @@ export default function EnergimerkeCard({ kommunenummer }: { kommunenummer: stri
       <p className="mt-4 text-xs text-text-tertiary">
         Estimat basert på SSB bygningsstatistikk og Enova energimerkeregister.
       </p>
-    </div>
+    </TopographicHover>
   );
 }

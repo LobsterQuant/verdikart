@@ -10,6 +10,7 @@ import {
   Pill,
   MapPin,
 } from "lucide-react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 
 interface Amenity {
   name: string;
@@ -109,7 +110,7 @@ export default function AmenitiesCard({ lat, lon }: { lat: number; lon: number }
   }
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold">
         <MapPin className="h-5 w-5 text-accent" />
         I nærheten
@@ -176,6 +177,6 @@ export default function AmenitiesCard({ lat, lon }: { lat: number; lon: number }
       <p className="mt-3 text-xs text-text-tertiary">
         Kilde: OpenStreetMap
       </p>
-    </div>
+    </TopographicHover>
   );
 }

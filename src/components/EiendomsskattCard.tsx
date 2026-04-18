@@ -1,4 +1,5 @@
 import { Landmark } from "lucide-react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { eiendomsskattData } from "@/data/eiendomsskatt";
 
 function fmt(n: number) {
@@ -31,7 +32,7 @@ export default function EiendomsskattCard({ kommunenummer }: { kommunenummer: st
   }
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex items-center gap-2">
         <Landmark className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Eiendomsskatt i {data.name}</h3>
@@ -95,6 +96,6 @@ export default function EiendomsskattCard({ kommunenummer }: { kommunenummer: st
           mellom 1 og 7 promille.
         </p>
       </details>
-    </div>
+    </TopographicHover>
   );
 }

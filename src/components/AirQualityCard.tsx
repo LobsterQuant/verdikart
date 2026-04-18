@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Wind } from "lucide-react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 
 interface AirQualityData {
   pm25: number | null;
@@ -84,7 +85,7 @@ export default function AirQualityCard({ lat, lon, onDataStatus, hideWhenEmpty }
   ].filter((m) => m.value !== null);
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold">
         <Wind className="h-5 w-5 text-text-secondary" />
         Luftkvalitet
@@ -125,6 +126,6 @@ export default function AirQualityCard({ lat, lon, onDataStatus, hideWhenEmpty }
       )}
 
       <p className="mt-2 text-xs text-text-tertiary">Kilde: NILU — Luftkvalitet.info</p>
-    </div>
+    </TopographicHover>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Zap, ExternalLink } from "lucide-react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { nb } from "@/lib/format";
 
 interface EnergimerkeData {
@@ -111,7 +112,7 @@ export default function PropertyEnergimerke({
   const desc = labelDescription(data.energikarakter!);
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex items-center gap-2">
         <Zap className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Energimerke</h3>
@@ -180,6 +181,6 @@ export default function PropertyEnergimerke({
       <p className="mt-3 text-xs text-text-tertiary">
         Kilde: Enova Energimerkesystemet. Offisielt energimerke for denne boligen.
       </p>
-    </div>
+    </TopographicHover>
   );
 }

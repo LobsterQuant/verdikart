@@ -9,6 +9,7 @@ import {
   BlokkIcon,
   type IconProps,
 } from "@/components/icons";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 
 // SSB delivers exactly these 3 housing-type labels (see /api/comparable-sales
 // route, Boligtype code table 01/02/03). Map each to a distinct silhouette so
@@ -91,7 +92,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
   const peak = maxPrice(data.byType);
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       {/* Header */}
       <div className="mb-4 flex items-center gap-2">
         <BarChart2 className="h-4 w-4 text-accent" strokeWidth={1.5} />
@@ -167,6 +168,6 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
       )}
 
       <p className="mt-4 text-xs text-text-tertiary">Kilde: SSB tabell 06035</p>
-    </div>
+    </TopographicHover>
   );
 }

@@ -5,6 +5,7 @@ import { TrendingUp, Train, Home, ChevronRight } from "lucide-react";
 import { getBydel, getAllBydelSlugs, bydeler } from "./bydelData";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { formatPct } from "@/lib/format";
 
 export async function generateStaticParams() {
@@ -96,31 +97,31 @@ export default function BydelPage({ params }: { params: { bydel: string } }) {
 
             {/* Stats strip */}
             <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-5">
-              <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
+              <TopographicHover className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
                 <p className="text-xs text-text-tertiary">Kvadratmeterpris (estimert)</p>
                 <p className="text-lg font-bold">{formatPrice(bydel.avgSqmPrice)} kr/m²</p>
                 <p className="mt-0.5 text-[10px] text-text-tertiary/60">Estimert basert på SSB kommunedata 2024</p>
-              </div>
-              <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
+              </TopographicHover>
+              <TopographicHover className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
                 <p className="text-xs text-text-tertiary">Prisvekst (12 mnd)</p>
                 <p className="text-lg font-bold text-green-400">+{formatPct(bydel.avgSqmPriceYoY)}</p>
                 <p className="mt-0.5 text-[10px] text-text-tertiary/60">SSB 2023–2024</p>
-              </div>
-              <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
+              </TopographicHover>
+              <TopographicHover className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
                 <p className="text-xs text-text-tertiary">Befolkning</p>
                 <p className="text-lg font-bold">{bydel.population}</p>
-              </div>
-              <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
+              </TopographicHover>
+              <TopographicHover className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
                 <p className="text-xs text-text-tertiary">Prissegment</p>
                 <p className="text-lg font-bold flex items-center gap-2">
                   <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: segmentColor[bydel.priceSegment] ?? "#fff" }} aria-hidden="true" />
                   {bydel.priceSegment}
                 </p>
-              </div>
-              <div className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
+              </TopographicHover>
+              <TopographicHover className="rounded-xl border border-card-border bg-card-bg px-5 py-3">
                 <p className="text-xs text-text-tertiary">Kollektiv</p>
                 <p className="text-lg font-bold text-accent">{bydel.transitScore}</p>
-              </div>
+              </TopographicHover>
             </div>
           </div>
         </section>

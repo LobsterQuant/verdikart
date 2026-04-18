@@ -10,6 +10,7 @@ import {
   AdresseIcon,
   StoyIcon,
 } from "@/components/icons";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 
 interface AddressResult {
   adressetekst: string;
@@ -111,7 +112,7 @@ function SearchSlot({
         {!slot.loading && (
           <div className="space-y-3">
             {/* Transit */}
-            <div className="rounded-xl border border-card-border bg-card-bg p-4">
+            <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4">
               <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Kollektiv</p>
               {slot.transit ? (
                 <>
@@ -125,10 +126,10 @@ function SearchSlot({
                   ))}
                 </>
               ) : <p className="text-sm text-text-tertiary">Ingen data</p>}
-            </div>
+            </TopographicHover>
 
             {/* Price */}
-            <div className="rounded-xl border border-card-border bg-card-bg p-4">
+            <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4">
               <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Boligpris</p>
               {slot.price?.sqmPrice ? (
                 <>
@@ -141,13 +142,13 @@ function SearchSlot({
                   )}
                 </>
               ) : <p className="text-sm text-text-tertiary">Ingen data</p>}
-            </div>
+            </TopographicHover>
 
             {/* Noise */}
-            <div className="rounded-xl border border-card-border bg-card-bg p-4">
+            <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4">
               <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Støynivå</p>
               <p className="text-sm text-text-secondary">{slot.noise ?? "Ikke tilgjengelig"}</p>
-            </div>
+            </TopographicHover>
           </div>
         )}
       </div>
@@ -321,7 +322,7 @@ export default function AddressCompare() {
                 noise: "Lav støy",
               },
             ].map(s => (
-              <div key={s.label} className="relative rounded-xl border border-card-border bg-card-bg p-4 space-y-3">
+              <TopographicHover key={s.label} className="relative rounded-xl border border-card-border bg-card-bg p-4 space-y-3">
                 <span className="absolute top-2 right-2 rounded bg-amber-500/20 text-amber-400 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest">
                   Demo
                 </span>
@@ -359,7 +360,7 @@ export default function AddressCompare() {
                     <span className="font-medium">{s.noise}</span>
                   </div>
                 </div>
-              </div>
+              </TopographicHover>
             ))}
           </div>
           <div className="flex items-center gap-3 rounded-xl border border-green-500/20 bg-green-500/5 px-5 py-3 text-sm opacity-60">

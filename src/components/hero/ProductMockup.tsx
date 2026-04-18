@@ -1,4 +1,5 @@
 import { getHeroPropertyData } from "@/lib/property";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 import { MapCrop } from "./mockup/MapCrop";
 import { ValueEstimate } from "./mockup/ValueEstimate";
 import { PriceTrendSpark } from "./mockup/PriceTrendSpark";
@@ -32,23 +33,32 @@ export async function ProductMockup() {
   return (
     <ProductMockupAnimated>
       {/* Top: map spans full width */}
-      <MapCrop
-        coords={data.coordinates}
-        address={data.address}
-        height={180}
-      />
+      <TopographicHover className="rounded-lg">
+        <MapCrop
+          coords={data.coordinates}
+          address={data.address}
+          height={180}
+        />
+      </TopographicHover>
 
       {/* Middle: value + sparkline side-by-side on ≥sm, stacked below */}
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
-        <ValueEstimate
-          sqmPrice={data.sqmPrice}
-          yoyChange={data.yoyChange}
-          kommuneName={DEMO_PROPERTY.kommuneName}
-        />
-        <PriceTrendSpark values={data.priceSeries} years={data.priceYears} />
+        <TopographicHover className="rounded-lg p-2 -m-2">
+          <ValueEstimate
+            sqmPrice={data.sqmPrice}
+            yoyChange={data.yoyChange}
+            kommuneName={DEMO_PROPERTY.kommuneName}
+          />
+        </TopographicHover>
+        <TopographicHover className="rounded-lg p-2 -m-2">
+          <PriceTrendSpark values={data.priceSeries} years={data.priceYears} />
+        </TopographicHover>
       </div>
 
-      {/* Bottom: transit pill centered, rendered only if we have data */}
+      {/* Bottom: transit pill centered, rendered only if we have data.
+          TransitPill itself is skipped per Package 6's "no pill under 44px"
+          rule, but the row container is too — it's a layout divider, not a
+          card. */}
       {data.transit ? (
         <div className="mt-4 flex justify-center border-t border-border pt-4">
           <TransitPill

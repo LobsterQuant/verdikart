@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Bus, Clock, MapPin, ArrowRight } from "lucide-react";
+import { TopographicHover } from "@/components/motion/TopographicHover";
 
 interface Leg {
   mode: string;
@@ -139,7 +140,7 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
   const scoreColor = isInCentre ? "#22C55E" : getScoreColor(displayMinutes);
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
+    <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       {/* Header */}
       <div className="mb-4 flex items-center gap-2">
         <Bus className="h-4 w-4 text-accent" strokeWidth={1.5} />
@@ -225,6 +226,6 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
           </div>
         </div>
       )}
-    </div>
+    </TopographicHover>
   );
 }

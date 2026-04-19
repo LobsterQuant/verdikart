@@ -3,8 +3,8 @@ import { Database, Shield, ExternalLink } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Om Verdikart — Hvem vi er og hva vi bygger",
-  description: "Verdikart er et lite, fokusert team som gjør boligmarkedet mer transparent for norske kjøpere — med data fra Kartverket, Entur og SSB.",
+  title: "Om oss | Verdikart",
+  description: "Verdikart er et lite, fokusert team som gjør boligmarkedet mer transparent. Data fra Kartverket, Entur og SSB.",
   alternates: { canonical: "https://verdikart.no/om-oss" },
 };
 
@@ -47,7 +47,7 @@ export default function OmOss() {
 
           <h1 className="text-3xl font-bold tracking-tight mb-3 sm:text-4xl">Om Verdikart</h1>
           <p className="text-lg text-text-secondary leading-relaxed mb-12">
-            Eiendomsinnsikt fra offentlige norske datakilder. Ingen løsrevne datasett, ingen betalingsmurer — data fra Kartverket, Entur og SSB, samlet på ett sted.
+            Eiendomsinnsikt fra offentlige norske datakilder. Ingen løsrevne datasett, ingen betalingsmurer. Data fra Kartverket, Entur og SSB, samlet på ett sted.
           </p>
 
           {/* Founder */}
@@ -126,7 +126,7 @@ export default function OmOss() {
                 <p className="text-xs text-text-tertiary mt-0.5 mb-2">Grunnlegger · Oslo</p>
                 <p className="text-sm leading-relaxed text-text-secondary">
                   Utvikler og dataentusiast med bakgrunn innen fintech og systemutvikling. Bygger verktøy der komplekse offentlige datasett møter enkle brukeropplevelser.
-                  Verdikart startet som et personlig prosjekt etter å ha kjøpt bolig og innsett hvor fragmentert tilgjengelig informasjon faktisk var.
+                  Verdikart startet som et personlig prosjekt etter å ha kjøpt bolig og innsett hvor fragmentert tilgjengelig informasjon var.
                 </p>
               </div>
             </div>
@@ -136,7 +136,7 @@ export default function OmOss() {
           <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
             <h2 className="text-xl font-semibold mb-3">Et lite, fokusert team</h2>
             <p className="text-sm leading-relaxed text-text-secondary">
-              Verdikart er bygget og driftet av et lite distribuert team med bakgrunn i systemutvikling og dataanalyse. Vi er ikke et VC-finansiert selskap med et burn rate — tjenesten er designet for å holde seg oppe uten tung infrastruktur. All data hentes fra åpne, offisielle API-er (Kartverket, Entur, SSB) som har eksistert i 10+ år og ikke forsvinner. Trenger du svar? Vi svarer på{" "}
+              Verdikart er bygget og driftet av et lite distribuert team med bakgrunn i systemutvikling og dataanalyse. Tjenesten er designet for å holde seg oppe uten tung infrastruktur. All data hentes fra åpne, offisielle API-er fra Kartverket, Entur og SSB. Disse har eksistert i over 10 år og forsvinner ikke. Trenger du svar? Vi svarer på{" "}
               <a href="mailto:kontakt@verdikart.no" className="text-accent hover:underline">kontakt@verdikart.no</a> innen en arbeidsdag.
             </p>
           </section>
@@ -145,7 +145,7 @@ export default function OmOss() {
           <section className="rounded-xl border border-card-border bg-card-bg p-6 mb-6">
             <h2 className="text-xl font-semibold mb-3">Hvorfor Verdikart?</h2>
             <p className="text-sm leading-relaxed text-text-secondary">
-              Boligkjøp er den største finansielle beslutningen de fleste nordmenn tar — og allikevel er tilgangen til relevant data fragmentert, utdatert eller gjemt bak betalingsmurer. Eiendomsmeglere har én agenda. Bankene har en annen. Verdikart har ingen: vi henter data direkte fra Kartverket, Entur og SSB og presenterer den uten filter.
+              Boligkjøp er den største finansielle beslutningen de fleste nordmenn tar. Allikevel er tilgangen til relevant data fragmentert, utdatert eller gjemt bak betalingsmurer. Eiendomsmeglere har én agenda. Bankene har en annen. Verdikart har ingen: vi henter data direkte fra Kartverket, Entur og SSB og presenterer den uten filter.
             </p>
           </section>
 
@@ -157,15 +157,15 @@ export default function OmOss() {
             </h2>
             <div className="space-y-3">
               {[
-                { name: "Kartverket", desc: "Alle norske adresser og eiendomsdata — Norges offisielle matrikkel." },
+                { name: "Kartverket", desc: "Norges offisielle matrikkel med alle norske adresser og eiendomsdata." },
                 { name: "Entur", desc: "Sanntids kollektivdata for hele landet. Avganger, holdeplasser og linjer." },
-                { name: "SSB", desc: "Statistisk sentralbyrå — boligprisindeks og omsetningsdata per kommune." },
+                { name: "SSB", desc: "Statistisk sentralbyrå. Boligprisindeks og omsetningsdata per kommune." },
                 { name: "OpenStreetMap", desc: "Skoler, barnehager og nærservice via åpne geodata." },
               ].map(({ name, desc }) => (
                 <div key={name} className="flex items-start gap-3">
                   <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-accent/60" />
                   <p className="text-sm text-text-secondary">
-                    <strong className="text-foreground">{name}</strong> — {desc}
+                    <strong className="text-foreground">{name}</strong>: {desc}
                   </p>
                 </div>
               ))}

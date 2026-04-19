@@ -74,7 +74,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     dateModified: post.updatedAt ?? post.publishedAt,
     author: {
       "@type": "Person",
-      name: "Michael H.",
+      name: "Michael Hansen",
       url: "https://verdikart.no/om-oss",
     },
     publisher: {
@@ -137,7 +137,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
             {/* Author row */}
             <div className="mb-4 flex items-center gap-3">
-              <svg viewBox="0 0 36 36" className="h-9 w-9 shrink-0" aria-label="Michael H.">
+              <svg viewBox="0 0 36 36" className="h-9 w-9 shrink-0" aria-label="Michael Hansen">
                 <defs>
                   <linearGradient id="blogAvatarBg" x1="0" y1="0" x2="1" y2="1">
                     <stop offset="0%" stopColor="#312e81" />
@@ -177,7 +177,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
                   itemScope
                   itemType="https://schema.org/Person"
                 >
-                  <span itemProp="name">Michael H.</span>
+                  <span itemProp="name">Michael Hansen</span>
                 </a>
                 <p className="text-xs text-text-tertiary">Grunnlegger, Verdikart</p>
               </div>

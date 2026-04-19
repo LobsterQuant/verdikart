@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 const facts = [
   { label: "Produkt", value: "Verdikart — norsk eiendomsintelligens" },
   { label: "Lansert", value: "Mars 2026" },
-  { label: "Grunnlegger", value: "Michael H., Oslo" },
+  { label: "Grunnlegger", value: "Michael Hansen, Oslo" },
   { label: "Teknologi", value: "Next.js 14, Vercel, SSB API, Entur API, Kartverket" },
   { label: "Datakilder", value: "SSB, Kartverket, Entur (alle offentlige, åpne data)" },
   { label: "Pris", value: "Gratis for brukere — ingen registrering" },
@@ -76,7 +76,7 @@ export default function PressePage() {
           <blockquote className="text-base leading-relaxed text-foreground">
             &ldquo;Boligkjøp er den største finansielle beslutningen de fleste nordmenn tar — og allikevel er tilgangen til relevant data fragmentert, utdatert eller gjemt bak betalingsmurer. Verdikart ble laget for å endre det.&rdquo;
           </blockquote>
-          <p className="mt-3 text-sm text-text-secondary">— Michael H., grunnlegger av Verdikart</p>
+          <p className="mt-3 text-sm text-text-secondary">— Michael Hansen, grunnlegger av Verdikart</p>
         </section>
 
         {/* FAQ for press */}

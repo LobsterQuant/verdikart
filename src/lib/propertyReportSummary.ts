@@ -70,6 +70,12 @@ interface TransitShape {
   legs: Array<{ mode: string; from: string; to: string }>;
 }
 
+interface TransitStopShape {
+  name: string;
+  distance: number;
+  departuresPerHour?: number;
+}
+
 interface SchoolShape {
   name: string;
   type: string;
@@ -153,13 +159,22 @@ function previewPriceTrend(trend: PriceTrendShape | null): string {
   return `${sign}${yoy.toFixed(1)}% siste år · ${trend.sourceLabel}`;
 }
 
-function previewTransit(transit: TransitShape | null): string {
-  if (!transit) return UKJENT;
-  const firstLeg = transit.legs.find((l) => l.mode !== "foot");
-  const stop = firstLeg?.from ?? null;
-  const mins = transit.durationMinutes;
-  if (stop && mins != null) return `${mins} min til ${transit.destination} · via ${stop}`;
-  if (mins != null) return `${mins} min til ${transit.destination}`;
+function previewTransit(transit: TransitShape | null, stops: TransitStopShape[] | null): string {
+  if (transit) {
+    const firstLeg = transit.legs.find((l) => l.mode !== "foot");
+    const stop = firstLeg?.from ?? null;
+    const mins = transit.durationMinutes;
+    if (stop && mins != null) return `${mins} min til ${transit.destination} · via ${stop}`;
+    if (mins != null) return `${mins} min til ${transit.destination}`;
+  }
+  // Fallback: Entur journey-planner can return null for addresses in the city
+  // centre (too close to route). Use the nearest holdeplass from /stops so the
+  // summary never contradicts the detail card below. Matches TransitCard's
+  // rendering (nearest-stops list shown alongside the journey time).
+  if (stops && stops.length > 0) {
+    const nearest = stops[0];
+    return `${nearest.name} · ${Math.round(nearest.distance)} m`;
+  }
   return UKJENT;
 }
 
@@ -251,10 +266,11 @@ export async function getPropertyReportSummary(
   const HOUR = 60 * 60;
   const WEEK = DAY * 7;
 
-  const [priceTrend, energi, transit, schools, climate, noise, air, broadband] = await Promise.all([
+  const [priceTrend, energi, transit, transitStops, schools, climate, noise, air, broadband] = await Promise.all([
     safeFetch<PriceTrendShape>(`${origin}/api/price-trend?${qs({ kommunenummer, postnummer })}`, DAY),
     safeFetch<EnergimerkeShape>(`${origin}/api/energimerke?${qs({ postnummer, adresse })}`, DAY),
     safeFetch<TransitShape>(`${origin}/api/transit?${qs({ lat, lon })}`, HOUR),
+    safeFetch<TransitStopShape[]>(`${origin}/api/transit/stops?${qs({ lat, lon })}`, HOUR),
     safeFetch<SchoolsShape>(`${origin}/api/schools?${qs({ lat, lon, kommunenummer })}`, DAY / 2),
     safeFetch<ClimateShape>(`${origin}/api/climate-risk?${qs({ lat, lon })}`, DAY),
     safeFetch<NoiseShape>(`${origin}/api/noise?${qs({ lat, lon })}`, DAY),
@@ -265,7 +281,7 @@ export async function getPropertyReportSummary(
   return {
     verdiestimat: previewValuation(priceTrend, energi),
     prisstatistikk: previewPriceTrend(priceTrend),
-    kollektiv: previewTransit(transit),
+    kollektiv: previewTransit(transit, transitStops),
     skoler: previewSchools(schools),
     klimarisiko: previewClimate(climate),
     stoy: previewNoise(noise),

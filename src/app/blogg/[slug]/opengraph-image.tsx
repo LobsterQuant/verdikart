@@ -139,7 +139,7 @@ export default function OgImage({ params }: { params: { slug: string } }) {
               MH
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <span style={{ color: "#FFFFFF", fontSize: 16, fontWeight: 600 }}>Michael H.</span>
+              <span style={{ color: "#FFFFFF", fontSize: 16, fontWeight: 600 }}>Michael Hansen</span>
               <span style={{ color: "#64748b", fontSize: 13 }}>Grunnlegger, Verdikart</span>
             </div>
           </div>

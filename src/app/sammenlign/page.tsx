@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Sammenlign byer: Oslo, Bergen, Trondheim, Stavanger | Verdikart",
   description:
     "Sammenlikn befolkning, inntekt, utdanning og prisutvikling mellom Norges største byer. Hva er best for deg?",
+  alternates: { canonical: "https://verdikart.no/sammenlign" },
   openGraph: {
     title: "Sammenlign byer | Verdikart",
     description: "Sammenlikn Oslo, Bergen, Trondheim, Stavanger og mer.",

@@ -15,7 +15,7 @@ export default function SiteFooter() {
               <span className="text-base font-bold tracking-tight text-foreground">Verdikart</span>
             </a>
             <p className="text-sm leading-relaxed text-text-secondary">
-              Forstå boligen. Ikke bare se den. Data fra Kartverket, Entur og SSB — ingen provisjon, ingen agenda.
+              Data fra Kartverket, Entur og SSB. Ingen provisjon, ingen agenda.
             </p>
             <div className="mt-4 flex items-center gap-2">
               <a href="https://x.com/Verdikart" target="_blank" rel="noopener noreferrer" aria-label="X"

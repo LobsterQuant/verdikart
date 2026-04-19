@@ -39,7 +39,7 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://verdikart.no"),
-  title: "Verdikart — Forstå boligen. Ikke bare se den.",
+  title: "Verdikart — Eiendomsinnsikt fra offentlige norske datakilder",
   description:
     "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå for enhver adresse — data fra SSB, Kartverket og Entur.",
   keywords: "bolig, eiendom, kollektivtransport, prisutvikling, Norge",
@@ -55,16 +55,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "nb_NO",
     siteName: "Verdikart",
-    title: "Verdikart — Forstå boligen. Ikke bare se den.",
+    title: "Verdikart — Eiendomsinnsikt fra offentlige norske datakilder",
     description: "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå for enhver adresse.",
     url: "https://verdikart.no",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Verdikart — Forstå boligen. Ikke bare se den." }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Verdikart — Eiendomsinnsikt fra offentlige norske datakilder" }],
   },
   twitter: {
     card: "summary_large_image",
     site: "@Verdikart",
     creator: "@Verdikart",
-    title: "Verdikart — Forstå boligen. Ikke bare se den.",
+    title: "Verdikart — Eiendomsinnsikt fra offentlige norske datakilder",
     description: "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå.",
     images: ["/opengraph-image"],
   },

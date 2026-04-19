@@ -12,7 +12,7 @@ export default function OmOss() {
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Michael H.",
+    name: "Michael Hansen",
     jobTitle: "Grunnlegger, Verdikart",
     url: "https://verdikart.no/om-oss",
     sameAs: [
@@ -26,7 +26,7 @@ export default function OmOss() {
     "@type": "Organization",
     name: "Verdikart",
     url: "https://verdikart.no",
-    founder: { "@type": "Person", name: "Michael H." },
+    founder: { "@type": "Person", name: "Michael Hansen" },
     foundingDate: "2026-03",
     description: "Eiendomsinnsikt fra offentlige norske datakilder. Data fra Kartverket, Entur og SSB.",
     contactPoint: {
@@ -56,7 +56,7 @@ export default function OmOss() {
             <div className="flex items-start gap-4">
               {/* Avatar — illustrated portrait */}
               <div className="relative h-16 w-16 shrink-0 select-none">
-                <svg viewBox="0 0 64 64" className="h-16 w-16" aria-label="Michael H., grunnlegger">
+                <svg viewBox="0 0 64 64" className="h-16 w-16" aria-label="Michael Hansen, grunnlegger">
                   <defs>
                     <linearGradient id="avatarBg" x1="0" y1="0" x2="1" y2="1">
                       <stop offset="0%" stopColor="#312e81" />
@@ -101,7 +101,7 @@ export default function OmOss() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 flex-wrap">
-                  <p className="font-semibold text-lg">Michael H.</p>
+                  <p className="font-semibold text-lg">Michael Hansen</p>
                   <div className="flex items-center gap-2">
                     <a
                       href="https://www.linkedin.com/in/michael-h-7723993bb/"

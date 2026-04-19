@@ -91,6 +91,12 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        {/* Preconnect to public-data origins that the hero mockup + property page fetch from. */}
+        <link rel="preconnect" href="https://api.entur.io" />
+        <link rel="preconnect" href="https://data.ssb.no" />
+        <link rel="preconnect" href="https://ws.geonorge.no" />
+        <link rel="dns-prefetch" href="https://api.entur.io" />
+        <link rel="dns-prefetch" href="https://data.ssb.no" />
         {/* Privacy-friendly analytics by Plausible */}
         <Script
           async

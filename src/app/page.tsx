@@ -429,7 +429,7 @@ export default function HomePage() {
             13 datapunkter. Én rapport.
           </h2>
           <p className="mx-auto max-w-lg text-sm text-text-secondary">
-            Fra verdiestimat til flomrisiko — Verdikart samler data fra 8 offentlige kilder som ingen andre kombinerer.
+            Fra verdiestimat til flomrisiko. 8 offentlige kilder, samlet på ett sted.
           </p>
         </div>
         <FeatureCards />

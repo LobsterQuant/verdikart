@@ -18,7 +18,7 @@ export const featureCards: FeatureCardData[] = [
     Icon: CircleDollarSign,
     title: "Verdiestimat",
     description:
-      "Få et estimert prisanslag basert på SSB-data og energiattest. Se hva boligen kan være verdt — med ±15% konfidensintervall.",
+      "Prisanslag basert på SSB-data og energiattest. Med ±15% konfidensintervall.",
     isNew: true,
   },
   {
@@ -31,13 +31,13 @@ export const featureCards: FeatureCardData[] = [
     Icon: TrendingUp,
     title: "Prisutvikling",
     description:
-      "Følg boligprisene i kommunen over tid. Se trender og sammenlign med resten av landet.",
+      "Kommunens boligpriser over tid. Sammenlign med resten av landet.",
   },
   {
     Icon: Droplets,
     title: "Klimarisiko",
     description:
-      "Sjekk flomfare, kvikkleire og stormflo fra NVE. Vit hva du kjøper — før du byr.",
+      "Flomfare, kvikkleire og stormflo, direkte fra NVE.",
     isNew: true,
   },
   {

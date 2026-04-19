@@ -7,11 +7,11 @@ import JsonLd from "@/components/JsonLd";
 const faqs = [
   {
     q: "Hva er Verdikart?",
-    a: "Verdikart er et gratis verktøy for boligkjøpere i Norge. Du søker på en adresse og får umiddelbart informasjon om nærmeste kollektivtransport og avganger, prisutvikling i kommunen, og sammenlignbare salgspriser i nabolaget — alt på ett sted, hentet i sanntid fra offentlige kilder.",
+    a: "Verdikart er et gratis verktøy for boligkjøpere i Norge. Du søker på en adresse og får umiddelbart informasjon om nærmeste kollektivtransport og avganger, prisutvikling i kommunen, og sammenlignbare salgspriser i nabolaget. Alt på ett sted, hentet i sanntid fra offentlige kilder.",
   },
   {
     q: "Er dataen oppdatert?",
-    a: "Ja. All data hentes live direkte fra kilden når du søker på en adresse. Kollektivdata hentes fra Entur (sanntid), boligprisdata fra Statistisk sentralbyrå (SSB), og adressedata fra Kartverket. Vi lagrer ikke adressene du søker på — det er ingen database som kan bli utdatert. E-poster du oppgir for prisvarsel lagres hos Formspree.",
+    a: "Ja. All data hentes live direkte fra kilden når du søker på en adresse. Kollektivdata hentes fra Entur (sanntid), boligprisdata fra Statistisk sentralbyrå (SSB), og adressedata fra Kartverket. Vi lagrer ikke adressene du søker på. Det er ingen database som kan bli utdatert. E-poster du oppgir for prisvarsel lagres hos Formspree.",
   },
   {
     q: "Hvem er Verdikart for?",
@@ -103,7 +103,7 @@ export default function FaqPage() {
               <HelpCircle className="h-5 w-5 text-accent" strokeWidth={1.5} />
             </div>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Vanlige spørsmål</h1>
-            <p className="mt-3 text-text-secondary">Alt du lurer på om Verdikart — klikk for å åpne.</p>
+            <p className="mt-3 text-text-secondary">Alt du lurer på om Verdikart. Klikk for å åpne.</p>
           </div>
 
           <div className="space-y-2">
@@ -121,7 +121,7 @@ export default function FaqPage() {
 
           <div className="mt-10 rounded-xl border border-card-border bg-card-bg p-5 text-sm text-text-secondary">
             Fant du ikke svaret du lette etter?{" "}
-            <a href="/kontakt" className="text-accent hover:underline">Ta kontakt</a> — vi svarer raskt.
+            <a href="/kontakt" className="text-accent hover:underline">Ta kontakt</a>. Vi svarer raskt.
           </div>
         </div>
       </div>

@@ -44,13 +44,13 @@ export const featureCards: FeatureCardData[] = [
     Icon: Wind,
     title: "Luftkvalitet",
     description:
-      "PM2.5, PM10 og NO₂ fra NILU. Se om luften er god der du vil bo.",
+      "PM2.5, PM10 og NO₂ fra NILU. Norges offisielle luftmålinger.",
     isNew: true,
   },
   {
     Icon: Home,
     title: "Kommunalt prissnitt",
     description:
-      "Se gjennomsnittlig kvadratmeterpris for din kommune. Forstå hva lignende boliger faktisk omsettes for.",
+      "Gjennomsnittlig kvadratmeterpris per kommune. Hva lignende boliger omsettes for.",
   },
 ];

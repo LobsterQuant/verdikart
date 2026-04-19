@@ -31,7 +31,7 @@ export default function HeroEntry() {
     >
       {/* Eyebrow */}
       <m.p variants={fadeUp} className="caption mb-4 uppercase tracking-[0.14em] text-accent">
-        Forstå boligen. Ikke bare se den.
+        Boligen i kontekst
       </m.p>
 
       {/* H1 — whole block animates as a single unit per Package 5 spec */}
@@ -48,9 +48,8 @@ export default function HeroEntry() {
         variants={fadeUp}
         className="mt-6 max-w-xl text-base leading-relaxed text-text-secondary sm:text-lg"
       >
-        Søk på hvilken som helst norsk adresse og få full rapport om
-        kollektivtransport, boligprisutvikling, støynivå og nabolagsdata —
-        direkte fra SSB, Kartverket og Entur.
+        Full rapport på enhver norsk adresse. Kollektivtransport,
+        boligpriser, støy, nabolagsdata. Data fra SSB, Kartverket og Entur.
       </m.p>
 
       {/* Search field + example chips. `id=sok` preserved as hash anchor target. */}

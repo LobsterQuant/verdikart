@@ -55,10 +55,14 @@ function shouldShowBanner(): boolean {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return true; // first visit
     const prefs = JSON.parse(raw) as ConsentPrefs;
-    // If explicitly set (any choice made), don't show — unless declined long ago
+    // Cookie banner re-display rules:
+    // - No prefs stored → show
+    // - analytics: true → never show (user opted in)
+    // - analytics: false via "Avvis alle" → re-show after 30 days
+    // - analytics: false via granular toggle → never show (explicit user choice)
     if (prefs.analytics === false) {
       const declinedAt = parseInt(localStorage.getItem(DECLINED_AT_KEY) ?? "0", 10);
-      if (!declinedAt) return false; // declined via "Avvis alle" — respect indefinitely
+      if (!declinedAt) return false;
       const daysSince = (Date.now() - declinedAt) / (1000 * 60 * 60 * 24);
       return daysSince >= REDISPLAY_DAYS;
     }

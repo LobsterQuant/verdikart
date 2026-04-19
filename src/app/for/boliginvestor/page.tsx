@@ -6,8 +6,8 @@ import AddressSearch from "@/components/AddressSearch";
 import RentalYieldCalc from "@/components/RentalYieldCalc";
 
 export const metadata: Metadata = {
-  title: "Verdikart for Boliginvestorer — Analyser beliggenhet og pristrend | Verdikart",
-  description: "Som boliginvestor er beliggenhet og transportnærhet nøkkelen. Verdikart gir deg kvadratmeterpris, pristrend og kollektivdekning for enhver norsk adresse — gratis.",
+  title: "Boliginvestor | Verdikart",
+  description: "Som boliginvestor er beliggenhet og transportnærhet nøkkelen. Verdikart gir deg kvadratmeterpris, pristrend og kollektivdekning for enhver norsk adresse. Gratis.",
   alternates: { canonical: "https://verdikart.no/for/boliginvestor" },
 };
 
@@ -19,13 +19,13 @@ const features = [
   },
   {
     icon: Train,
-    title: "Kollektivnærhet — den viktigste prisdriver",
+    title: "Kollektivnærhet",
     body: "Forskning viser 10–20 % premie for T-banenærhet i Oslo. Verdikart viser deg eksakt transportdekning og avgangshyppighet for enhver adresse.",
   },
   {
     icon: BarChart2,
     title: "Sammenlignbare transaksjoner",
-    body: "Se gjennomsnittlig kvadratmeterpris og antall transaksjoner for kommunen. Forstå om prisingen er over eller under markedssnitt.",
+    body: "Se gjennomsnittlig kvadratmeterpris og antall transaksjoner for kommunen. Sammenlign prisingen med markedssnittet.",
   },
 ];
 
@@ -50,7 +50,7 @@ export default function BoliginvestorPage() {
             Ta datadrevne beslutninger om beliggenhet
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-text-secondary sm:text-lg">
-            Beliggenhet og transportnærhet er de to sterkeste prisdriverne i norsk eiendom. Verdikart gir deg begge — for enhver adresse, i sanntid.
+            Beliggenhet og transportnærhet er de to sterkeste prisdriverne i norsk eiendom. Verdikart gir deg begge. For enhver adresse, i sanntid.
           </p>
           <div className="mx-auto mt-8 w-full max-w-xl">
             <AddressSearch />
@@ -94,7 +94,7 @@ export default function BoliginvestorPage() {
               { q: "Hva er en god direkteavkastning for utleieboliger i Norge?", a: "Direkteavkastning (leieinntekt / kjøpspris) på 3–5% anses som normalt i Oslo. Utenfor de store byene kan du oppnå 5–7%. Husk å trekke fra fellesutgifter, eiendomsskatt og vedlikehold." },
               { q: "Hva bør jeg sjekke i et nabolag for utleiepotensial?", a: "Kollektivdekning, gangavstand til høyskole/universitet, støynivå og prisutvikling. Verdikart gir deg disse dataene direkte for enhver adresse." },
               { q: "Hva er sekundærboligskatten?", a: "Fra 2023 beskattes sekundærbolig som 100% av markedsverdi i formuesskatten (mot 25% for primærbolig). I tillegg betales 22% skatt på netto leieinntekter etter fradrag." },
-              { q: "Er det lønnsomt å kjøpe i randsone utenfor Oslo?", a: "Byer som Lillestrøm, Ski og Drammen har lavere inngangspris og høyere direkteavkastning enn Oslo sentrum. Sjekk tog-/busstilbud til Oslo S — det er den sterkeste prisdriveren i randsonene." },
+              { q: "Er det lønnsomt å kjøpe i randsone utenfor Oslo?", a: "Byer som Lillestrøm, Ski og Drammen har lavere inngangspris og høyere direkteavkastning enn Oslo sentrum. Sjekk tog-/busstilbud til Oslo S. Det er den sterkeste prisdriveren i randsonene." },
             ].map(({ q, a }) => (
               <details key={q} className="group rounded-xl border border-card-border bg-card-bg">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 text-sm font-semibold list-none">{q}<span className="shrink-0 text-text-tertiary transition-transform group-open:rotate-45">+</span></summary>

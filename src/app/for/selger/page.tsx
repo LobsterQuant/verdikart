@@ -5,8 +5,8 @@ import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 
 export const metadata: Metadata = {
-  title: "Verdikart for Boligselgere — Forstå hva boligen din er verdt | Verdikart",
-  description: "Selger du bolig? Verdikart gir deg kvadratmeterpris, prishistorikk og sammenlignbare salg for din adresse — gratis, i sanntid, uten megler.",
+  title: "Selger | Verdikart",
+  description: "Selger du bolig? Verdikart gir deg kvadratmeterpris, prishistorikk og sammenlignbare salg for din adresse. Gratis, i sanntid, uten megler.",
   alternates: { canonical: "https://verdikart.no/for/selger" },
 };
 
@@ -14,7 +14,7 @@ const features = [
   {
     icon: BarChart2,
     title: "Hva er kvadratmeterprisen i ditt område?",
-    body: "Se gjennomsnittlig kvadratmeterpris for din kommune og bydel fra SSB. Forstå om boligen din er priset riktig — før du setter prisen.",
+    body: "Gjennomsnittlig kvadratmeterpris for din kommune, fra SSB. Få et faktabasert utgangspunkt før du setter prisen.",
   },
   {
     icon: TrendingUp,
@@ -24,14 +24,14 @@ const features = [
   {
     icon: MapPin,
     title: "Kommunalt prissnitt (SSB)",
-    body: "Se hva lignende boliger faktisk er solgt for i nærområdet. Bruk dette som grunnlag i dialogen med megleren din.",
+    body: "Hva lignende boliger er solgt for i nærområdet. Bruk dette som grunnlag i dialogen med megleren din.",
   },
 ];
 
 const faqs = [
   {
     q: "Kan jeg bruke Verdikart til å sette prisantydning?",
-    a: "Verdikart gir deg markedsdata som grunnlag — kommunebasert kvadratmeterpris og prishistorikk. En fullstendig verdivurdering krever en megler som kjenner boligen fysisk, men Verdikart hjelper deg forstå om meglerens prisforslag er realistisk.",
+    a: "Verdikart gir deg markedsdata som grunnlag. Kommunebasert kvadratmeterpris og prishistorikk. En fullstendig verdivurdering krever en megler som kjenner boligen fysisk, men Verdikart gir deg faktabasert grunnlag for å vurdere meglerens prisforslag.",
   },
   {
     q: "Er dataen oppdatert?",
@@ -39,7 +39,7 @@ const faqs = [
   },
   {
     q: "Koster det noe?",
-    a: "Nei. Verdikart er gratis for alle brukere — kjøpere og selgere.",
+    a: "Nei. Verdikart er gratis for alle brukere, både kjøpere og selgere.",
   },
 ];
 
@@ -47,7 +47,7 @@ const selgerFaqs = [
   { q: "Hva koster det å bruke Verdikart?", a: "Verdikart er helt gratis å bruke. Ingen registrering, ingen skjult betaling." },
   { q: "Hvor nøyaktige er boligprisdataene?", a: "Prisdata hentes direkte fra SSB og oppdateres kvartalsvis. De viser gjennomsnittlig kvadratmeterpris for din kommune basert på faktiske salg." },
   { q: "Kan jeg se hva naboen solgte boligen sin for?", a: "Individuelle transaksjonsdata er ikke tilgjengelig via åpent API. Vi viser kommunale kvadratmeterpriser fra SSB som gjenspeiler prisnivået i ditt område." },
-  { q: "Er dette en erstatning for en meglervurdering?", a: "Nei — Verdikart gir deg faktabasert markedsdata slik at du kan stille bedre spørsmål til megler og forstå prisbildet. Det erstatter ikke en profesjonell verditakst." },
+  { q: "Er dette en erstatning for en meglervurdering?", a: "Nei. Verdikart gir deg faktabasert markedsdata slik at du kan stille bedre spørsmål til megler og vurdere prisbildet selv. Det erstatter ikke en profesjonell verditakst." },
 ];
 
 const selgerSchema = {
@@ -91,12 +91,12 @@ export default function SelgerPage() {
             Vet du hva boligen din er verdt?
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-text-secondary sm:text-lg">
-            Før du ringer megleren — sjekk kvadratmeterpris, prishistorikk og sammenlignbare salg for din adresse. Gratis, i sanntid.
+            Før du ringer megleren: sjekk kvadratmeterpris, prishistorikk og sammenlignbare salg for din adresse. Gratis, i sanntid.
           </p>
           <div className="mx-auto mt-8 w-full max-w-xl">
             <AddressSearch />
           </div>
-          <p className="mt-3 text-xs text-text-tertiary">Søk på din egen adresse — se markedsdata umiddelbart</p>
+          <p className="mt-3 text-xs text-text-tertiary">Søk på din egen adresse og se markedsdata umiddelbart</p>
         </section>
 
         {/* Features */}
@@ -149,7 +149,7 @@ export default function SelgerPage() {
         <section className="mx-auto max-w-3xl px-4 pb-12 sm:px-6">
           <div className="rounded-xl border border-accent/20 bg-accent/5 p-6">
             <h3 className="mb-2 font-semibold">Sjekkliste for boligsalg</h3>
-            <p className="mb-3 text-sm text-text-secondary">Les om hva kjøpere sjekker — og hva du bør forberede deg på.</p>
+            <p className="mb-3 text-sm text-text-secondary">Les om hva kjøpere sjekker, og hva du bør forberede deg på.</p>
             <Link href="/blogg/hva-sjekke-for-boligkjop" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
               Les artikkelen <ChevronRight className="h-3.5 w-3.5" />
             </Link>

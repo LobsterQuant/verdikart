@@ -51,22 +51,6 @@ export default function SocialProofStrip() {
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 pb-16 sm:px-6">
-      {/* Trust strip — kommuner + datakilder */}
-      <div className="mb-8 grid grid-cols-3 gap-3 text-center">
-        <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">
-          <p className="text-2xl font-bold text-foreground">47</p>
-          <p className="mt-1 text-xs text-text-tertiary">kommuner med prisdata</p>
-        </div>
-        <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">
-          <p className="text-2xl font-bold text-foreground">8</p>
-          <p className="mt-1 text-xs text-text-tertiary">offentlige datakilder</p>
-        </div>
-        <div className="rounded-xl border border-card-border bg-card-bg px-3 py-4">
-          <p className="text-2xl font-bold text-foreground">100%</p>
-          <p className="mt-1 text-xs text-text-tertiary">gratis, ingen konto</p>
-        </div>
-      </div>
-
       {/* Use-case carousel */}
       <div className="relative overflow-hidden rounded-2xl border border-card-border bg-card-bg">
         {USE_CASES.map((uc, i) => {

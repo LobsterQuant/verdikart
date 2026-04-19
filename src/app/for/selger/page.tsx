@@ -30,34 +30,39 @@ const features = [
 
 const faqs = [
   {
+    q: "Hva koster det å bruke Verdikart?",
+    a: "Verdikart er helt gratis å bruke. Ingen registrering, ingen skjult betaling.",
+  },
+  {
     q: "Kan jeg bruke Verdikart til å sette prisantydning?",
     a: "Verdikart gir deg markedsdata som grunnlag. Kommunebasert kvadratmeterpris og prishistorikk. En fullstendig verdivurdering krever en megler som kjenner boligen fysisk, men Verdikart gir deg faktabasert grunnlag for å vurdere meglerens prisforslag.",
+  },
+  {
+    q: "Hvor nøyaktige er boligprisdataene?",
+    a: "Prisdata hentes direkte fra SSB og oppdateres kvartalsvis. De viser gjennomsnittlig kvadratmeterpris for din kommune basert på faktiske salg.",
+  },
+  {
+    q: "Kan jeg se hva naboen solgte boligen sin for?",
+    a: "Individuelle transaksjonsdata er ikke tilgjengelig via åpent API. Vi viser kommunale kvadratmeterpriser fra SSB som gjenspeiler prisnivået i ditt område.",
   },
   {
     q: "Er dataen oppdatert?",
     a: "SSB-prisstatistikken oppdateres kvartalsvis. Kartverkets adressedata er sanntids. Vi viser alltid siste tilgjengelige periode og merker tydelig når dataen er fra.",
   },
   {
-    q: "Koster det noe?",
-    a: "Nei. Verdikart er gratis for alle brukere, både kjøpere og selgere.",
+    q: "Er dette en erstatning for en meglervurdering?",
+    a: "Nei. Verdikart gir deg faktabasert markedsdata slik at du kan stille bedre spørsmål til megler og vurdere prisbildet selv. Det erstatter ikke en profesjonell verditakst.",
   },
 ];
 
-const selgerFaqs = [
-  { q: "Hva koster det å bruke Verdikart?", a: "Verdikart er helt gratis å bruke. Ingen registrering, ingen skjult betaling." },
-  { q: "Hvor nøyaktige er boligprisdataene?", a: "Prisdata hentes direkte fra SSB og oppdateres kvartalsvis. De viser gjennomsnittlig kvadratmeterpris for din kommune basert på faktiske salg." },
-  { q: "Kan jeg se hva naboen solgte boligen sin for?", a: "Individuelle transaksjonsdata er ikke tilgjengelig via åpent API. Vi viser kommunale kvadratmeterpriser fra SSB som gjenspeiler prisnivået i ditt område." },
-  { q: "Er dette en erstatning for en meglervurdering?", a: "Nei. Verdikart gir deg faktabasert markedsdata slik at du kan stille bedre spørsmål til megler og vurdere prisbildet selv. Det erstatter ikke en profesjonell verditakst." },
-];
-
-const selgerSchema = {
+const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": selgerFaqs.map(({ q, a }) => ({
+  mainEntity: faqs.map(({ q, a }) => ({
     "@type": "Question",
-    "name": q,
-    "acceptedAnswer": { "@type": "Answer", "text": a }
-  }))
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
 };
 
 export default function SelgerPage() {
@@ -79,7 +84,7 @@ export default function SelgerPage() {
   return (
     <>
       <JsonLd schema={schema} />
-      <JsonLd schema={selgerSchema} />
+      <JsonLd schema={faqSchema} />
       <div className="min-h-screen bg-background text-foreground">
 
         {/* Hero */}
@@ -121,19 +126,6 @@ export default function SelgerPage() {
           <h2 className="mb-5 text-lg font-semibold">Vanlige spørsmål fra selgere</h2>
           <div className="space-y-3">
             {faqs.map(({ q, a }) => (
-              <div key={q} className="rounded-xl border border-card-border bg-card-bg p-5">
-                <h3 className="mb-2 font-semibold">{q}</h3>
-                <p className="text-sm leading-relaxed text-text-secondary">{a}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Selger FAQ (JSON-LD enriched) */}
-        <section className="mx-auto max-w-3xl px-4 pb-12 sm:px-6">
-          <h2 className="mb-5 text-lg font-semibold">Ofte stilte spørsmål</h2>
-          <div className="space-y-3">
-            {selgerFaqs.map(({ q, a }) => (
               <details key={q} className="group rounded-xl border border-card-border bg-card-bg">
                 <summary className="cursor-pointer select-none px-5 py-4 font-semibold text-foreground [&::-webkit-details-marker]:hidden list-none flex items-center justify-between">
                   {q}

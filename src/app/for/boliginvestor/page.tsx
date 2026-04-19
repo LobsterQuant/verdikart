@@ -11,6 +11,23 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://verdikart.no/for/boliginvestor" },
 };
 
+const faqs = [
+  { q: "Hva er en god direkteavkastning for utleieboliger i Norge?", a: "Direkteavkastning (leieinntekt / kjøpspris) på 3–5% anses som normalt i Oslo. Utenfor de store byene kan du oppnå 5–7%. Husk å trekke fra fellesutgifter, eiendomsskatt og vedlikehold." },
+  { q: "Hva bør jeg sjekke i et nabolag for utleiepotensial?", a: "Kollektivdekning, gangavstand til høyskole/universitet, støynivå og prisutvikling. Verdikart gir deg disse dataene direkte for enhver adresse." },
+  { q: "Hva er sekundærboligskatten?", a: "Fra 2023 beskattes sekundærbolig som 100% av markedsverdi i formuesskatten (mot 25% for primærbolig). I tillegg betales 22% skatt på netto leieinntekter etter fradrag." },
+  { q: "Er det lønnsomt å kjøpe i randsone utenfor Oslo?", a: "Byer som Lillestrøm, Ski og Drammen har lavere inngangspris og høyere direkteavkastning enn Oslo sentrum. Sjekk tog-/busstilbud til Oslo S. Det er den sterkeste prisdriveren i randsonene." },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
+
 const features = [
   {
     icon: TrendingUp,
@@ -34,12 +51,21 @@ export default function BoliginvestorPage() {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "Verdikart for Boliginvestorer",
+    description: "Verdikart gir boliginvestorer kvadratmeterpris, pristrend og kollektivdekning for enhver norsk adresse. Gratis, uten registrering.",
     url: "https://verdikart.no/for/boliginvestor",
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Hjem", item: "https://verdikart.no" },
+        { "@type": "ListItem", position: 2, name: "For boliginvestorer", item: "https://verdikart.no/for/boliginvestor" },
+      ],
+    },
   };
 
   return (
     <>
       <JsonLd schema={schema} />
+      <JsonLd schema={faqSchema} />
       <div className="min-h-screen bg-background text-foreground">
 
         <section className="relative overflow-hidden px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-28">
@@ -90,12 +116,7 @@ export default function BoliginvestorPage() {
         <section className="mx-auto max-w-3xl px-4 pb-16 sm:px-6">
           <h2 className="mb-6 text-xl font-semibold">Vanlige spørsmål for boliginvestorer</h2>
           <div className="space-y-3">
-            {[
-              { q: "Hva er en god direkteavkastning for utleieboliger i Norge?", a: "Direkteavkastning (leieinntekt / kjøpspris) på 3–5% anses som normalt i Oslo. Utenfor de store byene kan du oppnå 5–7%. Husk å trekke fra fellesutgifter, eiendomsskatt og vedlikehold." },
-              { q: "Hva bør jeg sjekke i et nabolag for utleiepotensial?", a: "Kollektivdekning, gangavstand til høyskole/universitet, støynivå og prisutvikling. Verdikart gir deg disse dataene direkte for enhver adresse." },
-              { q: "Hva er sekundærboligskatten?", a: "Fra 2023 beskattes sekundærbolig som 100% av markedsverdi i formuesskatten (mot 25% for primærbolig). I tillegg betales 22% skatt på netto leieinntekter etter fradrag." },
-              { q: "Er det lønnsomt å kjøpe i randsone utenfor Oslo?", a: "Byer som Lillestrøm, Ski og Drammen har lavere inngangspris og høyere direkteavkastning enn Oslo sentrum. Sjekk tog-/busstilbud til Oslo S. Det er den sterkeste prisdriveren i randsonene." },
-            ].map(({ q, a }) => (
+            {faqs.map(({ q, a }) => (
               <details key={q} className="group rounded-xl border border-card-border bg-card-bg">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 text-sm font-semibold list-none">{q}<span className="shrink-0 text-text-tertiary transition-transform group-open:rotate-45">+</span></summary>
                 <p className="px-5 pb-4 pt-0 text-sm leading-relaxed text-text-secondary">{a}</p>

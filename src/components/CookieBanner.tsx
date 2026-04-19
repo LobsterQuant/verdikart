@@ -135,7 +135,7 @@ export default function CookieBanner() {
     >
       <p className="mb-1 text-sm font-semibold text-foreground">Informasjonskapsler</p>
       <p className="mb-3 text-xs leading-relaxed text-text-secondary">
-        Vi bruker nødvendige tjenester uten cookies (Plausible Analytics — anonymisert) og valgfrie UX-målingsverktøy (Microsoft Clarity — sesjonsopptak) som krever ditt samtykke.{" "}
+        Vi bruker nødvendige tjenester uten cookies (Plausible Analytics, anonymisert) og valgfrie UX-målingsverktøy (Microsoft Clarity, sesjonsopptak) som krever ditt samtykke.{" "}
         <Link href="/personvern" className="text-accent hover:underline">Les mer</Link>.
       </p>
 
@@ -146,7 +146,7 @@ export default function CookieBanner() {
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="font-semibold text-foreground">Nødvendig</p>
-              <p className="text-text-tertiary">Plausible Analytics — cookiefri, GDPR-unntatt</p>
+              <p className="text-text-tertiary">Plausible Analytics. Cookiefri, GDPR-unntatt.</p>
             </div>
             <span className="mt-0.5 shrink-0 rounded-full bg-green-500/15 px-2 py-0.5 text-[10px] font-semibold text-green-400">Alltid på</span>
           </div>
@@ -154,7 +154,7 @@ export default function CookieBanner() {
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="font-semibold text-foreground">UX-måling</p>
-              <p className="text-text-tertiary">Microsoft Clarity — sesjonsopptak, krever samtykke</p>
+              <p className="text-text-tertiary">Microsoft Clarity. Sesjonsopptak, krever samtykke.</p>
             </div>
             <button
               onClick={() => setAnalyticsOn(v => !v)}

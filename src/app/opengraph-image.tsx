@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Verdikart — Forstå boligen. Ikke bare se den.";
+export const alt = "Verdikart — Eiendomsinnsikt fra offentlige kilder";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -10,86 +10,74 @@ export default function OgImage() {
     (
       <div
         style={{
-          background: "#000000",
+          background: "#0A0B0D",
           width: "100%",
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
           justifyContent: "flex-end",
-          padding: "72px 80px",
-          fontFamily: "sans-serif",
+          padding: 80,
+          fontFamily: "serif",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
-        {/* Subtle grid accent */}
+        {/* Topographic signature — concentric mint rings, top right (matches per-route OG) */}
+        <svg
+          width="620"
+          height="620"
+          viewBox="0 0 620 620"
+          style={{ position: "absolute", top: -120, right: -140, opacity: 0.22 }}
+        >
+          {[60, 120, 180, 240, 300, 360].map((r, i) => (
+            <circle
+              key={i}
+              cx="310"
+              cy="310"
+              r={r}
+              fill="none"
+              stroke="#7FE3D4"
+              strokeWidth="1.5"
+            />
+          ))}
+        </svg>
+
+        {/* Soft mint wash top-left for depth */}
         <div
           style={{
             position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundImage:
-              "linear-gradient(rgba(0,229,189,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,189,0.04) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-        {/* Teal glow */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-100px",
-            right: "-100px",
-            width: "500px",
-            height: "500px",
+            top: -140,
+            left: -140,
+            width: 420,
+            height: 420,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(0,229,189,0.12) 0%, transparent 70%)",
+            background:
+              "radial-gradient(circle, rgba(127, 227, 212, 0.14) 0%, transparent 70%)",
           }}
         />
-        <div style={{ display: "flex", alignItems: "center", marginBottom: "32px" }}>
-          <div
-            style={{
-              width: "10px",
-              height: "10px",
-              borderRadius: "50%",
-              background: "#00E5BD",
-              marginRight: "12px",
-            }}
-          />
-          <span style={{ color: "#00E5BD", fontSize: "18px", fontWeight: 600, letterSpacing: "0.08em" }}>
-            VERDIKART
-          </span>
-        </div>
+
         <div
           style={{
-            fontSize: "64px",
-            fontWeight: 700,
+            fontSize: 168,
             color: "#FFFFFF",
-            lineHeight: 1.1,
-            marginBottom: "24px",
-            maxWidth: "800px",
+            lineHeight: 1.0,
+            letterSpacing: "-0.02em",
+            fontFamily: "serif",
           }}
         >
-          Forstå boligen.
-          <br />
-          Ikke bare se den.
+          Verdikart
         </div>
-        <div style={{ display: "flex", gap: "32px" }}>
-          {["🚌 Transport", "📈 Priser", "🏠 Markedsdata"].map((item) => (
-            <div
-              key={item}
-              style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "8px",
-                padding: "10px 20px",
-                color: "#AAAAAA",
-                fontSize: "18px",
-              }}
-            >
-              {item}
-            </div>
-          ))}
+        <div
+          style={{
+            marginTop: 18,
+            fontSize: 36,
+            color: "#7FE3D4",
+            lineHeight: 1.2,
+            fontFamily: "sans-serif",
+            fontWeight: 500,
+          }}
+        >
+          Eiendomsinnsikt fra offentlige kilder
         </div>
       </div>
     ),

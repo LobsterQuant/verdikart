@@ -28,7 +28,7 @@ export default function OmOss() {
     url: "https://verdikart.no",
     founder: { "@type": "Person", name: "Michael H." },
     foundingDate: "2026-03",
-    description: "Forstå boligen. Ikke bare se den. Data fra Kartverket, Entur og SSB.",
+    description: "Eiendomsinnsikt fra offentlige norske datakilder. Data fra Kartverket, Entur og SSB.",
     contactPoint: {
       "@type": "ContactPoint",
       email: "kontakt@verdikart.no",
@@ -47,7 +47,7 @@ export default function OmOss() {
 
           <h1 className="text-3xl font-bold tracking-tight mb-3 sm:text-4xl">Om Verdikart</h1>
           <p className="text-lg text-text-secondary leading-relaxed mb-12">
-            Forstå boligen. Ikke bare se den. Ingen løsrevne datasett, ingen betalingsmurer — data fra Kartverket, Entur og SSB, samlet på ett sted.
+            Eiendomsinnsikt fra offentlige norske datakilder. Ingen løsrevne datasett, ingen betalingsmurer — data fra Kartverket, Entur og SSB, samlet på ett sted.
           </p>
 
           {/* Founder */}

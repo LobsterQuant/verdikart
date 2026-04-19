@@ -35,7 +35,7 @@ type ComparisonRow = {
 
 const COMPARISON_ROWS: ComparisonRow[] = [
   { feature: "Verdiestimat for boligen",           short: "Verdiestimat",   Icon: CircleDollarSign, verdikart: true, finn: false, google: false, isNew: true },
-  { feature: "Kollektivtransport — avganger per time", short: "Kollektiv",  Icon: Bus,              verdikart: true, finn: false, google: false },
+  { feature: "Kollektivtransport: avganger per time", short: "Kollektiv",  Icon: Bus,              verdikart: true, finn: false, google: false },
   { feature: "SSB prisstatistikk (kvartal)",       short: "SSB-priser",     Icon: BarChart3,        verdikart: true, finn: false, google: false },
   { feature: "Sammenlignbare salg i kommunen",     short: "Salg",           Icon: TrendingUp,       verdikart: true, finn: true,  google: false },
   { feature: "Klimarisiko (flom, kvikkleire)",     short: "Klimarisiko",    Icon: Droplets,         verdikart: true, finn: false, google: false, isNew: true },
@@ -66,7 +66,7 @@ const HOW_STEPS: HowStep[] = [
   {
     n: "1",
     title: "Skriv inn adressen",
-    body: "Søk på enhver norsk gateadresse — Kartverket kjenner alle 2,5 millioner av dem. Velg fra forslagslisten og trykk Enter.",
+    body: "Søk på enhver norsk gateadresse. Kartverket kjenner alle 2,5 millioner av dem. Velg fra forslagslisten og trykk Enter.",
     Icon: AdresseIcon,
     preview: (
       <div className="mt-3 rounded-lg border border-card-border bg-background px-3 py-2.5 text-xs">
@@ -109,7 +109,7 @@ const HOW_STEPS: HowStep[] = [
   {
     n: "3",
     title: "Les rapporten, ta en bedre beslutning",
-    body: "Se holdeplasser, avganger, kvadratmeterpris og sammenlignbare salg — samlet på én side. Del lenken med megler eller bankrådgiver.",
+    body: "Se holdeplasser, avganger, kvadratmeterpris og sammenlignbare salg samlet på én side. Del lenken med megler eller bankrådgiver.",
     Icon: PdfRapportIcon,
     preview: (
       <div className="mt-3 space-y-1.5 text-[11px]">
@@ -294,7 +294,7 @@ const websiteSchema = {
   url: "https://verdikart.no/",
   inLanguage: "nb-NO",
   description:
-    "Norges smarteste verktøy for boligkjøpere. Kollektivtransport, prisutvikling og markedsdata — alt på ett sted.",
+    "Norges smarteste verktøy for boligkjøpere. Kollektivtransport, prisutvikling og markedsdata samlet på ett sted.",
   potentialAction: {
     "@type": "SearchAction",
     target: {

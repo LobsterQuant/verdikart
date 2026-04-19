@@ -7,11 +7,11 @@ import { getDemographics } from "@/data/demographics";
 import { formatPct } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Sammenlign byer — Oslo, Bergen, Trondheim, Stavanger | Verdikart",
+  title: "Sammenlign byer: Oslo, Bergen, Trondheim, Stavanger | Verdikart",
   description:
     "Sammenlikn befolkning, inntekt, utdanning og prisutvikling mellom Norges største byer. Hva er best for deg?",
   openGraph: {
-    title: "Sammenlign byer — Verdikart",
+    title: "Sammenlign byer | Verdikart",
     description: "Sammenlikn Oslo, Bergen, Trondheim, Stavanger og mer.",
     type: "website",
     url: "https://verdikart.no/sammenlign",
@@ -152,7 +152,7 @@ export default function CompareCitiesPage() {
             <div className="rounded-lg border border-card-border bg-card-bg p-4">
               <p className="font-semibold text-foreground mb-1">Medianinntekt</p>
               <p className="text-sm text-text-secondary">
-                Gjennomsnittlig brutto årslønn for husstander. Oslo og Stavanger er høyest — det betyr både høyere inntekt OG høyere levekostnader.
+                Gjennomsnittlig brutto årslønn for husstander. Oslo og Stavanger er høyest, det betyr både høyere inntekt og høyere levekostnader.
               </p>
             </div>
             <div className="rounded-lg border border-card-border bg-card-bg p-4">

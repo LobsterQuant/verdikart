@@ -7,6 +7,28 @@ const nextConfig = {
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
     ],
   },
+  async headers() {
+    return [
+      {
+        // Security headers applied site-wide. HSTS is set with a 2-year max-age
+        // and `preload` so the domain is eligible for the browser HSTS preload
+        // list; submitting to hstspreload.org remains a separate manual step.
+        // COOP isolates the window from cross-origin popups — we don't open
+        // any OAuth/auth popups, so `same-origin` is safe.
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       // Demo URL shortcut → real slug with coordinates

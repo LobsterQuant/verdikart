@@ -35,8 +35,8 @@ export default function SiteFooter() {
 
           {/* Inline email */}
           <div className="w-full max-w-sm">
-            <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Hold deg oppdatert</p>
-            <p className="mb-3 text-sm text-text-secondary">Nye funksjoner og markedsanalyser direkte i innboksen.</p>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-text-tertiary">KVARTALSVISE OPPDATERINGER</p>
+            <p className="mb-3 text-sm text-text-secondary">Nye funksjoner og markedsanalyser fra Verdikart.</p>
             <EmailCapture compact />
           </div>
         </div>

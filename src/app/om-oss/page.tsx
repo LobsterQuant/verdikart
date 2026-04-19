@@ -179,7 +179,7 @@ export default function OmOss() {
               Personvern
             </h2>
             <p className="text-sm leading-relaxed text-text-secondary">
-              Vi lagrer ikke adressene du søker på. Ingen brukerkontoer, ingen sporing av individuelle søk. Analytics er anonym (Plausible) og vi bruker Microsoft Clarity kun for aggregert UX-analyse. Les hele{" "}
+              Vi lagrer ikke adressene du søker på. Ingen brukerkontoer, ingen sporing av individuelle søk. Plausible Analytics gir oss anonym besøkstatistikk uten cookies eller fingerprinting. Microsoft Clarity gir oss sesjonsopptak for å forstå hvordan brukere navigerer siden, men lastes kun etter at du har godtatt via samtykkebanneret. Les hele{" "}
               <a href="/personvern" className="text-accent hover:underline">personvernerklæringen</a>.
             </p>
           </section>

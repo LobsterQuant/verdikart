@@ -130,8 +130,8 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
             {status === "idle" && "Få en 3-setnings analyse av adressens styrker og svakheter basert på transport og prisdata"}
             {status === "loading" && "Henter pris- og transportdata…"}
             {status === "streaming" && "Analyserer…"}
-            {status === "done" && "Ferdig — klikk for å skjule"}
-            {status === "error" && "Noe gikk galt — prøv igjen"}
+            {status === "done" && "Ferdig. Klikk for å skjule"}
+            {status === "error" && "Noe gikk galt. Prøv igjen"}
           </p>
         </div>
         {status !== "idle" && (

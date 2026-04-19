@@ -441,9 +441,9 @@ export default function HomePage() {
           <h2 className="mb-4 text-lg font-bold">Hvorfor er dette gratis?</h2>
           <div className="grid gap-4 sm:grid-cols-3 text-sm">
             {[
-              { title: "Åpen infrastruktur", body: "Data fra SSB, Kartverket og Entur er offentlig tilgjengelig — vi gjør den søkbar og nyttig." },
+              { title: "Åpen infrastruktur", body: "Data fra SSB, Kartverket og Entur er offentlig tilgjengelig. Vi gjør den søkbar og nyttig." },
               { title: "Bygger troverdighet", body: "Vi er i en tidlig fase og ønsker at flest mulig prøver verktøyet og gir tilbakemelding." },
-              { title: "Fremtidige planer", body: "Vi planlegger premium-funksjoner som lagrede rapporter og prisvarsel — de grunnleggende funksjonene forblir alltid gratis." },
+              { title: "Fremtidige planer", body: "Vi planlegger premium-funksjoner som lagrede rapporter og prisvarsel. De grunnleggende funksjonene er alltid gratis." },
             ].map(({ title, body }) => (
               <div key={title} className="flex flex-col gap-1.5">
                 <p className="font-semibold text-foreground">{title}</p>

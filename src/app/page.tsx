@@ -1,5 +1,6 @@
 import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
+import JsonLd from "@/components/JsonLd";
 import SiteFooter from "@/components/SiteFooter";
 import { FeatureCards } from "@/components/HomeClientSections";
 import { ProductMockup } from "@/components/hero/ProductMockup";
@@ -282,9 +283,46 @@ function HowItWorksSection() {
   );
 }
 
+// Homepage-only. WebSite+SearchAction is the signal Google reads to surface a
+// sitelinks search box in the SERP; it only validates on the site root, so it
+// lives here rather than in the shared layout. SoftwareApplication tells Google
+// this is a free web product (price 0 NOK, UtilityApplication category).
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Verdikart",
+  url: "https://verdikart.no/",
+  inLanguage: "nb-NO",
+  description:
+    "Norges smarteste verktøy for boligkjøpere. Kollektivtransport, prisutvikling og markedsdata — alt på ett sted.",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://verdikart.no/sok?q={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Verdikart",
+  applicationCategory: "UtilityApplication",
+  operatingSystem: "Web",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "NOK" },
+  description:
+    "Eiendomsintelligens for det norske markedet. Data fra SSB, Kartverket, Entur, NVE og andre offentlige kilder.",
+  url: "https://verdikart.no/",
+  inLanguage: "nb-NO",
+};
+
 export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <JsonLd schema={websiteSchema} />
+      <JsonLd schema={softwareAppSchema} />
       {/* Hero */}
       <section
         className="hero-noise hero-orbs relative isolate flex flex-col items-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden"

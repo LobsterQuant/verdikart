@@ -38,7 +38,26 @@ export default function OgImage({ params }: { params: { slug: string } }) {
             backgroundSize: "32px 32px",
           }}
         />
-        {/* Indigo glow top-left */}
+        {/* Topographic signature — matches /eiendom and /by OG cards */}
+        <svg
+          width="620"
+          height="620"
+          viewBox="0 0 620 620"
+          style={{ position: "absolute", top: -160, right: -160, opacity: 0.22 }}
+        >
+          {[60, 120, 180, 240, 300, 360].map((r, i) => (
+            <circle
+              key={i}
+              cx="310"
+              cy="310"
+              r={r}
+              fill="none"
+              stroke="#7FE3D4"
+              strokeWidth="1.5"
+            />
+          ))}
+        </svg>
+        {/* Mint wash top-left */}
         <div
           style={{
             position: "absolute",
@@ -47,19 +66,7 @@ export default function OgImage({ params }: { params: { slug: string } }) {
             width: 480,
             height: 480,
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(127, 227, 212, 0.22) 0%, transparent 65%)",
-          }}
-        />
-        {/* Blue glow bottom-right */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: -100,
-            right: -60,
-            width: 400,
-            height: 400,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(59,130,246,0.14) 0%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(127, 227, 212, 0.18) 0%, transparent 65%)",
           }}
         />
 

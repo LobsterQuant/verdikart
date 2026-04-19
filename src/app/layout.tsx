@@ -3,7 +3,6 @@ import Script from "next/script";
 import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import NavBar from "@/components/NavBar";
 import CookieBanner from "@/components/CookieBanner";
-import JsonLd from "@/components/JsonLd";
 import Providers from "@/components/Providers";
 import MotionProvider from "@/components/MotionProvider";
 import "./globals.css";
@@ -128,25 +127,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans bg-background text-foreground min-h-screen">
         <Providers>
-          <JsonLd schema={{
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "Verdikart",
-            "applicationCategory": "BusinessApplication",
-            "operatingSystem": "Web",
-            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NOK" },
-            "url": "https://verdikart.no",
-            "description": "Gratis verktøy for norske boligkjøpere. Transport, prisutvikling og nabolagsdata for enhver adresse.",
-            "inLanguage": "nb-NO",
-          }} />
-          <JsonLd schema={{
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "Verdikart",
-            "url": "https://verdikart.no",
-            "description": "Norges smarteste verktøy for boligkjøpere. Kollektivtransport, prisutvikling og markedsdata — alt på ett sted.",
-            "inLanguage": "nb-NO",
-          }} />
+          {/* Homepage-scoped JSON-LD (WebSite+SearchAction, SoftwareApplication) lives in src/app/page.tsx per Google's guidance. */}
           {/* Skip-to-content — visible on keyboard focus only */}
           <a
             href="#main-content"

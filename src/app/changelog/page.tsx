@@ -26,6 +26,22 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "2.3",
+    date: "19. april 2026",
+    label: "Signaturbevegelse, ny mobilopplevelse og bedre sikkerhet",
+    items: [
+      { type: "feature", text: "Ny signaturbevegelse på datakort. Når du holder musen over et kort, sprer konsentriske mint-ringer seg ut fra musepunktet som høydekurver på et kart. Effekten er inspirert av flomkart og NVE-topografi." },
+      { type: "feature", text: "Helt ny mobilopplevelse for sammenligning med Finn.no og Google Maps. Tre faner glir mykt mellom hverandre, og sjekkmerkene animeres inn og ut når du bytter tjeneste." },
+      { type: "feature", text: "Helt ny mobilopplevelse for eiendomsrapporten. Full-bredt kart øverst, og alle 12 datapunkter vises som rader med forhåndsvisning i et ark som kan dras opp for mer innhold. Tapp på en rad for full detaljvisning." },
+      { type: "improvement", text: "Bedre støtte for iPhone med notch og hjemmeindikator. Innhold klippes ikke lenger inn i safe-area-sonen." },
+      { type: "improvement", text: "Navigasjonslinjen på topp har nå frostet bakgrunnseffekt som aktiveres ved scroll." },
+      { type: "feature", text: "Delbare lenkekort med egne bilder per side. Når du deler en eiendomsrapport på X eller LinkedIn, genereres et bilde med adressen, kvadratmeterprisen og Verdikarts signaturgrafikk. Byer får eget kort med kommunenavn og statistikk. Bloggartikler får kort med tittel og kategori." },
+      { type: "improvement", text: "Strengere sikkerhetsheadere. HSTS tvinger nå alle tilkoblinger til HTTPS, og cross-origin-isolering er aktivert. Sikkerhetsscore på securityheaders.com er nå A." },
+      { type: "improvement", text: "Strukturerte data for Google (JSON-LD). Verdikart er nå registrert som WebSite med søkefunksjon og som SoftwareApplication i UtilityApplication-kategorien. Dette kan gi søkeboks direkte under Verdikart i Google-treffene." },
+      { type: "improvement", text: "Ny /sok-rute for rask adresseoppslag, tilgjengelig direkte fra Google-treff." },
+    ],
+  },
+  {
     version: "2.1",
     date: "18. april 2026",
     label: "Full design-gjennomgang, verdiestimat med deeplink, prisvarsler-dashboard og schema-validering",

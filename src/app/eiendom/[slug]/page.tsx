@@ -28,7 +28,27 @@ import CardErrorBoundary from "@/components/CardErrorBoundary";
 import DemographicsCard from "@/components/DemographicsCard";
 import EnvironmentalRiskCard from "@/components/EnvironmentalRiskCard";
 import EiendomsskattCard from "@/components/EiendomsskattCard";
+import ClimateRiskCard from "@/components/ClimateRiskCard";
+import NoiseCard from "@/components/NoiseCard";
+import AirQualityCard from "@/components/AirQualityCard";
+import BroadbandCard from "@/components/BroadbandCard";
 import { eiendomsskattData } from "@/data/eiendomsskatt";
+import { PropertyReportMobile, type ReportSection } from "@/components/eiendom/PropertyReportMobile";
+import { getPropertyReportSummary } from "@/lib/propertyReportSummary";
+import {
+  VerdiestimatIcon,
+  PrisutviklingIcon,
+  KollektivIcon,
+  SkolerIcon,
+  KlimarisikoIcon,
+  StoyIcon,
+  LuftkvalitetIcon,
+  BredbandIcon,
+  EnergiIcon,
+  EiendomsskattIcon,
+  KriminalitetIcon,
+  DemografiIcon,
+} from "@/components/icons";
 
 interface PageProps {
   params: { slug: string };
@@ -231,11 +251,63 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
 
   const shareUrl = `https://verdikart.no/eiendom/${params.slug}?adresse=${encodeURIComponent(displayAddress)}`;
 
+  // Mobile sheet previews — one parallel server fetch instead of 12 client waterfalls.
+  const postnummer = searchParams.pnr ?? "";
+  const mobileSummary = await getPropertyReportSummary({
+    lat: latNum,
+    lon: lonNum,
+    kommunenummer,
+    postnummer,
+    adresse: displayAddress,
+  });
+  const headlinePrice = mobileSummary.verdiestimat.split("·")[0].trim();
+  const backHref = kommuneName ? `/by/${kommuneSlug}` : "/";
+  // Icons are pre-rendered here (server) as ReactNode since function refs can't
+  // cross the RSC boundary into PropertyReportMobile's client tree.
+  const iconCls = "h-4 w-4";
+  const mobileSections: ReadonlyArray<ReportSection> = [
+    { key: "verdiestimat",   label: "Verdiestimat",         icon: <VerdiestimatIcon className={iconCls} />,   detail: <ValuationCard kommunenummer={kommunenummer} postnummer={postnummer} adresse={displayAddress} /> },
+    { key: "prisstatistikk", label: "Prisstatistikk",       icon: <PrisutviklingIcon className={iconCls} />,  detail: <PriceTrendCard kommunenummer={kommunenummer} postnummer={postnummer} /> },
+    { key: "kollektiv",      label: "Kollektivtransport",   icon: <KollektivIcon className={iconCls} />,      detail: <TransitCard lat={latNum} lon={lonNum} address={displayAddress} /> },
+    { key: "skoler",         label: "Skoler og barnehager", icon: <SkolerIcon className={iconCls} />,         detail: <SchoolsCard lat={latNum} lon={lonNum} kommunenummer={kommunenummer} /> },
+    { key: "klimarisiko",    label: "Klimarisiko",          icon: <KlimarisikoIcon className={iconCls} />,    detail: <ClimateRiskCard lat={latNum} lon={lonNum} /> },
+    { key: "stoy",           label: "Støy",                 icon: <StoyIcon className={iconCls} />,           detail: <NoiseCard lat={latNum} lon={lonNum} /> },
+    { key: "luftkvalitet",   label: "Luftkvalitet",         icon: <LuftkvalitetIcon className={iconCls} />,   detail: <AirQualityCard lat={latNum} lon={lonNum} /> },
+    { key: "bredband",       label: "Bredbånd",             icon: <BredbandIcon className={iconCls} />,       detail: <BroadbandCard lat={latNum} lon={lonNum} /> },
+    { key: "energi",         label: "Energimerke",          icon: <EnergiIcon className={iconCls} />,         detail: <PropertyEnergimerke postnummer={postnummer} adresse={displayAddress} /> },
+    { key: "eiendomsskatt",  label: "Eiendomsskatt",        icon: <EiendomsskattIcon className={iconCls} />,  detail: <EiendomsskattCard kommunenummer={kommunenummer} /> },
+    { key: "kriminalitet",   label: "Kriminalitet",         icon: <KriminalitetIcon className={iconCls} />,   detail: <CrimeCard kommunenummer={kommunenummer} /> },
+    { key: "demografi",      label: "Demografi",            icon: <DemografiIcon className={iconCls} />,      detail: <DemographicsCard kommunenummer={kommunenummer} /> },
+  ];
+
   return (
     <>
       <JsonLd schema={breadcrumbSchema} />
       <JsonLd schema={realEstateSchema} />
-      <div className="flex min-h-screen flex-col bg-background text-foreground">
+
+      {/* ── MOBILE: bottom-sheet report (Package 7) ─────────────────────── */}
+      <div className="md:hidden">
+        <PropertyReportMobile
+          address={displayAddress}
+          headlinePrice={headlinePrice}
+          headlineCaption="Estimert verdi"
+          summary={mobileSummary}
+          sections={mobileSections}
+          backHref={backHref}
+          mapElement={
+            <PropertyMap
+              lat={latNum}
+              lon={lonNum}
+              address={displayAddress}
+              height="45vh"
+              rounded={false}
+            />
+          }
+        />
+      </div>
+
+      {/* ── DESKTOP: original two-column layout ─────────────────────────── */}
+      <div className="hidden min-h-screen flex-col bg-background text-foreground md:flex">
 
         {/* ── HERO: Map full-width at top ─────────────────────────────────── */}
         {latNum && lonNum && (

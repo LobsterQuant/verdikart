@@ -72,17 +72,20 @@ export default function NavBar() {
 
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
-      scrolled
-        ? "border-card-border bg-background/90 backdrop-blur-2xl shadow-lg shadow-black/20"
-        : "border-transparent bg-transparent backdrop-blur-none"
-    }`}>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300 ${
+        scrolled
+          ? "border-card-border bg-background/90 backdrop-blur-2xl shadow-lg shadow-black/20"
+          : "border-transparent bg-transparent backdrop-blur-none"
+      }`}
+      style={{ paddingTop: "max(0px, env(safe-area-inset-top))" }}
+    >
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
         {/* Wordmark */}
         <Link href="/" className="flex items-center gap-2 min-w-0">

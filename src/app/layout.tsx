@@ -156,7 +156,10 @@ export default function RootLayout({
           </a>
           <MotionProvider>
             <NavBar />
-            <main id="main-content" className="pt-14">
+            <main
+              id="main-content"
+              style={{ paddingTop: "calc(3.5rem + env(safe-area-inset-top))" }}
+            >
               {children}
             </main>
             <CookieBanner />

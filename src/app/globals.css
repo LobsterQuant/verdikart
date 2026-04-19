@@ -97,6 +97,17 @@ h1 {
    (hover: hover) and (pointer: fine); reduced-motion opts out. GPU-accelerated
    (transform scale + opacity only, no radius animation, no layout work). */
 @layer components {
+  /* Cookie banner: respect iOS home-indicator on mobile only.
+     Above sm the banner floats with bottom-6, so no inset needed. */
+  .cookie-banner-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  @media (min-width: 640px) {
+    .cookie-banner-safe {
+      padding-bottom: 1rem;
+    }
+  }
+
   .topo-hover-container {
     position: relative;
     overflow: hidden;

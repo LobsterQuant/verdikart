@@ -33,10 +33,16 @@ export default function PropertyMap({
   lat,
   lon,
   address,
+  height = 400,
+  rounded = true,
 }: {
   lat: number;
   lon: number;
   address: string;
+  /** Pixel height or any valid CSS length (e.g. "45vh"). Defaults to 400. */
+  height?: number | string;
+  /** Mobile full-bleed mode skips the rounded-xl + border. */
+  rounded?: boolean;
 }) {
   const [stops, setStops] = useState<TransitStop[]>([]);
 
@@ -63,16 +69,23 @@ export default function PropertyMap({
     fetchStops();
   }, [lat, lon]);
 
+  const chromeClasses = rounded
+    ? "rounded-xl border border-card-border bg-card-bg"
+    : "bg-card-bg";
+
   if (!lat || !lon || isNaN(lat) || isNaN(lon)) {
     return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-6 flex items-center justify-center h-[400px]">
+      <div
+        className={`${chromeClasses} flex items-center justify-center p-6`}
+        style={{ height }}
+      >
         <p className="text-text-secondary text-sm">Kartkoordinater ikke tilgjengelig</p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg overflow-hidden" style={{ height: 400 }}>
+    <div className={`${chromeClasses} overflow-hidden`} style={{ height }}>
       <PropertyMapInner lat={lat} lon={lon} address={address} stops={stops} />
     </div>
   );

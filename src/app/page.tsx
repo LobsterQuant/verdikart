@@ -10,6 +10,7 @@ import NewBadge from "@/components/NewBadge";
 // ISR: SSB and Entur data in the hero mockup revalidate hourly.
 export const revalidate = 3600;
 import { Check, Minus, CircleDollarSign, Droplets, BarChart3, Bus, FileText, Sparkles, Shield, Volume2, GraduationCap, Wind, Wifi, Zap, Users, Calculator, Bell, Leaf, TrendingUp } from "lucide-react";
+import { ComparisonSpotlight } from "@/components/home/ComparisonSpotlight";
 import {
   AdresseIcon,
   EnergiIcon,
@@ -163,8 +164,13 @@ function ComparisonSection() {
         Google forteller deg hva boligen ser ut som. Finn.no viser prisen. Verdikart forklarer <em>konteksten</em>.
       </p>
 
+      {/* Mobile: tabbed spotlight (see ComparisonSpotlight). Desktop keeps the full 18-row matrix. */}
+      <div className="md:hidden">
+        <ComparisonSpotlight />
+      </div>
+
       {/* Unified comparison table — header cards + feature rows share the same grid */}
-      <div className="overflow-x-auto rounded-xl border border-card-border" role="table" aria-label="Sammenligning av boligverktøy" style={{ WebkitOverflowScrolling: "touch" }}>
+      <div className="hidden overflow-x-auto rounded-xl border border-card-border md:block" role="table" aria-label="Sammenligning av boligverktøy" style={{ WebkitOverflowScrolling: "touch" }}>
         <div className="min-w-[520px] w-max sm:w-full">
 
           {/* Header row — product cards aligned to columns */}
@@ -238,9 +244,6 @@ function ComparisonSection() {
 
         </div>
       </div>
-
-      {/* Mobile scroll hint */}
-      <p className="mt-2 text-center text-[11px] text-text-secondary sm:hidden">← Sveip for å se alle kolonner →</p>
     </section>
   );
 }

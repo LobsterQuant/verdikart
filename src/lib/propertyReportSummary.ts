@@ -2,6 +2,8 @@ import { headers } from "next/headers";
 import { eiendomsskattData } from "@/data/eiendomsskatt";
 import { getDemographics } from "@/data/demographics";
 import { KOMMUNE_CRIME, NATIONAL_CRIME_AVG } from "@/data/crime";
+import { calculateMonthlyCost } from "@/lib/finance/mortgage";
+import { FELLESKOSTNADER_ESTIMATE } from "@/lib/finance/constants";
 
 /**
  * Server-side aggregator for the mobile property-report bottom sheet.
@@ -23,6 +25,7 @@ import { KOMMUNE_CRIME, NATIONAL_CRIME_AVG } from "@/data/crime";
 
 export type ReportSectionKey =
   | "verdiestimat"
+  | "manedskostnad"
   | "prisstatistikk"
   | "kollektiv"
   | "skoler"
@@ -149,6 +152,33 @@ function previewValuation(trend: PriceTrendShape | null, energi: EnergimerkeShap
   }
   if (sqm) return `${nbNumber(sqm)} kr/m² i området`;
   return UKJENT;
+}
+
+function previewManedskostnad(
+  trend: PriceTrendShape | null,
+  energi: EnergimerkeShape | null,
+  kommunenummer: string,
+): string {
+  const sqm = trend?.values[trend.values.length - 1];
+  const area = energi?.bruksareal ?? null;
+  if (!sqm || !area || area <= 0 || area >= 500) return UKJENT;
+  const estimatedPrice = Math.round(sqm * area);
+
+  const d = eiendomsskattData[kommunenummer];
+  let eiendomsskattMonthly = 0;
+  if (d?.hasTax && d.promille) {
+    const taxable = Math.max(0, estimatedPrice * (d.reductionFactor ?? 1) - (d.bunnfradrag ?? 0));
+    eiendomsskattMonthly = Math.round((taxable * d.promille) / 1000 / 12);
+  }
+
+  const { totalMonthly } = calculateMonthlyCost({
+    purchasePrice: estimatedPrice,
+    equityPercent: 0.15,
+    loanYears: 25,
+    felleskostnader: FELLESKOSTNADER_ESTIMATE.default,
+    eiendomsskatt: eiendomsskattMonthly,
+  });
+  return `~${nbNumber(Math.round(totalMonthly / 100) * 100)} kr/md · 15 % EK, 25 år`;
 }
 
 function previewPriceTrend(trend: PriceTrendShape | null): string {
@@ -280,6 +310,7 @@ export async function getPropertyReportSummary(
 
   return {
     verdiestimat: previewValuation(priceTrend, energi),
+    manedskostnad: previewManedskostnad(priceTrend, energi, kommunenummer),
     prisstatistikk: previewPriceTrend(priceTrend),
     kollektiv: previewTransit(transit, transitStops),
     skoler: previewSchools(schools),

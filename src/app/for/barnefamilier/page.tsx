@@ -5,7 +5,7 @@ import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 
 export const metadata: Metadata = {
-  title: "Verdikart for Barnefamilier — Sjekk transport, støy og nabolag | Verdikart",
+  title: "Barnefamilier | Verdikart",
   description: "Barnefamilier trenger trygt nabolag, gode skoler og kollektivtilbud. Verdikart viser deg transport, støy og prisdata for enhver norsk adresse.",
   alternates: { canonical: "https://verdikart.no/for/barnefamilier" },
 };
@@ -42,8 +42,8 @@ export default function BarnefamilierPage() {
     mainEntity: [
       { "@type": "Question", name: "Hvordan finner jeg nærmeste skole for en adresse?", acceptedAnswer: { "@type": "Answer", text: "Verdikart henter skoler og barnehager fra OpenStreetMap for enhver adresse, inkludert gangavstand. Søk på adressen og se SchoolsCard direkte i rapporten." } },
       { "@type": "Question", name: "Hva er støynivå og hvor mye bør det bekymre meg?", acceptedAnswer: { "@type": "Answer", text: "Over 55 dB utendørs på soveromsfasaden er EUs grenseverdi for søvnforstyrrelser. Norske retningslinjer (T-1442) anbefaler maks 55 dB (Lden) for boliger. Verdikart viser støynivå fra Kartverket for nøyaktig adresse." } },
-      { "@type": "Question", name: "Hva betyr 'skolerute' for boligvalg?", acceptedAnswer: { "@type": "Answer", text: "Oslo opererer med skolekretser — du må sende barna til nærskolen i din krets. Noen kretser har bedre omdømme enn andre. Sjekk Oslo kommunes skolekart på oslo.kommune.no før du kjøper." } },
-      { "@type": "Question", name: "Hva bør gangavstand til barnehage være?", acceptedAnswer: { "@type": "Answer", text: "Ideelt under 500 meter — det er ca. 7 minutter å gå. Barnehager vises i adresserapporten basert på OpenStreetMap-data, med gangavstand fra den valgte adressen." } },
+      { "@type": "Question", name: "Hva betyr 'skolerute' for boligvalg?", acceptedAnswer: { "@type": "Answer", text: "Oslo opererer med skolekretser. Du må sende barna til nærskolen i din krets. Noen kretser har bedre omdømme enn andre. Sjekk Oslo kommunes skolekart på oslo.kommune.no før du kjøper." } },
+      { "@type": "Question", name: "Hva bør gangavstand til barnehage være?", acceptedAnswer: { "@type": "Answer", text: "Ideelt under 500 meter. Det er ca. 7 minutter å gå. Barnehager vises i adresserapporten basert på OpenStreetMap-data, med gangavstand fra den valgte adressen." } },
     ],
   };
 
@@ -95,7 +95,7 @@ export default function BarnefamilierPage() {
 
           <div className="mt-8 rounded-xl border border-accent/20 bg-accent/5 p-5">
             <h3 className="mb-2 font-semibold">Sjekkliste for boligkjøp</h3>
-            <p className="mb-3 text-sm text-text-secondary">12 ting du bør undersøke før bud — inkludert radon, teknisk tilstand og fellesgjeld.</p>
+            <p className="mb-3 text-sm text-text-secondary">12 ting du bør undersøke før bud: radon, teknisk tilstand, fellesgjeld og mer.</p>
             <Link href="/blogg/hva-sjekke-for-boligkjop" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
               Les sjekklisten <ChevronRight className="h-3.5 w-3.5" />
             </Link>
@@ -109,8 +109,8 @@ export default function BarnefamilierPage() {
             {[
               { q: "Hvordan finner jeg nærmeste skole for en adresse?", a: "Verdikart henter skoler og barnehager fra OpenStreetMap for enhver adresse, inkludert gangavstand. Søk på adressen og se SchoolsCard direkte i rapporten." },
               { q: "Hva er støynivå og hvor mye bør det bekymre meg?", a: "Over 55 dB utendørs på soveromsfasaden er EUs grenseverdi for søvnforstyrrelser. Norske retningslinjer (T-1442) anbefaler maks 55 dB (Lden) for boliger. Verdikart viser støynivå fra Kartverket for nøyaktig adresse." },
-              { q: "Hva betyr 'skolerute' for boligvalg?", a: "Oslo opererer med skolekretser — du må sende barna til nærskolen i din krets. Noen kretser har bedre omdømme enn andre. Sjekk Oslo kommunes skolekart på oslo.kommune.no før du kjøper." },
-              { q: "Hva bør gangavstand til barnehage være?", a: "Ideelt under 500 meter — det er ca. 7 minutter å gå. Barnehager vises i adresserapporten basert på OpenStreetMap-data, med gangavstand fra den valgte adressen." },
+              { q: "Hva betyr 'skolerute' for boligvalg?", a: "Oslo opererer med skolekretser. Du må sende barna til nærskolen i din krets. Noen kretser har bedre omdømme enn andre. Sjekk Oslo kommunes skolekart på oslo.kommune.no før du kjøper." },
+              { q: "Hva bør gangavstand til barnehage være?", a: "Ideelt under 500 meter. Det er ca. 7 minutter å gå. Barnehager vises i adresserapporten basert på OpenStreetMap-data, med gangavstand fra den valgte adressen." },
             ].map(({ q, a }) => (
               <details key={q} className="group rounded-xl border border-card-border bg-card-bg">
                 <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 text-sm font-semibold list-none">{q}<span className="shrink-0 text-text-tertiary transition-transform group-open:rotate-45">+</span></summary>

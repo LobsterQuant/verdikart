@@ -5,8 +5,8 @@ import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 
 export const metadata: Metadata = {
-  title: "Verdikart for Førstegangskjøpere — Forstå boligmarkedet før du kjøper | Verdikart",
-  description: "Skal du kjøpe bolig for første gang? Verdikart gir deg transport-, pris- og nabolagsdata for enhver norsk adresse — gratis, uten registrering.",
+  title: "Førstegangskjøper | Verdikart",
+  description: "Verdikart gir deg transport-, pris- og nabolagsdata for enhver norsk adresse. Gratis, uten registrering.",
   alternates: { canonical: "https://verdikart.no/for/forstegangskjoper" },
 };
 
@@ -14,17 +14,17 @@ const steps = [
   {
     icon: Train,
     title: "Sjekk kollektivtilbudet",
-    body: "Søk på adressen og se alle holdeplasser innen gangavstand, linjenumre og avganger per time. Ikke la megleren fortelle deg at «det er kort til T-banen» — sjekk det selv.",
+    body: "Søk på adressen og se alle holdeplasser innen gangavstand, linjenumre og avganger per time. Ikke la megleren fortelle deg at «det er kort til T-banen». Sjekk det selv.",
   },
   {
     icon: TrendingUp,
-    title: "Forstå prisbildet",
+    title: "Prisbildet",
     body: "Se gjennomsnittlig kvadratmeterpris for kommunen og prisutvikling over tid. Er det du betaler innenfor det normale? Verdikart viser deg tallene direkte fra SSB.",
   },
   {
     icon: Home,
     title: "Sammenlign prisdata",
-    body: "Se hva lignende boliger faktisk er solgt for i nærområdet. Ikke betal mer enn markedet — bruk dataen til å forhandle.",
+    body: "Hva lignende boliger er solgt for i nærområdet. Bruk dataen i forhandlingen.",
   },
   {
     icon: ShieldCheck,
@@ -74,17 +74,17 @@ export default function FørstegangskjøperPage() {
             Kjøp din første bolig med åpne øyne
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-base leading-relaxed text-text-secondary sm:text-lg">
-            Som førstegangskjøper kan du ikke stole blindt på megleren. Verdikart gir deg de dataene du trenger for å ta en informert beslutning — gratis.
+            Som førstegangskjøper kan du ikke stole blindt på megleren. Verdikart gir deg de dataene du trenger for å ta en informert beslutning. Gratis.
           </p>
           <div className="mx-auto mt-8 w-full max-w-xl">
             <AddressSearch />
           </div>
-          <p className="mt-3 text-xs text-text-tertiary">Søk på en adresse du vurderer — se rapport umiddelbart</p>
+          <p className="mt-3 text-xs text-text-tertiary">Søk på en adresse du vurderer og se rapport umiddelbart</p>
         </section>
 
         {/* Steps */}
         <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-          <h2 className="mb-8 text-center text-xl font-semibold">Hva du bør sjekke — og hvordan Verdikart hjelper</h2>
+          <h2 className="mb-8 text-center text-xl font-semibold">Hva du bør sjekke, og hvordan Verdikart hjelper</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {steps.map(({ icon: Icon, title, body }) => (
               <div key={title} className="rounded-xl border border-card-border bg-card-bg p-5">
@@ -107,7 +107,7 @@ export default function FørstegangskjøperPage() {
               </div>
               <div>
                 <h3 className="mb-1 font-semibold">Les vår sjekkliste for boligkjøp</h3>
-                <p className="mb-3 text-sm text-text-secondary">12 ting du MÅ undersøke før du legger inn bud — fra fellesgjeld til radon.</p>
+                <p className="mb-3 text-sm text-text-secondary">12 ting du MÅ undersøke før du legger inn bud. Fra fellesgjeld til radon.</p>
                 <Link href="/blogg/hva-sjekke-for-boligkjop" className="flex items-center gap-1 text-sm font-medium text-accent hover:underline">
                   Les sjekklisten <ChevronRight className="h-3.5 w-3.5" />
                 </Link>
@@ -135,11 +135,11 @@ export default function FørstegangskjøperPage() {
               },
               {
                 q: "Bør jeg bruke verdikart.no på visning?",
-                a: "Ja — Verdikart er designet for mobilbruk på visning. Søk på adressen og sjekk kollektivavganger, støynivå og prisstatistikk direkte fra mobilen. Du ser ting megleren ikke vil fortelle deg."
+                a: "Ja. Verdikart er designet for mobilbruk på visning. Søk på adressen og sjekk kollektivavganger, støynivå og prisstatistikk direkte fra mobilen. Du ser ting megleren ikke vil fortelle deg."
               },
               {
                 q: "Hva er dokumentavgift?",
-                a: "Dokumentavgift er 2,5% av kjøpesummen og betales til staten ved overføring av eiendom. For en leilighet til 4 millioner betyr det 100 000 kr ekstra. Merk: borettslag og aksjeleiligheter har ikke dokumentavgift — kun selveierboliger."
+                a: "Dokumentavgift er 2,5% av kjøpesummen og betales til staten ved overføring av eiendom. For en leilighet til 4 millioner betyr det 100 000 kr ekstra. Merk: borettslag og aksjeleiligheter har ikke dokumentavgift. Kun selveierboliger."
               },
             ].map(({ q, a }) => (
               <details key={q} className="group rounded-xl border border-card-border bg-card-bg">

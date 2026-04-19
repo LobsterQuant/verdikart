@@ -457,9 +457,9 @@ export default function HomePage() {
       {/* Email capture — reframed as value, not "coming soon" */}
       <section className="border-t border-card-border bg-card-bg px-4 py-14 text-center sm:px-6">
         <div className="mx-auto max-w-md">
-          <h2 className="mb-3 text-2xl font-bold">Få markedsinnsikt rett i innboksen</h2>
+          <h2 className="mb-3 text-2xl font-bold">Kvartalsvise prisoppdateringer</h2>
           <p className="mb-6 text-sm leading-relaxed text-text-secondary">
-            Vi sender månedlige oppdateringer om boligprisutvikling per bydel, nye datakilder og tips til boligkjøpere. Ingen spam — kun tall som faktisk betyr noe.
+            Kvartalsvise oppdateringer om boligprisutvikling per bydel, nye datakilder og tips til boligkjøpere. Ingen spam.
           </p>
           <EmailCapture />
         </div>

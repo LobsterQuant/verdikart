@@ -89,7 +89,7 @@ export default function EmailCapture({ address, compact = false }: { address?: s
           <h3 className="font-semibold text-foreground">Meld deg på prisoppdateringer</h3>
         </div>
         <p className="mt-1 text-sm text-text-secondary">
-          Meld deg på nyhetsbrev om boligprisutvikling{address ? ` i dette området` : ""}. Vi oppdaterer kvartalsvis basert på SSB-data.
+          Meld deg på nyhetsbrev om boligprisutvikling{address ? ` i dette området` : ""}. Gratis, ett klikk for å melde deg av.
         </p>
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:flex-row">
@@ -116,19 +116,19 @@ export default function EmailCapture({ address, compact = false }: { address?: s
       )}
       {/* GDPR consent + unsubscribe — required at point of collection (GDPR Art. 7 + 13) */}
       <p className="mt-3 text-xs text-text-tertiary leading-relaxed">
-        Ved å melde deg på godtar du at vi lagrer e-postadressen din for å sende
-        {address ? ` prisvarsel for ${address}.` : " markedsoppdateringer om boligpriser."} Vi deler ikke data med tredjeparter.
-        Du kan{" "}
+        {address
+          ? "Vi lagrer e-postadressen din for å sende prisvarsler for denne adressen."
+          : "Vi lagrer e-postadressen din for å sende markedsoppdateringer."}{" "}
+        Aldri delt med tredjeparter.{" "}
         <a
           href="/avmeld"
           className="underline underline-offset-2 hover:text-foreground transition-colors"
         >
-          melde deg av med ett klikk
+          Meld deg av med ett klikk
         </a>
-        .
-        Se vår{" "}
+        .{" "}
         <a href="/personvern" className="underline underline-offset-2 hover:text-foreground transition-colors">
-          personvernerklæring
+          Se personvernerklæringen
         </a>
         .
       </p>

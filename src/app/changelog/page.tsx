@@ -26,6 +26,26 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "2.4",
+    date: "19. april 2026",
+    label: "Gjennomgang av all tekst på siden",
+    items: [
+      { type: "improvement", text: "Språk gjennomgått på tvers av hele siden. Kortere setninger, færre fyllord, mer presise formuleringer." },
+      { type: "improvement", text: "Landingssider for førstegangskjøpere, selgere, boliginvestorer og barnefamilier har fått strammere tekst og tydeligere budskap." },
+      { type: "improvement", text: "Nyhetsbrev-seksjonen er forenklet. Kvartalsvise oppdateringer basert på SSB-rytme, ærlig beskrivelse av hva abonnenter får." },
+      { type: "improvement", text: "Om-siden oppdatert med mer presis beskrivelse av datakilder. Personvern-seksjonen forklarer nå at Microsoft Clarity kun lastes etter aktivt samtykke, og at Plausible Analytics kjører uten cookies." },
+      { type: "improvement", text: "FAQ-siden ryddet. Kortere svar, ingen bindestreker i feil kontekst." },
+      { type: "improvement", text: "Forbedret sammenligningstekst på forsiden og /sammenlign. Tydeligere på hva Verdikart gjør og hva vi ikke gjør." },
+      { type: "improvement", text: "Alle 15 byguide-sider har fått nye overskrifter og undertitler. Oslo, Bergen, Trondheim, Stavanger, Bærum, Kristiansand, Fredrikstad, Sandnes, Drammen, Tromsø, Sarpsborg, Skien, Bodø, Arendal og Hamar." },
+      { type: "fix", text: "Duplikate statistikk-rader på forsiden fjernet." },
+      { type: "fix", text: "FAQ-seksjoner på /for/selger slått sammen. Én felles seksjon i stedet for to med overlappende spørsmål." },
+      { type: "fix", text: "SEO-metadata lagt til på /for/boliginvestor (FAQPage-schema) som tidligere manglet. Nå konsistent med søsken-sidene." },
+      { type: "fix", text: "FAQ-svar på /for/forstegangskjoper matcher nå schema-data for Google-indeksering. Tidligere var schema-versjonen kortere enn det brukerne så på siden." },
+      { type: "fix", text: "Konsistent tittelformat på tvers av sider. Alle sider bruker nå «Sidenavn | Verdikart» i nettleserfaner." },
+      { type: "improvement", text: "Ny signaturfrase i footer: «Data fra Kartverket, Entur og SSB. Ingen provisjon, ingen agenda.»" },
+    ],
+  },
+  {
     version: "2.3",
     date: "19. april 2026",
     label: "Signaturbevegelse, ny mobilopplevelse og bedre sikkerhet",

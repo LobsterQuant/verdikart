@@ -23,6 +23,13 @@ export default function BykartPage() {
     name: "Bykart — Boligpriser i norske byer",
     description: metadata.description,
     url: "https://verdikart.no/bykart",
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Hjem", item: "https://verdikart.no" },
+        { "@type": "ListItem", position: 2, name: "Bykart", item: "https://verdikart.no/bykart" },
+      ],
+    },
   };
 
   return (

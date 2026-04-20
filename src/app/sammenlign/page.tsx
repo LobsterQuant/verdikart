@@ -38,6 +38,13 @@ export default function CompareCitiesPage() {
             "@type": "Thing",
             name: "By-sammenlikning",
           },
+          breadcrumb: {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Hjem", item: "https://verdikart.no" },
+              { "@type": "ListItem", position: 2, name: "Sammenlign byer", item: "https://verdikart.no/sammenlign" },
+            ],
+          },
         }}
       />
 

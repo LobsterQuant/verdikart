@@ -21,6 +21,7 @@ import NearbyProperties from "@/components/NearbyProperties";
 import AISummary from "@/components/AISummary";
 import ValuationCard from "@/components/ValuationCard";
 import ManedskostnadKort from "@/components/cards/ManedskostnadKort";
+import ManedskostnadHero from "@/components/ManedskostnadHero";
 import AmenitiesCard from "@/components/AmenitiesCard";
 import SidebarDataCluster from "@/components/SidebarDataCluster";
 
@@ -384,6 +385,15 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
           </div>
 
           {/* ── MÅNEDSKOSTNAD (full width — buyer's #2 question: can I afford it?) ──── */}
+          <div className="mb-4">
+            <CardErrorBoundary fallbackTitle="Månedskostnad-eksempel feilet">
+              <ManedskostnadHero
+                kommunenummer={kommunenummer}
+                postnummer={searchParams.pnr ?? ""}
+                adresse={displayAddress}
+              />
+            </CardErrorBoundary>
+          </div>
           <div className="mb-8">
             <CardErrorBoundary fallbackTitle="Månedskostnad feilet">
               <ManedskostnadKort

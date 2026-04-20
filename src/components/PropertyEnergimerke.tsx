@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Zap, ExternalLink } from "lucide-react";
 import { TopographicHover } from "@/components/motion/TopographicHover";
 import { nb } from "@/lib/format";
+import { isResidentialCategory } from "@/lib/enova/category";
 
 interface EnergimerkeData {
   energikarakter: string | null;
@@ -44,17 +45,6 @@ function labelDescription(label: string): string {
     case "G": return "Dårlig energistandard";
     default: return "";
   }
-}
-
-// Enova residential categories. Everything else (Kontorbygg, Forretningsbygg,
-// Hotell, Skole, Sykehus, Industri, etc.) is a næringsbygg where per-m² energy
-// intensity compares apples to oranges with a home.
-const RESIDENTIAL_KEYWORDS = ["småhus", "bolig"];
-
-function isResidentialCategory(kategori: string | null): boolean {
-  if (!kategori) return true; // unknown → default to residential path
-  const k = kategori.toLowerCase();
-  return RESIDENTIAL_KEYWORDS.some((kw) => k.includes(kw));
 }
 
 // Enova's CSV occasionally returns total-building kWh instead of kWh/m² for

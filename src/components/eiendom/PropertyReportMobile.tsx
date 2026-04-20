@@ -67,7 +67,7 @@ export function PropertyReportMobile({
           >
             <ArrowLeft className="h-5 w-5" strokeWidth={1.75} />
           </Link>
-          <h1 className="truncate text-sm font-semibold">{address}</h1>
+          <p className="truncate text-sm font-semibold">{address}</p>
         </div>
       </header>
 

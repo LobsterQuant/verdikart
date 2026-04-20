@@ -133,7 +133,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
-      url: `${base}/finn-bolig`,
+      url: `${base}/kjope-bolig`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.9,
@@ -143,7 +143,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       "frogner", "grunerlokka", "majorstuen", "nordnes",
       "bakklandet", "lade", "moholt", "fana", "sandviken",
       "st-hanshaugen", "sagene", "gronland", "toyen",
-      "sofienberg", "bislett", "skillebek", "aker-brygge",
+      "sofienberg", "bislett", "skillebekk", "aker-brygge",
       "bjolsen", "kiellands-plass",
     ].map((area) => ({
       url: `${base}/nabolag/${area}`,

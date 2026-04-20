@@ -34,7 +34,7 @@ const CITIES: City[] = [
   { slug: "bergen",       name: "Bergen",       avgSqmPrice: 62400, yoy: 4.3, lat: 60.3913, lon: 5.3221 },
   { slug: "trondheim",    name: "Trondheim",    avgSqmPrice: 54100, yoy: 6.2, lat: 63.4305, lon: 10.3951 },
   { slug: "tromso",       name: "Tromsø",       avgSqmPrice: 52300, yoy: 4.1, lat: 69.6492, lon: 18.9553 },
-  { slug: "bodoe",        name: "Bodø",         avgSqmPrice: 41200, yoy: 6.5, lat: 67.2804, lon: 14.4049 },
+  { slug: "bodo",         name: "Bodø",         avgSqmPrice: 41200, yoy: 6.5, lat: 67.2804, lon: 14.4049 },
   { slug: "arendal",      name: "Arendal",      avgSqmPrice: 36100, yoy: 5.2, lat: 58.4612, lon: 8.7723 },
   { slug: "hamar",        name: "Hamar",        avgSqmPrice: 38200, yoy: 4.6, lat: 60.7945, lon: 11.0679 },
 ];

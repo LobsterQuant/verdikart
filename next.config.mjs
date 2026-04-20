@@ -67,6 +67,11 @@ const nextConfig = {
       { source: "/about",                 destination: "/om-oss",               permanent: true },
       { source: "/contact",              destination: "/kontakt",              permanent: true },
       { source: "/press",                destination: "/presse",               permanent: true },
+      // Slug cleanup (audit H8)
+      { source: "/nabolag/skillebek",     destination: "/nabolag/skillebekk",   permanent: true },
+      { source: "/by/bodoe",              destination: "/by/bodo",              permanent: true },
+      // Kjøpe bolig guide rename (audit H11) — slug now matches content
+      { source: "/finn-bolig",            destination: "/kjope-bolig",          permanent: true },
     ];
   },
 };

@@ -380,8 +380,8 @@ export const areas: Record<string, AreaData> = {
       { q: "Er Bislett et godt nabolag?", a: "Bislett er svært populært — sentralt, levende og med sterk naboidentitet." },
     ],
   },
-  skillebek: {
-    slug: "skillebek",
+  skillebekk: {
+    slug: "skillebekk",
     name: "Skillebekk",
     city: "Oslo",
     citySlug: "oslo",

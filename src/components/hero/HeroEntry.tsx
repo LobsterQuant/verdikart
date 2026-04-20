@@ -34,14 +34,18 @@ export default function HeroEntry() {
         Boligen i kontekst
       </m.p>
 
-      {/* H1 — whole block animates as a single unit per Package 5 spec */}
+      {/* H1 + subtitle — separate semantic elements so screen readers
+          announce them as two sentences, not a run-on. Visually preserved
+          via the `display-1` class and italic/muted subtitle styling. */}
       <m.h1 variants={fadeUp} className="display-1 max-w-3xl text-text">
         Er nabolaget verdt prisen?
-        <br />
-        <span className="italic text-text-muted">
-          Finn svaret på&nbsp;10&nbsp;sekunder.
-        </span>
       </m.h1>
+      <m.p
+        variants={fadeUp}
+        className="display-1 max-w-3xl italic text-text-muted"
+      >
+        Finn svaret på&nbsp;10&nbsp;sekunder.
+      </m.p>
 
       {/* Supporting paragraph */}
       <m.p

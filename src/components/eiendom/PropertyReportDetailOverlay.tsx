@@ -72,7 +72,7 @@ export function PropertyReportDetailOverlay({
           >
             <ArrowLeft className="h-5 w-5" strokeWidth={1.75} />
           </button>
-          <h2 className="truncate text-base font-semibold">{title}</h2>
+          {title && <h2 className="truncate text-base font-semibold">{title}</h2>}
         </div>
         <div
           className="flex-1 overflow-y-auto px-4 py-4"

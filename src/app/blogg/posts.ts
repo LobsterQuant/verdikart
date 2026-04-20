@@ -24,7 +24,7 @@ export const posts: BlogPost[] = [
     slug: "hva-sjekke-for-boligkjop",
     title: "Sjekkliste boligkjøp 2026: 12 ting du MÅ undersøke",
     description:
-      "En komplett sjekkliste for boligkjøp i 2026. Fra kollektivtransport og støynivå til prishistorikk og fellesgjeld — her er alt du bør undersøke før du legger inn bud.",
+      "Sjekkliste for boligkjøp 2026: 12 punkter om kollektivtransport, støy, prishistorikk og fellesgjeld du bør undersøke før du legger inn bud.",
     publishedAt: "2025-10-01",
     readingMinutes: 6,
     category: "Kjøperguide",

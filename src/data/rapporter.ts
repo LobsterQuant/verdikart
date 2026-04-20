@@ -10,6 +10,18 @@
  * editorial ambition. Keep the list short and plausibly near-term.
  */
 
+/**
+ * Predicate that decides whether a report is relevant to surface on a given
+ * /eiendom/[slug] property page. If omitted, the report is not surfaced on
+ * property pages (only /rapporter and the nav).
+ *
+ * Current inputs are minimal; extend the shape when future reports need it
+ * (e.g. `bydel`, `kommunenummer`, `byggeaar`).
+ */
+export type RapportRelevansInput = {
+  bygningskategori?: string | null;
+};
+
 export type Rapport = {
   slug: string;
   title: string;
@@ -19,6 +31,7 @@ export type Rapport = {
   publishedAt: string; // ISO date
   reportNumber: string; // "VK-2026-01"
   dataSources: string[]; // short display names, e.g. ["SSB", "Kartverket"]
+  isRelevantForProperty?: (ctx: RapportRelevansInput) => boolean;
 };
 
 export type KommendeRapport = {
@@ -26,6 +39,12 @@ export type KommendeRapport = {
   teaser: string;
   expectedQuarter: string; // e.g. "Q3 2026"
 };
+
+function isFritidCategory(kategori: string | null | undefined): boolean {
+  if (!kategori) return false;
+  const k = kategori.toLowerCase();
+  return k.includes("fritid") || k.includes("hytte");
+}
 
 export const rapporter: Rapport[] = [
   {
@@ -38,6 +57,7 @@ export const rapporter: Rapport[] = [
     publishedAt: "2026-04-20",
     reportNumber: "VK-2026-01",
     dataSources: ["SSB 08948", "SSB 11500"],
+    isRelevantForProperty: ({ bygningskategori }) => isFritidCategory(bygningskategori),
   },
 ];
 

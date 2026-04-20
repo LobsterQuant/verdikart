@@ -14,9 +14,12 @@ export const revalidate = 3600;
 
 // Home canonical lives here, not in the root layout — keeping it on the layout
 // caused every 404 response to inherit canonical=/ (soft-404 audit C-NEW-2).
-export const metadata: Metadata = {
-  alternates: { canonical: "https://verdikart.no" },
-};
+// Canonical is emitted directly in JSX (see HomePage) rather than via the
+// metadata API: Next.js's metadata resolver strips the trailing "/" from the
+// root canonical, and we need the slashed form to match sitemap + internal
+// links (audit ME-2). An explicit <link rel="canonical"> in the tree is
+// hoisted by Next into <head> and preserved verbatim.
+export const metadata: Metadata = {};
 import { Check, Minus, CircleDollarSign, Droplets, BarChart3, Bus, FileText, Sparkles, Shield, Volume2, GraduationCap, Wind, Wifi, Zap, Users, Calculator, Bell, Leaf, TrendingUp } from "lucide-react";
 import { ComparisonSpotlight } from "@/components/home/ComparisonSpotlight";
 import {
@@ -354,6 +357,10 @@ const organizationSchema = {
 export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
+      {/* Root canonical with trailing slash — hoisted into <head> by Next. See
+          metadata comment above: Metadata API strips the slash from the root
+          canonical, and we need to match the sitemap's slashed root URL. */}
+      <link rel="canonical" href="https://verdikart.no/" />
       <JsonLd schema={websiteSchema} />
       <JsonLd schema={softwareAppSchema} />
       <JsonLd schema={organizationSchema} />

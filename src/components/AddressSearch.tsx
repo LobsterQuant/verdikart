@@ -175,6 +175,24 @@ export default function AddressSearch({ initialValue = "", skipAutoSearch = fals
         .filter((r: AddressResult) => r.adressetekst && r.lat !== 0 && r.lon !== 0)
         .slice(0, 5);
 
+      // /eiendom/[slug] pages pass skipAutoSearch + the page address as
+      // initialValue. If the only result matches the current page, skip the
+      // state transition entirely so neither the dropdown nor the sr-only
+      // "X treff funnet" announcer fires — the widget stays idle until the
+      // user types something different.
+      if (
+        skipAutoSearch &&
+        adresser.length > 0 &&
+        initialValue &&
+        normalizeAddressForMatch(adresser[0].adressetekst) === normalizeAddressForMatch(initialValue)
+      ) {
+        setResults([]);
+        setActiveIndex(-1);
+        setShowRecent(false);
+        setState("idle");
+        return;
+      }
+
       setResults(adresser);
       setActiveIndex(-1);
       setShowRecent(false);

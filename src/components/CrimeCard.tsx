@@ -35,13 +35,15 @@ interface CrimeCardProps {
   kommunenummer: string;
   postnummer?: string;
   kommuneName?: string;
+  lat?: number | null;
+  lon?: number | null;
 }
 
-export default function CrimeCard({ kommunenummer, postnummer, kommuneName }: CrimeCardProps) {
-  // Oslo: forsøk bydel-oppslag først. Faller tilbake til kommunesnitt hvis
-  // postnummer mangler eller ikke er dekket av OSLO_BYDEL_INDEX.
+export default function CrimeCard({ kommunenummer, postnummer, kommuneName, lat, lon }: CrimeCardProps) {
+  // Oslo: forsøk bydel-oppslag først. Postnummer er fast path; koordinater
+  // brukes når URL-en ikke bærer ?pnr= (direkte-lenker, sitemap osv).
   if (kommunenummer === "0301") {
-    const bydelCrime = getOsloBydelCrime(postnummer);
+    const bydelCrime = getOsloBydelCrime({ postnummer, lat, lon, kommunenummer });
     if (bydelCrime) {
       return <BydelCrimeView data={bydelCrime} />;
     }

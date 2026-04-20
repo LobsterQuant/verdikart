@@ -47,4 +47,33 @@ describe("OSLO_BYDEL_CRIME", () => {
       expect(OSLO_BYDEL_CRIME[name], `missing crime data for ${name}`).toBeDefined();
     }
   });
+
+  // ── coord-fallback ────────────────────────────────────────────────────
+  // These mirror the direct-link path: slug contains lat/lon but no ?pnr=,
+  // so CrimeCard must still resolve the correct bydel.
+
+  it("faller tilbake til koordinater når postnummer mangler (Karl Johans → Sentrum)", () => {
+    const res = getOsloBydelCrime({ lat: 59.9114, lon: 10.7494, kommunenummer: "0301" });
+    expect(res?.bydel).toBe("Sentrum");
+  });
+
+  it("faller tilbake til koordinater når postnummer mangler (Bygdøy allé → Frogner)", () => {
+    const res = getOsloBydelCrime({ lat: 59.9149, lon: 10.7171, kommunenummer: "0301" });
+    expect(res?.bydel).toBe("Frogner");
+  });
+
+  it("postnummer vinner over koordinater når begge er satt", () => {
+    // 0159 tilhører Sentrum; koordinatene peker mot Frogner — postnummer skal ta presedens.
+    const res = getOsloBydelCrime({ postnummer: "0159", lat: 59.9149, lon: 10.7171, kommunenummer: "0301" });
+    expect(res?.bydel).toBe("Sentrum");
+  });
+
+  it("bruker ikke koordinater når kommunenummer ikke er Oslo (0301)", () => {
+    const res = getOsloBydelCrime({ lat: 59.9114, lon: 10.7494, kommunenummer: "1103" });
+    expect(res).toBeNull();
+  });
+
+  it("returnerer null når både postnummer og koordinater mangler", () => {
+    expect(getOsloBydelCrime({ kommunenummer: "0301" })).toBeNull();
+  });
 });

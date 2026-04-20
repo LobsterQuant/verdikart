@@ -19,6 +19,7 @@
  */
 
 import { OSLO_BYDEL_INDEX } from "@/lib/oslo-bydeler";
+import { bydelFromCoordinates } from "@/lib/oslo-bydel-geo";
 
 export interface OsloBydelCrime {
   /** Bydel-navn som vist til bruker (matcher OSLO_BYDEL_INDEX). */
@@ -61,14 +62,54 @@ export const OSLO_BYDEL_CRIME: Record<string, OsloBydelCrime> = {
   "Søndre Nordstrand": { bydel: "Søndre Nordstrand", rate: 103, year: 2023 },
 };
 
+export interface OsloBydelCrimeLookup {
+  /** Postnummer — fast path when available. */
+  postnummer?: string | null;
+  /** Latitude — used as fallback when postnummer is missing. */
+  lat?: number | null;
+  /** Longitude — used as fallback when postnummer is missing. */
+  lon?: number | null;
+  /** Kommunenummer — coord fallback is only attempted when this is "0301". */
+  kommunenummer?: string | null;
+}
+
 /**
- * Slår opp bydel-kriminalitet for et Oslo-postnummer.
- * Returnerer null hvis postnummeret ikke er dekket av OSLO_BYDEL_INDEX
- * (f.eks. ukjent postnummer eller postnummer utenfor Oslo).
+ * Slår opp bydel-kriminalitet for en Oslo-adresse.
+ *
+ * Primær: postnummer → OSLO_BYDEL_INDEX → bydel-navn.
+ * Fallback: når postnummer mangler/ikke gir treff og koordinater +
+ * kommunenummer "0301" er tilgjengelig, brukes closest-centroid-oppslag
+ * fra bydelFromCoordinates. Dette fanger direkte-lenker, sitemap-crawlere
+ * og interne navigasjoner som ikke bærer ?pnr= i URL-en — disse landet
+ * tidligere alltid på kommunesnittet (93,2) i stedet for faktisk bydel.
+ *
+ * Returnerer null når hverken postnummer eller koordinater kan mappes til
+ * en kjent Oslo-bydel (f.eks. adresser utenfor Oslo kommune).
  */
-export function getOsloBydelCrime(postnummer: string | undefined | null): OsloBydelCrime | null {
-  if (!postnummer) return null;
-  const zone = OSLO_BYDEL_INDEX[postnummer];
-  if (!zone) return null;
-  return OSLO_BYDEL_CRIME[zone.name] ?? null;
+export function getOsloBydelCrime(
+  input: string | undefined | null | OsloBydelCrimeLookup,
+): OsloBydelCrime | null {
+  const opts: OsloBydelCrimeLookup =
+    typeof input === "string" || input == null ? { postnummer: input } : input;
+
+  const { postnummer, lat, lon, kommunenummer } = opts;
+
+  if (postnummer) {
+    const zone = OSLO_BYDEL_INDEX[postnummer];
+    if (zone) {
+      const hit = OSLO_BYDEL_CRIME[zone.name];
+      if (hit) return hit;
+    }
+  }
+
+  if (
+    kommunenummer === "0301" &&
+    typeof lat === "number" &&
+    typeof lon === "number"
+  ) {
+    const name = bydelFromCoordinates(lat, lon);
+    if (name) return OSLO_BYDEL_CRIME[name] ?? null;
+  }
+
+  return null;
 }

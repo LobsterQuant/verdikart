@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Wallet } from "lucide-react";
+import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
+import { Wallet, Pencil } from "lucide-react";
 import { TopographicHover } from "@/components/motion/TopographicHover";
 import { Slider } from "@/components/ui/Slider";
 import { eiendomsskattData } from "@/data/eiendomsskatt";
@@ -43,6 +43,8 @@ const YEARS_MAX = 30;
 const FELLES_MIN = 0;
 const FELLES_MAX = 15_000;
 const FELLES_STEP = 100;
+const BRA_MIN = 1;
+const BRA_MAX = 500;
 
 function fmtKr(value: number): string {
   return `${Math.round(value).toLocaleString("nb-NO")} kr`;
@@ -54,6 +56,20 @@ function fmtPurchasePrice(value: number): string {
     return `${mnok.toLocaleString("nb-NO", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} MNOK`;
   }
   return fmtKr(value);
+}
+
+function snapPrice(value: number): number {
+  return Math.max(
+    PRICE_MIN,
+    Math.min(PRICE_MAX, Math.round(value / PRICE_STEP) * PRICE_STEP),
+  );
+}
+
+function parseNbInt(raw: string): number | null {
+  const cleaned = raw.replace(/\s/g, "").replace(/[^\d]/g, "");
+  if (!cleaned) return null;
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : null;
 }
 
 function monthlyEiendomsskatt(
@@ -97,13 +113,22 @@ export default function ManedskostnadKort({
   const [boligtype, setBoligtype] = useState<string>("default");
   const [loading, setLoading] = useState(true);
 
-  const [purchasePrice, setPurchasePrice] = useState<number>(4_000_000);
+  const [purchasePrice, setPurchasePrice] = useState<number | null>(null);
+  const [priceInitialized, setPriceInitialized] = useState(false);
+  const [manualBra, setManualBra] = useState<number | null>(null);
+  const [manualPrice, setManualPrice] = useState<number | null>(null);
+  const [cameFromManualInput, setCameFromManualInput] = useState(false);
+
+  const [braInput, setBraInput] = useState("");
+  const [braError, setBraError] = useState<string | null>(null);
+  const [priceInput, setPriceInput] = useState("");
+  const [priceError, setPriceError] = useState<string | null>(null);
+
   const [equityPercent, setEquityPercent] = useState<number>(EQUITY_MIN);
   const [loanYears, setLoanYears] = useState<number>(25);
   const [felleskostnader, setFelleskostnader] = useState<number>(
     FELLESKOSTNADER_ESTIMATE.default,
   );
-  const [priceInitialized, setPriceInitialized] = useState(false);
   const [fellesInitialized, setFellesInitialized] = useState(false);
 
   useEffect(() => {
@@ -129,7 +154,7 @@ export default function ManedskostnadKort({
           setBoligtype(boligtypeFromKategori(energiData.bygningskategori));
         }
       } catch {
-        // Card degrades gracefully — sliders still usable.
+        // Card degrades gracefully — user falls through to manual input.
       } finally {
         setLoading(false);
       }
@@ -138,17 +163,32 @@ export default function ManedskostnadKort({
   }, [kommunenummer, postnummer, adresse]);
 
   useEffect(() => {
+    if (loading) return;
     if (priceInitialized) return;
+
+    // Scenario 1: Enova has BRA + SSB has sqmPrice.
     if (sqmPrice && bruksareal) {
-      const estimated = Math.round(sqmPrice * bruksareal);
-      const snapped = Math.max(
-        PRICE_MIN,
-        Math.min(PRICE_MAX, Math.round(estimated / PRICE_STEP) * PRICE_STEP),
-      );
-      setPurchasePrice(snapped);
+      setPurchasePrice(snapPrice(sqmPrice * bruksareal));
       setPriceInitialized(true);
+      return;
     }
-  }, [sqmPrice, bruksareal, priceInitialized]);
+
+    // Scenario 2: user supplied BRA manually.
+    if (sqmPrice && manualBra) {
+      setPurchasePrice(snapPrice(sqmPrice * manualBra));
+      setPriceInitialized(true);
+      setCameFromManualInput(true);
+      return;
+    }
+
+    // Scenario 3 & 4: user supplied purchase price directly.
+    if (manualPrice) {
+      setPurchasePrice(snapPrice(manualPrice));
+      setPriceInitialized(true);
+      setCameFromManualInput(true);
+      return;
+    }
+  }, [loading, sqmPrice, bruksareal, manualBra, manualPrice, priceInitialized]);
 
   useEffect(() => {
     if (fellesInitialized) return;
@@ -161,26 +201,94 @@ export default function ManedskostnadKort({
   }, [boligtype, fellesInitialized]);
 
   const eiendomsskatt = useMemo(
-    () => monthlyEiendomsskatt(kommunenummer, purchasePrice),
+    () => monthlyEiendomsskatt(kommunenummer, purchasePrice ?? 0),
     [kommunenummer, purchasePrice],
   );
 
-  const result: MonthlyCostResult = useMemo(
-    () =>
-      calculateMonthlyCost({
-        purchasePrice,
-        equityPercent,
-        loanYears,
-        felleskostnader,
-        eiendomsskatt: eiendomsskatt.monthly,
-      }),
-    [purchasePrice, equityPercent, loanYears, felleskostnader, eiendomsskatt.monthly],
-  );
+  const result = useMemo<MonthlyCostResult | null>(() => {
+    if (purchasePrice === null) return null;
+    return calculateMonthlyCost({
+      purchasePrice,
+      equityPercent,
+      loanYears,
+      felleskostnader,
+      eiendomsskatt: eiendomsskatt.monthly,
+    });
+  }, [purchasePrice, equityPercent, loanYears, felleskostnader, eiendomsskatt.monthly]);
 
-  const ratePercent = formatPct(result.rate * 100, 2);
-  const stressRatePercent = formatPct(result.stressRate * 100, 1);
-  const equityKr = Math.round(purchasePrice * equityPercent);
-  const hasPriceBasis = sqmPrice != null && bruksareal != null;
+  function handleBraSubmit() {
+    const n = parseNbInt(braInput);
+    if (n === null || n < BRA_MIN || n > BRA_MAX) {
+      setBraError(`Oppgi BRA mellom ${BRA_MIN} og ${BRA_MAX} m²`);
+      return;
+    }
+    setBraError(null);
+    setManualBra(n);
+  }
+
+  function handlePriceSubmit() {
+    const n = parseNbInt(priceInput);
+    if (n === null || n < PRICE_MIN || n > PRICE_MAX) {
+      setPriceError(
+        `Oppgi kjøpspris mellom ${PRICE_MIN.toLocaleString("nb-NO")} og ${PRICE_MAX.toLocaleString("nb-NO")} kr`,
+      );
+      return;
+    }
+    setPriceError(null);
+    setManualPrice(n);
+  }
+
+  function handleEdit() {
+    setPurchasePrice(null);
+    setPriceInitialized(false);
+    setManualBra(null);
+    setManualPrice(null);
+    setCameFromManualInput(false);
+    setBraInput("");
+    setPriceInput("");
+    setBraError(null);
+    setPriceError(null);
+  }
+
+  function onPriceInputChange(raw: string) {
+    // Strip everything except digits, then re-format with Norwegian thousand
+    // separator so the user can paste "5 000 000" or type "5000000" freely.
+    const digits = raw.replace(/[^\d]/g, "");
+    setPriceInput(digits ? Number(digits).toLocaleString("nb-NO") : "");
+    if (priceError) setPriceError(null);
+  }
+
+  function onBraInputChange(raw: string) {
+    setBraInput(raw.replace(/[^\d]/g, ""));
+    if (braError) setBraError(null);
+  }
+
+  function onInputKeyDown(e: KeyboardEvent<HTMLInputElement>, submit: () => void) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      submit();
+    }
+  }
+
+  const needsBraInput = !loading && !bruksareal && !!sqmPrice;
+  const needsPriceInput = !loading && !sqmPrice;
+  const isInputMode = purchasePrice === null && (needsBraInput || needsPriceInput);
+  const ratePercent = result ? formatPct(result.rate * 100, 2) : "";
+  const stressRatePercent = result ? formatPct(result.stressRate * 100, 1) : "";
+  const equityKr = purchasePrice != null ? Math.round(purchasePrice * equityPercent) : 0;
+
+  const purchaseHelper: string = (() => {
+    if (bruksareal && sqmPrice) {
+      return `Estimat basert på ${sqmPrice.toLocaleString("nb-NO")} kr/m² × ${bruksareal} m²`;
+    }
+    if (cameFromManualInput && manualBra && sqmPrice) {
+      return `Basert på ${sqmPrice.toLocaleString("nb-NO")} kr/m² × ${manualBra} m² (manuelt oppgitt)`;
+    }
+    if (cameFromManualInput && manualPrice) {
+      return "Kjøpspris oppgitt manuelt";
+    }
+    return "Juster med sliderne under";
+  })();
 
   return (
     <TopographicHover className="relative rounded-2xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -200,8 +308,123 @@ export default function ManedskostnadKort({
           <div className="skeleton h-12 w-full" />
           <div className="skeleton h-12 w-full" />
         </div>
-      ) : (
+      ) : isInputMode ? (
+        <div className="rounded-xl border border-card-border bg-background/40 p-4 sm:p-5">
+          {needsBraInput ? (
+            <>
+              <label
+                htmlFor="manedskostnad-bra"
+                className="block text-sm font-medium text-foreground"
+              >
+                BRA (m²)
+              </label>
+              <p className="mt-1 text-xs text-text-tertiary">
+                Boligens areal er ikke tilgjengelig. Fyll inn for å få estimat.
+              </p>
+              <div className="mt-3 flex items-center gap-2">
+                <div className="relative flex-1 sm:max-w-xs">
+                  <input
+                    id="manedskostnad-bra"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    placeholder="f.eks. 75"
+                    value={braInput}
+                    onChange={(e) => onBraInputChange(e.target.value)}
+                    onBlur={handleBraSubmit}
+                    onKeyDown={(e) => onInputKeyDown(e, handleBraSubmit)}
+                    aria-invalid={braError ? true : undefined}
+                    aria-describedby={braError ? "manedskostnad-bra-error" : undefined}
+                    className="w-full rounded-lg border border-card-border bg-background px-3 py-2 pr-10 text-sm focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  />
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-text-tertiary">
+                    m²
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleBraSubmit}
+                  className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-sm font-semibold text-accent transition-colors hover:bg-accent/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  Beregn
+                </button>
+              </div>
+              {braError && (
+                <p id="manedskostnad-bra-error" className="mt-2 text-xs text-red-400">
+                  {braError}
+                </p>
+              )}
+              {sqmPrice && (
+                <p className="mt-3 text-xs text-text-tertiary">
+                  Snitt m²-pris i området: {sqmPrice.toLocaleString("nb-NO")} kr/m²
+                </p>
+              )}
+            </>
+          ) : (
+            <>
+              <label
+                htmlFor="manedskostnad-pris"
+                className="block text-sm font-medium text-foreground"
+              >
+                Kjøpspris
+              </label>
+              <p className="mt-1 text-xs text-text-tertiary">
+                {bruksareal
+                  ? "Prissnitt for området er ikke tilgjengelig. Fyll inn kjøpspris direkte."
+                  : "Fyll inn kjøpspris for å få estimat."}
+              </p>
+              <div className="mt-3 flex items-center gap-2">
+                <div className="relative flex-1 sm:max-w-xs">
+                  <input
+                    id="manedskostnad-pris"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    placeholder="f.eks. 5 000 000"
+                    value={priceInput}
+                    onChange={(e) => onPriceInputChange(e.target.value)}
+                    onBlur={handlePriceSubmit}
+                    onKeyDown={(e) => onInputKeyDown(e, handlePriceSubmit)}
+                    aria-invalid={priceError ? true : undefined}
+                    aria-describedby={priceError ? "manedskostnad-pris-error" : undefined}
+                    className="w-full rounded-lg border border-card-border bg-background px-3 py-2 pr-10 text-sm tabular-nums focus:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  />
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-text-tertiary">
+                    kr
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handlePriceSubmit}
+                  className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-sm font-semibold text-accent transition-colors hover:bg-accent/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  Beregn
+                </button>
+              </div>
+              {priceError && (
+                <p id="manedskostnad-pris-error" className="mt-2 text-xs text-red-400">
+                  {priceError}
+                </p>
+              )}
+            </>
+          )}
+        </div>
+      ) : result && purchasePrice != null ? (
         <>
+          {cameFromManualInput && (
+            <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-card-border bg-background/40 px-3 py-2 text-xs text-text-tertiary">
+              <span>{purchaseHelper}</span>
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="inline-flex items-center gap-1 rounded-md px-2 py-1 font-semibold text-accent transition-colors hover:bg-accent/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <Pencil className="h-3 w-3" strokeWidth={2} />
+                Endre
+              </button>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Slider
               label="Kjøpspris"
@@ -211,11 +434,7 @@ export default function ManedskostnadKort({
               step={PRICE_STEP}
               onChange={setPurchasePrice}
               displayValue={fmtPurchasePrice(purchasePrice)}
-              helper={
-                hasPriceBasis
-                  ? `Estimat basert på ${sqmPrice!.toLocaleString("nb-NO")} kr/m² × ${bruksareal} m²`
-                  : "Oppgi ønsket kjøpspris manuelt"
-              }
+              helper={purchaseHelper}
             />
             <Slider
               label="Egenkapital"
@@ -305,7 +524,7 @@ export default function ManedskostnadKort({
             Indikativ rente per {new Date(INDICATIVE_RATE.lastUpdated).toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" })}. Din faktiske rente avhenger av bank og belåningsgrad. Tall inkluderer ikke forsikring eller strøm. Stresstest per boliglånsforskriften § 5.
           </p>
         </>
-      )}
+      ) : null}
     </TopographicHover>
   );
 }

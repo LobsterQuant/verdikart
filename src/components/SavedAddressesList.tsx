@@ -6,19 +6,7 @@ import { useSavedAddresses } from "@/hooks/useSavedAddresses";
 export default function SavedAddressesList() {
   const { saved, removeAddress } = useSavedAddresses();
 
-  if (saved.length === 0) {
-    return (
-      <div className="rounded-xl border border-card-border bg-card-bg p-5 text-center">
-        <Heart className="mx-auto mb-2 h-6 w-6 text-text-tertiary" strokeWidth={1.5} />
-        <p className="text-sm text-text-secondary">
-          Ingen lagrede adresser ennå.
-        </p>
-        <p className="mt-1 text-xs text-text-tertiary">
-          Bruk <span className="inline-flex align-text-bottom"><Heart className="mx-0.5 inline h-3 w-3 text-text-tertiary" strokeWidth={1.5} /></span>-knappen på en eiendomsrapport for å lagre.
-        </p>
-      </div>
-    );
-  }
+  if (saved.length === 0) return null;
 
   return (
     <div className="rounded-xl border border-card-border bg-card-bg overflow-hidden">

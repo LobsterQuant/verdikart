@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
 import JsonLd from "@/components/JsonLd";
@@ -415,6 +416,30 @@ export default function HomePage() {
 
       {/* Social proof: report counter + use-case carousel */}
       <SocialProofStrip />
+
+      {/* Rapport-banner — subtil innganger til ferske datarapporter */}
+      <section className="mx-auto w-full max-w-4xl px-4 pb-12 sm:px-6">
+        <Link
+          href="/rapport/hytte-tvangssalg-2026"
+          className="group flex flex-col items-start gap-4 rounded-2xl border border-card-border bg-card-bg p-5 transition-colors hover:border-accent/40 sm:flex-row sm:items-center sm:gap-6 sm:p-6"
+        >
+          <div className="inline-flex shrink-0 items-center gap-2 rounded-full bg-accent/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-accent">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            Ny rapport
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-foreground sm:text-base">
+              Hytte-tvangssalgene nær doblet på to år
+            </p>
+            <p className="mt-1 text-xs leading-relaxed text-text-secondary sm:text-sm">
+              Fra 54 til 98 fritidseiendommer på tvangssalg fra 2023 til 2025 — opp 82 prosent. Les Verdikarts analyse av SSB-tallene.
+            </p>
+          </div>
+          <span className="text-xs font-medium text-accent transition-transform group-hover:translate-x-0.5 sm:text-sm">
+            Les rapporten →
+          </span>
+        </Link>
+      </section>
 
       {/* Slik fungerer det — staggered scroll animation */}
       <HowItWorksSection />

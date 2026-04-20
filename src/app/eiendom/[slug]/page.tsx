@@ -5,6 +5,7 @@ import SchoolsCard from "@/components/SchoolsCard";
 import CrimeCard from "@/components/CrimeCard";
 import FinnLink from "@/components/FinnLink";
 import FellesgjeldReminder from "@/components/FellesgjeldReminder";
+import RapportKort from "@/components/RapportKort";
 import SaveAddressButton from "@/components/SaveAddressButton";
 import PropertyEnergimerke from "@/components/PropertyEnergimerke";
 import PriceTrendCard from "@/components/PriceTrendCard";
@@ -435,6 +436,12 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 postnummer={searchParams.pnr ?? ""}
                 adresse={displayAddress}
               /></CardErrorBoundary>
+
+              {/* Markedsrapport — highlights når eiendommen er fritidsbolig */}
+              <RapportKort
+                postnummer={searchParams.pnr ?? ""}
+                adresse={displayAddress}
+              />
 
               {/* Listing reference + reminders */}
               <FinnLink

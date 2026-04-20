@@ -22,12 +22,21 @@ const toolLinks = [
   { href: "/bykart",              label: "Bykart",              desc: "Priser per norsk by" },
 ];
 
+const reportLinks = [
+  {
+    href: "/rapport/hytte-tvangssalg-2026",
+    label: "Hytte-tvangssalg 2026",
+    desc: "Hytte-tvangssalgene nær doblet på to år",
+  },
+];
+
 // Mobile-only: all links including city pages
 const mobileLinks = [
   { href: "/sammenlign-adresser", label: "Sammenlign adresser" },
   { href: "/sammenlign",           label: "Sammenlign byer" },
   { href: "/kalkulator",      label: "Boligkalkulator" },
   { href: "/bykart",          label: "Bykart" },
+  { href: "/rapport/hytte-tvangssalg-2026", label: "Rapport: Hytte-tvangssalg 2026" },
   { href: "/by/oslo",         label: "Oslo" },
   { href: "/by/bergen",       label: "Bergen" },
   { href: "/by/trondheim",    label: "Trondheim" },
@@ -47,14 +56,19 @@ const CTA_HREF = "/#sok";
 export default function NavBar() {
   const [open, setOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [reportsOpen, setReportsOpen] = useState(false);
   const toolsRef = useRef<HTMLDivElement>(null);
+  const reportsRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  // Close tools dropdown on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
     function handler(e: MouseEvent) {
       if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) {
         setToolsOpen(false);
+      }
+      if (reportsRef.current && !reportsRef.current.contains(e.target as Node)) {
+        setReportsOpen(false);
       }
     }
     document.addEventListener("mousedown", handler);
@@ -124,6 +138,36 @@ export default function NavBar() {
                       key={href}
                       href={href}
                       onClick={() => setToolsOpen(false)}
+                      className="flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-background"
+                    >
+                      <span className="text-sm font-medium text-foreground">{label}</span>
+                      <span className="text-xs text-text-tertiary">{desc}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Rapporter dropdown */}
+          <div ref={reportsRef} className="relative">
+            <button
+              onClick={() => setReportsOpen((v) => !v)}
+              className={`nav-link flex items-center gap-1 whitespace-nowrap transition-colors hover:text-foreground ${reportsOpen ? "text-foreground" : ""}`}
+              aria-expanded={reportsOpen}
+              aria-haspopup="true"
+            >
+              Rapporter
+              <ChevronDown className={`h-3.5 w-3.5 transition-transform ${reportsOpen ? "rotate-180" : ""}`} strokeWidth={2} />
+            </button>
+            {reportsOpen && (
+              <div className="absolute left-1/2 top-full mt-2 w-72 -translate-x-1/2 rounded-xl border border-card-border bg-card-bg shadow-2xl z-50">
+                <div className="p-1.5">
+                  {reportLinks.map(({ href, label, desc }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setReportsOpen(false)}
                       className="flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-background"
                     >
                       <span className="text-sm font-medium text-foreground">{label}</span>

@@ -22,9 +22,11 @@ export default function HytteTvangssalg2026() {
             Hjem
           </Link>
           <ChevronRight className="h-3 w-3" strokeWidth={1.5} />
-          <span className="text-text-secondary">
-            Rapport: Hytte-tvangssalg 2026
-          </span>
+          <Link href="/rapporter" className="hover:text-foreground transition-colors">
+            Markedsrapporter
+          </Link>
+          <ChevronRight className="h-3 w-3" strokeWidth={1.5} />
+          <span className="text-text-secondary">Hytte-tvangssalg 2026</span>
         </nav>
 
         <RapportHero />
@@ -61,6 +63,25 @@ export default function HytteTvangssalg2026() {
         <OppdateringCTA />
 
         <DownloadCTA />
+
+        <section className="mb-12">
+          <Link
+            href="/rapporter"
+            className="group flex items-center justify-between gap-4 rounded-xl border border-card-border bg-card-bg px-5 py-4 transition-colors hover:border-accent/40"
+          >
+            <div>
+              <div className="text-sm font-semibold text-foreground">
+                Les flere markedsrapporter
+              </div>
+              <div className="text-xs text-text-tertiary">
+                Oversikt over alle Verdikart-rapporter og hva som kommer neste kvartal
+              </div>
+            </div>
+            <span className="text-xs font-medium text-accent transition-transform group-hover:translate-x-0.5">
+              Se oversikten →
+            </span>
+          </Link>
+        </section>
 
         <footer className="mt-8 border-t border-card-border pt-6 text-xs text-text-tertiary">
           <p>

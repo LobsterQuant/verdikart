@@ -93,7 +93,13 @@ export default function RapportLayout({
       {
         "@type": "ListItem",
         position: 2,
-        name: "Rapport",
+        name: "Markedsrapporter",
+        item: "https://verdikart.no/rapporter",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Hytte-tvangssalg 2026",
         item: "https://verdikart.no/rapport/hytte-tvangssalg-2026",
       },
     ],

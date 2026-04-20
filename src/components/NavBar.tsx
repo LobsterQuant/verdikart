@@ -36,6 +36,7 @@ const mobileLinks = [
   { href: "/sammenlign",           label: "Sammenlign byer" },
   { href: "/kalkulator",      label: "Boligkalkulator" },
   { href: "/bykart",          label: "Bykart" },
+  { href: "/rapporter",       label: "Markedsrapporter" },
   { href: "/rapport/hytte-tvangssalg-2026", label: "Rapport: Hytte-tvangssalg 2026" },
   { href: "/by/oslo",         label: "Oslo" },
   { href: "/by/bergen",       label: "Bergen" },
@@ -163,6 +164,15 @@ export default function NavBar() {
             {reportsOpen && (
               <div className="absolute left-1/2 top-full mt-2 w-72 -translate-x-1/2 rounded-xl border border-card-border bg-card-bg shadow-2xl z-50">
                 <div className="p-1.5">
+                  <Link
+                    href="/rapporter"
+                    onClick={() => setReportsOpen(false)}
+                    className="flex flex-col rounded-lg px-3 py-2.5 transition-colors hover:bg-background"
+                  >
+                    <span className="text-sm font-medium text-foreground">Alle markedsrapporter</span>
+                    <span className="text-xs text-text-tertiary">Oversikt og kommende rapporter</span>
+                  </Link>
+                  <div className="my-1 border-t border-card-border/60" />
                   {reportLinks.map(({ href, label, desc }) => (
                     <Link
                       key={href}

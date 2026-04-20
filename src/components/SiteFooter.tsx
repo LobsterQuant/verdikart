@@ -66,8 +66,8 @@ export default function SiteFooter() {
             ))}
           </div>
           <div className="space-y-2 mt-6 sm:mt-0">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Rapporter</p>
-            {[["Hytte-tvangssalg 2026","/rapport/hytte-tvangssalg-2026"]].map(([l,h]) => (
+            <a href="/rapporter" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-text-tertiary transition-colors hover:text-foreground">Rapporter</a>
+            {[["Alle markedsrapporter","/rapporter"],["Hytte-tvangssalg 2026","/rapport/hytte-tvangssalg-2026"]].map(([l,h]) => (
               <a key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</a>
             ))}
             <p className="mb-1 mt-4 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Selskapet</p>

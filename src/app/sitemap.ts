@@ -85,6 +85,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.4,
     },
     {
+      url: `${base}/rapporter`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: `${base}/rapport/hytte-tvangssalg-2026`,
       lastModified: now,
       changeFrequency: "monthly",

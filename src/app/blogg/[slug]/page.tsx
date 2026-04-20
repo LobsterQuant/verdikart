@@ -7,6 +7,9 @@ import JsonLd from "@/components/JsonLd";
 import BlogHeroIllustration from "@/components/BlogHeroIllustration";
 import ShareButtons from "@/components/ShareButtons";
 
+// Only prerendered slugs are served; anything else 404s before rendering.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return getAllSlugs();
 }

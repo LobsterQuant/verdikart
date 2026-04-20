@@ -1,14 +1,29 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { isRateLimited } from "@/lib/rate-limit";
+import { isValidEiendomSlug } from "@/lib/eiendom-slug";
 
 const MAX_REQUESTS_PER_MINUTE = 30;
 
 export async function middleware(request: NextRequest) {
-  // Only rate-limit API routes (exclude NextAuth routes)
-  if (!request.nextUrl.pathname.startsWith("/api/")) {
+  const { pathname } = request.nextUrl;
+
+  // /eiendom/<slug> accepts arbitrary address slugs but every real one suffixes
+  // `--<lat>-<lon>-<knr>`. Without this edge check, invalid slugs hit page.tsx
+  // and stream loading.tsx (HTTP 200) before notFound() fires — a soft-404 that
+  // Google indexes against the root canonical. See audit C-NEW-2 (2026-04-20).
+  if (pathname.startsWith("/eiendom/")) {
+    const slug = pathname.slice("/eiendom/".length).split("/")[0] ?? "";
+    if (slug && !isValidEiendomSlug(slug)) {
+      return NextResponse.rewrite(new URL("/404", request.url), { status: 404 });
+    }
     return NextResponse.next();
   }
-  if (request.nextUrl.pathname.startsWith("/api/auth/")) {
+
+  // Only rate-limit API routes (exclude NextAuth routes)
+  if (!pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+  if (pathname.startsWith("/api/auth/")) {
     return NextResponse.next();
   }
 
@@ -31,5 +46,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/api/:path*",
+  matcher: ["/api/:path*", "/eiendom/:slug*"],
 };

@@ -11,6 +11,9 @@ import EnvironmentalRiskCard from "@/components/EnvironmentalRiskCard";
 import DemographicsCard from "@/components/DemographicsCard";
 import EnergimerkeCard from "@/components/EnergimerkeCard";
 
+// Only prerendered city slugs are served; anything else 404s before rendering.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return allCitySlugs.map((city) => ({ city }));
 }

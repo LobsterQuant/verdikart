@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
@@ -11,6 +12,12 @@ import NewBadge from "@/components/NewBadge";
 
 // ISR: SSB and Entur data in the hero mockup revalidate hourly.
 export const revalidate = 3600;
+
+// Home canonical lives here, not in the root layout — keeping it on the layout
+// caused every 404 response to inherit canonical=/ (soft-404 audit C-NEW-2).
+export const metadata: Metadata = {
+  alternates: { canonical: "https://verdikart.no" },
+};
 import { Check, Minus, CircleDollarSign, Droplets, BarChart3, Bus, FileText, Sparkles, Shield, Volume2, GraduationCap, Wind, Wifi, Zap, Users, Calculator, Bell, Leaf, TrendingUp } from "lucide-react";
 import { ComparisonSpotlight } from "@/components/home/ComparisonSpotlight";
 import {

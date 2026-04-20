@@ -43,8 +43,11 @@ export const metadata: Metadata = {
   description:
     "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå for enhver adresse — data fra SSB, Kartverket og Entur.",
   keywords: "bolig, eiendom, kollektivtransport, prisutvikling, Norge",
+  // No canonical / robots defaults here — each page sets its own. Hardcoding
+  // them at the root leaked index/follow + canonical="/" into 404 responses
+  // (soft-404 audit C-NEW-2, 2026-04-20). Default behaviour is index+follow,
+  // so nothing lost by omitting robots.
   alternates: {
-    canonical: "https://verdikart.no",
     // Scaffolding for future i18n (audit M1). Self-referential nb-NO + x-default
     // so Google treats nb-NO as the default Norwegian locale. Expand this map
     // when en/sv variants launch.
@@ -52,11 +55,6 @@ export const metadata: Metadata = {
       "nb-NO": "https://verdikart.no",
       "x-default": "https://verdikart.no",
     },
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large" },
   },
   openGraph: {
     type: "website",

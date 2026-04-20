@@ -341,7 +341,13 @@ export async function getPropertyReportSummary(
     safeFetch<EnergimerkeShape>(`${origin}/api/energimerke?${qs({ postnummer, adresse })}`, DAY),
     safeFetch<TransitShape>(`${origin}/api/transit?${qs({ lat, lon })}`, HOUR),
     safeFetch<TransitStopShape[]>(`${origin}/api/transit/stops?${qs({ lat, lon })}`, HOUR),
-    safeFetch<SchoolsShape>(`${origin}/api/schools?${qs({ lat, lon, kommunenummer })}`, DAY / 2),
+    // v=2 bumped when school-name-overrides shipped (audit ME-7). The internal
+    // cachedFetch key inside /api/schools and this outer Next.js fetch-cache
+    // URL are independent layers — data-transformation changes that should
+    // invalidate cached responses must bump BOTH: the cachedFetch key in
+    // route.ts AND this version param. The route handler accepts and ignores
+    // `v`. Bump when overrides change.
+    safeFetch<SchoolsShape>(`${origin}/api/schools?${qs({ lat, lon, kommunenummer, v: 2 })}`, DAY / 2),
     safeFetch<ClimateShape>(`${origin}/api/climate-risk?${qs({ lat, lon })}`, DAY),
     safeFetch<NoiseShape>(`${origin}/api/noise?${qs({ lat, lon })}`, DAY),
     safeFetch<AirQualityShape>(`${origin}/api/air-quality?${qs({ lat, lon })}`, HOUR),

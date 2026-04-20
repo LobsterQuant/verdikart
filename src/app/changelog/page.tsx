@@ -26,6 +26,14 @@ interface ChangeEntry {
 
 const changelog: ChangeEntry[] = [
   {
+    version: "2.5",
+    date: "20. april 2026",
+    label: "Footer nå faktisk på alle sider",
+    items: [
+      { type: "fix", text: "Footer nå faktisk på alle sider (flyttet fra per-rute til root layout). Tidligere var SiteFooter manuelt importert i hver enkelt sidefil, og manglet derfor på blogg, rapporter, FAQ, kontakt, by-sider, nabolag og persona-sider." },
+    ],
+  },
+  {
     version: "2.4",
     date: "19. april 2026",
     label: "Gjennomgang av all tekst på siden",

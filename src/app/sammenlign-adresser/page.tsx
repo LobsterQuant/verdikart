@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import AddressCompare from "@/components/AddressCompare";
-import SiteFooter from "@/components/SiteFooter";
 import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
@@ -47,7 +46,6 @@ export default function CompareAddressesPage() {
         </header>
         <AddressCompare />
       </div>
-      <SiteFooter />
     </div>
   );
 }

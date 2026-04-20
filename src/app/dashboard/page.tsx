@@ -3,7 +3,6 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { savedProperties, priceAlerts } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
-import SiteFooter from "@/components/SiteFooter";
 import DashboardClient from "./DashboardClient";
 import type { Metadata } from "next";
 
@@ -52,7 +51,6 @@ export default async function DashboardPage() {
           initialAlerts={JSON.parse(JSON.stringify(alerts))}
         />
       </div>
-      <SiteFooter />
     </div>
   );
 }

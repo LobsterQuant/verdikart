@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import NavBar from "@/components/NavBar";
+import SiteFooter from "@/components/SiteFooter";
 import CookieBanner from "@/components/CookieBanner";
 import Providers from "@/components/Providers";
 import MotionProvider from "@/components/MotionProvider";
@@ -157,6 +158,7 @@ export default function RootLayout({
             >
               {children}
             </main>
+            <SiteFooter />
             <CookieBanner />
           </MotionProvider>
         </Providers>

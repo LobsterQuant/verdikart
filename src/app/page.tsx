@@ -3,7 +3,6 @@ import Link from "next/link";
 import SocialProofStrip from "@/components/SocialProofStrip";
 import EmailCapture from "@/components/EmailCapture";
 import JsonLd from "@/components/JsonLd";
-import SiteFooter from "@/components/SiteFooter";
 import { FeatureCards } from "@/components/HomeClientSections";
 import { ProductMockup } from "@/components/hero/ProductMockup";
 import { HeroStats } from "@/components/hero/HeroStats";
@@ -523,9 +522,6 @@ export default function HomePage() {
           <EmailCapture />
         </div>
       </section>
-
-      {/* Footer */}
-      <SiteFooter />
     </div>
   );
 }

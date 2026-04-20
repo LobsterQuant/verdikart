@@ -8,6 +8,9 @@ import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 import { formatPct } from "@/lib/format";
 
+// Only prerendered area slugs are served; anything else 404s before rendering.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return getAllAreaSlugs();
 }

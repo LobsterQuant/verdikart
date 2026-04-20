@@ -53,6 +53,11 @@ import {
   DemografiIcon,
 } from "@/components/icons";
 
+// Accepts arbitrary Norwegian address slugs — never prerendered. Must stay
+// dynamic so generateMetadata() can call notFound() BEFORE any RSC payload
+// streams, which is what forces Next.js to emit a real 404 status.
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: { slug: string };
   searchParams: {
@@ -66,12 +71,13 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
-  // Short-circuit when the URL has no coordinates — the page will notFound()
-  // anyway; avoid leaking a lowercase slug-derived title into the 404 response.
+  // Invalid slug → 404 before any page rendering starts. Without this, Next.js
+  // streams the layout (index/follow, canonical=/) while waiting for page.tsx
+  // to call notFound(), which Google crawls as a soft-404.
   const slugParsed = parseSlug(params.slug);
   const hasCoords = !!(searchParams.lat && searchParams.lon) || !!(slugParsed.lat && slugParsed.lon);
   if (!hasCoords) {
-    return { title: { absolute: "Side ikke funnet — Verdikart" }, robots: { index: false } };
+    notFound();
   }
 
   let address = searchParams.adresse;

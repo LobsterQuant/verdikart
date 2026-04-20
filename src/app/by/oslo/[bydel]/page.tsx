@@ -8,6 +8,9 @@ import AddressSearch from "@/components/AddressSearch";
 import { TopographicHover } from "@/components/motion/TopographicHover";
 import { formatPct } from "@/lib/format";
 
+// Only prerendered bydel slugs are served; anything else 404s before rendering.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return getAllBydelSlugs();
 }

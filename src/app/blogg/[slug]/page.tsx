@@ -45,7 +45,12 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: [`https://verdikart.no/blogg/${post.slug}/opengraph-image`],
+      images: [
+        {
+          url: `https://verdikart.no/blogg/${post.slug}/opengraph-image`,
+          alt: `Verdikart blogg: ${post.title}`,
+        },
+      ],
     },
   };
 }

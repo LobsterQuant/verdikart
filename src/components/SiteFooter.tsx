@@ -55,7 +55,7 @@ export default function SiteFooter() {
           </div>
           <div className="space-y-2">
             <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Flere byer</p>
-            {[["Fredrikstad","/by/fredrikstad"],["Drammen","/by/drammen"],["Tromsø","/by/tromso"],["Sandnes","/by/sandnes"],["Bodø","/by/bodo"],["Skien","/by/skien"],["Sarpsborg","/by/sarpsborg"],["Arendal","/by/arendal"],["Hamar","/by/hamar"]].map(([l,h]) => (
+            {[["Fredrikstad","/by/fredrikstad"],["Drammen","/by/drammen"],["Tromsø","/by/tromso"],["Sandnes","/by/sandnes"],["Bodø","/by/bodo"],["Skien","/by/skien"],["Sarpsborg","/by/sarpsborg"],["Arendal","/by/arendal"],["Hamar","/by/hamar"],["Ålesund","/blogg/boligkjop-aalesund-2026"]].map(([l,h]) => (
               <a key={h} href={h} className="block text-text-secondary transition-colors hover:text-foreground">{l}</a>
             ))}
           </div>

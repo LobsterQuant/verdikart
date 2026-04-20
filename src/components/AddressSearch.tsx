@@ -11,7 +11,7 @@ const MAX_RECENT = 5;
 
 const MIN_QUERY_CHARS = 3;
 const DEBOUNCE_MS = 150;
-const GEONORGE_URL = "https://ws.geonorge.no/adresser/v1/sok";
+const GEONORGE_URL = "/api/adresser/sok";
 
 interface RecentEntry {
   adressetekst: string;

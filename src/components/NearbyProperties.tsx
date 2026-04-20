@@ -52,7 +52,7 @@ export default function NearbyProperties({
           offsets.map(async ([dlat, dlon]) => {
             try {
               const res = await fetch(
-                `https://ws.geonorge.no/adresser/v1/punktsok?lat=${lat + dlat}&lon=${lon + dlon}&radius=120&utkoordsys=4258&treffPerSide=2`,
+                `/api/adresser/punktsok?lat=${lat + dlat}&lon=${lon + dlon}&radius=120&utkoordsys=4258&treffPerSide=2`,
                 { cache: "force-cache" }
               );
               if (!res.ok) return;

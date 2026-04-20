@@ -145,7 +145,7 @@ export default function PropertyEnergimerke({
           )}
           {!residential && data.bygningskategori && (
             <p className="mt-0.5 text-xs text-text-secondary">
-              Næringsbygg ({data.bygningskategori}) — kWh/m² ikke sammenlignbart med bolig.
+              Næringsbygg ({data.bygningskategori}): kWh/m² ikke sammenlignbart med bolig.
             </p>
           )}
           {data.byggear && (

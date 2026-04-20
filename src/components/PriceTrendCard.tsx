@@ -143,7 +143,7 @@ export default function PriceTrendCard({
           href="https://www.ssb.no/bygg-bolig-og-eiendom/eiendom/statistikk/eiendomsomsetninger"
           target="_blank"
           rel="noopener noreferrer"
-          title="Kilde: SSB — Statistisk sentralbyrå, kvartalsvis"
+          title="Kilde: SSB: Statistisk sentralbyrå, kvartalsvis"
           className="ml-auto inline-flex items-center gap-1 rounded-full border border-card-border bg-background px-2 py-0.5 text-[10px] font-medium text-text-secondary transition-colors hover:border-accent/30 hover:text-accent"
         >
           SSB
@@ -152,7 +152,7 @@ export default function PriceTrendCard({
           </svg>
         </a>
         {data.lastUpdated && (
-          <span className="ml-auto text-xs text-text-secondary" title="SSB publiserer boligprisdata kvartalsvis. Q4 2024 er siste tilgjengelige kvartal — nyere data publiseres av SSB i 2025.">
+          <span className="ml-auto text-xs text-text-secondary" title="SSB publiserer boligprisdata kvartalsvis. Q4 2024 er siste tilgjengelige kvartal: nyere data publiseres av SSB i 2025.">
             {data.lastUpdated.replace("K", "Q")}
           </span>
         )}

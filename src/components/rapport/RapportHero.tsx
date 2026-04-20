@@ -25,7 +25,7 @@ export default function RapportHero() {
       <p className="mt-5 text-base leading-relaxed text-text-secondary sm:text-lg">
         Nye tall fra SSB viser at antall tinglyste tvangssalg av
         fritidseiendommer har steget fra <strong className="text-foreground">{d.headlineFigure.from} i {d.headlineFigure.yearFrom}</strong>{" "}
-        til <strong className="text-foreground">{d.headlineFigure.to} i {d.headlineFigure.yearTo}</strong> — en økning på{" "}
+        til <strong className="text-foreground">{d.headlineFigure.to} i {d.headlineFigure.yearTo}</strong>: en økning på{" "}
         <strong className="text-accent">{d.headlineFigure.changePct} prosent</strong>.
       </p>
 

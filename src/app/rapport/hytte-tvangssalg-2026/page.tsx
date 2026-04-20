@@ -39,7 +39,7 @@ export default function HytteTvangssalg2026() {
               id="trend"
               className="text-xl font-semibold text-foreground sm:text-2xl"
             >
-              Tvangssalg siden 2020 — rullerende årssum
+              Tvangssalg siden 2020: rullerende årssum
             </h2>
             <p className="mt-2 text-sm text-text-secondary">
               Fritidseiendom (mint-linje, høyre akse) mot alle eiendommer

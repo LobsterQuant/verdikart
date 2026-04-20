@@ -65,7 +65,7 @@ export default function DashboardClient({
       setProperties((prev) => prev.filter((p) => p.slug !== slug));
       toast.success("Fjernet");
     } catch {
-      toast.error("Kunne ikke fjerne — prøv igjen");
+      toast.error("Kunne ikke fjerne: prøv igjen");
     }
   }
 
@@ -87,7 +87,7 @@ export default function DashboardClient({
       );
       toast.success("Notat lagret");
     } catch {
-      toast.error("Kunne ikke lagre notat — prøv igjen");
+      toast.error("Kunne ikke lagre notat: prøv igjen");
     } finally {
       setEditingNote(null);
     }
@@ -104,7 +104,7 @@ export default function DashboardClient({
       setAlerts((prev) => prev.filter((a) => a.id !== id));
       toast.success("Varsel slettet");
     } catch {
-      toast.error("Kunne ikke slette — prøv igjen");
+      toast.error("Kunne ikke slette: prøv igjen");
     }
   }
 
@@ -299,7 +299,7 @@ function AlertsTab({
         <Bell className="mx-auto mb-3 h-10 w-10 text-text-tertiary" />
         <h3 className="mb-1 text-lg font-semibold">Ingen aktive prisvarsler</h3>
         <p className="mb-4 text-sm text-text-secondary">
-          Aktiver varsler på en eiendomsside — vi sender e-post når prisene endrer seg.
+          Aktiver varsler på en eiendomsside: vi sender e-post når prisene endrer seg.
         </p>
         <Link href="/" className="btn-base btn-primary px-4 py-2 text-sm">
           Finn en adresse

@@ -39,9 +39,9 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://verdikart.no"),
-  title: "Verdikart — Eiendomsinnsikt fra offentlige norske datakilder",
+  title: "Verdikart: Eiendomsinnsikt fra offentlige norske datakilder",
   description:
-    "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå for enhver adresse — data fra SSB, Kartverket og Entur.",
+    "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå for enhver adresse: data fra SSB, Kartverket og Entur.",
   keywords: "bolig, eiendom, kollektivtransport, prisutvikling, Norge",
   // No canonical / robots defaults here — each page sets its own. Hardcoding
   // them at the root leaked index/follow + canonical="/" into 404 responses
@@ -60,18 +60,18 @@ export const metadata: Metadata = {
     type: "website",
     locale: "nb_NO",
     siteName: "Verdikart",
-    title: "Verdikart — Eiendomsinnsikt fra offentlige norske datakilder",
+    title: "Verdikart: Eiendomsinnsikt fra offentlige norske datakilder",
     description: "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå for enhver adresse.",
     url: "https://verdikart.no",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Verdikart — Eiendomsinnsikt fra offentlige norske datakilder" }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Verdikart: Eiendomsinnsikt fra offentlige norske datakilder" }],
   },
   twitter: {
     card: "summary_large_image",
     site: "@Verdikart",
     creator: "@Verdikart",
-    title: "Verdikart — Eiendomsinnsikt fra offentlige norske datakilder",
+    title: "Verdikart: Eiendomsinnsikt fra offentlige norske datakilder",
     description: "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå.",
-    images: [{ url: "/opengraph-image", alt: "Verdikart — Boligen i kontekst" }],
+    images: [{ url: "/opengraph-image", alt: "Verdikart: Boligen i kontekst" }],
   },
 };
 

@@ -19,12 +19,12 @@ export default function EnergimerkePlaceholder() {
       </div>
 
       <p className="mb-4 text-sm text-text-secondary leading-relaxed">
-        Energimerket viser hvor energieffektiv boligen er på en skala fra A (best) til G (dårligst). Bygninger bygget før 2007 er sjelden merket — vi jobber på å integrere Enova sitt register.
+        Energimerket viser hvor energieffektiv boligen er på en skala fra A (best) til G (dårligst). Bygninger bygget før 2007 er sjelden merket: vi jobber på å integrere Enova sitt register.
       </p>
 
       <div className="rounded-lg bg-background p-4 text-center">
         <p className="text-xs text-text-tertiary uppercase tracking-widest mb-2">Kommer snart</p>
-        <p className="text-2xl font-bold text-text-secondary">—</p>
+        <p className="text-2xl font-bold text-text-secondary">–</p>
         <p className="mt-2 text-xs text-text-tertiary">
           Enova-data blir tilgjengelig når Kartverket matrikkel-integrasjon lanseres.
         </p>
@@ -46,7 +46,7 @@ export default function EnergimerkePlaceholder() {
       </a>
 
       <p className="mt-3 text-xs text-text-tertiary">
-        Kilde: Enova — Energimerke for bygg i Norge.
+        Kilde: Enova: Energimerke for bygg i Norge.
       </p>
     </div>
   );

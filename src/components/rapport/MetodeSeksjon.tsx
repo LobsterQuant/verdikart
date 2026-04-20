@@ -30,7 +30,7 @@ export default function MetodeSeksjon() {
                   >
                     {s.name}
                   </a>
-                  {" — "}
+                  {": "}
                   {s.description}
                 </li>
               ))}
@@ -44,7 +44,7 @@ export default function MetodeSeksjon() {
           </dt>
           <dd className="text-text-secondary">
             Et hjemmelsoverføringstall. Alle tall viser tinglyste,{" "}
-            <em>gjennomførte</em> tvangssalg — altså der tingretten har
+            <em>gjennomførte</em> tvangssalg, altså der tingretten har
             stadfestet salget og ny eier er registrert. SSB-tabellen teller
             overføringsdokumentet, ikke den bakenforliggende begjæringen.
           </dd>
@@ -56,7 +56,7 @@ export default function MetodeSeksjon() {
           </dt>
           <dd className="text-text-secondary">
             Mer enn 90 prosent av begjæringene om tvangssalg ender ikke i
-            gjennomført salg — de trekkes, innfris eller henlegges.
+            gjennomført salg: de trekkes, innfris eller henlegges.
             Begjæringsstatistikken (SSB 07218) har ikke publisert tall siden
             januar 2022 på grunn av administrative endringer i
             Brønnøysundregistrene.

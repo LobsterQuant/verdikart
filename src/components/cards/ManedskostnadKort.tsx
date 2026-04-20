@@ -475,7 +475,7 @@ export default function ManedskostnadKort({
               displayValue={`${fmtKr(felleskostnader)}/md`}
               helper={
                 boligtype !== "default"
-                  ? `Typisk for ${boligtype} — juster etter faktiske kostnader`
+                  ? `Typisk for ${boligtype}: juster etter faktiske kostnader`
                   : "Juster etter faktiske kostnader"
               }
             />

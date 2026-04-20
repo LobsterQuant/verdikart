@@ -24,7 +24,7 @@ function fmt(n: number) {
 
 const steps = [
   { icon: Home, title: "Finn budsjettet", text: "Kartlegg hva du har råd til basert på inntekt, egenkapital og gjeld." },
-  { icon: FileCheck, title: "Forhåndsgodkjenning", text: "Få finansieringsbevis fra banken — gir trygghet på visning." },
+  { icon: FileCheck, title: "Forhåndsgodkjenning", text: "Få finansieringsbevis fra banken: gir trygghet på visning." },
   { icon: Search, title: "Søk og vis", text: "Finn boliger som matcher dine kriterier og dra på visning." },
   { icon: Handshake, title: "Legg inn bud", text: "Gi bud og forhandel med selger. Akseptert bud er bindende." },
   { icon: Key, title: "Overtakelse", text: "Signer kontrakt, betal og få nøklene til din nye bolig." },
@@ -112,7 +112,7 @@ export default function FinnBoligPage() {
             </span>
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-text-secondary sm:mt-5 sm:text-lg">
-            Alt du trenger å vite om boligkjøp — fra budsjett til nøkkeloverlevering.
+            Alt du trenger å vite om boligkjøp: fra budsjett til nøkkeloverlevering.
           </p>
 
           <div className="mx-auto mt-8 w-full max-w-xl sm:mt-10">

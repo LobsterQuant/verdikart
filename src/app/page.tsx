@@ -466,7 +466,7 @@ export default function HomePage() {
               Hytte-tvangssalgene nær doblet på to år
             </p>
             <p className="mt-1 text-xs leading-relaxed text-text-secondary sm:text-sm">
-              Fra 54 til 98 fritidseiendommer på tvangssalg fra 2023 til 2025 — opp 82 prosent. Les Verdikarts analyse av SSB-tallene.
+              Fra 54 til 98 fritidseiendommer på tvangssalg fra 2023 til 2025: opp 82 prosent. Les Verdikarts analyse av SSB-tallene.
             </p>
           </div>
           <span className="text-xs font-medium text-accent transition-transform group-hover:translate-x-0.5 sm:text-sm">

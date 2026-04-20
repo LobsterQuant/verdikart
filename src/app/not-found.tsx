@@ -4,7 +4,7 @@ import AddressSearch from "@/components/AddressSearch";
 import { Home } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: { absolute: "Side ikke funnet — Verdikart" },
+  title: { absolute: "Side ikke funnet: Verdikart" },
   robots: { index: false },
 };
 

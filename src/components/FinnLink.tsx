@@ -37,7 +37,7 @@ export default function FinnLink({ postnummer, address, kommunenavn }: FinnLinkP
       </div>
 
       <p className="mb-4 text-sm text-text-secondary leading-relaxed">
-        Se aktive boligannonser i {locationLabel} direkte på Finn.no — oppdatert i sanntid.
+        Se aktive boligannonser i {locationLabel} direkte på Finn.no: oppdatert i sanntid.
       </p>
 
       <a

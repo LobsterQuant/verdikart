@@ -26,8 +26,8 @@ export default function KontekstSeksjon() {
             Sekundærboligen taper først
           </h3>
           <p className="text-sm leading-relaxed text-text-secondary">
-            I motsetning til primærboligen — der det finnes betydelige
-            sikkerhetsventiler for å unngå tvangssalg — har hytte-eiere færre
+            I motsetning til primærboligen: der det finnes betydelige
+            sikkerhetsventiler for å unngå tvangssalg: har hytte-eiere færre
             juridiske beskyttelser. Banker kan og gjør ofte tvangssalg
             raskere på sekundær eiendom.
           </p>

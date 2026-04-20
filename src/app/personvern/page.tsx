@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Personvern — Verdikart",
+  title: "Personvern: Verdikart",
   description: "Personvernerklæring for Verdikart. Les om hvordan vi behandler personopplysninger.",
   alternates: { canonical: "https://verdikart.no/personvern" },
 };
@@ -33,7 +33,7 @@ export default function Personvern() {
             </li>
           </ul>
           <p className="mt-3 text-xs text-text-tertiary">
-            Tjenesten drives som enkeltpersonforetak. Organisasjonsnummer registreres i Brønnøysundregistrene i takt med kommersiell oppstart — dette er et krav ved omsetning over kr 50 000. All behandling av personopplysninger skjer i tråd med GDPR uavhengig av registreringsstatus.
+            Tjenesten drives som enkeltpersonforetak. Organisasjonsnummer registreres i Brønnøysundregistrene i takt med kommersiell oppstart: dette er et krav ved omsetning over kr 50 000. All behandling av personopplysninger skjer i tråd med GDPR uavhengig av registreringsstatus.
           </p>
         </section>
 
@@ -46,7 +46,7 @@ export default function Personvern() {
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">-</span>
               <span>
-                <strong className="text-foreground">Søkedata</strong> — Adresser og
+                <strong className="text-foreground">Søkedata</strong>: Adresser og
                 søk du gjør i tjenesten. Disse lagres ikke permanent og knyttes
                 ikke til deg som person.
               </span>
@@ -54,7 +54,7 @@ export default function Personvern() {
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">-</span>
               <span>
-                <strong className="text-foreground">Tekniske loggdata</strong> — IP-adresse,
+                <strong className="text-foreground">Tekniske loggdata</strong>: IP-adresse,
                 nettlesertype og tidspunkt for besøk, utelukkende for
                 driftsformål. Disse slettes fortløpende.
               </span>
@@ -62,7 +62,7 @@ export default function Personvern() {
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">-</span>
               <span>
-                <strong className="text-foreground">E-postadresser</strong> — dersom du melder
+                <strong className="text-foreground">E-postadresser</strong>: dersom du melder
                 deg på nyhetsbrev eller prisvarsel, lagrer vi e-postadressen din
                 hos Formspree. Vi sletter abonnenter etter 12 måneder uten
                 aktivitet, eller umiddelbart på forespørsel til{" "}
@@ -80,15 +80,15 @@ export default function Personvern() {
           <ul className="space-y-2 text-sm text-text-secondary">
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">–</span>
-              <span><strong className="text-foreground">Berettiget interesse (art. 6(1)(f))</strong> — Tekniske loggdata og anonymisert analyse (Plausible) for å sikre drift og forbedre tjenesten.</span>
+              <span><strong className="text-foreground">Berettiget interesse (art. 6(1)(f))</strong>: Tekniske loggdata og anonymisert analyse (Plausible) for å sikre drift og forbedre tjenesten.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">–</span>
-              <span><strong className="text-foreground">Samtykke (art. 6(1)(a))</strong> — Microsoft Clarity lastes kun etter eksplisitt samtykke via samtykkebanneret. Du kan når som helst trekke samtykket tilbake.</span>
+              <span><strong className="text-foreground">Samtykke (art. 6(1)(a))</strong>: Microsoft Clarity lastes kun etter eksplisitt samtykke via samtykkebanneret. Du kan når som helst trekke samtykket tilbake.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">–</span>
-              <span><strong className="text-foreground">Avtale (art. 6(1)(b))</strong> — E-postadresse behandles for å levere nyhetsbrev du har meldt deg på.</span>
+              <span><strong className="text-foreground">Avtale (art. 6(1)(b))</strong>: E-postadresse behandles for å levere nyhetsbrev du har meldt deg på.</span>
             </li>
           </ul>
         </section>
@@ -115,19 +115,19 @@ export default function Personvern() {
           <ul className="space-y-3 text-sm text-text-secondary">
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">–</span>
-              <span><strong className="text-foreground">Plausible Analytics</strong> — anonymisert besøksstatistikk uten cookies eller personidentifikasjon. Ingen data sendes utenfor EU. <a href="https://plausible.io/privacy" target="_blank" rel="noopener" className="text-accent hover:underline">plausible.io/privacy</a></span>
+              <span><strong className="text-foreground">Plausible Analytics</strong>: anonymisert besøksstatistikk uten cookies eller personidentifikasjon. Ingen data sendes utenfor EU. <a href="https://plausible.io/privacy" target="_blank" rel="noopener" className="text-accent hover:underline">plausible.io/privacy</a></span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">–</span>
-              <span><strong className="text-foreground">Microsoft Clarity</strong> — heatmaps og sesjonsopptak for å forbedre brukeropplevelsen. Lastes kun etter ditt samtykke via samtykkebanneret. <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener" className="text-accent hover:underline">Microsoft personvernerklæring</a></span>
+              <span><strong className="text-foreground">Microsoft Clarity</strong>: heatmaps og sesjonsopptak for å forbedre brukeropplevelsen. Lastes kun etter ditt samtykke via samtykkebanneret. <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener" className="text-accent hover:underline">Microsoft personvernerklæring</a></span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">–</span>
-              <span><strong className="text-foreground">Leaflet / CARTO</strong> — kartvisning med fliser fra CARTO DarkMatter. Teknisk nødvendig for kartfunksjonen.</span>
+              <span><strong className="text-foreground">Leaflet / CARTO</strong>: kartvisning med fliser fra CARTO DarkMatter. Teknisk nødvendig for kartfunksjonen.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-accent font-bold mt-0.5">–</span>
-              <span><strong className="text-foreground">Formspree</strong> — behandler kontaktskjemaer og e-postpåmeldinger. Data lagres på Formsprees servere. <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener" className="text-accent hover:underline">Formspree personvernerklæring</a></span>
+              <span><strong className="text-foreground">Formspree</strong>: behandler kontaktskjemaer og e-postpåmeldinger. Data lagres på Formsprees servere. <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener" className="text-accent hover:underline">Formspree personvernerklæring</a></span>
             </li>
           </ul>
         </section>

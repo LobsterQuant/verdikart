@@ -4,12 +4,12 @@ import SiteFooter from "@/components/SiteFooter";
 import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Sammenlign adresser — to eiendommer side ved side | Verdikart",
+  title: "Sammenlign adresser: to eiendommer side ved side | Verdikart",
   description:
     "Sammenlign kollektivtransport, boligpriser og støynivå for to norske adresser side ved side. Gratis verktøy fra Verdikart.",
   alternates: { canonical: "https://verdikart.no/sammenlign-adresser" },
   openGraph: {
-    title: "Sammenlign adresser — Verdikart",
+    title: "Sammenlign adresser: Verdikart",
     description: "Sammenlign to eiendommer side ved side: transport, pris og støy.",
     url: "https://verdikart.no/sammenlign-adresser",
     type: "website",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  name: "Sammenlign adresser — Verdikart",
+  name: "Sammenlign adresser: Verdikart",
   description:
     "Sammenlign kollektivtransport, boligpriser og støynivå for to norske adresser side ved side.",
   url: "https://verdikart.no/sammenlign-adresser",

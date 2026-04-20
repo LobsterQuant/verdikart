@@ -110,7 +110,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
           href="https://www.ssb.no/bygg-bolig-og-eiendom/eiendom/statistikk/eiendomsomsetninger"
           target="_blank"
           rel="noopener noreferrer"
-          title="Kilde: SSB — Statistisk sentralbyrå"
+          title="Kilde: SSB: Statistisk sentralbyrå"
           className="inline-flex items-center gap-1 rounded-full border border-card-border bg-background px-2 py-0.5 text-[10px] font-medium text-text-secondary transition-colors hover:border-accent/30 hover:text-accent"
         >
           SSB

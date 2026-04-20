@@ -4,11 +4,11 @@ import JsonLd from "@/components/JsonLd";
 import KalkulatorTabs from "./KalkulatorTabs";
 
 export const metadata: Metadata = {
-  title: "Boligkalkulator — Kjøpekraft + månedskostnad | Verdikart",
-  description: "Beregn hvor mye bolig du har råd til og hva en spesifikk bolig koster per måned — inkl. eiendomsskatt, renter og stresstest. Basert på norske bankstandarder.",
+  title: "Boligkalkulator: Kjøpekraft + månedskostnad | Verdikart",
+  description: "Beregn hvor mye bolig du har råd til og hva en spesifikk bolig koster per måned: inkl. eiendomsskatt, renter og stresstest. Basert på norske bankstandarder.",
   alternates: { canonical: "https://verdikart.no/kalkulator" },
   openGraph: {
-    title: "Boligkalkulator — Verdikart",
+    title: "Boligkalkulator: Verdikart",
     description: "Kjøpekraft, månedskostnad og eiendomsskatt basert på norske bankstandarder.",
     url: "https://verdikart.no/kalkulator",
     siteName: "Verdikart",
@@ -35,7 +35,7 @@ export default function KalkulatorPage() {
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      name: "Boligkalkulator — Verdikart",
+      name: "Boligkalkulator: Verdikart",
       description: metadata.description,
       url: "https://verdikart.no/kalkulator",
       breadcrumb: {

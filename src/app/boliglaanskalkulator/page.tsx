@@ -36,7 +36,7 @@ export default function BoliglaanskalkPage() {
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      name: "Boliglånskalkulator — Verdikart",
+      name: "Boliglånskalkulator: Verdikart",
       description: metadata.description,
       url: "https://verdikart.no/boliglaanskalkulator",
       breadcrumb: {

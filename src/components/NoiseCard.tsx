@@ -90,7 +90,7 @@ export default function NoiseCard({ lat, lon, onDataStatus, hideWhenEmpty }: Noi
             : "Ingen registrert støy for denne adressen. Det kan bety at støynivået er lavt, eller at adressen ikke er dekket av Kartverkets støykartlegging."}
         </p>
         <p className="mt-1 text-xs text-text-secondary">
-          Kilde: Kartverket / Geonorge — støykartlegging dekker primært tettbygde strøk og hovedveier.
+          Kilde: Kartverket / Geonorge: støykartlegging dekker primært tettbygde strøk og hovedveier.
         </p>
       </div>
     );

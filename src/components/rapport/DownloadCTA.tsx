@@ -20,7 +20,7 @@ export default function DownloadCTA() {
               Last ned hele rapporten (PDF)
             </div>
             <div className="text-xs text-text-tertiary">
-              Alle grafer, tabeller og metodologi — klar for deling
+              Alle grafer, tabeller og metodologi: klar for deling
             </div>
           </div>
         </div>

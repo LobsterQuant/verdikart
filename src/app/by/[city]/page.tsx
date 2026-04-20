@@ -286,7 +286,7 @@ export default function CityPage({ params }: { params: { city: string } }) {
         <section className="border-t border-card-border bg-card-bg px-4 py-12 text-center sm:px-6">
           <h2 className="mb-2 text-xl font-semibold">Finn din neste bolig i {city.name}</h2>
           <p className="mb-6 text-sm text-text-secondary">
-            Søk på en adresse og få full rapport om transport, priser og nabolag — gratis.
+            Søk på en adresse og få full rapport om transport, priser og nabolag: gratis.
           </p>
           <Link
             href="/"

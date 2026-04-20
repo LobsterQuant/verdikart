@@ -4,11 +4,11 @@ import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Kontakt oss | Verdikart",
-  description: "Ta kontakt med Verdikart — spørsmål om tjenesten, feilmeldinger, datatilgang eller samarbeid. Vi svarer innen 1–2 virkedager.",
+  description: "Ta kontakt med Verdikart: spørsmål om tjenesten, feilmeldinger, datatilgang eller samarbeid. Vi svarer innen 1–2 virkedager.",
   alternates: { canonical: "https://verdikart.no/kontakt" },
   openGraph: {
-    title: "Kontakt oss — Verdikart",
-    description: "Ta kontakt med Verdikart — spørsmål, feilmeldinger, datatilgang eller samarbeid.",
+    title: "Kontakt oss: Verdikart",
+    description: "Ta kontakt med Verdikart: spørsmål, feilmeldinger, datatilgang eller samarbeid.",
     url: "https://verdikart.no/kontakt",
     siteName: "Verdikart",
     locale: "nb_NO",
@@ -27,7 +27,7 @@ export default function KontaktPage() {
           </div>
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Kontakt oss</h1>
           <p className="mt-3 text-text-secondary">
-            Spørsmål, tilbakemeldinger eller noe som ikke fungerer? Bruk skjemaet under — vi svarer innen 1–2 virkedager.
+            Spørsmål, tilbakemeldinger eller noe som ikke fungerer? Bruk skjemaet under: vi svarer innen 1–2 virkedager.
           </p>
         </div>
 
@@ -42,14 +42,14 @@ export default function KontaktPage() {
             className="flex items-center gap-3 rounded-xl border border-card-border bg-card-bg px-4 py-3 text-sm text-text-secondary transition-colors hover:border-accent/30 hover:text-foreground"
           >
             <Mail className="h-4 w-4 shrink-0 text-accent" strokeWidth={1.5} />
-            kontakt@verdikart.no — generelle spørsmål
+            kontakt@verdikart.no: generelle spørsmål
           </a>
           <a
             href="mailto:personvern@verdikart.no"
             className="flex items-center gap-3 rounded-xl border border-card-border bg-card-bg px-4 py-3 text-sm text-text-secondary transition-colors hover:border-accent/30 hover:text-foreground"
           >
             <Mail className="h-4 w-4 shrink-0 text-accent" strokeWidth={1.5} />
-            personvern@verdikart.no — GDPR og innsyn
+            personvern@verdikart.no: GDPR og innsyn
           </a>
         </div>
 

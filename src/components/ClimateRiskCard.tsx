@@ -133,7 +133,7 @@ export default function ClimateRiskCard({ lat, lon, onDataStatus, hideWhenEmpty 
         ))}
       </div>
       <p className="mt-3 text-xs text-text-secondary">
-        Kilde: NVE — Norges vassdrags- og energidirektorat
+        Kilde: NVE: Norges vassdrags- og energidirektorat
       </p>
     </TopographicHover>
   );

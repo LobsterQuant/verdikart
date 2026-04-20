@@ -14,7 +14,7 @@ export default function Avmeld() {
       const res = await fetch(`https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_ID ?? "xjgpwkyz"}`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ email, _subject: "Avmelding — Verdikart", message: `Bruker ${email} ønsker å avslutte alle e-poster fra Verdikart.` }),
+        body: JSON.stringify({ email, _subject: "Avmelding: Verdikart", message: `Bruker ${email} ønsker å avslutte alle e-poster fra Verdikart.` }),
       });
       setStatus(res.ok ? "done" : "error");
     } catch {

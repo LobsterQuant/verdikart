@@ -18,25 +18,25 @@ const USE_CASES: Array<{
   {
     Icon: VerdiestimatIcon,
     headline: "Hva er boligen egentlig verdt?",
-    body: "Verdikart estimerer boligens verdi basert på SSB-prisdata og energiattest. Se verdiestimat med konfidensintervall — før du legger inn bud.",
+    body: "Verdikart estimerer boligens verdi basert på SSB-prisdata og energiattest. Se verdiestimat med konfidensintervall: før du legger inn bud.",
     tag: "Verdiestimat · Frogner, Oslo",
   },
   {
     Icon: KlimarisikoIcon,
     headline: "Flomrisikoen ingen andre nevner",
-    body: "NVE-data avslører flomfare, kvikkleire og stormflo. Verdikart sjekker klimarisikoen automatisk — noe verken Finn.no eller megleren gjør.",
+    body: "NVE-data avslører flomfare, kvikkleire og stormflo. Verdikart sjekker klimarisikoen automatisk: noe verken Finn.no eller megleren gjør.",
     tag: "Klimarisiko · Bergen",
   },
   {
     Icon: KollektivIcon,
-    headline: "Reisetid fra Entur — ikke fra annonsen",
+    headline: "Reisetid fra Entur: ikke fra annonsen",
     body: "Faktiske avganger, gangavstand og reisetid til sentrum hentet direkte fra Entur. 13 datapunkter samlet på én side.",
     tag: "Kollektivtransport · Trondheim",
   },
   {
     Icon: PrisstatistikkIcon,
     headline: "SSB-prisdata megleren ikke viser deg",
-    body: "Se gjennomsnittlig kvadratmeterpris for kommunen, bydel-justert prisutvikling og sammenlignbare salg — fra Statistisk sentralbyrå.",
+    body: "Se gjennomsnittlig kvadratmeterpris for kommunen, bydel-justert prisutvikling og sammenlignbare salg: fra Statistisk sentralbyrå.",
     tag: "Prisstatistikk · Stavanger",
   },
 ];

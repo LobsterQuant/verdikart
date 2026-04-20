@@ -18,7 +18,7 @@ export default function PdfExportButton({ address }: PdfExportButtonProps) {
       // Use the browser's print-to-PDF with our print styles
       // The CSS in globals.css already handles print layout (white bg, hide nav/footer/maps)
       const title = document.title;
-      document.title = `${address} — Verdikart Eiendomsrapport`;
+      document.title = `${address}: Verdikart Eiendomsrapport`;
       window.print();
       document.title = title;
     } finally {

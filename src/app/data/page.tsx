@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "Alle datakilder Verdikart bruker: SSB, Kartverket og Entur. Oppdateringsfrekvenser, begrensninger og metodologi for prisanalyse, kollektivdata og eiendomsoppslag.",
   alternates: { canonical: "https://verdikart.no/data" },
   openGraph: {
-    title: "Datakilder og metodologi — Verdikart",
+    title: "Datakilder og metodologi: Verdikart",
     description: "Alle datakilder Verdikart bruker: SSB, Kartverket, Entur og OpenStreetMap.",
     url: "https://verdikart.no/data",
     siteName: "Verdikart",
@@ -28,7 +28,7 @@ const sources = [
     tagline: "Adresse- og eiendomsdata",
     description: "Kartverket forvalter det nasjonale eiendoms-, adresse- og forvaltningsregisteret (Matrikkelen). Verdikart bruker Kartverkets åpne adresse-API (ws.geonorge.no) for adressesøk, koordinatoppslag og omvendt geokoding.",
     frequency: "Sanntids (live API)",
-    coverage: "Alle norske kommuner — 2,5M+ adresser",
+    coverage: "Alle norske kommuner: 2,5M+ adresser",
     license: "Norsk lisens for offentlige data (NLOD)",
     licenseUrl: "https://data.norge.no/nlod/no/2.0",
     endpoints: [
@@ -44,7 +44,7 @@ const sources = [
     tagline: "Kollektivtransportdata",
     description: "Entur er den nasjonale reiseplanleggeren for kollektivtransport i Norge. Verdikart bruker Enturs Journey Planner API (GraphQL) for å hente holdeplasser innen gangavstand, linjenumre og avganger for ethvert koordinat.",
     frequency: "Sanntids (live API med avgangsprognoser)",
-    coverage: "Hele Norge — buss, trikk, T-bane, ferge, tog",
+    coverage: "Hele Norge: buss, trikk, T-bane, ferge, tog",
     license: "CC0 / Norsk lisens for offentlige data (NLOD)",
     licenseUrl: "https://developer.entur.org/pages-intro-licensing",
     endpoints: [
@@ -64,9 +64,9 @@ const sources = [
     license: "Creative Commons CC BY 4.0",
     licenseUrl: "https://creativecommons.org/licenses/by/4.0/deed.no",
     endpoints: [
-      { label: "Statistikktabell — boligpriser", url: "https://data.ssb.no/api/v0/no/table/06035" },
+      { label: "Statistikktabell: boligpriser", url: "https://data.ssb.no/api/v0/no/table/06035" },
     ],
-    limitations: "SSB-data er aggregert på kommunenivå, ikke per adresse. Kvadratmeterprisen er et kommunegjennomsnitt — prisen på en konkret bolig avhenger av etasje, stand, beliggenhet internt i kommunen m.m.",
+    limitations: "SSB-data er aggregert på kommunenivå, ikke per adresse. Kvadratmeterprisen er et kommunegjennomsnitt: prisen på en konkret bolig avhenger av etasje, stand, beliggenhet internt i kommunen m.m.",
   },
 ];
 
@@ -93,7 +93,7 @@ export default function DataPage() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Datakilder og metodologi — Verdikart",
+    name: "Datakilder og metodologi: Verdikart",
     description: metadata.description,
     url: "https://verdikart.no/data",
   };

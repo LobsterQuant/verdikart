@@ -1,5 +1,12 @@
 import { getKommunePopulation } from "@/data/kommune-population";
 
+/**
+ * Finanstilsynet-stresstest rate per boliglånsforskriften § 5. Applied to every
+ * månedskostnad-display regardless of the market rate snapshot so the number
+ * a buyer sees in the hero and in the detail card never diverges.
+ */
+export const STRESSTEST_RATE = 0.07;
+
 export type KommuneCategory = "storby" | "mellomby" | "distrikt";
 export type BuildingType =
   | "enebolig"

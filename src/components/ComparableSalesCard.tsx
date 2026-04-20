@@ -10,6 +10,7 @@ import {
   type IconProps,
 } from "@/components/icons";
 import { TopographicHover } from "@/components/motion/TopographicHover";
+import { roundBarWidth } from "@/lib/percent";
 
 // SSB delivers exactly these 3 housing-type labels (see /api/comparable-sales
 // route, Boligtype code table 01/02/03). Map each to a distinct silhouette so
@@ -134,7 +135,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
             Fordeling per boligtype
           </p>
           {data.byType.map((row) => {
-            const pct = Math.round((row.pricePerSqm / peak) * 100);
+            const pct = roundBarWidth((row.pricePerSqm / peak) * 100);
             const RowIcon = TYPE_ICONS[row.type] ?? BoligIcon;
             return (
               <div key={row.type}>

@@ -14,7 +14,7 @@ import {
   INDICATIVE_RATE,
 } from "@/lib/finance/constants";
 import { formatPct } from "@/lib/format";
-import { isResidentialCategory } from "@/lib/enova/category";
+import { classifyCategory } from "@/lib/enova/category";
 
 interface ManedskostnadKortProps {
   kommunenummer: string;
@@ -273,9 +273,11 @@ export default function ManedskostnadKort({
     }
   }
 
-  // Guard: hide the whole card for næringsbygg (Kontorbygg, Skole, Sykehus, etc.).
+  // Guard: hide only for pure næringsbygg (Kontorbygg, Hoteller, Skole, …).
+  // Mixed-use (Forretningsbygg, Kombinasjonsbygg) typically contains
+  // bolig­enheter so we keep the card — the mixed-use banner caveats the numbers.
   // Unknown kategori (no Enova data) falls through to residential and stays visible.
-  if (!loading && bygningskategori && !isResidentialCategory(bygningskategori)) {
+  if (!loading && classifyCategory(bygningskategori) === "commercial") {
     return null;
   }
 
@@ -525,7 +527,7 @@ export default function ManedskostnadKort({
               <span className="font-semibold text-foreground tabular-nums">
                 {fmtKr(result.totalStressed)}
               </span>{" "}
-              (stresstest {stressRatePercent})
+              (Finanstilsynet-stresstest {stressRatePercent})
             </p>
           </div>
 

@@ -63,7 +63,7 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
       }
     }
     fetch_();
-  }, [lat, lon]);
+  }, [lat, lon, kommunenummer]);
 
   if (loading) {
     return (

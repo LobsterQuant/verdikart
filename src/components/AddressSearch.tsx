@@ -71,7 +71,22 @@ function titleCaseKommune(s: string): string {
     .join(" ");
 }
 
-export default function AddressSearch({ initialValue = "" }: { initialValue?: string }) {
+interface AddressSearchProps {
+  initialValue?: string;
+  /**
+   * When true, suppress the initial auto-fire of the debounced search effect
+   * triggered by a pre-filled `initialValue`. The search re-activates the
+   * moment the user types anything. Used on /eiendom/[slug] so the widget
+   * doesn't flash a "1 treff funnet" dropdown for the page the user is on.
+   */
+  skipAutoSearch?: boolean;
+}
+
+function normalizeAddressForMatch(s: string): string {
+  return s.toLowerCase().split(",")[0].trim().replace(/\s+/g, " ");
+}
+
+export default function AddressSearch({ initialValue = "", skipAutoSearch = false }: AddressSearchProps) {
   const [query, setQuery] = useState(initialValue);
   const [results, setResults] = useState<AddressResult[]>([]);
   const [state, setState] = useState<SearchState>("idle");
@@ -83,6 +98,7 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
   const dropdownRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const hasUserInteractedRef = useRef(false);
   const router = useRouter();
 
   const listboxId = useId();
@@ -97,6 +113,13 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
   // response lands in state (prevents stale results flicker).
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    // On pages that pre-fill the input (e.g. /eiendom/[slug]), suppress the
+    // initial auto-search. The effect re-runs on every keystroke, so flipping
+    // hasUserInteractedRef on onChange is enough to re-enable search.
+    if (skipAutoSearch && !hasUserInteractedRef.current) {
+      return;
+    }
 
     if (query.trim().length < MIN_QUERY_CHARS) {
       abortRef.current?.abort();
@@ -117,7 +140,7 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [query]);
+  }, [query, skipAutoSearch]);
 
   // Clean up in-flight request on unmount.
   useEffect(() => {
@@ -238,12 +261,22 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const dropdownOpen = state === "results" || state === "no-results" || state === "error";
+  // When the top suggestion is the page the user is already on, the dropdown
+  // would just offer a link back to "here" — hide it entirely in that case.
+  const topMatchesInitial =
+    !!initialValue &&
+    results.length > 0 &&
+    normalizeAddressForMatch(results[0].adressetekst) === normalizeAddressForMatch(initialValue);
+
+  const dropdownOpen =
+    (state === "results" && !topMatchesInitial) ||
+    state === "no-results" ||
+    state === "error";
   const trimmed = query.trim();
 
   const srAnnouncement = (() => {
     if (state === "loading") return "Søker…";
-    if (state === "results") return `${results.length} treff funnet`;
+    if (state === "results" && !topMatchesInitial) return `${results.length} treff funnet`;
     if (state === "no-results") return "Ingen treff";
     if (state === "error") return "Søket er utilgjengelig";
     return "";
@@ -280,7 +313,10 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            hasUserInteractedRef.current = true;
+            setQuery(e.target.value);
+          }}
           onKeyDown={handleKeyDown}
           onFocus={() => {
             if (!trimmed && recent.length > 0) setShowRecent(true);
@@ -314,7 +350,7 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
 
       {/* Results dropdown */}
       <AnimatePresence>
-        {state === "results" && results.length > 0 && (
+        {state === "results" && results.length > 0 && !topMatchesInitial && (
           <m.div
             ref={dropdownRef}
             id={listboxId}

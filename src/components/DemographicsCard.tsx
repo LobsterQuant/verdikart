@@ -3,6 +3,7 @@ import { getDemographics } from "@/data/demographics";
 import DataAgeChip from "@/components/DataAgeChip";
 import { TopographicHover } from "@/components/motion/TopographicHover";
 import { nb } from "@/lib/format";
+import { roundBarWidth } from "@/lib/percent";
 
 export default function DemographicsCard({ kommunenummer }: { kommunenummer: string }) {
   const data = getDemographics(kommunenummer);
@@ -23,6 +24,11 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
 
   const incomeFormatted = data.medianIncome.toLocaleString("nb-NO");
   const growthSign = data.populationGrowthPct >= 0 ? "+" : "";
+
+  const workingPct = 100 - data.childrenPct - data.elderlyPct;
+  const childrenBarWidth = roundBarWidth((data.childrenPct / 35) * 100);
+  const workingBarWidth = roundBarWidth((workingPct / 80) * 100);
+  const elderlyBarWidth = roundBarWidth((data.elderlyPct / 35) * 100);
 
   return (
     <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -67,7 +73,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-background">
               <div
                 className="h-full rounded-full bg-accent/60"
-                style={{ width: `${(data.childrenPct / 35) * 100}%` }}
+                style={{ width: `${childrenBarWidth}%` }}
               />
             </div>
           </div>
@@ -76,13 +82,13 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
             <div className="mb-1 flex justify-between text-xs">
               <span className="text-text-secondary">Voksen alder (18–66 år)</span>
               <span className="font-semibold tabular-nums text-foreground">
-                {nb(100 - data.childrenPct - data.elderlyPct)} %
+                {nb(workingPct)} %
               </span>
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-background">
               <div
                 className="h-full rounded-full bg-accent"
-                style={{ width: `${((100 - data.childrenPct - data.elderlyPct) / 80) * 100}%` }}
+                style={{ width: `${workingBarWidth}%` }}
               />
             </div>
           </div>
@@ -97,7 +103,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-background">
               <div
                 className="h-full rounded-full bg-text-tertiary/50"
-                style={{ width: `${(data.elderlyPct / 35) * 100}%` }}
+                style={{ width: `${elderlyBarWidth}%` }}
               />
             </div>
           </div>

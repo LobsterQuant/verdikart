@@ -4,6 +4,7 @@ import { Shield, Info, AlertTriangle } from "lucide-react";
 import DataAgeChip from "@/components/DataAgeChip";
 import { TopographicHover } from "@/components/motion/TopographicHover";
 import { nb, formatPct } from "@/lib/format";
+import { roundBarWidth } from "@/lib/percent";
 import {
   KOMMUNE_CRIME,
   NATIONAL_CRIME_AVG as NATIONAL_AVG,
@@ -55,8 +56,8 @@ function BydelCrimeView({ data }: { data: OsloBydelCrime }) {
   const { label, color, bg } = getLabel(data.rate, OSLO_KOMMUNE_AVG, false);
   const pctVsOslo = ((data.rate - OSLO_KOMMUNE_AVG) / OSLO_KOMMUNE_AVG * 100).toFixed(0);
   const aboveBelow = data.rate > OSLO_KOMMUNE_AVG ? "over" : "under";
-  const barWidth = Math.min(100, (data.rate / 200) * 100);
-  const osloBarWidth = Math.min(100, (OSLO_KOMMUNE_AVG / 200) * 100);
+  const barWidth = roundBarWidth(Math.min(100, (data.rate / 200) * 100));
+  const osloBarWidth = roundBarWidth(Math.min(100, (OSLO_KOMMUNE_AVG / 200) * 100));
 
   return (
     <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -149,8 +150,8 @@ function KommuneCrimeView({ kommunenummer, kommuneName }: { kommunenummer: strin
   const { label, color, bg, isUrbanContext } = getLabel(data.rate, NATIONAL_AVG, isUrban);
   const pctVsNational = ((data.rate - NATIONAL_AVG) / NATIONAL_AVG * 100).toFixed(0);
   const aboveBelow = data.rate > NATIONAL_AVG ? "over" : "under";
-  const barWidth = Math.min(100, (data.rate / 150) * 100);
-  const nationalBarWidth = Math.min(100, (NATIONAL_AVG / 150) * 100);
+  const barWidth = roundBarWidth(Math.min(100, (data.rate / 150) * 100));
+  const nationalBarWidth = roundBarWidth(Math.min(100, (NATIONAL_AVG / 150) * 100));
 
   const heading = kommuneName
     ? `Kriminalitet: ${kommuneName} kommune`

@@ -30,17 +30,8 @@ describe("calculateMonthlyPayment", () => {
 });
 
 describe("getStressRate", () => {
-  it("adds 3 percentage points above the minimum floor", () => {
-    expect(getStressRate(0.053)).toBeCloseTo(0.083, 10);
-  });
-
-  it("floors at 7% when the adder lands below", () => {
-    expect(getStressRate(0.02)).toBeCloseTo(0.07, 10);
-    expect(getStressRate(0.039)).toBeCloseTo(0.07, 10);
-  });
-
-  it("passes through when actual + 3pp exceeds 7%", () => {
-    expect(getStressRate(0.06)).toBeCloseTo(0.09, 10);
+  it("returns the flat Finanstilsynet-stresstest", () => {
+    expect(getStressRate()).toBeCloseTo(0.07, 10);
   });
 });
 
@@ -58,14 +49,14 @@ describe("calculateMonthlyCost", () => {
     // Mortgage between 24k–27k for this loan at 5,3% over 25 år
     expect(result.mortgageMonthly).toBeGreaterThan(24_000);
     expect(result.mortgageMonthly).toBeLessThan(27_000);
-    // Stressed (8,3%) should exceed nominal by several thousand
+    // Stressed (7,0%) should exceed nominal
     expect(result.mortgageStressed).toBeGreaterThan(result.mortgageMonthly);
     // Total = mortgage + felles + skatt
     expect(result.totalMonthly).toBe(result.mortgageMonthly + 3_500 + 500);
     expect(result.totalStressed).toBe(result.mortgageStressed + 3_500 + 500);
     // Rates returned for display
     expect(result.rate).toBeCloseTo(0.053, 10);
-    expect(result.stressRate).toBeCloseTo(0.083, 10);
+    expect(result.stressRate).toBeCloseTo(0.07, 10);
   });
 
   it("handles zero eiendomsskatt communes cleanly", () => {

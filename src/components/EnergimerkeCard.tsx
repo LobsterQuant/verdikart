@@ -1,6 +1,7 @@
 import { Zap } from "lucide-react";
 import { TopographicHover } from "@/components/motion/TopographicHover";
 import { getEnergimerke } from "@/data/energimerke";
+import { roundBarWidth } from "@/lib/percent";
 
 function labelColor(label: string): { text: string; bg: string; border: string } {
   switch (label) {
@@ -25,6 +26,9 @@ export default function EnergimerkeCard({ kommunenummer }: { kommunenummer: stri
   if (!data) return null;
 
   const badge = labelColor(data.dominantLabel);
+  const goodBarWidth = roundBarWidth(data.goodPct);
+  const moderateBarWidth = roundBarWidth(data.moderatePct);
+  const poorBarWidth = roundBarWidth(data.poorPct);
 
   return (
     <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -59,7 +63,7 @@ export default function EnergimerkeCard({ kommunenummer }: { kommunenummer: stri
           <div className="h-2 w-full overflow-hidden rounded-full bg-background">
             <div
               className="h-full rounded-full bg-green-500 transition-all"
-              style={{ width: `${data.goodPct}%` }}
+              style={{ width: `${goodBarWidth}%` }}
             />
           </div>
         </div>
@@ -73,7 +77,7 @@ export default function EnergimerkeCard({ kommunenummer }: { kommunenummer: stri
           <div className="h-2 w-full overflow-hidden rounded-full bg-background">
             <div
               className="h-full rounded-full bg-amber-500 transition-all"
-              style={{ width: `${data.moderatePct}%` }}
+              style={{ width: `${moderateBarWidth}%` }}
             />
           </div>
         </div>
@@ -87,7 +91,7 @@ export default function EnergimerkeCard({ kommunenummer }: { kommunenummer: stri
           <div className="h-2 w-full overflow-hidden rounded-full bg-background">
             <div
               className="h-full rounded-full bg-red-500 transition-all"
-              style={{ width: `${data.poorPct}%` }}
+              style={{ width: `${poorBarWidth}%` }}
             />
           </div>
         </div>

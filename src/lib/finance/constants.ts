@@ -9,13 +9,6 @@ export const INDICATIVE_RATE = {
 } as const;
 
 /**
- * Stress test adder per boliglånsforskriften § 5.
- * Faktisk rente + 3 percentage points, minimum 7%.
- */
-export const STRESS_TEST_ADDER = 0.03;
-export const STRESS_TEST_MINIMUM = 0.07;
-
-/**
  * Default felleskostnader estimate by boligtype (NOK per month).
  * Source: SSB/Finn aggregated data, adjust based on actual.
  */

@@ -1,4 +1,5 @@
-import { INDICATIVE_RATE, STRESS_TEST_ADDER, STRESS_TEST_MINIMUM } from "./constants";
+import { INDICATIVE_RATE } from "./constants";
+import { STRESSTEST_RATE } from "@/lib/economics/monthly-cost";
 
 /**
  * Calculate monthly payment for annuity loan.
@@ -23,10 +24,11 @@ export function calculateMonthlyPayment(
 }
 
 /**
- * Stress rate: actual + 3pp, minimum 7%.
+ * Finanstilsynet-stresstest per boliglånsforskriften § 5: flat 7,0 %,
+ * independent of the borrower's nominal rate.
  */
-export function getStressRate(annualRate: number): number {
-  return Math.max(annualRate + STRESS_TEST_ADDER, STRESS_TEST_MINIMUM);
+export function getStressRate(): number {
+  return STRESSTEST_RATE;
 }
 
 /**
@@ -55,7 +57,7 @@ export interface MonthlyCostResult {
 export function calculateMonthlyCost(input: MonthlyCostInput): MonthlyCostResult {
   const loanAmount = input.purchasePrice * (1 - input.equityPercent);
   const rate = INDICATIVE_RATE.nominal;
-  const stressRate = getStressRate(rate);
+  const stressRate = getStressRate();
 
   const mortgageMonthly = calculateMonthlyPayment(loanAmount, rate, input.loanYears);
   const mortgageStressed = calculateMonthlyPayment(loanAmount, stressRate, input.loanYears);

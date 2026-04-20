@@ -1,4 +1,5 @@
 import { TVANGSSALG_2026_DATA } from "@/data/rapport/tvangssalg-2026";
+import { roundBarWidth } from "@/lib/percent";
 
 export default function KvartalsDetalj() {
   const rows = TVANGSSALG_2026_DATA.quarterlyDetail;
@@ -21,7 +22,7 @@ export default function KvartalsDetalj() {
 
       <ul className="divide-y divide-card-border/50 rounded-xl border border-card-border bg-card-bg">
         {rows.map((row) => {
-          const widthPct = Math.round((row.total / maxTotal) * 100);
+          const widthPct = roundBarWidth((row.total / maxTotal) * 100);
           return (
             <li
               key={row.quarter}

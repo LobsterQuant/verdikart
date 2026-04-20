@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { Calculator, Info, TrendingUp, Home, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { nb } from "@/lib/format";
+import { roundBarWidth } from "@/lib/percent";
 
 // Norwegian boliglånsforskrift rules (2024):
 // - Max loan = 5× gross annual income
@@ -21,7 +22,7 @@ function Slider({
   label: string; value: number; min: number; max: number; step: number;
   unit: string; onChange: (v: number) => void; info?: string;
 }) {
-  const pct = ((value - min) / (max - min)) * 100;
+  const pct = roundBarWidth(((value - min) / (max - min)) * 100);
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">

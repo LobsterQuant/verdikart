@@ -8,10 +8,11 @@ import {
   estimatedMunicipalFees,
   resolveKommuneCategory,
   roundToNearest100,
+  STRESSTEST_RATE,
   type BuildingType,
 } from "@/lib/economics/monthly-cost";
 import { getPolicyRateSnapshot } from "@/lib/rates/norges-bank";
-import { isResidentialCategory } from "@/lib/enova/category";
+import { classifyCategory } from "@/lib/enova/category";
 
 interface ManedskostnadHeroProps {
   kommunenummer: string;
@@ -75,7 +76,10 @@ export default async function ManedskostnadHero({
     getPolicyRateSnapshot(),
   ]);
 
-  if (energi?.bygningskategori && !isResidentialCategory(energi.bygningskategori)) {
+  // Hide only for pure næringsbygg (Kontorbygg, Hoteller, Skole, …). Mixed-use
+  // buildings (Forretningsbygg, Kombinasjonsbygg) typically contain bolig­enheter
+  // over a street-level shop — still worth showing the bolig-side estimate.
+  if (classifyCategory(energi?.bygningskategori) === "commercial") {
     return null;
   }
 
@@ -101,7 +105,7 @@ export default async function ManedskostnadHero({
     maintenancePct: MAINTENANCE_PCT,
   } as const;
 
-  const stressed = calculateMonthlyCost({ ...shared, rate: rateSnapshot.stressTestRate });
+  const stressed = calculateMonthlyCost({ ...shared, rate: STRESSTEST_RATE });
   const current = calculateMonthlyCost({ ...shared, rate: rateSnapshot.marketRate });
 
   const stressedTotal = roundToNearest100(stressed.total);
@@ -109,18 +113,18 @@ export default async function ManedskostnadHero({
   const loanPart = roundToNearest100(stressed.loanPayment);
   const maintenancePart = roundToNearest100(stressed.maintenance);
 
-  const stressPct = formatPct(rateSnapshot.stressTestRate * 100, 1);
+  const stressPct = formatPct(STRESSTEST_RATE * 100, 1);
   const currentPct = formatPct(rateSnapshot.marketRate * 100, 2);
 
   const areaSource = enovaArea ? `${area} m²` : `${area} m² (typisk for ${buildingTypeLabel(buildingType)})`;
-  const assumptions = `Eksempel: ${areaSource} · 15 % egenkapital · 25 års nedbetaling · stresstest ${stressPct}`;
+  const assumptions = `Eksempel: ${areaSource} · 15 % egenkapital · 25 års nedbetaling · Finanstilsynet-stresstest ${stressPct}`;
 
   return (
     <TopographicHover className="relative rounded-2xl border border-card-border bg-card-bg p-4 sm:p-6">
       <header className="mb-4">
         <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-text-secondary">
           <Wallet className="h-4 w-4 text-accent" strokeWidth={1.75} />
-          Månedskostnad (stresstest · eksempel)
+          Månedskostnad (Finanstilsynet-stresstest · eksempel)
         </h2>
       </header>
 
@@ -137,7 +141,7 @@ export default async function ManedskostnadHero({
       </div>
 
       <p className="mt-2 text-sm text-text-secondary">
-        ved {stressPct} stresstest-rente · {fmtKr(currentTotal)}/md ved dagens {currentPct}
+        ved {stressPct} Finanstilsynet-stresstest · {fmtKr(currentTotal)}/md ved dagens {currentPct}
       </p>
 
       <p className="mt-3 text-sm text-text-secondary">

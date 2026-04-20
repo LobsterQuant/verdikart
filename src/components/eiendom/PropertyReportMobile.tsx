@@ -36,6 +36,8 @@ interface Props {
   mapElement: ReactNode;
   /** Kommune slug used for the back-link target (e.g. "/by/oslo"). Falls back to "/". */
   backHref: string;
+  /** Optional caveat banner shown at the top of the sheet (e.g. mixed-use notice). */
+  banner?: ReactNode;
 }
 
 export function PropertyReportMobile({
@@ -46,6 +48,7 @@ export function PropertyReportMobile({
   sections,
   mapElement,
   backHref,
+  banner,
 }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [openKey, setOpenKey] = useState<ReportSectionKey | null>(null);
@@ -97,6 +100,8 @@ export function PropertyReportMobile({
         >
           <span className="block h-1 w-9 rounded-full bg-text-tertiary/40" />
         </button>
+
+        {banner && <div className="px-5 pb-2">{banner}</div>}
 
         {/* Price headline */}
         <div className="px-5 pb-3">

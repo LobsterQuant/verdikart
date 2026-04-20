@@ -268,21 +268,28 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
 
   // Mobile sheet previews — one parallel server fetch instead of 12 client waterfalls.
   const postnummer = searchParams.pnr ?? "";
-  const mobileSummary = await getPropertyReportSummary({
+  const reportResult = await getPropertyReportSummary({
     lat: latNum,
     lon: lonNum,
     kommunenummer,
     postnummer,
     adresse: displayAddress,
   });
-  const headlinePrice = mobileSummary.verdiestimat.split("·")[0].trim();
+  const mobileSummary = reportResult.sections;
+  const classification = reportResult.classification;
+  const isCommercial = classification === "commercial";
+  const isMixedUse = classification === "mixed-use";
+  const headlinePrice = isCommercial ? null : mobileSummary.verdiestimat.split("·")[0].trim();
+  const headlineCaption = isCommercial ? "Næringsbygg" : "Estimert verdi";
   const backHref = kommuneName ? `/by/${kommuneSlug}` : "/";
   // Icons are pre-rendered here (server) as ReactNode since function refs can't
   // cross the RSC boundary into PropertyReportMobile's client tree.
   const iconCls = "h-4 w-4";
   const mobileSections: ReadonlyArray<ReportSection> = [
-    { key: "verdiestimat",   label: "Verdiestimat",         icon: <VerdiestimatIcon className={iconCls} />,   detail: <ValuationCard kommunenummer={kommunenummer} postnummer={postnummer} adresse={displayAddress} /> },
-    { key: "manedskostnad",  label: "Månedskostnad",        icon: <ManedskostnadIcon className={iconCls} />,  detail: <ManedskostnadKort kommunenummer={kommunenummer} postnummer={postnummer} adresse={displayAddress} /> },
+    ...(isCommercial ? [] : [
+      { key: "verdiestimat" as const,   label: "Verdiestimat",         icon: <VerdiestimatIcon className={iconCls} />,   detail: <ValuationCard kommunenummer={kommunenummer} postnummer={postnummer} adresse={displayAddress} /> },
+      { key: "manedskostnad" as const,  label: "Månedskostnad",        icon: <ManedskostnadIcon className={iconCls} />,  detail: <ManedskostnadKort kommunenummer={kommunenummer} postnummer={postnummer} adresse={displayAddress} /> },
+    ]),
     { key: "prisstatistikk", label: "Prisstatistikk",       icon: <PrisutviklingIcon className={iconCls} />,  detail: <PriceTrendCard kommunenummer={kommunenummer} postnummer={postnummer} /> },
     { key: "kollektiv",      label: "Kollektivtransport",   icon: <KollektivIcon className={iconCls} />,      detail: <TransitCard lat={latNum} lon={lonNum} address={displayAddress} /> },
     { key: "skoler",         label: "Skoler og barnehager", icon: <SkolerIcon className={iconCls} />,         detail: <SchoolsCard lat={latNum} lon={lonNum} kommunenummer={kommunenummer} /> },
@@ -306,10 +313,18 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
         <PropertyReportMobile
           address={displayAddress}
           headlinePrice={headlinePrice}
-          headlineCaption="Estimert verdi"
+          headlineCaption={headlineCaption}
           summary={mobileSummary}
           sections={mobileSections}
           backHref={backHref}
+          banner={isMixedUse ? (
+            <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-200">
+              <p className="font-medium">Kombinert bygg (næring og bolig)</p>
+              <p className="mt-0.5 text-amber-200/90">
+                Bygget er registrert som næring, men inneholder trolig boligenheter. Noen tall gjelder bare bolig-delen.
+              </p>
+            </div>
+          ) : undefined}
           mapElement={
             <PropertyMap
               lat={latNum}
@@ -369,40 +384,53 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
 
             {/* Re-search */}
             <div className="mt-5">
-              <AddressSearch initialValue={displayAddress} />
+              <AddressSearch initialValue={displayAddress} skipAutoSearch />
             </div>
           </header>
 
-          {/* ── VALUATION (full width, headline number — buyer's #1 question first) ──── */}
-          <div className="mb-8">
-            <CardErrorBoundary fallbackTitle="Verdiestimat feilet">
-              <ValuationCard
-                kommunenummer={kommunenummer}
-                postnummer={searchParams.pnr ?? ""}
-                adresse={displayAddress}
-              />
-            </CardErrorBoundary>
-          </div>
+          {isMixedUse && (
+            <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
+              <p className="font-medium">Kombinert bygg (næring og bolig)</p>
+              <p className="mt-1 text-amber-200/90">
+                Bygget er registrert som næring, men inneholder trolig boligenheter. Noen tall gjelder bare bolig-delen.
+              </p>
+            </div>
+          )}
 
-          {/* ── MÅNEDSKOSTNAD (full width — buyer's #2 question: can I afford it?) ──── */}
-          <div className="mb-4">
-            <CardErrorBoundary fallbackTitle="Månedskostnad-eksempel feilet">
-              <ManedskostnadHero
-                kommunenummer={kommunenummer}
-                postnummer={searchParams.pnr ?? ""}
-                adresse={displayAddress}
-              />
-            </CardErrorBoundary>
-          </div>
-          <div className="mb-8">
-            <CardErrorBoundary fallbackTitle="Månedskostnad feilet">
-              <ManedskostnadKort
-                kommunenummer={kommunenummer}
-                postnummer={searchParams.pnr ?? ""}
-                adresse={displayAddress}
-              />
-            </CardErrorBoundary>
-          </div>
+          {!isCommercial && (
+            <>
+              {/* ── VALUATION (full width, headline number — buyer's #1 question first) ──── */}
+              <div className="mb-8">
+                <CardErrorBoundary fallbackTitle="Verdiestimat feilet">
+                  <ValuationCard
+                    kommunenummer={kommunenummer}
+                    postnummer={searchParams.pnr ?? ""}
+                    adresse={displayAddress}
+                  />
+                </CardErrorBoundary>
+              </div>
+
+              {/* ── MÅNEDSKOSTNAD (full width — buyer's #2 question: can I afford it?) ──── */}
+              <div className="mb-4">
+                <CardErrorBoundary fallbackTitle="Månedskostnad-eksempel feilet">
+                  <ManedskostnadHero
+                    kommunenummer={kommunenummer}
+                    postnummer={searchParams.pnr ?? ""}
+                    adresse={displayAddress}
+                  />
+                </CardErrorBoundary>
+              </div>
+              <div className="mb-8">
+                <CardErrorBoundary fallbackTitle="Månedskostnad feilet">
+                  <ManedskostnadKort
+                    kommunenummer={kommunenummer}
+                    postnummer={searchParams.pnr ?? ""}
+                    adresse={displayAddress}
+                  />
+                </CardErrorBoundary>
+              </div>
+            </>
+          )}
 
           {/* ── EDITORIAL GRID: 2/3 main + 1/3 sidebar ───────────────────── */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">

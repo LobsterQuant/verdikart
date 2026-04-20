@@ -10,9 +10,9 @@ import {
   estimatedMunicipalFees,
   resolveKommuneCategory,
   roundToNearest100,
+  STRESSTEST_RATE,
 } from "@/lib/economics/monthly-cost";
-import { getPolicyRateSnapshot } from "@/lib/rates/norges-bank";
-import { isResidentialCategory } from "@/lib/enova/category";
+import { classifyCategory, type PropertyClassification } from "@/lib/enova/category";
 
 /**
  * Server-side aggregator for the mobile property-report bottom sheet.
@@ -154,6 +154,9 @@ const qs = (params: Record<string, string | number>) =>
 const nbNumber = (n: number): string => n.toLocaleString("nb-NO");
 
 function previewValuation(trend: PriceTrendShape | null, energi: EnergimerkeShape | null): string {
+  if (classifyCategory(energi?.bygningskategori) === "commercial") {
+    return "Ikke relevant for næringsbygg";
+  }
   const sqm = trend?.values[trend.values.length - 1];
   const area = energi?.bruksareal ?? null;
   if (sqm && area && area > 0 && area < 500) {
@@ -168,9 +171,11 @@ function previewManedskostnad(
   trend: PriceTrendShape | null,
   energi: EnergimerkeShape | null,
   kommunenummer: string,
-  stressTestRate: number,
 ): string {
-  if (energi?.bygningskategori && !isResidentialCategory(energi.bygningskategori)) {
+  // Hide numbers only for pure næringsbygg. Mixed-use (Forretningsbygg,
+  // Kombinasjonsbygg) still usually contains boligenheter, so show the
+  // bolig-side estimate and let the detail card caveat it.
+  if (classifyCategory(energi?.bygningskategori) === "commercial") {
     return "Ikke relevant for næringsbygg";
   }
   const sqm = trend?.values[trend.values.length - 1];
@@ -185,14 +190,14 @@ function previewManedskostnad(
   const { total } = calculateDefaultMonthlyCost({
     propertyValue,
     area,
-    rate: stressTestRate,
+    rate: STRESSTEST_RATE,
     equityPct: 0.15,
     termYears: 25,
     municipalFees,
     maintenancePct: 0.01,
   });
   const rounded = roundToNearest100(total);
-  return `~${nbNumber(rounded)} kr/md · stresstest 7,0 %`;
+  return `~${nbNumber(rounded)} kr/md · Finanstilsynet-stresstest 7,0 %`;
 }
 
 function previewPriceTrend(trend: PriceTrendShape | null): string {
@@ -228,7 +233,7 @@ function previewSchools(schools: SchoolsShape | null): string {
     .filter((s) => s.type === "Skole")
     .sort((a, b) => a.distance - b.distance)[0];
   if (!nearest) return UKJENT;
-  const m = Math.round(nearest.distance * 1000);
+  const m = Math.round(nearest.distance);
   return `${nearest.name} · ${m} m`;
 }
 
@@ -309,9 +314,15 @@ function previewDemografi(kommunenummer: string): string {
 // Entry point
 // ───────────────────────────────────────────────────────────────────────────
 
+export interface PropertyReportResult {
+  sections: PropertyReportSummary;
+  classification: PropertyClassification;
+  bygningskategori: string | null;
+}
+
 export async function getPropertyReportSummary(
   input: PropertyReportInput,
-): Promise<PropertyReportSummary> {
+): Promise<PropertyReportResult> {
   const { lat, lon, kommunenummer, postnummer, adresse } = input;
   const origin = await getOrigin();
 
@@ -319,7 +330,7 @@ export async function getPropertyReportSummary(
   const HOUR = 60 * 60;
   const WEEK = DAY * 7;
 
-  const [priceTrend, energi, transit, transitStops, schools, climate, noise, air, broadband, rateSnapshot] = await Promise.all([
+  const [priceTrend, energi, transit, transitStops, schools, climate, noise, air, broadband] = await Promise.all([
     safeFetch<PriceTrendShape>(`${origin}/api/price-trend?${qs({ kommunenummer, postnummer })}`, DAY),
     safeFetch<EnergimerkeShape>(`${origin}/api/energimerke?${qs({ postnummer, adresse })}`, DAY),
     safeFetch<TransitShape>(`${origin}/api/transit?${qs({ lat, lon })}`, HOUR),
@@ -329,12 +340,11 @@ export async function getPropertyReportSummary(
     safeFetch<NoiseShape>(`${origin}/api/noise?${qs({ lat, lon })}`, DAY),
     safeFetch<AirQualityShape>(`${origin}/api/air-quality?${qs({ lat, lon })}`, HOUR),
     safeFetch<BroadbandShape>(`${origin}/api/broadband?${qs({ lat, lon })}`, WEEK),
-    getPolicyRateSnapshot(),
   ]);
 
-  return {
+  const sections: PropertyReportSummary = {
     verdiestimat: previewValuation(priceTrend, energi),
-    manedskostnad: previewManedskostnad(priceTrend, energi, kommunenummer, rateSnapshot.stressTestRate),
+    manedskostnad: previewManedskostnad(priceTrend, energi, kommunenummer),
     prisstatistikk: previewPriceTrend(priceTrend),
     kollektiv: previewTransit(transit, transitStops),
     skoler: previewSchools(schools),
@@ -346,5 +356,11 @@ export async function getPropertyReportSummary(
     eiendomsskatt: previewEiendomsskatt(kommunenummer),
     kriminalitet: previewCrime(kommunenummer, postnummer),
     demografi: previewDemografi(kommunenummer),
+  };
+
+  return {
+    sections,
+    classification: classifyCategory(energi?.bygningskategori),
+    bygningskategori: energi?.bygningskategori ?? null,
   };
 }

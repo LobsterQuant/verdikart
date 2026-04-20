@@ -8,6 +8,22 @@ const nextConfig = {
     ],
   },
   async headers() {
+    // CSP notes: 'unsafe-inline' + 'unsafe-eval' on script-src are required by
+    // Next.js runtime (hydration payloads, dev HMR). connect-src whitelists the
+    // public-data APIs the property report fetches (Kartverket, SSB, Entur) and
+    // the two analytics scripts. frame-ancestors 'none' + X-Frame-Options DENY
+    // together block embedding — X-Frame-Options is redundant on modern browsers
+    // but still honored by older crawlers and corporate proxies.
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://plausible.io https://www.clarity.ms",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https: blob:",
+      "font-src 'self' data:",
+      "connect-src 'self' https://ws.geonorge.no https://data.ssb.no https://api.entur.io https://plausible.io https://www.clarity.ms https://formspree.io https://*.ingest.sentry.io https://*.ingest.de.sentry.io",
+      "frame-ancestors 'none'",
+    ].join("; ");
+
     return [
       {
         // Security headers applied site-wide. HSTS is set with a 2-year max-age
@@ -25,6 +41,14 @@ const nextConfig = {
             key: "Cross-Origin-Opener-Policy",
             value: "same-origin",
           },
+          { key: "Content-Security-Policy", value: csp },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(self), interest-cohort=()",
+          },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
         ],
       },
     ];

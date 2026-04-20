@@ -119,7 +119,7 @@ export default function NearbyProperties({
               <p className="truncate text-sm font-medium group-hover:text-accent transition-colors">
                 {addr.adressetekst}
               </p>
-              <p className="text-xs text-text-tertiary">Se eiendomsdata</p>
+              <p className="text-xs text-text-secondary">Se eiendomsdata</p>
             </div>
             <ArrowRight className="ml-2 h-4 w-4 shrink-0 text-text-tertiary group-hover:text-accent transition-colors" strokeWidth={1.5} />
           </Link>

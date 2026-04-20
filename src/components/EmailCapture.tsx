@@ -42,7 +42,7 @@ export default function EmailCapture({ address, compact = false }: { address?: s
             <p className="text-sm text-text-secondary">
               Vi varsler deg hvis prisene i dette området endrer seg.
             </p>
-            <p className="mt-1 text-xs text-text-tertiary">
+            <p className="mt-1 text-xs text-text-secondary">
               For å melde deg av:{" "}
               <a
                 href="mailto:kontakt@verdikart.no?subject=Avslutt%20prisvarsler&body=Jeg%20ønsker%20å%20avslutte%20prisvarslene%20mine%20fra%20Verdikart."
@@ -115,7 +115,7 @@ export default function EmailCapture({ address, compact = false }: { address?: s
         <p className="mt-2 text-xs text-red-400">Noe gikk galt. Prøv igjen.</p>
       )}
       {/* GDPR consent + unsubscribe — required at point of collection (GDPR Art. 7 + 13) */}
-      <p className="mt-3 text-xs text-text-tertiary leading-relaxed">
+      <p className="mt-3 text-xs text-text-secondary leading-relaxed">
         {address
           ? "Vi lagrer e-postadressen din for å sende prisvarsler for denne adressen."
           : "Vi lagrer e-postadressen din for å sende markedsoppdateringer."}{" "}

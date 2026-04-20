@@ -51,7 +51,7 @@ export default function FinnLink({ postnummer, address, kommunenavn }: FinnLinkP
       </a>
 
       {address && (
-        <p className="mt-3 text-xs text-text-tertiary">
+        <p className="mt-3 text-xs text-text-secondary">
           Søket filtreres på område rundt{" "}
           <span className="font-medium text-text-secondary">{address}</span>.
           Verdikart er ikke tilknyttet Finn.no.

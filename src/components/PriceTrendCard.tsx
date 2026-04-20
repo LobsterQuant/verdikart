@@ -137,14 +137,14 @@ export default function PriceTrendCard({
         </span>
         <span className="text-sm text-text-secondary">siste 12 mnd</span>
         {data.sourceLabel && (
-          <span className="text-xs text-text-tertiary italic">{data.sourceLabel}</span>
+          <span className="text-xs text-text-secondary italic">{data.sourceLabel}</span>
         )}
         <a
           href="https://www.ssb.no/bygg-bolig-og-eiendom/eiendom/statistikk/eiendomsomsetninger"
           target="_blank"
           rel="noopener noreferrer"
           title="Kilde: SSB — Statistisk sentralbyrå, kvartalsvis"
-          className="ml-auto inline-flex items-center gap-1 rounded-full border border-card-border bg-background px-2 py-0.5 text-[10px] font-medium text-text-tertiary transition-colors hover:border-accent/30 hover:text-accent"
+          className="ml-auto inline-flex items-center gap-1 rounded-full border border-card-border bg-background px-2 py-0.5 text-[10px] font-medium text-text-secondary transition-colors hover:border-accent/30 hover:text-accent"
         >
           SSB
           <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
@@ -152,7 +152,7 @@ export default function PriceTrendCard({
           </svg>
         </a>
         {data.lastUpdated && (
-          <span className="ml-auto text-xs text-text-tertiary" title="SSB publiserer boligprisdata kvartalsvis. Q4 2024 er siste tilgjengelige kvartal — nyere data publiseres av SSB i 2025.">
+          <span className="ml-auto text-xs text-text-secondary" title="SSB publiserer boligprisdata kvartalsvis. Q4 2024 er siste tilgjengelige kvartal — nyere data publiseres av SSB i 2025.">
             {data.lastUpdated.replace("K", "Q")}
           </span>
         )}
@@ -163,7 +163,7 @@ export default function PriceTrendCard({
       </div>
 
       {data.source === "bydel" && (
-        <p className="mt-3 text-xs text-text-tertiary">
+        <p className="mt-3 text-xs text-text-secondary">
           Bydelspris er estimert ved å justere kommunesnittet med en bydelsindeks basert på markedsrapporter. Faktiske priser kan avvike.
         </p>
       )}

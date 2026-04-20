@@ -72,7 +72,7 @@ export default function ClimateRiskCard({ lat, lon, onDataStatus, hideWhenEmpty 
         <p className="text-sm text-text-secondary">
           Ingen registrert klimarisiko for denne adressen, eller data er ikke tilgjengelig.
         </p>
-        <p className="mt-1 text-xs text-text-tertiary">Kilde: NVE</p>
+        <p className="mt-1 text-xs text-text-secondary">Kilde: NVE</p>
       </div>
     );
   }
@@ -132,7 +132,7 @@ export default function ClimateRiskCard({ lat, lon, onDataStatus, hideWhenEmpty 
           </div>
         ))}
       </div>
-      <p className="mt-3 text-xs text-text-tertiary">
+      <p className="mt-3 text-xs text-text-secondary">
         Kilde: NVE — Norges vassdrags- og energidirektorat
       </p>
     </TopographicHover>

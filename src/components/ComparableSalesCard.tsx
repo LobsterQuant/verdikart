@@ -97,7 +97,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
       <div className="mb-4 flex items-center gap-2">
         <BarChart2 className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Kommunalt prissnitt</h3>
-        <span className="ml-auto text-xs text-text-tertiary" title="SSB publiserer årsdata for boligomsetninger. Siste tilgjengelige data er alltid forrige kalenderår.">{data.period}</span>
+        <span className="ml-auto text-xs text-text-secondary" title="SSB publiserer årsdata for boligomsetninger. Siste tilgjengelige data er alltid forrige kalenderår.">{data.period}</span>
       </div>
 
       {/* Kommunesnitt hero */}
@@ -111,7 +111,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
           target="_blank"
           rel="noopener noreferrer"
           title="Kilde: SSB — Statistisk sentralbyrå"
-          className="inline-flex items-center gap-1 rounded-full border border-card-border bg-background px-2 py-0.5 text-[10px] font-medium text-text-tertiary transition-colors hover:border-accent/30 hover:text-accent"
+          className="inline-flex items-center gap-1 rounded-full border border-card-border bg-background px-2 py-0.5 text-[10px] font-medium text-text-secondary transition-colors hover:border-accent/30 hover:text-accent"
         >
           SSB
           <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
@@ -119,7 +119,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
           </svg>
         </a>
       </div>
-      <p className="mb-4 text-xs text-text-tertiary">
+      <p className="mb-4 text-xs text-text-secondary">
         Kommunegjennomsnitt for {data.kommuneName || `kommune ${kommunenummer}`}
         {data.totalTransactions
           ? ` · ${data.totalTransactions.toLocaleString("nb-NO")} transaksjoner`
@@ -130,7 +130,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
       {/* By housing type */}
       {data.byType.length > 0 && (
         <div className="space-y-3">
-          <p className="text-xs font-medium uppercase tracking-wider text-text-tertiary">
+          <p className="text-xs font-medium uppercase tracking-wider text-text-secondary">
             Fordeling per boligtype
           </p>
           {data.byType.map((row) => {
@@ -148,7 +148,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
                       {row.pricePerSqm.toLocaleString("nb-NO")} kr/m²
                     </span>
                     {row.transactions > 0 && (
-                      <span className="hidden text-xs text-text-tertiary sm:block tabular-nums whitespace-nowrap">
+                      <span className="hidden text-xs text-text-secondary sm:block tabular-nums whitespace-nowrap">
                         {row.transactions.toLocaleString("nb-NO")} salg
                       </span>
                     )}
@@ -167,7 +167,7 @@ export default function ComparableSalesCard({ kommunenummer }: { kommunenummer: 
         </div>
       )}
 
-      <p className="mt-4 text-xs text-text-tertiary">Kilde: SSB tabell 06035</p>
+      <p className="mt-4 text-xs text-text-secondary">Kilde: SSB tabell 06035</p>
     </TopographicHover>
   );
 }

@@ -153,7 +153,7 @@ export default function AmenitiesCard({ lat, lon }: { lat: number; lon: number }
         <div className="mt-3 space-y-3">
           {CATEGORY_ORDER.filter((cat) => grouped.has(cat)).map((cat) => (
             <div key={cat}>
-              <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-tertiary">
+              <h4 className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-secondary">
                 {cat}
               </h4>
               <div className="space-y-1">
@@ -163,7 +163,7 @@ export default function AmenitiesCard({ lat, lon }: { lat: number; lon: number }
                     className="flex items-center justify-between rounded bg-background px-3 py-1.5"
                   >
                     <span className="truncate text-sm">{a.name}</span>
-                    <span className="shrink-0 text-xs text-text-tertiary">
+                    <span className="shrink-0 text-xs text-text-secondary">
                       {a.distance} m
                     </span>
                   </div>
@@ -174,7 +174,7 @@ export default function AmenitiesCard({ lat, lon }: { lat: number; lon: number }
         </div>
       )}
 
-      <p className="mt-3 text-xs text-text-tertiary">
+      <p className="mt-3 text-xs text-text-secondary">
         Kilde: OpenStreetMap
       </p>
     </TopographicHover>

@@ -87,7 +87,7 @@ function BydelCrimeView({ data }: { data: OsloBydelCrime }) {
           <span className="text-2xl font-bold tabular-nums" style={{ color }}>
             {nb(data.rate)}
           </span>
-          <span className="text-[10px] text-text-tertiary">anmeldelser/1000</span>
+          <span className="text-[10px] text-text-secondary">anmeldelser/1000</span>
         </div>
         <div className="flex-1 text-sm text-text-secondary leading-relaxed">
           <strong className="text-foreground">{formatPct(Math.abs(Number(pctVsOslo)), 0)}</strong>{" "}
@@ -116,7 +116,7 @@ function BydelCrimeView({ data }: { data: OsloBydelCrime }) {
         </div>
       </div>
 
-      <p className="mt-4 text-xs text-text-tertiary">
+      <p className="mt-4 text-xs text-text-secondary">
         Statistikk fra Oslo kommune, {data.year}. Tallet gjelder bydelen, ikke enkeltadresser.
       </p>
     </TopographicHover>
@@ -138,7 +138,7 @@ function KommuneCrimeView({ kommunenummer, kommuneName }: { kommunenummer: strin
         <p className="text-sm text-text-secondary">
           Kriminalitetsdata er ikke tilgjengelig for denne kommunen. Vi dekker ca. 175 kommuner som representerer de fleste norske byer og tettsteder.
         </p>
-        <p className="mt-1 text-xs text-text-tertiary">
+        <p className="mt-1 text-xs text-text-secondary">
           Kilde: SSB — Kriminalstatistikk 2023. Bydels- og nabolagsnivå er ikke tilgjengelig.
         </p>
       </div>
@@ -193,7 +193,7 @@ function KommuneCrimeView({ kommunenummer, kommuneName }: { kommunenummer: strin
           <span className="text-2xl font-bold tabular-nums" style={{ color }}>
             {nb(data.rate)}
           </span>
-          <span className="text-[10px] text-text-tertiary">anmeldelser/1000</span>
+          <span className="text-[10px] text-text-secondary">anmeldelser/1000</span>
         </div>
         <div className="flex-1 text-sm text-text-secondary leading-relaxed">
           <strong className="text-foreground">{formatPct(Math.abs(Number(pctVsNational)), 0)}</strong>{" "}
@@ -222,7 +222,7 @@ function KommuneCrimeView({ kommunenummer, kommuneName }: { kommunenummer: strin
         </div>
       </div>
 
-      <p className="mt-4 text-xs text-text-tertiary">
+      <p className="mt-4 text-xs text-text-secondary">
         Statistikk fra SSB, {data.year}. Dette er kommunesnittet. Tallene varierer mellom områder — f.eks. er sentrum ofte høyere, villaområder lavere.
       </p>
     </TopographicHover>

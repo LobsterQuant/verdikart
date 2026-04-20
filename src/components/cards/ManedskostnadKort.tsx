@@ -318,7 +318,7 @@ export default function ManedskostnadKort({
               >
                 BRA (m²)
               </label>
-              <p className="mt-1 text-xs text-text-tertiary">
+              <p className="mt-1 text-xs text-text-secondary">
                 Boligens areal er ikke tilgjengelig. Fyll inn for å få estimat.
               </p>
               <div className="mt-3 flex items-center gap-2">
@@ -355,7 +355,7 @@ export default function ManedskostnadKort({
                 </p>
               )}
               {sqmPrice && (
-                <p className="mt-3 text-xs text-text-tertiary">
+                <p className="mt-3 text-xs text-text-secondary">
                   Snitt m²-pris i området: {sqmPrice.toLocaleString("nb-NO")} kr/m²
                 </p>
               )}
@@ -368,7 +368,7 @@ export default function ManedskostnadKort({
               >
                 Kjøpspris
               </label>
-              <p className="mt-1 text-xs text-text-tertiary">
+              <p className="mt-1 text-xs text-text-secondary">
                 {bruksareal
                   ? "Prissnitt for området er ikke tilgjengelig. Fyll inn kjøpspris direkte."
                   : "Fyll inn kjøpspris for å få estimat."}
@@ -412,7 +412,7 @@ export default function ManedskostnadKort({
       ) : result && purchasePrice != null ? (
         <>
           {cameFromManualInput && (
-            <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-card-border bg-background/40 px-3 py-2 text-xs text-text-tertiary">
+            <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-card-border bg-background/40 px-3 py-2 text-xs text-text-secondary">
               <span>{purchaseHelper}</span>
               <button
                 type="button"
@@ -477,7 +477,7 @@ export default function ManedskostnadKort({
           <div className="rounded-xl border border-accent/30 p-4 sm:p-5" style={{
             background: "linear-gradient(135deg, rgb(var(--accent-rgb) / 0.08) 0%, rgb(var(--accent-rgb) / 0.02) 100%)",
           }}>
-            <p className="text-xs font-semibold uppercase tracking-widest text-text-tertiary">
+            <p className="text-xs font-semibold uppercase tracking-widest text-text-secondary">
               Total månedskostnad
             </p>
             <div className="mt-1 text-4xl font-bold tracking-tight tabular-nums sm:text-5xl" style={{
@@ -520,7 +520,7 @@ export default function ManedskostnadKort({
             </p>
           </div>
 
-          <p className="mt-4 text-xs leading-relaxed text-text-tertiary">
+          <p className="mt-4 text-xs leading-relaxed text-text-secondary">
             Indikativ rente per {new Date(INDICATIVE_RATE.lastUpdated).toLocaleDateString("nb-NO", { day: "numeric", month: "long", year: "numeric" })}. Din faktiske rente avhenger av bank og belåningsgrad. Tall inkluderer ikke forsikring eller strøm. Stresstest per boliglånsforskriften § 5.
           </p>
         </>

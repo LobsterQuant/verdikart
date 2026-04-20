@@ -78,7 +78,7 @@ const cities: Record<string, CityData> = {
     marketText: "Midtbyen og Nedre Elvehavn er de dyreste delene. Heimdal og Saupstad tilbyr romslige boliger til rimeligere priser. Markedet er preget av sterk etterspørsel fra unge og studenter.",
     transitText: "Trondheim har metrobuss og Gråkallbanen, Norges eneste trikkelinje utenfor Oslo. Metrobussen dekker alle bydeler med høy frekvens. Sykkel er svært utbredt.",
     uniqueNote: "Trondheims boligmarked er sterkt påvirket av NTNU og studentmassen. Rundt 40 000 studenter skaper en vedvarende etterspørsel etter leiligheter i Midtbyen, Nedre Elvehavn og Moholt. Denne etterspørselen gjør at markedet er mer motstandsdyktig mot rentehevinger enn andre byer, men det betyr også at leiligheter under 60 m² nær campus prises uforholdsmessig høyt per kvadratmeter.",
-    relatedCities: ["oslo", "bodoe", "arendal"],
+    relatedCities: ["oslo", "bodo", "arendal"],
     faq: [
       { q: "Hva koster en bolig i Trondheim i 2026?", a: "Gjennomsnittlig kvadratmeterpris er 54 100 kr. Medianpris ca. 3,2 mill. Høyest i Midtbyen, lavest i Saupstad." },
       { q: "Hvor er det billigst å kjøpe bolig i Trondheim?", a: "Saupstad, Heimdal og Flatåsen, med kvadratmeterpriser mellom 40 000 og 48 000 kr." },
@@ -225,7 +225,7 @@ const cities: Record<string, CityData> = {
     marketText: "Tromsøya er øya der mesteparten av sentrum ligger, og de høyeste prisene finnes her. Tromsdalen på fastlandet er mer rimelig. Kvaløysletta er populær for barnefamilier med mer plass.",
     transitText: "Tromsø har bybuss som hovednett. Ingen T-bane eller bybane. Fly er primærtransport til resten av landet. Tromsø lufthavn er blant Norges travleste.",
     uniqueNote: "Tromsø er en øykommune. Tromsøya har begrenset areal og kan ikke ekspandere sidelengs som fastlandsbyer. Det betyr at nybygg nesten alltid er høyhus eller fortetting, og at tomteknapphet holder prisene stabile selv i nedgangstider. Kilen-broen og Sandnessundbroen kobler øya til fastlandet, men rushtrafikk kan gi 20–30 minutters forsinkelse i begge retninger.",
-    relatedCities: ["bodoe", "trondheim", "hamar"],
+    relatedCities: ["bodo", "trondheim", "hamar"],
     faq: [
       { q: "Hva koster en bolig i Tromsø i 2026?", a: "Gjennomsnittlig kvadratmeterpris er 52 300 kr. Medianpris ca. 3,1 mill." },
       { q: "Er Tromsø dyrt å bo i?", a: "Boligprisene er moderate sammenlignet med Oslo og Bergen, men levekostnadene er noe høyere enn landssnittet pga. nordlig beliggenhet." },
@@ -276,8 +276,8 @@ const cities: Record<string, CityData> = {
     ],
   },
 
-  bodoe: {
-    slug: "bodoe", name: "Bodø", county: "Nordland", kommunenummer: "1804", population: "55 000",
+  bodo: {
+    slug: "bodo", name: "Bodø", county: "Nordland", kommunenummer: "1804", population: "55 000",
     avgSqmPrice: 41_200, avgSqmPriceYoY: 6.5, medianPrice: 2_700_000, avgCommute: 14,
     topNeighbourhoods: ["Sentrum", "Rønvikfjæra", "Mørkved", "Hunstad", "Tverlandet"],
     metaTitle: "Boligpriser i Bodø 2026 – Kjøpe bolig i Bodø | Verdikart",

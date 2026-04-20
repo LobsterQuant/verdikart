@@ -7,11 +7,11 @@ import AddressSearch from "@/components/AddressSearch";
 export const metadata: Metadata = {
   title: "Kjøpe bolig 2026 – Alt du trenger å vite | Verdikart",
   description: "Guide til å kjøpe bolig i 2026. Prisestimater, boliglån, nabolagsdata og nøkkeltall for alle norske byer. Gratis analyse på Verdikart.",
-  alternates: { canonical: "https://verdikart.no/finn-bolig" },
+  alternates: { canonical: "https://verdikart.no/kjope-bolig" },
   openGraph: {
     title: "Kjøpe bolig 2026 – Alt du trenger å vite | Verdikart",
     description: "Guide til å kjøpe bolig i 2026. Prisestimater, boliglån, nabolagsdata og nøkkeltall for alle norske byer. Gratis analyse på Verdikart.",
-    url: "https://verdikart.no/finn-bolig",
+    url: "https://verdikart.no/kjope-bolig",
     siteName: "Verdikart",
     locale: "nb_NO",
     type: "website",
@@ -62,7 +62,7 @@ export default function FinnBoligPage() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Hjem", item: "https://verdikart.no" },
-      { "@type": "ListItem", position: 2, name: "Kjøpe bolig", item: "https://verdikart.no/finn-bolig" },
+      { "@type": "ListItem", position: 2, name: "Kjøpe bolig", item: "https://verdikart.no/kjope-bolig" },
     ],
   };
 

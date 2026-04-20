@@ -65,7 +65,7 @@ export default function BoliglaanskalkPage() {
           <div className="mt-8 flex flex-wrap gap-3 text-sm text-text-secondary">
             <Link href="/kalkulator" className="text-accent hover:underline">Se også vår fullstendige kalkulator</Link>
             <span className="text-text-tertiary">·</span>
-            <Link href="/finn-bolig" className="text-accent hover:underline">Guide til boligkjøp 2026</Link>
+            <Link href="/kjope-bolig" className="text-accent hover:underline">Guide til boligkjøp 2026</Link>
           </div>
         </div>
       </div>

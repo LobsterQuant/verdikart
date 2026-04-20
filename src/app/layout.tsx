@@ -53,8 +53,8 @@ export const metadata: Metadata = {
     // so Google treats nb-NO as the default Norwegian locale. Expand this map
     // when en/sv variants launch.
     languages: {
-      "nb-NO": "https://verdikart.no",
-      "x-default": "https://verdikart.no",
+      "nb-NO": "https://verdikart.no/",
+      "x-default": "https://verdikart.no/",
     },
   },
   openGraph: {
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     siteName: "Verdikart",
     title: "Verdikart: Eiendomsinnsikt fra offentlige norske datakilder",
     description: "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå for enhver adresse.",
-    url: "https://verdikart.no",
+    url: "https://verdikart.no/",
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Verdikart: Eiendomsinnsikt fra offentlige norske datakilder" }],
   },
   twitter: {

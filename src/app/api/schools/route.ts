@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { haversineM } from "@/lib/geo";
 import { cachedFetch, TTL } from "@/lib/cache";
+import { displayNameForNsrId } from "@/lib/school-name-overrides";
 
 export interface School {
   name: string;
@@ -107,7 +108,7 @@ async function fetchSchoolsFromNsr(lat: number, lon: number, kommunenr: string):
     const url = d?.Url ? (d.Url.startsWith("http") ? d.Url : `https://${d.Url}`) : null;
 
     return {
-      name: d?.Navn ?? s.Navn,
+      name: displayNameForNsrId(s.NSRId, d?.Navn ?? s.Navn),
       lat: s.Breddegrad,
       lon: s.Lengdegrad,
       type: "Skole",
@@ -232,7 +233,9 @@ export async function GET(request: NextRequest) {
   let kommunenr = knr.replace(/^0+/, "").padStart(4, "0");
   if (!kommunenr || kommunenr === "0000") kommunenr = "";
 
-  const key = `vk:schools:${lat.toFixed(4)}-${lon.toFixed(4)}-${kommunenr}`;
+  // v2: bumped when school-name-overrides was introduced to invalidate cached
+  // entries that still held the NSR-mangled display names (audit ME-7).
+  const key = `vk:schools:v2:${lat.toFixed(4)}-${lon.toFixed(4)}-${kommunenr}`;
   const result = await cachedFetch(key, TTL.TWELVE_HOURS, () => fetchAllSchools(lat, lon, kommunenr));
   return NextResponse.json(result);
 }

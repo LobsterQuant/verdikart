@@ -14,6 +14,7 @@ import {
   INDICATIVE_RATE,
 } from "@/lib/finance/constants";
 import { formatPct } from "@/lib/format";
+import { isResidentialCategory } from "@/lib/enova/category";
 
 interface ManedskostnadKortProps {
   kommunenummer: string;
@@ -111,6 +112,7 @@ export default function ManedskostnadKort({
   const [sqmPrice, setSqmPrice] = useState<number | null>(null);
   const [bruksareal, setBruksareal] = useState<number | null>(null);
   const [boligtype, setBoligtype] = useState<string>("default");
+  const [bygningskategori, setBygningskategori] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const [purchasePrice, setPurchasePrice] = useState<number | null>(null);
@@ -152,6 +154,7 @@ export default function ManedskostnadKort({
             setBruksareal(energiData.bruksareal);
           }
           setBoligtype(boligtypeFromKategori(energiData.bygningskategori));
+          setBygningskategori(energiData.bygningskategori ?? null);
         }
       } catch {
         // Card degrades gracefully — user falls through to manual input.
@@ -268,6 +271,12 @@ export default function ManedskostnadKort({
       e.preventDefault();
       submit();
     }
+  }
+
+  // Guard: hide the whole card for næringsbygg (Kontorbygg, Skole, Sykehus, etc.).
+  // Unknown kategori (no Enova data) falls through to residential and stays visible.
+  if (!loading && bygningskategori && !isResidentialCategory(bygningskategori)) {
+    return null;
   }
 
   const needsBraInput = !loading && !bruksareal && !!sqmPrice;

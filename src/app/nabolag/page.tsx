@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { areas } from "./[area]/areaData";
-import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Nabolag: områdedata og boligpriser | Verdikart",
@@ -80,7 +79,6 @@ export default function NeighborhoodsIndexPage() {
           </section>
         ))}
       </div>
-      <SiteFooter />
     </div>
   );
 }

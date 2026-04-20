@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPin, TrendingUp } from "lucide-react";
 import { cities } from "./[city]/cityData";
-import SiteFooter from "@/components/SiteFooter";
 import { formatPct } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -69,7 +68,6 @@ export default function CitiesIndexPage() {
           })}
         </div>
       </div>
-      <SiteFooter />
     </div>
   );
 }

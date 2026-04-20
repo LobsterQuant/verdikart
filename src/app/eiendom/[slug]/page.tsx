@@ -12,7 +12,6 @@ import PriceTrendCard from "@/components/PriceTrendCard";
 import ComparableSalesCard from "@/components/ComparableSalesCard";
 import PropertyMap from "@/components/PropertyMap";
 import EmailCapture from "@/components/EmailCapture";
-import SiteFooter from "@/components/SiteFooter";
 import JsonLd from "@/components/JsonLd";
 import AddressSearch from "@/components/AddressSearch";
 import CardsCascade from "@/components/CardsCascade";
@@ -551,9 +550,6 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
             </div>
           )}
         </div>
-
-        {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-        <SiteFooter />
       </div>
     </>
   );

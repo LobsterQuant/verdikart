@@ -223,6 +223,11 @@ out center 8;
   return { schools: schools.slice(0, 10) };
 }
 
+// Callers may append `?v=N` to bust outer Next.js fetch-cache entries
+// (see propertyReportSummary.ts). It is ignored by this handler — only here
+// to differentiate the request URL at the fetch-cache layer. Bump the value
+// at the call site whenever the response shape or display-name overrides
+// change in a way that should evict outer caches.
 export async function GET(request: NextRequest) {
   const lat = parseFloat(request.nextUrl.searchParams.get("lat") ?? "");
   const lon = parseFloat(request.nextUrl.searchParams.get("lon") ?? "");
@@ -234,7 +239,9 @@ export async function GET(request: NextRequest) {
   if (!kommunenr || kommunenr === "0000") kommunenr = "";
 
   // v2: bumped when school-name-overrides was introduced to invalidate cached
-  // entries that still held the NSR-mangled display names (audit ME-7).
+  // entries that still held the NSR-mangled display names (audit ME-7). This
+  // is the *internal* cache key; outer Next.js fetch-cache keys on the request
+  // URL and must be invalidated separately (see callers' `v` query param).
   const key = `vk:schools:v2:${lat.toFixed(4)}-${lon.toFixed(4)}-${kommunenr}`;
   const result = await cachedFetch(key, TTL.TWELVE_HOURS, () => fetchAllSchools(lat, lon, kommunenr));
   return NextResponse.json(result);

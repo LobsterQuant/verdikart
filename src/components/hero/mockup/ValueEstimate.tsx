@@ -38,7 +38,9 @@ export function ValueEstimate({
         >
           {formattedPrice}
         </span>
-        <span className="ml-1 text-sm text-text-muted">kr/m²</span>
+        {/* Leading space so the unit reads "97 979 kr/m²" when copied — the
+            ml-1 class only affects visual spacing, not clipboard text. */}
+        <span className="ml-1 text-sm text-text-muted">{" kr/m²"}</span>
       </div>
       {yoyChange != null && (
         <p

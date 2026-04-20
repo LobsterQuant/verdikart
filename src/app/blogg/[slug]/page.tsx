@@ -75,12 +75,16 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     author: {
       "@type": "Person",
       name: "Michael Hansen",
-      url: "https://verdikart.no/om-oss",
+      url: "https://www.linkedin.com/in/michael-h-7723993bb/",
     },
     publisher: {
       "@type": "Organization",
       name: "Verdikart",
       url: "https://verdikart.no",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://verdikart.no/icon-512.png",
+      },
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
   };

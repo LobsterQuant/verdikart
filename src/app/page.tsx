@@ -319,11 +319,38 @@ const softwareAppSchema = {
   inLanguage: "nb-NO",
 };
 
+// Audit M2: Organization schema for the publishing entity. /om-oss has a
+// similar block scoped to that page; this homepage copy gives the site root
+// its own entity with logo + sameAs so Google can wire up Knowledge Panel
+// signals against the canonical URL.
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Verdikart",
+  url: "https://verdikart.no",
+  logo: "https://verdikart.no/icon-512.png",
+  founder: {
+    "@type": "Person",
+    name: "Michael Hansen",
+  },
+  sameAs: [
+    "https://www.linkedin.com/in/michael-h-7723993bb/",
+    "https://x.com/Verdikart",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "kontakt@verdikart.no",
+    contactType: "customer service",
+    availableLanguage: ["Norwegian"],
+  },
+};
+
 export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <JsonLd schema={websiteSchema} />
       <JsonLd schema={softwareAppSchema} />
+      <JsonLd schema={organizationSchema} />
       {/* Hero */}
       <section
         className="hero-noise hero-orbs relative isolate flex flex-col items-center px-4 pb-16 pt-20 text-center sm:px-6 sm:pt-24 overflow-hidden"

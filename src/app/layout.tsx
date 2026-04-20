@@ -45,6 +45,13 @@ export const metadata: Metadata = {
   keywords: "bolig, eiendom, kollektivtransport, prisutvikling, Norge",
   alternates: {
     canonical: "https://verdikart.no",
+    // Scaffolding for future i18n (audit M1). Self-referential nb-NO + x-default
+    // so Google treats nb-NO as the default Norwegian locale. Expand this map
+    // when en/sv variants launch.
+    languages: {
+      "nb-NO": "https://verdikart.no",
+      "x-default": "https://verdikart.no",
+    },
   },
   robots: {
     index: true,

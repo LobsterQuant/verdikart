@@ -298,7 +298,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
     { key: "bredband",       label: "Bredbånd",             icon: <BredbandIcon className={iconCls} />,       detail: <BroadbandCard lat={latNum} lon={lonNum} /> },
     { key: "energi",         label: "Energimerke",          icon: <EnergiIcon className={iconCls} />,         detail: <PropertyEnergimerke postnummer={postnummer} adresse={displayAddress} /> },
     { key: "eiendomsskatt",  label: "Eiendomsskatt",        icon: <EiendomsskattIcon className={iconCls} />,  detail: <EiendomsskattCard kommunenummer={kommunenummer} /> },
-    { key: "kriminalitet",   label: "Kriminalitet",         icon: <KriminalitetIcon className={iconCls} />,   detail: <CrimeCard kommunenummer={kommunenummer} postnummer={postnummer} kommuneName={kommuneName} /> },
+    { key: "kriminalitet",   label: "Kriminalitet",         icon: <KriminalitetIcon className={iconCls} />,   detail: <CrimeCard kommunenummer={kommunenummer} postnummer={postnummer} kommuneName={kommuneName} lat={latNum} lon={lonNum} /> },
     { key: "demografi",      label: "Demografi",            icon: <DemografiIcon className={iconCls} />,      detail: <DemographicsCard kommunenummer={kommunenummer} /> },
   ];
 
@@ -472,7 +472,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
 
               {/* Risk + coverage cluster — consolidated "Mer data kommer" when all four empty */}
               <SidebarDataCluster lat={latNum} lon={lonNum} />
-              <CardErrorBoundary fallbackTitle="Kriminalitet feilet"><CrimeCard kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} kommuneName={kommuneName} /></CardErrorBoundary>
+              <CardErrorBoundary fallbackTitle="Kriminalitet feilet"><CrimeCard kommunenummer={kommunenummer} postnummer={searchParams.pnr ?? ""} kommuneName={kommuneName} lat={latNum} lon={lonNum} /></CardErrorBoundary>
               <CardErrorBoundary fallbackTitle="Miljørisiko feilet"><EnvironmentalRiskCard kommunenummer={kommunenummer} /></CardErrorBoundary>
 
               {/* Neighborhood facts */}

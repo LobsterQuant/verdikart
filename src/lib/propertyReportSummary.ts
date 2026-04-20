@@ -286,10 +286,16 @@ function previewEiendomsskatt(kommunenummer: string): string {
   return "Eiendomsskatt gjelder";
 }
 
-function previewCrime(kommunenummer: string, postnummer: string): string {
-  // Oslo: bydel-preview hvis postnummer er kjent
+function previewCrime(
+  kommunenummer: string,
+  postnummer: string,
+  lat: number,
+  lon: number,
+): string {
+  // Oslo: bydel-preview fra postnummer (fast path) eller koordinater
+  // (fallback når URL-en ikke bærer ?pnr=).
   if (kommunenummer === "0301") {
-    const b = getOsloBydelCrime(postnummer);
+    const b = getOsloBydelCrime({ postnummer, lat, lon, kommunenummer });
     if (b) {
       const diff = Math.round(((b.rate - OSLO_KOMMUNE_AVG) / OSLO_KOMMUNE_AVG) * 100);
       const rel = diff === 0 ? "på Oslo-snittet" : diff > 0 ? `${diff}% over Oslo-snittet` : `${Math.abs(diff)}% under Oslo-snittet`;
@@ -354,7 +360,7 @@ export async function getPropertyReportSummary(
     bredband: previewBroadband(broadband),
     energi: previewEnergi(energi),
     eiendomsskatt: previewEiendomsskatt(kommunenummer),
-    kriminalitet: previewCrime(kommunenummer, postnummer),
+    kriminalitet: previewCrime(kommunenummer, postnummer, lat, lon),
     demografi: previewDemografi(kommunenummer),
   };
 

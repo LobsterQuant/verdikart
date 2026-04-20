@@ -5,7 +5,7 @@ import { posts } from "./posts";
 import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Blogg — Boligkjøp og eiendomsdata i Norge | Verdikart",
+  title: "Blogg: Boligkjøp og eiendomsdata i Norge | Verdikart",
   description:
     "Artikler om boligkjøp i Norge: sjekklister, prisutvikling, kollektivtransport og hvordan du leser eiendomsdata. Gratis og uavhengig.",
   alternates: { canonical: "https://verdikart.no/blogg" },
@@ -56,7 +56,7 @@ export default function BlogIndex() {
             </div>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Blogg</h1>
             <p className="mt-3 text-text-secondary">
-              Artikler om boligkjøp, eiendomsdata og boligmarkedet i Norge — uavhengig, gratis.
+              Artikler om boligkjøp, eiendomsdata og boligmarkedet i Norge: uavhengig, gratis.
             </p>
           </div>
 

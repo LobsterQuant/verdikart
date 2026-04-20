@@ -174,7 +174,7 @@ export default function MonthlyCostCalculator() {
           <div className="flex items-start gap-2 rounded-lg border border-amber-500/25 bg-amber-500/5 p-3 text-xs text-amber-300">
             <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
             <p>
-              Egenkapital er {nb(results.equityPct)} % — under bankenes minstekrav på 15 %.
+              Egenkapital er {nb(results.equityPct)} %: under bankenes minstekrav på 15 %.
               Tallet beregnes likevel, men du må forvente avslag eller særskilt godkjenning.
             </p>
           </div>
@@ -239,7 +239,7 @@ export default function MonthlyCostCalculator() {
             {fmt(results.stressMonthly)} kr
           </p>
           <p className="mt-0.5 text-[10px] text-text-tertiary">
-            ved {nb(rate + 3)} % — tåler du dette?
+            ved {nb(rate + 3)} %: tåler du dette?
           </p>
         </div>
 

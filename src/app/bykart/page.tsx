@@ -3,11 +3,11 @@ import JsonLd from "@/components/JsonLd";
 import CityOverviewMap from "@/components/CityOverviewMap";
 
 export const metadata: Metadata = {
-  title: "Bykart — Boligpriser i norske byer | Verdikart",
+  title: "Bykart: Boligpriser i norske byer | Verdikart",
   description: "Interaktivt kart over norske byers boligprisnivå. Klikk på en by for å se kvadratmeterpris, prisvekst og gå til full byrapport.",
   alternates: { canonical: "https://verdikart.no/bykart" },
   openGraph: {
-    title: "Bykart — Boligpriser i norske byer",
+    title: "Bykart: Boligpriser i norske byer",
     description: "Sammenlign boligprisnivå på tvers av norske byer på ett interaktivt kart.",
     url: "https://verdikart.no/bykart",
     siteName: "Verdikart",
@@ -20,7 +20,7 @@ export default function BykartPage() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Bykart — Boligpriser i norske byer",
+    name: "Bykart: Boligpriser i norske byer",
     description: metadata.description,
     url: "https://verdikart.no/bykart",
     breadcrumb: {

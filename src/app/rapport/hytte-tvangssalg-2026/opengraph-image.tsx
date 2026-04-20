@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Hytte-tvangssalgene nær doblet — +82% fra 2023 til 2025";
+export const alt = "Hytte-tvangssalgene nær doblet: +82% fra 2023 til 2025";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

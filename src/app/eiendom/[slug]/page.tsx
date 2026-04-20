@@ -93,7 +93,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
         .trim();
     }
   }
-  const title = `${address} — Verdikart`;
+  const title = `${address}: Verdikart`;
   const description = `Kollektivtransport, prisutvikling og markedsdata for ${address}. Få full eiendomsinnsikt på Verdikart.`;
   // Canonical strips query params — the slug alone is the stable URL
   const canonicalUrl = `https://verdikart.no/eiendom/${params.slug}`;
@@ -117,7 +117,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
           url: `https://verdikart.no/eiendom/${params.slug}/opengraph-image`,
           width: 1200,
           height: 630,
-          alt: `Eiendomsdata for ${address} — Verdikart`,
+          alt: `Eiendomsdata for ${address}: Verdikart`,
         },
       ],
     },
@@ -128,7 +128,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
       images: [
         {
           url: `https://verdikart.no/eiendom/${params.slug}/opengraph-image`,
-          alt: `Eiendomsdata for ${address} — Verdikart`,
+          alt: `Eiendomsdata for ${address}: Verdikart`,
         },
       ],
     },

@@ -66,7 +66,7 @@ export default function RapportKort({
       <p className="mt-1 text-xs leading-relaxed text-text-secondary">
         {fritid
           ? "Fritidseiendommer på tvangssalg steg 82 prosent fra 2023 til 2025. Les Verdikarts analyse av SSB-tallene."
-          : "Tvangssalg av fritidseiendommer opp 82 prosent fra 2023 til 2025 — Verdikarts analyse av ferske SSB-tall."}
+          : "Tvangssalg av fritidseiendommer opp 82 prosent fra 2023 til 2025: Verdikarts analyse av ferske SSB-tall."}
       </p>
       <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-accent transition-transform group-hover:translate-x-0.5">
         Les rapporten →

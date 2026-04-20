@@ -62,7 +62,7 @@ function BydelCrimeView({ data }: { data: OsloBydelCrime }) {
     <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <Shield className="h-4 w-4 text-accent" strokeWidth={1.5} />
-        <h3 className="text-lg font-semibold">Kriminalitet — Bydel {data.bydel}</h3>
+        <h3 className="text-lg font-semibold">Kriminalitet: Bydel {data.bydel}</h3>
         <DataAgeChip source="Oslo kommune" date={`${data.year}`} className="ml-auto" />
       </div>
 
@@ -139,7 +139,7 @@ function KommuneCrimeView({ kommunenummer, kommuneName }: { kommunenummer: strin
           Kriminalitetsdata er ikke tilgjengelig for denne kommunen. Vi dekker ca. 175 kommuner som representerer de fleste norske byer og tettsteder.
         </p>
         <p className="mt-1 text-xs text-text-secondary">
-          Kilde: SSB — Kriminalstatistikk 2023. Bydels- og nabolagsnivå er ikke tilgjengelig.
+          Kilde: SSB: Kriminalstatistikk 2023. Bydels- og nabolagsnivå er ikke tilgjengelig.
         </p>
       </div>
     );
@@ -153,8 +153,8 @@ function KommuneCrimeView({ kommunenummer, kommuneName }: { kommunenummer: strin
   const nationalBarWidth = Math.min(100, (NATIONAL_AVG / 150) * 100);
 
   const heading = kommuneName
-    ? `Kriminalitet — ${kommuneName} kommune`
-    : "Kriminalitet — kommunenivå";
+    ? `Kriminalitet: ${kommuneName} kommune`
+    : "Kriminalitet: kommunenivå";
 
   return (
     <TopographicHover className="rounded-xl border border-card-border bg-card-bg p-4 sm:p-6">
@@ -175,7 +175,7 @@ function KommuneCrimeView({ kommunenummer, kommuneName }: { kommunenummer: strin
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" strokeWidth={1.75} aria-hidden />
         )}
         <p className={`text-xs leading-relaxed ${isUrbanContext ? "text-blue-300" : "text-amber-800 dark:text-amber-200"}`}>
-          Dette er kommunesnittet. Tallene varierer mellom områder — f.eks. er sentrum ofte høyere, villaområder lavere.
+          Dette er kommunesnittet. Tallene varierer mellom områder: f.eks. er sentrum ofte høyere, villaområder lavere.
         </p>
       </div>
 
@@ -223,7 +223,7 @@ function KommuneCrimeView({ kommunenummer, kommuneName }: { kommunenummer: strin
       </div>
 
       <p className="mt-4 text-xs text-text-secondary">
-        Statistikk fra SSB, {data.year}. Dette er kommunesnittet. Tallene varierer mellom områder — f.eks. er sentrum ofte høyere, villaområder lavere.
+        Statistikk fra SSB, {data.year}. Dette er kommunesnittet. Tallene varierer mellom områder: f.eks. er sentrum ofte høyere, villaområder lavere.
       </p>
     </TopographicHover>
   );

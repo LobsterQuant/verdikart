@@ -3,11 +3,11 @@ import { Mail, ExternalLink, Download } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Presse og media | Verdikart",
-  description: "Presseinfo om Verdikart — fakta om produktet, sitater, kontaktinfo for journalister og media.",
+  description: "Presseinfo om Verdikart: fakta om produktet, sitater, kontaktinfo for journalister og media.",
   alternates: { canonical: "https://verdikart.no/presse" },
   openGraph: {
-    title: "Presse og media — Verdikart",
-    description: "Presseinfo om Verdikart — fakta, sitater og kontaktinfo for journalister.",
+    title: "Presse og media: Verdikart",
+    description: "Presseinfo om Verdikart: fakta, sitater og kontaktinfo for journalister.",
     url: "https://verdikart.no/presse",
     siteName: "Verdikart",
     locale: "nb_NO",
@@ -16,20 +16,20 @@ export const metadata: Metadata = {
 };
 
 const facts = [
-  { label: "Produkt", value: "Verdikart — norsk eiendomsintelligens" },
+  { label: "Produkt", value: "Verdikart: norsk eiendomsintelligens" },
   { label: "Lansert", value: "Mars 2026" },
   { label: "Grunnlegger", value: "Michael Hansen, Oslo" },
   { label: "Teknologi", value: "Next.js 14, Vercel, SSB API, Entur API, Kartverket" },
   { label: "Datakilder", value: "SSB, Kartverket, Entur (alle offentlige, åpne data)" },
-  { label: "Pris", value: "Gratis for brukere — ingen registrering" },
-  { label: "Dekningsområde", value: "Hele Norge — alle kommuner" },
+  { label: "Pris", value: "Gratis for brukere: ingen registrering" },
+  { label: "Dekningsområde", value: "Hele Norge: alle kommuner" },
   { label: "Nettsted", value: "verdikart.no" },
 ];
 
 const faqs = [
   {
     q: "Hva er Verdikart?",
-    a: "Verdikart er et gratis norsk verktøy for boligkjøpere. Brukere søker på en adresse og får umiddelbart informasjon om kollektivtransport, boligprisutvikling og sammenlignbare salgspriser — alt hentet fra offentlige datakilder i sanntid.",
+    a: "Verdikart er et gratis norsk verktøy for boligkjøpere. Brukere søker på en adresse og får umiddelbart informasjon om kollektivtransport, boligprisutvikling og sammenlignbare salgspriser: alt hentet fra offentlige datakilder i sanntid.",
   },
   {
     q: "Hvem bruker Verdikart?",
@@ -74,9 +74,9 @@ export default function PressePage() {
         {/* Quote */}
         <section className="mb-10 rounded-xl border border-accent/20 bg-accent/5 p-6">
           <blockquote className="text-base leading-relaxed text-foreground">
-            &ldquo;Boligkjøp er den største finansielle beslutningen de fleste nordmenn tar — og allikevel er tilgangen til relevant data fragmentert, utdatert eller gjemt bak betalingsmurer. Verdikart ble laget for å endre det.&rdquo;
+            &ldquo;Boligkjøp er den største finansielle beslutningen de fleste nordmenn tar, og allikevel er tilgangen til relevant data fragmentert, utdatert eller gjemt bak betalingsmurer. Verdikart ble laget for å endre det.&rdquo;
           </blockquote>
-          <p className="mt-3 text-sm text-text-secondary">— Michael Hansen, grunnlegger av Verdikart</p>
+          <p className="mt-3 text-sm text-text-secondary">Michael Hansen, grunnlegger av Verdikart</p>
         </section>
 
         {/* FAQ for press */}
@@ -103,7 +103,7 @@ export default function PressePage() {
               <div className="flex h-20 w-full items-center justify-center rounded-lg bg-[#0f1117]">
                 <span className="text-xl font-bold text-white tracking-tight">Verdikart</span>
               </div>
-              <p className="text-xs text-text-tertiary">Logo — mørk bakgrunn</p>
+              <p className="text-xs text-text-tertiary">Logo: mørk bakgrunn</p>
               <div className="flex gap-2">
                 <a href="/assets/press/verdikart-logo-white.svg" download className="flex items-center gap-1 rounded-lg border border-card-border px-3 py-1.5 text-xs text-accent hover:border-accent/40">
                   <Download className="h-3 w-3" strokeWidth={1.5} />SVG
@@ -117,7 +117,7 @@ export default function PressePage() {
               <div className="flex h-20 w-full items-center justify-center rounded-lg bg-white">
                 <span className="text-xl font-bold text-[#0f1117] tracking-tight">Verdikart</span>
               </div>
-              <p className="text-xs text-text-tertiary">Logo — lys bakgrunn</p>
+              <p className="text-xs text-text-tertiary">Logo: lys bakgrunn</p>
               <div className="flex gap-2">
                 <a href="/assets/press/verdikart-logo-dark.svg" download className="flex items-center gap-1 rounded-lg border border-card-border px-3 py-1.5 text-xs text-accent hover:border-accent/40">
                   <Download className="h-3 w-3" strokeWidth={1.5} />SVG
@@ -137,7 +137,7 @@ export default function PressePage() {
         <section className="mb-10 rounded-xl border border-card-border bg-card-bg p-5">
           <h2 className="mb-2 font-semibold">Om Verdikart</h2>
           <p className="text-sm leading-relaxed text-text-secondary">
-            Verdikart er et gratis norsk verktøy som gir boligkjøpere tilgang til eiendomsdata fra offentlige kilder som SSB, Kartverket og Entur — samlet på ett sted. Tjenesten ble lansert i mars 2026 og dekker hele Norge. Brukere søker på en adresse og får umiddelbart innsikt i kollektivtransport, boligprisutvikling, støynivå og nabolagsstatistikk, uten registrering eller betaling.
+            Verdikart er et gratis norsk verktøy som gir boligkjøpere tilgang til eiendomsdata fra offentlige kilder som SSB, Kartverket og Entur: samlet på ett sted. Tjenesten ble lansert i mars 2026 og dekker hele Norge. Brukere søker på en adresse og får umiddelbart innsikt i kollektivtransport, boligprisutvikling, støynivå og nabolagsstatistikk, uten registrering eller betaling.
           </p>
         </section>
 
@@ -147,7 +147,7 @@ export default function PressePage() {
           <div className="space-y-2">
             {[
               { label: "verdikart.no", href: "https://verdikart.no", icon: ExternalLink },
-              { label: "Verdikart — LinkedIn", href: "https://www.linkedin.com/in/michael-h-7723993bb/", icon: ExternalLink },
+              { label: "Verdikart: LinkedIn", href: "https://www.linkedin.com/in/michael-h-7723993bb/", icon: ExternalLink },
               { label: "X / Twitter: @Verdikart", href: "https://x.com/Verdikart", icon: ExternalLink },
             ].map(({ label, href, icon: Icon }) => (
               <a key={href} href={href} target="_blank" rel="noopener noreferrer"
@@ -163,7 +163,7 @@ export default function PressePage() {
         <section className="rounded-xl border border-card-border bg-card-bg p-5">
           <h2 className="mb-2 font-semibold">Presseforespørsler</h2>
           <p className="mb-4 text-sm leading-relaxed text-text-secondary">
-            For intervjuer, sitatbekreftelse, tallgrunnlag eller høyoppløselig logo — send e-post til:
+            For intervjuer, sitatbekreftelse, tallgrunnlag eller høyoppløselig logo: send e-post til:
           </p>
           <a href="mailto:kontakt@verdikart.no"
             className="flex items-center gap-2 text-sm font-medium text-accent hover:underline">

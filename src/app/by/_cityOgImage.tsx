@@ -12,7 +12,7 @@ import { getCityData } from "./[city]/cityData";
 
 export const cityOgSize = { width: 1200, height: 630 };
 export const cityOgContentType = "image/png";
-export const cityOgAlt = "Verdikart — boligmarked per by";
+export const cityOgAlt = "Verdikart: boligmarked per by";
 
 export function renderCityOgImage(slug: string): ImageResponse {
   const city = getCityData(slug);

@@ -8,7 +8,7 @@ export default function MerDataKommerCard() {
         <h3 className="text-lg font-semibold text-text-secondary">Mer data kommer</h3>
       </div>
       <p className="text-sm text-text-secondary">
-        Vi henter løpende nye data for denne adressen — støy, luftkvalitet, bredbånd og
+        Vi henter løpende nye data for denne adressen: støy, luftkvalitet, bredbånd og
         klimarisiko dekker i dag primært tettbygde strøk og hovedveier.
       </p>
       <p className="mt-2 text-xs text-text-secondary">

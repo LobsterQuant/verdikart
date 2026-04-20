@@ -31,10 +31,10 @@ export default function PriceAlertSetup({ kommunenummer, postnummer }: PriceAler
         setCreated(true);
         toast.success("Prisvarsel aktivert");
       } else {
-        toast.error("Kunne ikke opprette varsel — prøv igjen");
+        toast.error("Kunne ikke opprette varsel: prøv igjen");
       }
     } catch {
-      toast.error("Kunne ikke opprette varsel — prøv igjen");
+      toast.error("Kunne ikke opprette varsel: prøv igjen");
     } finally {
       setLoading(false);
     }

@@ -121,7 +121,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
       </div>
 
       <p className="mt-3 text-xs text-text-secondary">
-        Kilde: SSB — Befolkningsstatistikk {data.year}, kommunenivå.
+        Kilde: SSB: Befolkningsstatistikk {data.year}, kommunenivå.
       </p>
     </TopographicHover>
   );

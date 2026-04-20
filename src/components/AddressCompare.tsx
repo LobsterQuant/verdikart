@@ -301,7 +301,7 @@ export default function AddressCompare() {
       {!slotA.address && !slotB.address && (
         <div className="space-y-4">
           <p className="text-center text-xs text-text-tertiary uppercase tracking-widest font-semibold">Eksempel på sammenligning</p>
-          <p className="text-center text-[11px] text-text-tertiary/70">Illustrativt — søk på ekte adresser for å se faktiske data</p>
+          <p className="text-center text-[11px] text-text-tertiary/70">Illustrativt: søk på ekte adresser for å se faktiske data</p>
           {/* Sample comparison cards */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 opacity-50 pointer-events-none select-none" style={{ filter: "grayscale(40%)" }}>
             {[

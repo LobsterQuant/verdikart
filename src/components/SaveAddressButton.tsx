@@ -47,7 +47,7 @@ export default function SaveAddressButton({
       }
     } catch {
       toast.error(
-        saved ? "Kunne ikke fjerne — prøv igjen" : "Kunne ikke lagre — prøv igjen",
+        saved ? "Kunne ikke fjerne (prøv igjen" : "Kunne ikke lagre) prøv igjen",
       );
     } finally {
       setLoading(false);

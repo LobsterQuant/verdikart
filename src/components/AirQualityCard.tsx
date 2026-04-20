@@ -125,7 +125,7 @@ export default function AirQualityCard({ lat, lon, onDataStatus, hideWhenEmpty }
         </div>
       )}
 
-      <p className="mt-2 text-xs text-text-secondary">Kilde: NILU — Luftkvalitet.info</p>
+      <p className="mt-2 text-xs text-text-secondary">Kilde: NILU: Luftkvalitet.info</p>
     </TopographicHover>
   );
 }

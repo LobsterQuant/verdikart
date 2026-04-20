@@ -5,12 +5,12 @@ import { areas } from "./[area]/areaData";
 import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
-  title: "Nabolag — områdedata og boligpriser | Verdikart",
+  title: "Nabolag: områdedata og boligpriser | Verdikart",
   description:
     "Utforsk nabolag i Oslo, Bergen, Trondheim og flere norske byer. Se boligpriser, transportvurdering og lokale data.",
   alternates: { canonical: "https://verdikart.no/nabolag" },
   openGraph: {
-    title: "Nabolag — Verdikart",
+    title: "Nabolag: Verdikart",
     description: "Områdedata og boligpriser for norske nabolag.",
     url: "https://verdikart.no/nabolag",
     type: "website",

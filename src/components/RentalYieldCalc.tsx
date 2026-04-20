@@ -61,7 +61,7 @@ export default function RentalYieldCalc() {
         <div className="rounded-lg border border-card-border bg-background/50 p-3 text-center">
           <p className="text-xs font-medium text-text-tertiary">Breakeven</p>
           <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">
-            {breakEven > 0 ? `${nb(breakEven)} år` : "—"}
+            {breakEven > 0 ? `${nb(breakEven)} år` : "–"}
           </p>
         </div>
       </div>

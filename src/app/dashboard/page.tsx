@@ -8,7 +8,7 @@ import DashboardClient from "./DashboardClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Mine eiendommer — Verdikart",
+  title: "Mine eiendommer: Verdikart",
   description: "Dine lagrede eiendommer og prisvarsler på Verdikart.",
   robots: { index: false },
 };

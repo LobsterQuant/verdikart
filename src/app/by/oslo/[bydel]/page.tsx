@@ -171,13 +171,13 @@ export default function BydelPage({ params }: { params: { bydel: string } }) {
             <p className="text-sm leading-relaxed text-text-secondary">
               Estimert kvadratmeterpris i {bydel.name} er <strong className="text-foreground">{formatPrice(bydel.avgSqmPrice)} kr/m²</strong> basert på SSB-data for Oslo, justert for bydelnivå. Det er en estimert økning på <strong className="text-green-400">+{formatPct(bydel.avgSqmPriceYoY)}</strong> sammenlignet med samme periode i fjor.
             </p>
-            <p className="mt-2 text-xs text-text-tertiary">Kilde: SSB boligprisstatistikk, kommunenummer {bydel.kommunenummer}. Bydeltall er estimerte verdier — eksakt adressedata er tilgjengelig i <a href="/" className="text-accent hover:underline">adresserapporten</a>.</p>
+            <p className="mt-2 text-xs text-text-tertiary">Kilde: SSB boligprisstatistikk, kommunenummer {bydel.kommunenummer}. Bydeltall er estimerte verdier: eksakt adressedata er tilgjengelig i <a href="/" className="text-accent hover:underline">adresserapporten</a>.</p>
           </section>
 
           {/* Search CTA */}
           <section className="mb-8 rounded-xl border border-accent/20 bg-accent/5 p-6">
             <p className="mb-1 text-sm font-semibold">Sjekk en spesifikk adresse i {bydel.name}</p>
-            <p className="mb-4 text-xs text-text-secondary">Få transport, prisdata og støykart for en eksakt adresse — gratis.</p>
+            <p className="mb-4 text-xs text-text-secondary">Få transport, prisdata og støykart for en eksakt adresse: gratis.</p>
             <AddressSearch />
           </section>
 

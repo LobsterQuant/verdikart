@@ -10,7 +10,7 @@ import AddressSearch from "@/components/AddressSearch";
  * the component kicks off its own debounced fetch on mount.
  */
 export const metadata: Metadata = {
-  title: "Søk etter adresse — Verdikart",
+  title: "Søk etter adresse: Verdikart",
   description:
     "Søk opp en norsk adresse for å få full boliganalyse: verdi, transport, prisutvikling, klimarisiko og mer.",
   alternates: { canonical: "https://verdikart.no/sok" },

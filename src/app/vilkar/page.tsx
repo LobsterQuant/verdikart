@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Vilkår for bruk — Verdikart",
+  title: "Vilkår for bruk: Verdikart",
   description: "Vilkår for bruk av Verdikart. Les om rettigheter, ansvarsbegrensning og datakilder.",
   alternates: { canonical: "https://verdikart.no/vilkar" },
 };
@@ -41,8 +41,8 @@ export default function Vilkar() {
           <p className="text-sm leading-relaxed text-text-secondary">
             Verdikart er ikke ansvarlig for beslutninger tatt på grunnlag av
             informasjon fra tjenesten. Vi anbefaler alltid å innhente
-            profesjonell rådgivning — fra eiendomsmegler, takstmann eller
-            advokat — ved kjøp av bolig. Verdikart kan ikke holdes ansvarlig
+            profesjonell rådgivning: fra eiendomsmegler, takstmann eller
+            advokat: ved kjøp av bolig. Verdikart kan ikke holdes ansvarlig
             for direkte eller indirekte tap som følge av bruk av tjenesten.
           </p>
         </section>
@@ -79,7 +79,7 @@ export default function Vilkar() {
             Alt innhold, design og kode på Verdikart er beskyttet av opphavsrett
             og tilhører Verdikart. Underliggende data tilhører de respektive
             offentlige datakildene og er underlagt deres lisenser (Norsk lisens for
-            offentlige data — NLOD).
+            offentlige data: NLOD).
           </p>
         </section>
 

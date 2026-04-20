@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         url: `${PAGE_URL}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "Hytte-tvangssalgene nær doblet — +82% fra 2023 til 2025",
+        alt: "Hytte-tvangssalgene nær doblet: +82% fra 2023 til 2025",
       },
     ],
   },

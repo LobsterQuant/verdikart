@@ -6,12 +6,12 @@ import SiteFooter from "@/components/SiteFooter";
 import { formatPct } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Norske byer — boligpriser og markedsdata | Verdikart",
+  title: "Norske byer: boligpriser og markedsdata | Verdikart",
   description:
     "Utforsk boligpriser, pendlertid og nabolagsdata for Norges største byer. Sammenlign Oslo, Bergen, Trondheim, Stavanger og flere.",
   alternates: { canonical: "https://verdikart.no/by" },
   openGraph: {
-    title: "Norske byer — Verdikart",
+    title: "Norske byer: Verdikart",
     description: "Boligpriser og markedsdata for Norges største byer.",
     url: "https://verdikart.no/by",
     type: "website",

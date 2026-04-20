@@ -31,7 +31,7 @@ export default class CardErrorBoundary extends Component<Props, State> {
       return (
         <div className="rounded-xl border border-card-border bg-card-bg p-6">
           <p className="text-sm text-text-secondary">
-            {this.props.fallbackTitle ?? "Kunne ikke laste data"} — prøv å laste siden på nytt.
+            {this.props.fallbackTitle ?? "Kunne ikke laste data"}: prøv å laste siden på nytt.
           </p>
         </div>
       );

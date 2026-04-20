@@ -192,7 +192,7 @@ function ReportDocument() {
   return createElement(
     Document,
     {
-      title: "Hytte-tvangssalg 2026 — Verdikart",
+      title: "Hytte-tvangssalg 2026: Verdikart",
       author: "Michael Hansen",
       subject: "Tvangssalg av fritidseiendommer i Norge",
       keywords: "tvangssalg, hytte, fritidseiendom, SSB, Verdikart",
@@ -210,7 +210,7 @@ function ReportDocument() {
       createElement(
         Text,
         { style: styles.lede },
-        `Nye tall fra SSB viser at antall tinglyste tvangssalg av fritidseiendommer har steget fra ${d.headlineFigure.from} i ${d.headlineFigure.yearFrom} til ${d.headlineFigure.to} i ${d.headlineFigure.yearTo} — en økning på ${d.headlineFigure.changePct} prosent.`
+        `Nye tall fra SSB viser at antall tinglyste tvangssalg av fritidseiendommer har steget fra ${d.headlineFigure.from} i ${d.headlineFigure.yearFrom} til ${d.headlineFigure.to} i ${d.headlineFigure.yearTo}: en økning på ${d.headlineFigure.changePct} prosent.`
       ),
       createElement(Text, { style: styles.bigFigure }, `+${d.headlineFigure.changePct}%`),
       createElement(
@@ -266,7 +266,7 @@ function ReportDocument() {
       createElement(
         Text,
         { style: styles.p },
-        "I motsetning til primærboligen — der det finnes betydelige sikkerhetsventiler for å unngå tvangssalg — har hytte-eiere færre juridiske beskyttelser. Banker kan og gjør ofte tvangssalg raskere på sekundær eiendom."
+        "I motsetning til primærboligen (der det finnes betydelige sikkerhetsventiler for å unngå tvangssalg) har hytte-eiere færre juridiske beskyttelser. Banker kan og gjør ofte tvangssalg raskere på sekundær eiendom."
       ),
       createElement(Text, { style: styles.h3 }, "Hva tallene ikke fanger opp"),
       createElement(
@@ -399,7 +399,7 @@ function ReportDocument() {
         createElement(
           Text,
           { key: s.id, style: styles.p },
-          `• ${s.name} — ${s.description}. ${s.url}`
+          `• ${s.name}: ${s.description}. ${s.url}`
         )
       ),
       createElement(
@@ -410,13 +410,13 @@ function ReportDocument() {
       createElement(
         Text,
         { style: styles.p },
-        "Et hjemmelsoverføringstall. Alle tall viser tinglyste, gjennomførte tvangssalg — altså der tingretten har stadfestet salget og ny eier er registrert. SSB-tabellen teller overføringsdokumentet, ikke den bakenforliggende begjæringen."
+        "Et hjemmelsoverføringstall. Alle tall viser tinglyste, gjennomførte tvangssalg, altså der tingretten har stadfestet salget og ny eier er registrert. SSB-tabellen teller overføringsdokumentet, ikke den bakenforliggende begjæringen."
       ),
       createElement(Text, { style: styles.h3 }, "Begjæring vs. gjennomført"),
       createElement(
         Text,
         { style: styles.p },
-        "Mer enn 90 prosent av begjæringene om tvangssalg ender ikke i gjennomført salg — de trekkes, innfris eller henlegges. Begjæringsstatistikken (SSB 07218) har ikke publisert tall siden januar 2022 på grunn av administrative endringer i Brønnøysundregistrene."
+        "Mer enn 90 prosent av begjæringene om tvangssalg ender ikke i gjennomført salg: de trekkes, innfris eller henlegges. Begjæringsstatistikken (SSB 07218) har ikke publisert tall siden januar 2022 på grunn av administrative endringer i Brønnøysundregistrene."
       ),
       createElement(Text, { style: styles.h3 }, "Anonymisering og foreløpige tall"),
       createElement(

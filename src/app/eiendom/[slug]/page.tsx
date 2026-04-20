@@ -118,7 +118,12 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
       card: "summary_large_image",
       title,
       description,
-      images: [`https://verdikart.no/eiendom/${params.slug}/opengraph-image`],
+      images: [
+        {
+          url: `https://verdikart.no/eiendom/${params.slug}/opengraph-image`,
+          alt: `Eiendomsdata for ${address} — Verdikart`,
+        },
+      ],
     },
   };
 }

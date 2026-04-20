@@ -73,15 +73,18 @@ export const metadata: Metadata = {
     creator: "@Verdikart",
     title: "Verdikart — Eiendomsinnsikt fra offentlige norske datakilder",
     description: "Gratis verktøy for norske boligkjøpere. Sjekk kollektivtransport, boligprisutvikling og støynivå.",
-    images: ["/opengraph-image"],
+    images: [{ url: "/opengraph-image", alt: "Verdikart — Boligen i kontekst" }],
   },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  // Meta tags can't resolve CSS vars — keep in sync with --accent in globals.css.
-  themeColor: "#7FE3D4",
+  // Meta tags can't resolve CSS vars — keep in sync with --accent / --bg in globals.css.
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#7FE3D4" },
+    { media: "(prefers-color-scheme: dark)", color: "#0A0B0D" },
+  ],
 };
 
 export default function RootLayout({

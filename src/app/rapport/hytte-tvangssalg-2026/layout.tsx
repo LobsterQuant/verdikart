@@ -33,7 +33,12 @@ export const metadata: Metadata = {
     title: "Hytte-tvangssalgene nær doblet på to år",
     description:
       "Nye tall fra SSB: 98 fritidseiendommer tvangssolgt i 2025, opp fra 54 i 2023.",
-    images: [`${PAGE_URL}/opengraph-image`],
+    images: [
+      {
+        url: `${PAGE_URL}/opengraph-image`,
+        alt: "Verdikart rapport: Hytte-tvangssalgene nær doblet på to år",
+      },
+    ],
   },
 };
 

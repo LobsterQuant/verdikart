@@ -7,7 +7,7 @@ import RentalYieldCalc from "@/components/RentalYieldCalc";
 
 export const metadata: Metadata = {
   title: "Boliginvestor | Verdikart",
-  description: "Som boliginvestor er beliggenhet og transportnærhet nøkkelen. Verdikart gir deg kvadratmeterpris, pristrend og kollektivdekning for enhver norsk adresse. Gratis.",
+  description: "For boliginvestorer: kvadratmeterpris, pristrend og kollektivdekning for enhver norsk adresse. Data fra SSB og Entur. Gratis på Verdikart.",
   alternates: { canonical: "https://verdikart.no/for/boliginvestor" },
 };
 

@@ -397,14 +397,15 @@ export default function ChangelogPage() {
         <div className="space-y-10">
           {changelog.map((entry) => (
             <div key={entry.version}>
-              {/* Version header */}
-              <div className="mb-4 flex items-center gap-3">
+              {/* Version header — h2 so each release gives the page a
+                  scannable outline for screen readers and search crawlers. */}
+              <h2 className="mb-4 flex items-center gap-3 text-base font-semibold">
                 <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-0.5 text-xs font-semibold text-accent">
                   v{entry.version}
                 </span>
-                <span className="font-semibold">{entry.label}</span>
-                <span className="ml-auto text-xs text-text-tertiary">{entry.date}</span>
-              </div>
+                <span>{entry.label}</span>
+                <span className="ml-auto text-xs font-normal text-text-tertiary">{entry.date}</span>
+              </h2>
 
               {/* Items */}
               <div className="space-y-2 rounded-xl border border-card-border bg-card-bg p-4">

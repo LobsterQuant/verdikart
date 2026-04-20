@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { eiendomsskattData } from "@/data/eiendomsskatt";
 import { getDemographics } from "@/data/demographics";
 import { KOMMUNE_CRIME, NATIONAL_CRIME_AVG } from "@/data/crime";
+import { getOsloBydelCrime, OSLO_KOMMUNE_AVG } from "@/data/oslo-bydel-crime";
 import { calculateMonthlyCost } from "@/lib/finance/mortgage";
 import { FELLESKOSTNADER_ESTIMATE } from "@/lib/finance/constants";
 
@@ -267,7 +268,16 @@ function previewEiendomsskatt(kommunenummer: string): string {
   return "Eiendomsskatt gjelder";
 }
 
-function previewCrime(kommunenummer: string): string {
+function previewCrime(kommunenummer: string, postnummer: string): string {
+  // Oslo: bydel-preview hvis postnummer er kjent
+  if (kommunenummer === "0301") {
+    const b = getOsloBydelCrime(postnummer);
+    if (b) {
+      const diff = Math.round(((b.rate - OSLO_KOMMUNE_AVG) / OSLO_KOMMUNE_AVG) * 100);
+      const rel = diff === 0 ? "på Oslo-snittet" : diff > 0 ? `${diff}% over Oslo-snittet` : `${Math.abs(diff)}% under Oslo-snittet`;
+      return `Bydel ${b.bydel} · ${b.rate} per 1 000 · ${rel}`;
+    }
+  }
   const c = KOMMUNE_CRIME[kommunenummer];
   if (!c) return UKJENT;
   const diff = Math.round(((c.rate - NATIONAL_CRIME_AVG) / NATIONAL_CRIME_AVG) * 100);
@@ -320,7 +330,7 @@ export async function getPropertyReportSummary(
     bredband: previewBroadband(broadband),
     energi: previewEnergi(energi),
     eiendomsskatt: previewEiendomsskatt(kommunenummer),
-    kriminalitet: previewCrime(kommunenummer),
+    kriminalitet: previewCrime(kommunenummer, postnummer),
     demografi: previewDemografi(kommunenummer),
   };
 }

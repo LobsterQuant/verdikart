@@ -3,8 +3,16 @@ import { eiendomsskattData } from "@/data/eiendomsskatt";
 import { getDemographics } from "@/data/demographics";
 import { KOMMUNE_CRIME, NATIONAL_CRIME_AVG } from "@/data/crime";
 import { getOsloBydelCrime, OSLO_KOMMUNE_AVG } from "@/data/oslo-bydel-crime";
-import { calculateMonthlyCost } from "@/lib/finance/mortgage";
-import { FELLESKOSTNADER_ESTIMATE } from "@/lib/finance/constants";
+import {
+  buildingTypeFromEnovaKategori,
+  calculateMonthlyCost as calculateDefaultMonthlyCost,
+  defaultAreaForBuildingType,
+  estimatedMunicipalFees,
+  resolveKommuneCategory,
+  roundToNearest100,
+} from "@/lib/economics/monthly-cost";
+import { getPolicyRateSnapshot } from "@/lib/rates/norges-bank";
+import { isResidentialCategory } from "@/lib/enova/category";
 
 /**
  * Server-side aggregator for the mobile property-report bottom sheet.
@@ -66,6 +74,7 @@ interface EnergimerkeShape {
   energikarakter: string | null;
   kwhM2: number | null;
   bruksareal: number | null;
+  bygningskategori?: string | null;
 }
 
 interface TransitShape {
@@ -159,27 +168,31 @@ function previewManedskostnad(
   trend: PriceTrendShape | null,
   energi: EnergimerkeShape | null,
   kommunenummer: string,
+  stressTestRate: number,
 ): string {
-  const sqm = trend?.values[trend.values.length - 1];
-  const area = energi?.bruksareal ?? null;
-  if (!sqm || !area || area <= 0 || area >= 500) return UKJENT;
-  const estimatedPrice = Math.round(sqm * area);
-
-  const d = eiendomsskattData[kommunenummer];
-  let eiendomsskattMonthly = 0;
-  if (d?.hasTax && d.promille) {
-    const taxable = Math.max(0, estimatedPrice * (d.reductionFactor ?? 1) - (d.bunnfradrag ?? 0));
-    eiendomsskattMonthly = Math.round((taxable * d.promille) / 1000 / 12);
+  if (energi?.bygningskategori && !isResidentialCategory(energi.bygningskategori)) {
+    return "Ikke relevant for næringsbygg";
   }
-
-  const { totalMonthly } = calculateMonthlyCost({
-    purchasePrice: estimatedPrice,
-    equityPercent: 0.15,
-    loanYears: 25,
-    felleskostnader: FELLESKOSTNADER_ESTIMATE.default,
-    eiendomsskatt: eiendomsskattMonthly,
+  const sqm = trend?.values[trend.values.length - 1];
+  const buildingType = buildingTypeFromEnovaKategori(energi?.bygningskategori);
+  const enovaArea = energi?.bruksareal && energi.bruksareal > 0 && energi.bruksareal < 500
+    ? energi.bruksareal
+    : null;
+  const area = enovaArea ?? defaultAreaForBuildingType(buildingType);
+  const effectiveSqm = sqm ?? 48_000;
+  const propertyValue = effectiveSqm * area;
+  const municipalFees = estimatedMunicipalFees(resolveKommuneCategory(kommunenummer));
+  const { total } = calculateDefaultMonthlyCost({
+    propertyValue,
+    area,
+    rate: stressTestRate,
+    equityPct: 0.15,
+    termYears: 25,
+    municipalFees,
+    maintenancePct: 0.01,
   });
-  return `~${nbNumber(Math.round(totalMonthly / 100) * 100)} kr/md · 15 % EK, 25 år`;
+  const rounded = roundToNearest100(total);
+  return `~${nbNumber(rounded)} kr/md · stresstest 7,0 %`;
 }
 
 function previewPriceTrend(trend: PriceTrendShape | null): string {
@@ -306,7 +319,7 @@ export async function getPropertyReportSummary(
   const HOUR = 60 * 60;
   const WEEK = DAY * 7;
 
-  const [priceTrend, energi, transit, transitStops, schools, climate, noise, air, broadband] = await Promise.all([
+  const [priceTrend, energi, transit, transitStops, schools, climate, noise, air, broadband, rateSnapshot] = await Promise.all([
     safeFetch<PriceTrendShape>(`${origin}/api/price-trend?${qs({ kommunenummer, postnummer })}`, DAY),
     safeFetch<EnergimerkeShape>(`${origin}/api/energimerke?${qs({ postnummer, adresse })}`, DAY),
     safeFetch<TransitShape>(`${origin}/api/transit?${qs({ lat, lon })}`, HOUR),
@@ -316,11 +329,12 @@ export async function getPropertyReportSummary(
     safeFetch<NoiseShape>(`${origin}/api/noise?${qs({ lat, lon })}`, DAY),
     safeFetch<AirQualityShape>(`${origin}/api/air-quality?${qs({ lat, lon })}`, HOUR),
     safeFetch<BroadbandShape>(`${origin}/api/broadband?${qs({ lat, lon })}`, WEEK),
+    getPolicyRateSnapshot(),
   ]);
 
   return {
     verdiestimat: previewValuation(priceTrend, energi),
-    manedskostnad: previewManedskostnad(priceTrend, energi, kommunenummer),
+    manedskostnad: previewManedskostnad(priceTrend, energi, kommunenummer, rateSnapshot.stressTestRate),
     prisstatistikk: previewPriceTrend(priceTrend),
     kollektiv: previewTransit(transit, transitStops),
     skoler: previewSchools(schools),

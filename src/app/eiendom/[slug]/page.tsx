@@ -19,6 +19,7 @@ import PropertyShareBar from "@/components/PropertyShareBar";
 import NearbyProperties from "@/components/NearbyProperties";
 import AISummary from "@/components/AISummary";
 import ValuationCard from "@/components/ValuationCard";
+import ManedskostnadKort from "@/components/cards/ManedskostnadKort";
 import AmenitiesCard from "@/components/AmenitiesCard";
 import SidebarDataCluster from "@/components/SidebarDataCluster";
 
@@ -37,6 +38,7 @@ import { PropertyReportMobile, type ReportSection } from "@/components/eiendom/P
 import { getPropertyReportSummary } from "@/lib/propertyReportSummary";
 import {
   VerdiestimatIcon,
+  ManedskostnadIcon,
   PrisutviklingIcon,
   KollektivIcon,
   SkolerIcon,
@@ -267,6 +269,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
   const iconCls = "h-4 w-4";
   const mobileSections: ReadonlyArray<ReportSection> = [
     { key: "verdiestimat",   label: "Verdiestimat",         icon: <VerdiestimatIcon className={iconCls} />,   detail: <ValuationCard kommunenummer={kommunenummer} postnummer={postnummer} adresse={displayAddress} /> },
+    { key: "manedskostnad",  label: "Månedskostnad",        icon: <ManedskostnadIcon className={iconCls} />,  detail: <ManedskostnadKort kommunenummer={kommunenummer} postnummer={postnummer} adresse={displayAddress} /> },
     { key: "prisstatistikk", label: "Prisstatistikk",       icon: <PrisutviklingIcon className={iconCls} />,  detail: <PriceTrendCard kommunenummer={kommunenummer} postnummer={postnummer} /> },
     { key: "kollektiv",      label: "Kollektivtransport",   icon: <KollektivIcon className={iconCls} />,      detail: <TransitCard lat={latNum} lon={lonNum} address={displayAddress} /> },
     { key: "skoler",         label: "Skoler og barnehager", icon: <SkolerIcon className={iconCls} />,         detail: <SchoolsCard lat={latNum} lon={lonNum} kommunenummer={kommunenummer} /> },
@@ -361,6 +364,17 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
           <div className="mb-8">
             <CardErrorBoundary fallbackTitle="Verdiestimat feilet">
               <ValuationCard
+                kommunenummer={kommunenummer}
+                postnummer={searchParams.pnr ?? ""}
+                adresse={displayAddress}
+              />
+            </CardErrorBoundary>
+          </div>
+
+          {/* ── MÅNEDSKOSTNAD (full width — buyer's #2 question: can I afford it?) ──── */}
+          <div className="mb-8">
+            <CardErrorBoundary fallbackTitle="Månedskostnad feilet">
+              <ManedskostnadKort
                 kommunenummer={kommunenummer}
                 postnummer={searchParams.pnr ?? ""}
                 adresse={displayAddress}

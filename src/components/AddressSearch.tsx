@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useId } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, m } from "framer-motion";
 import { Clock, X } from "lucide-react";
@@ -8,6 +8,10 @@ import { fadeUp, staggerParent } from "@/lib/motion";
 
 const RECENT_KEY = "verdikart_recent_v2";
 const MAX_RECENT = 5;
+
+const MIN_QUERY_CHARS = 3;
+const DEBOUNCE_MS = 150;
+const GEONORGE_URL = "https://ws.geonorge.no/adresser/v1/sok";
 
 interface RecentEntry {
   adressetekst: string;
@@ -32,10 +36,13 @@ interface AddressResult {
   adressetekst: string;
   lat: number;
   lon: number;
-  kommunenummer?: string;
-  postnummer?: string;
-  poststed?: string;
+  kommunenummer: string;
+  kommunenavn: string;
+  postnummer: string;
+  poststed: string;
 }
+
+type SearchState = "idle" | "loading" | "results" | "no-results" | "error";
 
 function toSlug(text: string): string {
   return text
@@ -56,80 +63,131 @@ function toSlug(text: string): string {
     .replace(/^-|-$/g, "");
 }
 
+function titleCaseKommune(s: string): string {
+  return s
+    .toLowerCase()
+    .split(" ")
+    .map(w => (w.length ? w[0].toUpperCase() + w.slice(1) : w))
+    .join(" ");
+}
+
 export default function AddressSearch({ initialValue = "" }: { initialValue?: string }) {
   const [query, setQuery] = useState(initialValue);
   const [results, setResults] = useState<AddressResult[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [state, setState] = useState<SearchState>("idle");
+  const [activeIndex, setActiveIndex] = useState(-1);
   const [recent, setRecent] = useState<RecentEntry[]>([]);
   const [showRecent, setShowRecent] = useState(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  const router = useRouter();
+
+  const listboxId = useId();
+  const optionId = (i: number) => `${listboxId}-opt-${i}`;
 
   useEffect(() => {
     setRecent(loadRecent());
   }, []);
-  const [isLoading, setIsLoading] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
-  const router = useRouter();
 
-  const fetchResults = useCallback(async (q: string) => {
-    if (q.length < 2) {
+  // Debounced live-as-you-type search against Kartverket/Geonorge.
+  // Aborts any in-flight request when the query changes so only the latest
+  // response lands in state (prevents stale results flicker).
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    if (query.trim().length < MIN_QUERY_CHARS) {
+      abortRef.current?.abort();
       setResults([]);
-      setIsOpen(false);
+      setActiveIndex(-1);
+      setState("idle");
       return;
     }
 
-    setIsLoading(true);
-    try {
-      const res = await fetch(
-        `/api/address/search?q=${encodeURIComponent(q)}`
-      );
-      if (res.ok) {
-        const data = await res.json();
-        setResults(data);
-        setIsOpen(data.length > 0);
-      }
-    } catch {
-      setResults([]);
-    } finally {
-      setIsLoading(false);
-    }
+    setState("loading");
+    debounceRef.current = setTimeout(() => {
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+      runSearch(query.trim(), controller);
+    }, DEBOUNCE_MS);
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, [query]);
+
+  // Clean up in-flight request on unmount.
+  useEffect(() => {
+    return () => abortRef.current?.abort();
   }, []);
 
-  const handleInputChange = (value: string) => {
-    setQuery(value);
-    setActiveIndex(-1);
+  async function runSearch(q: string, controller: AbortController) {
+    try {
+      const url = `${GEONORGE_URL}?sok=${encodeURIComponent(q)}&treffPerSide=5&fuzzy=true&utkoordsys=4258`;
+      const res = await fetch(url, { signal: controller.signal });
+      if (!res.ok) throw new Error(`Geonorge returned ${res.status}`);
+      const data = await res.json();
+      if (controller.signal.aborted) return;
 
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
+      const adresser: AddressResult[] = (data?.adresser ?? [])
+        .map((a: {
+          adressetekst?: string;
+          kommunenummer?: string;
+          kommunenavn?: string;
+          postnummer?: string;
+          poststed?: string;
+          representasjonspunkt?: { lat?: number; lon?: number };
+        }) => ({
+          adressetekst: a.adressetekst ?? "",
+          lat: a.representasjonspunkt?.lat ?? 0,
+          lon: a.representasjonspunkt?.lon ?? 0,
+          kommunenummer: a.kommunenummer ?? "",
+          kommunenavn: a.kommunenavn ?? "",
+          postnummer: a.postnummer ?? "",
+          poststed: a.poststed ?? "",
+        }))
+        .filter((r: AddressResult) => r.adressetekst && r.lat !== 0 && r.lon !== 0)
+        .slice(0, 5);
+
+      setResults(adresser);
+      setActiveIndex(-1);
+      setShowRecent(false);
+      setState(adresser.length > 0 ? "results" : "no-results");
+    } catch (err) {
+      if (controller.signal.aborted || (err instanceof DOMException && err.name === "AbortError")) return;
+      setResults([]);
+      setActiveIndex(-1);
+      setState("error");
     }
-
-    debounceRef.current = setTimeout(() => {
-      fetchResults(value);
-    }, 300);
-  };
+  }
 
   const handleSelect = (result: AddressResult) => {
     const humanSlug = toSlug(result.adressetekst);
-    const lat6 = Math.round(result.lat * 1e4);
-    const lon6 = Math.round(result.lon * 1e4);
-    const knr = result.kommunenummer ?? "0000";
-    const encodedSlug = `${humanSlug}--${lat6}-${lon6}-${knr}`;
+    const lat4 = Math.round(result.lat * 1e4);
+    const lon4 = Math.round(result.lon * 1e4);
+    const knr = result.kommunenummer || "0000";
+    const encodedSlug = `${humanSlug}--${lat4}-${lon4}-${knr}`;
 
     const params = new URLSearchParams();
     params.set("adresse", result.adressetekst);
     if (result.postnummer) params.set("pnr", result.postnummer);
     if (result.poststed) params.set("poststed", result.poststed);
 
-    // Save to recent
-    const entry: RecentEntry = { adressetekst: result.adressetekst, slug: encodedSlug, params: params.toString() };
+    const entry: RecentEntry = {
+      adressetekst: result.adressetekst,
+      slug: encodedSlug,
+      params: params.toString(),
+    };
     saveRecent(entry);
     setRecent(loadRecent());
 
     setQuery(result.adressetekst);
-    setIsOpen(false);
+    setState("idle");
     setShowRecent(false);
+    abortRef.current?.abort();
     router.push(`/eiendom/${encodedSlug}?${params.toString()}`);
   };
 
@@ -140,19 +198,27 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isOpen) return;
+    if (state !== "results" || results.length === 0) {
+      if (e.key === "Escape") setShowRecent(false);
+      return;
+    }
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((prev) => (prev < results.length - 1 ? prev + 1 : prev));
+      setActiveIndex(i => (i + 1) % results.length);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setActiveIndex((prev) => (prev > 0 ? prev - 1 : -1));
-    } else if (e.key === "Enter" && activeIndex >= 0) {
+      setActiveIndex(i => (i - 1 + results.length) % results.length);
+    } else if (e.key === "Enter") {
       e.preventDefault();
-      handleSelect(results[activeIndex]);
+      const idx = activeIndex >= 0 ? activeIndex : 0;
+      handleSelect(results[idx]);
     } else if (e.key === "Escape") {
-      setIsOpen(false);
+      setState("idle");
+      setActiveIndex(-1);
+    } else if (e.key === "Tab") {
+      setState("idle");
+      setActiveIndex(-1);
     }
   };
 
@@ -164,18 +230,24 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
         inputRef.current &&
         !inputRef.current.contains(e.target as Node)
       ) {
-        setIsOpen(false);
+        setState(s => (s === "results" || s === "no-results" || s === "error" ? "idle" : s));
+        setShowRecent(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-    };
-  }, []);
+  const dropdownOpen = state === "results" || state === "no-results" || state === "error";
+  const trimmed = query.trim();
+
+  const srAnnouncement = (() => {
+    if (state === "loading") return "Søker…";
+    if (state === "results") return `${results.length} treff funnet`;
+    if (state === "no-results") return "Ingen treff";
+    if (state === "error") return "Søket er utilgjengelig";
+    return "";
+  })();
 
   return (
     <div className="relative w-full max-w-xl mx-auto">
@@ -187,7 +259,6 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           boxShadow: "0 0 24px rgb(var(--accent-rgb) / 0.12), 0 2px 8px rgba(0,0,0,0.4)",
         }}
         ref={(el) => {
-          // Brighten gradient border on focus
           const input = el?.querySelector("input");
           if (!input) return;
           input.addEventListener("focus", () => {
@@ -209,11 +280,10 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => handleInputChange(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => {
-            if (results.length > 0) setIsOpen(true);
-            else if (!query && recent.length > 0) setShowRecent(true);
+            if (!trimmed && recent.length > 0) setShowRecent(true);
           }}
           placeholder="Søk på en adresse..."
           className="w-full rounded-[15px] border-0 bg-[#0e0e12] px-4 py-3 text-base text-foreground placeholder:text-text-tertiary outline-none transition-all duration-200 sm:px-6 sm:py-4 sm:text-lg"
@@ -223,32 +293,31 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           role="combobox"
           aria-label="Søk på norsk adresse"
           aria-autocomplete="list"
-          aria-expanded={isOpen && results.length > 0}
+          aria-expanded={dropdownOpen}
           aria-haspopup="listbox"
-          aria-controls="address-listbox"
+          aria-controls={listboxId}
+          aria-activedescendant={state === "results" && activeIndex >= 0 ? optionId(activeIndex) : undefined}
           autoComplete="street-address"
         />
-        {isLoading && (
-          <div className="absolute right-5 top-1/2 -translate-y-1/2">
+        {state === "loading" && (
+          <div className="absolute right-5 top-1/2 -translate-y-1/2" aria-hidden="true">
             <div className="h-5 w-5 animate-spin rounded-full border-2 border-text-tertiary border-t-accent" />
           </div>
         )}
-      </div>{/* end inner rounded div */}
-      </div>{/* end gradient border wrapper */}
-
-      {/* Screen reader announcement for search results */}
-      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-        {isOpen && results.length > 0 && `${results.length} adresseforslag funnet`}
-        {isLoading && "Søker..."}
+      </div>
       </div>
 
-      {/* Autocomplete results — per-item stagger at 30 ms (Package 5 timing
-          exception: suggestions should feel snappy, not theatrical). */}
+      {/* Screen reader announcement — live region picks up state transitions */}
+      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {srAnnouncement}
+      </div>
+
+      {/* Results dropdown */}
       <AnimatePresence>
-        {isOpen && results.length > 0 && (
+        {state === "results" && results.length > 0 && (
           <m.div
             ref={dropdownRef}
-            id="address-listbox"
+            id={listboxId}
             role="listbox"
             aria-label="Adresseforslag"
             className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-card-border bg-card-bg shadow-2xl"
@@ -259,13 +328,14 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
           >
             {results.map((result, index) => (
               <m.button
-                key={`${result.adressetekst}-${index}`}
+                key={`${result.adressetekst}-${result.postnummer}-${index}`}
+                id={optionId(index)}
                 variants={fadeUp}
                 role="option"
                 aria-selected={index === activeIndex}
                 onClick={() => handleSelect(result)}
                 onMouseEnter={() => setActiveIndex(index)}
-                className={`w-full px-6 py-3 text-left text-sm transition-colors ${
+                className={`w-full min-h-[44px] px-4 py-3 text-left text-sm transition-colors sm:px-6 ${
                   index === activeIndex
                     ? "bg-accent/10 text-foreground"
                     : "text-text-secondary hover:bg-white/5"
@@ -274,19 +344,49 @@ export default function AddressSearch({ initialValue = "" }: { initialValue?: st
                 <span className="block font-medium text-foreground">
                   {result.adressetekst}
                 </span>
-                {result.poststed && (
-                  <span className="block text-xs text-text-tertiary mt-0.5">
-                    {result.postnummer} {result.poststed}
-                  </span>
-                )}
+                <span className="mt-0.5 block text-xs text-text-tertiary">
+                  {[
+                    [result.postnummer, result.poststed].filter(Boolean).join(" "),
+                    result.kommunenavn ? `${titleCaseKommune(result.kommunenavn)} kommune` : "",
+                  ].filter(Boolean).join(" · ")}
+                </span>
               </m.button>
             ))}
           </m.div>
         )}
+
+        {state === "no-results" && (
+          <m.div
+            ref={dropdownRef}
+            className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-card-border bg-card-bg px-4 py-3 shadow-2xl sm:px-6"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, transition: { duration: 0.1 } }}
+          >
+            <p className="text-sm text-text-secondary">
+              Ingen treff på <span className="text-foreground">&ldquo;{trimmed}&rdquo;</span>.
+              Prøv uten postnummer eller skriv gatenavn først.
+            </p>
+          </m.div>
+        )}
+
+        {state === "error" && (
+          <m.div
+            ref={dropdownRef}
+            className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-card-border bg-card-bg px-4 py-3 shadow-2xl sm:px-6"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, transition: { duration: 0.1 } }}
+          >
+            <p className="text-sm text-text-secondary">
+              Søket er utilgjengelig akkurat nå. Prøv igjen om et øyeblikk.
+            </p>
+          </m.div>
+        )}
       </AnimatePresence>
 
-      {/* Recent searches */}
-      {!isOpen && showRecent && recent.length > 0 && (
+      {/* Recent searches — shown when input is empty and focused */}
+      {!dropdownOpen && state !== "loading" && showRecent && recent.length > 0 && (
         <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-card-border bg-card-bg shadow-2xl">
           <div className="flex items-center justify-between px-4 py-2 border-b border-card-border">
             <span className="flex items-center gap-1.5 text-xs font-semibold text-text-tertiary">

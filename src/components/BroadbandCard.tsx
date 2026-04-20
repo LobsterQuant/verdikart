@@ -102,7 +102,7 @@ export default function BroadbandCard({ lat, lon, onDataStatus, hideWhenEmpty }:
             ? `${nb(data.maxDownload / 1000)} Gbps`
             : `${data.maxDownload} Mbps`}
         </span>
-        <span className="text-xs text-text-tertiary">maks nedlasting</span>
+        <span className="text-xs text-text-secondary">maks nedlasting</span>
       </div>
 
       <div className="space-y-2">
@@ -155,7 +155,7 @@ export default function BroadbandCard({ lat, lon, onDataStatus, hideWhenEmpty }:
         )}
       </div>
 
-      <p className="mt-2 text-xs text-text-tertiary">
+      <p className="mt-2 text-xs text-text-secondary">
         Kilde: {data.coverageSource ?? "Nkom"}
       </p>
     </TopographicHover>

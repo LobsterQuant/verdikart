@@ -11,7 +11,7 @@ export default function MerDataKommerCard() {
         Vi henter løpende nye data for denne adressen — støy, luftkvalitet, bredbånd og
         klimarisiko dekker i dag primært tettbygde strøk og hovedveier.
       </p>
-      <p className="mt-2 text-xs text-text-tertiary">
+      <p className="mt-2 text-xs text-text-secondary">
         Kilder: Kartverket, NILU, Nkom og NVE.
       </p>
     </div>

@@ -102,7 +102,7 @@ export default function AirQualityCard({ lat, lon, onDataStatus, hideWhenEmpty }
           {data.aqi}
         </span>
         {data.nearestStation && (
-          <span className="text-xs text-text-tertiary">
+          <span className="text-xs text-text-secondary">
             Stasjon: {data.nearestStation}
             {data.distanceKm != null && ` (${data.distanceKm} km unna)`}
           </span>
@@ -125,7 +125,7 @@ export default function AirQualityCard({ lat, lon, onDataStatus, hideWhenEmpty }
         </div>
       )}
 
-      <p className="mt-2 text-xs text-text-tertiary">Kilde: NILU — Luftkvalitet.info</p>
+      <p className="mt-2 text-xs text-text-secondary">Kilde: NILU — Luftkvalitet.info</p>
     </TopographicHover>
   );
 }

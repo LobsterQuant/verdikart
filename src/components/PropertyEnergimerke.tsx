@@ -117,7 +117,7 @@ export default function PropertyEnergimerke({
         <p className="text-sm text-text-secondary">
           Ingen energiattest registrert for denne adressen.
         </p>
-        <p className="mt-1 text-xs text-text-tertiary">
+        <p className="mt-1 text-xs text-text-secondary">
           Energimerking har vært påkrevd ved salg siden 2010, men ikke alle boliger er registrert hos Enova.
         </p>
       </div>
@@ -149,17 +149,17 @@ export default function PropertyEnergimerke({
         <div className="flex-1">
           <p className={`text-sm font-semibold ${badge.text}`}>{desc}</p>
           {kwhTrusted && (
-            <p className="mt-0.5 text-xs text-text-tertiary">
+            <p className="mt-0.5 text-xs text-text-secondary">
               {nb(data.kwhM2!, 0)} kWh/m² per år
             </p>
           )}
           {!residential && data.bygningskategori && (
-            <p className="mt-0.5 text-xs text-text-tertiary">
+            <p className="mt-0.5 text-xs text-text-secondary">
               Næringsbygg ({data.bygningskategori}) — kWh/m² ikke sammenlignbart med bolig.
             </p>
           )}
           {data.byggear && (
-            <p className="text-xs text-text-tertiary">
+            <p className="text-xs text-text-secondary">
               Byggeår: {data.byggear}
               {data.bruksareal ? ` · ${data.bruksareal} m²` : ""}
               {data.materialvalg ? ` · ${data.materialvalg}` : ""}
@@ -203,7 +203,7 @@ export default function PropertyEnergimerke({
         </a>
       )}
 
-      <p className="mt-3 text-xs text-text-tertiary">
+      <p className="mt-3 text-xs text-text-secondary">
         Kilde: Enova Energimerkesystemet. Offisielt energimerke for denne boligen.
       </p>
     </TopographicHover>

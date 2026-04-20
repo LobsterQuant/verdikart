@@ -122,7 +122,7 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
             </span>
             <span className="text-text-tertiary">(±15%)</span>
           </div>
-          <div className="space-y-1 text-xs text-text-tertiary">
+          <div className="space-y-1 text-xs text-text-secondary">
             <p>
               {sqmPrice.toLocaleString("nb-NO")} kr/m² × {effectiveArea} m²
               {areaTooLarge || !bruksareal ? " (oppgitt av deg)" : " (fra energiattest)"}
@@ -139,7 +139,7 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
               <Calculator className="h-4 w-4 text-accent" strokeWidth={1.5} />
               <div>
                 <p className="text-sm font-semibold">Hva koster dette per måned?</p>
-                <p className="text-[11px] text-text-tertiary">
+                <p className="text-[11px] text-text-secondary">
                   Lån, eiendomsskatt og stresstest for {formatNok(estimatedValue)}
                 </p>
               </div>
@@ -168,14 +168,14 @@ export default function ValuationCard({ kommunenummer, postnummer, adresse }: Va
             <span className="text-sm text-text-tertiary">m²</span>
           </div>
           {sqmPrice && (
-            <p className="mt-2 text-xs text-text-tertiary">
+            <p className="mt-2 text-xs text-text-secondary">
               Snitt m²-pris: {sqmPrice.toLocaleString("nb-NO")} kr/m² ({source})
             </p>
           )}
         </div>
       )}
 
-      <p className="mt-3 text-xs text-text-tertiary">
+      <p className="mt-3 text-xs text-text-secondary">
         Estimatet er basert på SSB-prisstatistikk for området og er kun veiledende. Ikke en takst.
       </p>
     </TopographicHover>

@@ -87,12 +87,12 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
       <div className="mb-4 flex items-center gap-2">
         <GraduationCap className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Skoler og barnehager</h3>
-        <span className="ml-auto text-xs text-text-tertiary">innen 1 km</span>
+        <span className="ml-auto text-xs text-text-secondary">innen 1 km</span>
       </div>
 
       {skoler.length > 0 && (
         <div className="mb-4">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Skoler</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-secondary">Skoler</p>
           <div className="space-y-2">
             {skoler.slice(0, 4).map(s => (
               <div key={s.name} className="flex items-center justify-between rounded-lg bg-background px-3 py-2.5">
@@ -106,10 +106,10 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
                     )}
                     <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
                       {s.levelLabel && (
-                        <span className="text-[10px] text-text-tertiary">{s.levelLabel}</span>
+                        <span className="text-[10px] text-text-secondary">{s.levelLabel}</span>
                       )}
                       {s.pupils != null && s.pupils > 0 && (
-                        <span className="text-[10px] text-text-tertiary">· {s.pupils} elever</span>
+                        <span className="text-[10px] text-text-secondary">· {s.pupils} elever</span>
                       )}
                       {s.isPrivate && (
                         <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-1.5 py-px text-[10px] text-amber-400">Privat</span>
@@ -129,7 +129,7 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
 
       {kindergartens.length > 0 && (
         <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">Barnehager</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-secondary">Barnehager</p>
           <div className="space-y-2">
             {kindergartens.slice(0, 4).map(s => (
               <div key={s.name} className="flex items-center justify-between rounded-lg bg-background px-3 py-2.5">
@@ -161,7 +161,7 @@ export default function SchoolsCard({ lat, lon, kommunenummer }: { lat: number; 
         </div>
       )}
 
-      <p className="mt-3 text-xs text-text-tertiary">
+      <p className="mt-3 text-xs text-text-secondary">
         Skoler: <a href="https://data-nsr.udir.no" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">Nasjonalt skoleregister (Udir)</a>
         {" · "}Barnehager: <a href="https://www.barnehagefakta.no" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">OpenStreetMap</a>
       </p>

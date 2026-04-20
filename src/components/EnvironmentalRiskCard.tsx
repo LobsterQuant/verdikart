@@ -18,7 +18,7 @@ export default function EnvironmentalRiskCard({ kommunenummer }: { kommunenummer
           <AlertTriangle className="h-4 w-4 text-text-tertiary" strokeWidth={1.5} />
           <h3 className="text-sm font-semibold text-text-secondary">Miljørisiko</h3>
         </div>
-        <p className="mt-2 text-xs text-text-tertiary">
+        <p className="mt-2 text-xs text-text-secondary">
           Vi har ikke miljørisikodata for denne kommunen ennå. Vi utvider dekningen løpende.
         </p>
       </div>
@@ -45,7 +45,7 @@ export default function EnvironmentalRiskCard({ kommunenummer }: { kommunenummer
             </span>
           </div>
           {data.radonNote && (
-            <p className="text-xs leading-relaxed text-text-tertiary">{data.radonNote}</p>
+            <p className="text-xs leading-relaxed text-text-secondary">{data.radonNote}</p>
           )}
         </div>
 
@@ -58,12 +58,12 @@ export default function EnvironmentalRiskCard({ kommunenummer }: { kommunenummer
             </span>
           </div>
           {data.floodNote && (
-            <p className="text-xs leading-relaxed text-text-tertiary">{data.floodNote}</p>
+            <p className="text-xs leading-relaxed text-text-secondary">{data.floodNote}</p>
           )}
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-tertiary">
+      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-secondary">
         <a href="https://geo.ngu.no/kart/radon/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
           Radonkart: geo.ngu.no
         </a>
@@ -76,7 +76,7 @@ export default function EnvironmentalRiskCard({ kommunenummer }: { kommunenummer
         <summary className="cursor-pointer font-medium text-text-secondary hover:text-foreground transition-colors">
           Hva er radon?
         </summary>
-        <p className="mt-2 leading-relaxed text-text-tertiary">
+        <p className="mt-2 leading-relaxed text-text-secondary">
           Radon er en radioaktiv gass som dannes naturlig i berggrunn og jord. Langtidseksponering
           over 100 Bq/m³ øker risiko for lungekreft. Bygg på granitt- og alunskifergrunn har
           høyest risiko.

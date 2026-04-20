@@ -14,7 +14,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
           <Users className="h-4 w-4 text-text-tertiary" strokeWidth={1.5} />
           <h3 className="text-sm font-semibold text-text-secondary">Befolkningsprofil</h3>
         </div>
-        <p className="mt-2 text-xs text-text-tertiary">
+        <p className="mt-2 text-xs text-text-secondary">
           Vi har ikke befolkningsdata for denne kommunen ennå. Vi utvider dekningen løpende.
         </p>
       </div>
@@ -35,24 +35,24 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
       {/* Income + Education row */}
       <div className="mb-4 grid grid-cols-2 gap-3">
         <div className="rounded-lg bg-background p-3">
-          <p className="text-xs text-text-tertiary mb-1">Medianinntekt</p>
+          <p className="text-xs text-text-secondary mb-1">Medianinntekt</p>
           <p className="text-lg font-bold text-foreground tabular-nums">
             {incomeFormatted}
           </p>
-          <p className="text-xs text-text-tertiary">kr/husholdning</p>
+          <p className="text-xs text-text-secondary">kr/husholdning</p>
         </div>
         <div className="rounded-lg bg-background p-3">
-          <p className="text-xs text-text-tertiary mb-1">Høyere utdanning</p>
+          <p className="text-xs text-text-secondary mb-1">Høyere utdanning</p>
           <p className="text-lg font-bold text-foreground tabular-nums">
             {nb(data.higherEducationPct)} %
           </p>
-          <p className="text-xs text-text-tertiary">av befolkn. 25–66 år</p>
+          <p className="text-xs text-text-secondary">av befolkn. 25–66 år</p>
         </div>
       </div>
 
       {/* Age distribution */}
       <div className="mb-4">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-text-secondary">
           Aldersfordeling
         </p>
         <div className="space-y-2">
@@ -120,7 +120,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
         </span>
       </div>
 
-      <p className="mt-3 text-xs text-text-tertiary">
+      <p className="mt-3 text-xs text-text-secondary">
         Kilde: SSB — Befolkningsstatistikk {data.year}, kommunenivå.
       </p>
     </TopographicHover>

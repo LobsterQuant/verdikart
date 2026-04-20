@@ -17,7 +17,7 @@ export default function DataAgeChip({
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full border border-card-border/80 bg-background/60 px-2 py-0.5 text-[10px] font-medium text-text-tertiary ${className}`}
+      className={`inline-flex items-center gap-1 rounded-full border border-card-border/80 bg-background/60 px-2 py-0.5 text-[10px] font-medium text-text-secondary ${className}`}
       title={`Datakilde: ${source} · ${date}`}
     >
       <span className="font-semibold text-text-secondary">{source}</span>

@@ -126,7 +126,7 @@ export default function NeighborhoodReviewsCard({
             <span className="text-sm font-medium tabular-nums">
               {nb(data.avgRating)}
             </span>
-            <span className="text-xs text-text-tertiary">
+            <span className="text-xs text-text-secondary">
               ({data.count})
             </span>
           </div>
@@ -141,10 +141,10 @@ export default function NeighborhoodReviewsCard({
               <div className="mb-1.5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Stars rating={r.rating} size={12} />
-                  <span className="text-xs text-text-tertiary">{r.userName}</span>
+                  <span className="text-xs text-text-secondary">{r.userName}</span>
                 </div>
                 {r.livedYears != null && (
-                  <span className="text-[10px] text-text-tertiary">
+                  <span className="text-[10px] text-text-secondary">
                     Bodd {r.livedYears} år
                   </span>
                 )}
@@ -246,7 +246,7 @@ export default function NeighborhoodReviewsCard({
                   max={50}
                   className="w-20 rounded-md border border-card-border bg-card-bg px-3 py-1.5 text-xs placeholder:text-text-tertiary focus:border-accent focus:outline-none"
                 />
-                <span className="text-xs text-text-tertiary">år i området</span>
+                <span className="text-xs text-text-secondary">år i området</span>
               </div>
 
               <div className="flex gap-2">

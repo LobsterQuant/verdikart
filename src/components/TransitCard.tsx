@@ -172,7 +172,7 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
       {/* Nearby stops */}
       {stops.length > 0 && (
         <div className="mt-5 space-y-2">
-          <p className="text-xs font-medium uppercase tracking-wider text-text-tertiary flex items-center gap-1.5">
+          <p className="text-xs font-medium uppercase tracking-wider text-text-secondary flex items-center gap-1.5">
             <MapPin className="h-3 w-3" strokeWidth={1.5} />
             Nærmeste holdeplasser
           </p>
@@ -184,7 +184,7 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
               >
                 <div className="flex items-start justify-between gap-2">
                   <span className="text-sm font-medium leading-snug">{stop.name}</span>
-                  <span className="shrink-0 text-xs text-text-tertiary tabular-nums whitespace-nowrap">
+                  <span className="shrink-0 text-xs text-text-secondary tabular-nums whitespace-nowrap">
                     {stop.distance} m
                   </span>
                 </div>
@@ -193,9 +193,9 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
                     <ModeBadge key={line.code} line={line} />
                   ))}
                   {stop.lines.length > 8 && (
-                    <span className="text-xs text-text-tertiary">+{stop.lines.length - 8}</span>
+                    <span className="text-xs text-text-secondary">+{stop.lines.length - 8}</span>
                   )}
-                  <span className="ml-auto text-xs text-text-tertiary whitespace-nowrap">
+                  <span className="ml-auto text-xs text-text-secondary whitespace-nowrap">
                     ~{stop.departuresPerHour}/t
                   </span>
                 </div>
@@ -208,7 +208,7 @@ export default function TransitCard({ lat, lon, address = "" }: { lat: number; l
       {/* Journey legs — fallback if no stops */}
       {stops.length === 0 && transit.legs && transit.legs.length > 0 && (
         <div className="mt-5 space-y-2">
-          <p className="text-xs font-medium uppercase tracking-wider text-text-tertiary">Reiserute</p>
+          <p className="text-xs font-medium uppercase tracking-wider text-text-secondary">Reiserute</p>
           <div className="space-y-1.5">
             {transit.legs.map((leg, i) => (
               <div key={i} className="flex items-center gap-2 text-sm text-text-secondary">

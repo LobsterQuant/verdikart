@@ -126,7 +126,7 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
               </span>
             )}
           </div>
-          <p className="text-xs text-text-tertiary">
+          <p className="text-xs text-text-secondary">
             {status === "idle" && "Få en 3-setnings analyse av adressens styrker og svakheter basert på transport og prisdata"}
             {status === "loading" && "Henter pris- og transportdata…"}
             {status === "streaming" && "Analyserer…"}
@@ -165,7 +165,7 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
                 )}
               </p>
               {status === "done" && (
-                <p className="mt-3 text-[11px] text-text-tertiary">
+                <p className="mt-3 text-[11px] text-text-secondary">
                   Generert av AI basert på SSB, Kartverket og Entur-data. Ikke et profesjonelt verdivurderingsgrunnlag.
                 </p>
               )}

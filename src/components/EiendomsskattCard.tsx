@@ -15,7 +15,7 @@ export default function EiendomsskattCard({ kommunenummer }: { kommunenummer: st
           <Landmark className="h-4 w-4 text-text-tertiary" strokeWidth={1.5} />
           <h3 className="text-sm font-semibold text-text-secondary">Eiendomsskatt</h3>
         </div>
-        <p className="mt-2 text-xs text-text-tertiary">
+        <p className="mt-2 text-xs text-text-secondary">
           Vi har ikke eiendomsskattdata for denne kommunen ennå. Vi utvider dekningen løpende.
         </p>
       </div>

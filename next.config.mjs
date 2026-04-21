@@ -9,19 +9,22 @@ const nextConfig = {
   },
   async headers() {
     // CSP notes: 'unsafe-inline' + 'unsafe-eval' on script-src are required by
-    // Next.js runtime (hydration payloads, dev HMR). connect-src whitelists the
-    // public-data APIs the property report fetches (Kartverket, SSB, Entur) and
-    // the two analytics scripts. frame-ancestors 'none' + X-Frame-Options DENY
-    // together block embedding — X-Frame-Options is redundant on modern browsers
-    // but still honored by older crawlers and corporate proxies.
+    // Next.js runtime (hydration payloads, dev HMR). frame-ancestors 'none' +
+    // X-Frame-Options DENY together block embedding — X-Frame-Options is
+    // redundant on modern browsers but still honored by older crawlers and
+    // corporate proxies. Single source of truth: Vercel infers no headers when
+    // next.config.mjs provides them, so vercel.json must not redeclare CSP.
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://plausible.io https://www.clarity.ms",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://plausible.io https://www.clarity.ms https://*.clarity.ms",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
-      "connect-src 'self' https://ws.geonorge.no https://data.ssb.no https://api.entur.io https://plausible.io https://www.clarity.ms https://formspree.io https://*.ingest.sentry.io https://*.ingest.de.sentry.io",
+      "connect-src 'self' https://ws.geonorge.no https://wms.geonorge.no https://data.ssb.no https://api.entur.io https://api.kartverket.no https://nominatim.openstreetmap.org https://overpass-api.de https://gis3.nve.no https://api.nilu.no https://plausible.io https://www.clarity.ms https://*.clarity.ms https://formspree.io https://*.sentry.io https://*.ingest.sentry.io https://*.ingest.de.sentry.io",
       "frame-ancestors 'none'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self' https://formspree.io https://accounts.google.com",
     ].join("; ");
 
     return [

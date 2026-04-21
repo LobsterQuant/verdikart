@@ -8,13 +8,17 @@ import { parseOrBadRequest } from "@/lib/validators/parse";
 import { containsForbidden } from "@/lib/validators/profanity";
 
 export async function GET(request: NextRequest) {
-  const params = Object.fromEntries(
-    Array.from(request.nextUrl.searchParams).filter(([, v]) => v !== ""),
-  );
+  const params = Object.fromEntries(request.nextUrl.searchParams);
   const { data, error } = parseOrBadRequest(reviewsGetQuerySchema, params);
   if (error) return error;
 
   const { kommunenummer, postnummer } = data;
+
+  // Slugs without a parsed knr send kommunenummer="" — return empty rather
+  // than 400 so the reviews card renders cleanly on those property pages.
+  if (!kommunenummer) {
+    return NextResponse.json({ reviews: [], avgRating: null, count: 0 });
+  }
 
   // Get reviews with user names
   const reviews = await db

@@ -186,12 +186,26 @@ describe("reviewsPostSchema", () => {
   });
 });
 
-describe("reviewsGetQuerySchema", () => {
-  it("accepts kommunenummer only", () => {
+describe("reviewsGetQuerySchema (relaxed GET)", () => {
+  it("accepts valid kommunenummer", () => {
     expect(reviewsGetQuerySchema.safeParse({ kommunenummer: "0301" }).success).toBe(true);
+    expect(
+      reviewsGetQuerySchema.safeParse({ kommunenummer: "0301", postnummer: "0150" }).success,
+    ).toBe(true);
   });
-  it("rejects missing kommunenummer", () => {
-    expect(reviewsGetQuerySchema.safeParse({}).success).toBe(false);
+  it("accepts empty string kommunenummer (slugs without knr)", () => {
+    expect(reviewsGetQuerySchema.safeParse({ kommunenummer: "" }).success).toBe(true);
+    expect(
+      reviewsGetQuerySchema.safeParse({ kommunenummer: "", postnummer: "" }).success,
+    ).toBe(true);
+  });
+  it("accepts missing kommunenummer (undefined)", () => {
+    expect(reviewsGetQuerySchema.safeParse({}).success).toBe(true);
+  });
+  it("rejects malformed kommunenummer", () => {
+    expect(reviewsGetQuerySchema.safeParse({ kommunenummer: "abc" }).success).toBe(false);
+    expect(reviewsGetQuerySchema.safeParse({ kommunenummer: "123" }).success).toBe(false);
+    expect(reviewsGetQuerySchema.safeParse({ kommunenummer: "12345" }).success).toBe(false);
   });
 });
 

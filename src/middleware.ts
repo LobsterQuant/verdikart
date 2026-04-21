@@ -27,8 +27,18 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // localhost dev: every request arrives with no x-forwarded-for, so all
+  // sessions share the "unknown" bucket and hit 30 req/min within one page
+  // load. Skip entirely in dev.
+  if (process.env.NODE_ENV === "development") {
+    return NextResponse.next();
+  }
+
+  // x-forwarded-for: trusted proxies (Vercel) append their value LAST.
+  // The first entry is client-writable and can be forged to evade limits.
+  const xff = request.headers.get("x-forwarded-for");
   const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    xff?.split(",").pop()?.trim() ??
     request.headers.get("x-real-ip") ??
     "unknown";
 

@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
+import * as Sentry from "@sentry/nextjs";
+import { useToast } from "@/components/Toast";
 
 const SAVED_KEY = "verdikart_saved_v1";
 const MAX_SAVED = 20;
@@ -75,6 +77,9 @@ function fromDb(it: DbItem): SavedAddress {
 export function useSavedAddresses() {
   const { data: session, status } = useSession();
   const loggedIn = !!session?.user;
+  const toast = useToast();
+  const toastRef = useRef(toast);
+  toastRef.current = toast;
 
   const [saved, setSaved] = useState<SavedAddress[]>([]);
   const [ready, setReady] = useState(false);
@@ -86,14 +91,16 @@ export function useSavedAddresses() {
 
     async function load() {
       if (loggedIn) {
-        // One-shot migration of local entries into DB
+        // One-shot migration of local entries into DB. allSettled so one
+        // failed POST does not cancel the rest; surface to Sentry per-entry
+        // and toast once if a majority failed.
         if (!migratedRef.current) {
           migratedRef.current = true;
           const local = localLoad();
           if (local.length > 0) {
-            await Promise.all(
-              local.map((a) =>
-                fetch("/api/saved-properties", {
+            const results = await Promise.allSettled(
+              local.map(async (a) => {
+                const res = await fetch("/api/saved-properties", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
@@ -104,9 +111,32 @@ export function useSavedAddresses() {
                     kommunenummer: a.kommunenummer,
                     postnummer: a.postnummer,
                   }),
-                }).catch(() => null),
-              ),
+                });
+                if (!res.ok) {
+                  throw new Error(`migrate ${a.slug} → ${res.status}`);
+                }
+                return res;
+              }),
             );
+            const failures = results.filter((r) => r.status === "rejected");
+            for (const f of failures) {
+              Sentry.addBreadcrumb({
+                category: "saved-addresses.migrate",
+                level: "warning",
+                message: (f as PromiseRejectedResult).reason?.message ?? "migrate failed",
+              });
+            }
+            if (failures.length > 0) {
+              Sentry.captureMessage("saved-addresses migrate partial failure", {
+                level: failures.length === local.length ? "error" : "warning",
+                tags: { failed: String(failures.length), total: String(local.length) },
+              });
+            }
+            if (failures.length * 2 > local.length && !cancelled) {
+              toastRef.current.error(
+                "Kunne ikke flytte alle lagrede adresser til kontoen din. Prøv igjen senere.",
+              );
+            }
             localClear();
           }
         }

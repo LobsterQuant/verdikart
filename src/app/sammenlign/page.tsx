@@ -63,7 +63,9 @@ export default function CompareCitiesPage() {
         {/* Demographics comparison */}
         <section className="mb-12">
           <h2 className="mb-6 text-2xl font-bold text-foreground">Befolkningsprofil</h2>
-          <div className="overflow-x-auto rounded-xl border border-card-border bg-card-bg">
+
+          {/* Desktop: table (md and up) */}
+          <div className="hidden overflow-x-auto rounded-xl border border-card-border bg-card-bg md:block">
             <table className="w-full text-sm">
               <thead className="border-b border-card-border bg-background/50">
                 <tr>
@@ -119,6 +121,66 @@ export default function CompareCitiesPage() {
               </tbody>
             </table>
           </div>
+
+          {/* Mobile: stacked cards (below md) */}
+          <div className="space-y-3 md:hidden">
+            {compareCities.map((city) => {
+              const demo = getDemographics(city.kommunenummer);
+              if (!demo) return null;
+
+              return (
+                <Link
+                  key={city.slug}
+                  href={`/by/${city.slug}`}
+                  className="block rounded-xl border border-card-border bg-card-bg p-4 transition-colors hover:border-accent"
+                >
+                  <div className="mb-3 flex items-center justify-between">
+                    <h3 className="text-base font-semibold text-accent">{city.name}</h3>
+                    <span
+                      className={`text-sm font-semibold tabular-nums ${
+                        demo.populationGrowthPct >= 2
+                          ? "text-green-400"
+                          : demo.populationGrowthPct >= 0
+                          ? "text-yellow-400"
+                          : "text-red-400"
+                      }`}
+                    >
+                      {demo.populationGrowthPct >= 0 ? "+" : ""}
+                      {formatPct(demo.populationGrowthPct)} vekst
+                    </span>
+                  </div>
+
+                  <dl className="grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                      <dt className="text-xs text-text-tertiary">Medianinntekt</dt>
+                      <dd className="mt-0.5 tabular-nums text-foreground">
+                        {(demo.medianIncome / 1000).toFixed(0)}k kr
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-xs text-text-tertiary">Høyere utdanning</dt>
+                      <dd className="mt-0.5 tabular-nums text-foreground">
+                        {formatPct(demo.higherEducationPct)}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-xs text-text-tertiary">Barn (0–17 år)</dt>
+                      <dd className="mt-0.5 tabular-nums text-foreground">
+                        {formatPct(demo.childrenPct)}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-xs text-text-tertiary">Eldre (67+)</dt>
+                      <dd className="mt-0.5 tabular-nums text-foreground">
+                        {formatPct(demo.elderlyPct)}
+                      </dd>
+                    </div>
+                  </dl>
+                </Link>
+              );
+            })}
+          </div>
+
           <p className="mt-3 text-xs text-text-tertiary">
             Kilde: SSB Befolkningsstatistikk 2023
           </p>

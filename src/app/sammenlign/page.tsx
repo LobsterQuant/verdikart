@@ -7,7 +7,7 @@ import { getDemographics } from "@/data/demographics";
 import { formatPct } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Sammenlign byer: Oslo, Bergen, Trondheim, Stavanger | Verdikart",
+  title: "Sammenlign norske byer: Oslo, Bergen, Trondheim, Stavanger, Tromsø, Kristiansand | Verdikart",
   description:
     "Sammenlikn befolkning, inntekt, utdanning og prisutvikling mellom Norges største byer. Hva er best for deg?",
   alternates: { canonical: "https://verdikart.no/sammenlign" },
@@ -160,25 +160,25 @@ export default function CompareCitiesPage() {
             <div className="rounded-lg border border-card-border bg-card-bg p-4">
               <p className="font-semibold text-foreground mb-1">Medianinntekt</p>
               <p className="text-sm text-text-secondary">
-                Gjennomsnittlig brutto årslønn for husstander. Oslo og Stavanger er høyest, det betyr både høyere inntekt og høyere levekostnader.
+                Gjennomsnittlig brutto årslønn for husstander. Stavanger og Oslo har høyest medianinntekt blant de seks største byene, drevet av oljeindustri og hovedstadsfunksjon. Høyere inntekt følger ofte med høyere levekostnader.
               </p>
             </div>
             <div className="rounded-lg border border-card-border bg-card-bg p-4">
               <p className="font-semibold text-foreground mb-1">Høyere utdanning</p>
               <p className="text-sm text-text-secondary">
-                Prosent av befolkingen (25–66 år) med bachelor eller høyere. Høyere utdanning korrelerer med jobbmuligheter og lønnsvilje.
+                Prosent av befolkningen (25–66 år) med bachelor eller høyere. Høyere utdanning korrelerer med jobbmuligheter og lønnsvilje.
               </p>
             </div>
             <div className="rounded-lg border border-card-border bg-card-bg p-4">
               <p className="font-semibold text-foreground mb-1">Aldersfordeling</p>
               <p className="text-sm text-text-secondary">
-                Byer med høy andel barn (0–17%) er barnefamilievennlige og har aktive skolemiljø. Høy andel eldre (67%+) kan bety mindre nattliv.
+                Byer med høy andel barn (0–17 år) er barnefamilievennlige og har aktive skolemiljø. Høy andel eldre (67 år og over) kan bety mindre nattliv.
               </p>
             </div>
             <div className="rounded-lg border border-card-border bg-card-bg p-4">
               <p className="font-semibold text-foreground mb-1">Befolkningsvekst</p>
               <p className="text-sm text-text-secondary">
-                Grønt = økende befolkning (Oslo, Tromsø: 3–4%). Gult = flat (Stavanger: 2%). Rødt = synkende (sjeldent i større byer).
+                Grønt = sterk vekst (Tromsø: +4,2 %, Oslo: +3,8 %). Gult = moderat (Stavanger: +2,1 %). Rødt = synkende (sjeldent i større byer).
               </p>
             </div>
           </div>

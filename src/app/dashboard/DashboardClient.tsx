@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Heart,
   Bell,
@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { useToast } from "@/components/Toast";
 import { formatPct } from "@/lib/format";
+import { track } from "@/lib/analytics";
 
 interface SavedProperty {
   id: string;
@@ -53,6 +54,23 @@ export default function DashboardClient({
   const [editingNote, setEditingNote] = useState<string | null>(null);
   const [noteText, setNoteText] = useState("");
   const toast = useToast();
+
+  useEffect(() => {
+    track("dashboard_viewed", {
+      savedCount: initialProperties.length,
+      alertsCount: initialAlerts.length,
+    });
+    // login_completed fires once per login round-trip — AuthButton sets this
+    // sessionStorage flag before signIn() redirects to Google (§11.5).
+    try {
+      if (sessionStorage.getItem("verdikart_login_pending") === "1") {
+        sessionStorage.removeItem("verdikart_login_pending");
+        track("login_completed");
+      }
+    } catch {}
+    // Counts are captured from SSR payload once — no refire on client-side mutations.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function removeProperty(slug: string) {
     try {

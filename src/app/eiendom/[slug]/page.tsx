@@ -23,6 +23,7 @@ import ManedskostnadKort from "@/components/cards/ManedskostnadKort";
 import ManedskostnadHero from "@/components/ManedskostnadHero";
 import AmenitiesCard from "@/components/AmenitiesCard";
 import SidebarDataCluster from "@/components/SidebarDataCluster";
+import PropertyViewTracker from "@/components/analytics/PropertyViewTracker";
 
 import NeighborhoodReviewsCard from "@/components/NeighborhoodReviewsCard";
 import PdfExportButton from "@/components/PdfExportButton";
@@ -302,10 +303,13 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
     { key: "demografi",      label: "Demografi",            icon: <DemografiIcon className={iconCls} />,      detail: <DemographicsCard kommunenummer={kommunenummer} /> },
   ];
 
+  const hasPriceData = reportResult.sections.prisstatistikk !== "Ingen data";
+
   return (
     <>
       <JsonLd schema={breadcrumbSchema} />
       <JsonLd schema={realEstateSchema} />
+      <PropertyViewTracker kommunenummer={kommunenummer} hasData={hasPriceData} />
 
       {/* ── MOBILE: bottom-sheet report (Package 7) ─────────────────────── */}
       <div className="md:hidden">

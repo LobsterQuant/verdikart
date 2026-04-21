@@ -339,10 +339,12 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
       {/* ── DESKTOP: original two-column layout ─────────────────────────── */}
       <div className="hidden min-h-screen flex-col bg-background text-foreground md:flex">
 
-        {/* ── HERO: Map full-width at top ─────────────────────────────────── */}
+        {/* ── HERO: Map constrained to content width ──────────────────────── */}
         {latNum && lonNum && (
-          <div className="no-print h-56 w-full overflow-hidden sm:h-72 lg:h-80">
-            <PropertyMap lat={latNum} lon={lonNum} address={displayAddress} />
+          <div className="mx-auto w-full max-w-6xl px-4 pt-6 sm:px-6">
+            <div className="no-print h-56 overflow-hidden rounded-xl border border-card-border sm:h-72 lg:h-80">
+              <PropertyMap lat={latNum} lon={lonNum} address={displayAddress} />
+            </div>
           </div>
         )}
 

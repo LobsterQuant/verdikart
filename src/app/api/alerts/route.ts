@@ -3,6 +3,8 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { priceAlerts } from "@/lib/schema";
 import { eq, and } from "drizzle-orm";
+import { alertsPostSchema, alertsDeleteSchema } from "@/lib/validators/alerts";
+import { parseOrBadRequest } from "@/lib/validators/parse";
 
 export async function GET() {
   const session = await auth();
@@ -25,11 +27,10 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { kommunenummer, postnummer, thresholdPct } = body;
+  const { data, error } = parseOrBadRequest(alertsPostSchema, body);
+  if (error) return error;
 
-  if (!kommunenummer) {
-    return NextResponse.json({ error: "Mangler kommunenummer" }, { status: 400 });
-  }
+  const { kommunenummer, postnummer, thresholdPct } = data;
 
   // Check for duplicate
   const existing = await db
@@ -66,14 +67,13 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Ikke innlogget" }, { status: 401 });
   }
 
-  const { id } = await request.json();
-  if (!id) {
-    return NextResponse.json({ error: "Mangler id" }, { status: 400 });
-  }
+  const body = await request.json();
+  const { data, error } = parseOrBadRequest(alertsDeleteSchema, body);
+  if (error) return error;
 
   await db
     .delete(priceAlerts)
-    .where(and(eq(priceAlerts.id, id), eq(priceAlerts.userId, session.user.id)));
+    .where(and(eq(priceAlerts.id, data.id), eq(priceAlerts.userId, session.user.id)));
 
   return NextResponse.json({ deleted: true });
 }

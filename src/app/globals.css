@@ -9,7 +9,7 @@
   /* Surface */
   --bg: #0A0B0D;
   --bg-elevated: #111216;
-  --bg-card: #14161B;
+  --bg-card: #1C1F27;         /* was #14161B — audit C2 contrast fix */
   --bg-overlay: #1A1D24;
 
   /* Borders */
@@ -19,7 +19,7 @@
   /* Text */
   --text: #F4F4F6;
   --text-muted: #8B8E98;
-  --text-subtle: #5C5F68;
+  --text-subtle: #90939D;     /* was #5C5F68 — audit C3 WCAG AA fix */
 
   /* Primary accent — "Nordic Glacier" (replaces indigo) */
   --accent: #7FE3D4;
@@ -168,9 +168,11 @@ h1 {
   .display-1 {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(48px, 6vw, 84px);
+    font-size: clamp(36px, 7vw, 84px);     /* was clamp(48px, 6vw, 84px) — audit C4 mobile overflow */
     line-height: 1.02;
     letter-spacing: -0.03em;
+    word-wrap: break-word;
+    text-wrap: balance;
   }
   .display-2 {
     font-family: var(--font-display);

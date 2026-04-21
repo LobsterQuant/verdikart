@@ -9,7 +9,6 @@ export { BoligIcon } from "./BoligIcon";
 export { DemografiIcon } from "./DemografiIcon";
 export { EnergiIcon } from "./EnergiIcon";
 export { LuftkvalitetIcon } from "./LuftkvalitetIcon";
-export { KollektivAvgangIcon } from "./KollektivAvgangIcon";
 export { StoyIcon } from "./StoyIcon";
 export { BredbandIcon } from "./BredbandIcon";
 export { KriminalitetIcon } from "./KriminalitetIcon";

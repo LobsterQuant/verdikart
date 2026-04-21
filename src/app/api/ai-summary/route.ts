@@ -1,37 +1,14 @@
 import { NextRequest } from "next/server";
+import { auth } from "@/lib/auth";
+import { isAiQuotaExceeded, secondsUntilMidnightUTC } from "@/lib/ai-quota";
+import {
+  buildPrompt,
+  buildFallbackSummary,
+  type ContextData,
+} from "@/lib/ai-summary-prompt";
 
 export const runtime = "edge";
 export const maxDuration = 30;
-
-interface ContextData {
-  sqmPrice?: number;
-  yoyChange?: number;
-  priceLabel?: string;
-  transitMinutes?: number | null;
-  transitDestination?: string;
-}
-
-function buildPrompt(address: string, ctx: ContextData): string {
-  const lines: string[] = [];
-
-  if (ctx.sqmPrice) {
-    lines.push(`- Kvadratmeterpris: ${ctx.sqmPrice.toLocaleString("nb-NO")} kr/m² (${ctx.priceLabel ?? "kommunedata"})`);
-  }
-  if (ctx.yoyChange != null) {
-    lines.push(`- Prisutvikling siste år: ${ctx.yoyChange > 0 ? "+" : ""}${ctx.yoyChange.toFixed(1).replace(".", ",")} %`);
-  }
-  if (ctx.transitMinutes != null && ctx.transitMinutes > 0 && ctx.transitDestination) {
-    lines.push(`- Kollektivtransport til ${ctx.transitDestination}: ${ctx.transitMinutes} min`);
-  } else if (ctx.transitMinutes === null || ctx.transitMinutes === 0) {
-    lines.push(`- Kollektivtransport: adresse er i sentrum`);
-  }
-
-  const dataBlock = lines.length > 0
-    ? `\n\nTilgjengelig data for denne adressen:\n${lines.join("\n")}`
-    : "";
-
-  return `Eiendomsanalytiker. Skriv 3 korte setninger på norsk bokmål om "${address}" for en boligkjøper: prisnivå, prisutvikling, og kollektivdekning. Bruk tallene. Ingen anbefalinger.${dataBlock}`;
-}
 
 function streamText(text: string): Response {
   const encoder = new TextEncoder();
@@ -47,30 +24,36 @@ function streamText(text: string): Response {
   });
 }
 
-function buildFallbackSummary(address: string, ctx: ContextData): string {
-  const parts: string[] = [];
-  if (ctx.sqmPrice) {
-    parts.push(`Gjennomsnittlig kvadratmeterpris i kommunen er ${ctx.sqmPrice.toLocaleString("nb-NO")} kr/m²${ctx.priceLabel ? ` (${ctx.priceLabel})` : ""}.`);
-  }
-  if (ctx.yoyChange != null) {
-    parts.push(`Prisene har endret seg ${ctx.yoyChange > 0 ? "+" : ""}${ctx.yoyChange.toFixed(1).replace(".", ",")} % siste år.`);
-  }
-  if (ctx.transitMinutes != null && ctx.transitMinutes > 0 && ctx.transitDestination) {
-    parts.push(`Kollektivtransport til ${ctx.transitDestination} tar ${ctx.transitMinutes} minutter.`);
-  } else if (ctx.transitMinutes === null || ctx.transitMinutes === 0) {
-    parts.push("Adressen ligger i sentrum av byen.");
-  }
-  if (parts.length === 0) {
-    return `Vi har ikke nok data til å oppsummere ${address} automatisk. Se de enkelte datakortene nedenfor for transport, pris og støynivå.`;
-  }
-  return parts.join(" ");
-}
-
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const { address, contextData = {} } = body as { address: string; contextData?: ContextData };
 
   if (!address) return new Response("Bad request", { status: 400 });
+
+  const session = await auth();
+  const userId = session?.user?.id;
+  const identifier = userId
+    ? { type: "user" as const, id: userId }
+    : {
+        type: "ip" as const,
+        ip:
+          req.headers.get("x-forwarded-for")?.split(",").pop()?.trim() ??
+          req.headers.get("x-real-ip") ??
+          "unknown",
+      };
+
+  if (await isAiQuotaExceeded(identifier)) {
+    return new Response(
+      JSON.stringify({ error: "Daglig grense for AI-oppsummering er nådd. Prøv igjen i morgen." }),
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          "Retry-After": String(secondsUntilMidnightUTC()),
+        },
+      },
+    );
+  }
 
   const ctx: ContextData = contextData;
   const prompt = buildPrompt(address, ctx);

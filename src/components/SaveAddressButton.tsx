@@ -2,6 +2,7 @@
 
 import { Heart } from "lucide-react";
 import { useState, useCallback } from "react";
+import * as Sentry from "@sentry/nextjs";
 import { useSavedAddresses } from "@/hooks/useSavedAddresses";
 import { useToast } from "./Toast";
 
@@ -45,9 +46,12 @@ export default function SaveAddressButton({
         });
         toast.success("Lagret");
       }
-    } catch {
+    } catch (error) {
+      Sentry.captureException(error, {
+        tags: { scope: "saved-addresses.toggle", action: saved ? "remove" : "save" },
+      });
       toast.error(
-        saved ? "Kunne ikke fjerne (prøv igjen" : "Kunne ikke lagre) prøv igjen",
+        saved ? "Kunne ikke fjerne — prøv igjen" : "Kunne ikke lagre — prøv igjen",
       );
     } finally {
       setLoading(false);

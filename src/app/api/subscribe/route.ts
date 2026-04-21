@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+import { subscribePostSchema } from "@/lib/validators/subscribe";
+import { parseOrBadRequest } from "@/lib/validators/parse";
 
 // POST /api/subscribe — captures email + optional address
 // Forwards to Formspree for persistent storage (same account used for contact forms)
 // Set FORMSPREE_SUBSCRIBE_ID env var in Vercel dashboard to activate
 export async function POST(request: NextRequest) {
   try {
-    const { email, address } = await request.json();
+    const body = await request.json();
+    const { data, error } = parseOrBadRequest(subscribePostSchema, body);
+    if (error) return error;
 
-    if (!email || typeof email !== "string" || !email.includes("@")) {
-      return NextResponse.json({ error: "Invalid email" }, { status: 400 });
-    }
+    const { email, address } = data;
 
     const formspreeId = process.env.FORMSPREE_SUBSCRIBE_ID;
 

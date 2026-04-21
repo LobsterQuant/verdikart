@@ -3,14 +3,18 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { neighborhoodReviews, users } from "@/lib/schema";
 import { eq, desc, avg, count } from "drizzle-orm";
+import { reviewsPostSchema, reviewsGetQuerySchema } from "@/lib/validators/reviews";
+import { parseOrBadRequest } from "@/lib/validators/parse";
+import { containsForbidden } from "@/lib/validators/profanity";
 
 export async function GET(request: NextRequest) {
-  const postnummer = request.nextUrl.searchParams.get("postnummer") ?? "";
-  const kommunenummer = request.nextUrl.searchParams.get("kommunenummer") ?? "";
+  const params = Object.fromEntries(
+    Array.from(request.nextUrl.searchParams).filter(([, v]) => v !== ""),
+  );
+  const { data, error } = parseOrBadRequest(reviewsGetQuerySchema, params);
+  if (error) return error;
 
-  if (!kommunenummer) {
-    return NextResponse.json({ reviews: [], avgRating: null, count: 0 });
-  }
+  const { kommunenummer, postnummer } = data;
 
   // Get reviews with user names
   const reviews = await db
@@ -45,7 +49,7 @@ export async function GET(request: NextRequest) {
     })),
     avgRating: stats?.avgRating ? parseFloat(String(stats.avgRating)) : null,
     count: stats?.totalCount ?? 0,
-    postnummer,
+    postnummer: postnummer ?? "",
   });
 }
 
@@ -56,16 +60,12 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { kommunenummer, postnummer, rating, pros, cons, livedYears } = body;
+  const { data, error } = parseOrBadRequest(reviewsPostSchema, body);
+  if (error) return error;
 
-  if (!kommunenummer || !rating || rating < 1 || rating > 5) {
-    return NextResponse.json({ error: "Ugyldig data" }, { status: 400 });
-  }
+  const { kommunenummer, postnummer, rating, pros, cons, livedYears } = data;
 
-  // Basic content filter
-  const forbidden = ["fuck", "faen", "jævla", "hore", "dritt"];
-  const allText = `${pros ?? ""} ${cons ?? ""}`.toLowerCase();
-  if (forbidden.some((w) => allText.includes(w))) {
+  if (containsForbidden(`${pros ?? ""} ${cons ?? ""}`)) {
     return NextResponse.json({ error: "Innholdet inneholder upassende språk" }, { status: 400 });
   }
 
@@ -76,8 +76,8 @@ export async function POST(request: NextRequest) {
       kommunenummer,
       postnummer: postnummer ?? null,
       rating,
-      pros: pros?.slice(0, 500) ?? null,
-      cons: cons?.slice(0, 500) ?? null,
+      pros: pros ?? null,
+      cons: cons ?? null,
       livedYears: livedYears ?? null,
     })
     .returning();

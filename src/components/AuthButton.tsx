@@ -4,6 +4,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { LogIn, LogOut, User } from "lucide-react";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
+import { track } from "@/lib/analytics";
 
 export default function AuthButton() {
   const { data: session, status } = useSession();
@@ -27,7 +28,14 @@ export default function AuthButton() {
   if (!session) {
     return (
       <button
-        onClick={() => signIn("google")}
+        onClick={() => {
+          track("login_started");
+          // Flag consumed by DashboardClient on mount to fire login_completed
+          // exactly once per login round-trip (see §11.5). sessionStorage
+          // survives the Google OAuth redirect within the same tab.
+          try { sessionStorage.setItem("verdikart_login_pending", "1"); } catch {}
+          signIn("google");
+        }}
         className="flex items-center gap-1.5 rounded-lg border border-card-border px-3 py-1.5 text-sm text-text-secondary transition-colors hover:border-accent hover:text-foreground"
       >
         <LogIn className="h-4 w-4" />

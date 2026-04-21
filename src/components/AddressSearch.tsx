@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, m } from "framer-motion";
 import { Clock, X } from "lucide-react";
 import { fadeUp, staggerParent } from "@/lib/motion";
+import { track } from "@/lib/analytics";
 
 const RECENT_KEY = "verdikart_recent_v2";
 const MAX_RECENT = 5;
@@ -197,6 +198,7 @@ export default function AddressSearch({ initialValue = "", skipAutoSearch = fals
       setActiveIndex(-1);
       setShowRecent(false);
       setState(adresser.length > 0 ? "results" : "no-results");
+      track("address_searched", { resultsCount: adresser.length });
     } catch (err) {
       if (controller.signal.aborted || (err instanceof DOMException && err.name === "AbortError")) return;
       setResults([]);
@@ -224,6 +226,8 @@ export default function AddressSearch({ initialValue = "", skipAutoSearch = fals
     };
     saveRecent(entry);
     setRecent(loadRecent());
+
+    track("address_selected", { kommunenummer: knr });
 
     setQuery(result.adressetekst);
     setState("idle");

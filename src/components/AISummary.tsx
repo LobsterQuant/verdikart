@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useSession } from "next-auth/react";
 import { Sparkles, ChevronDown } from "lucide-react";
+import { track } from "@/lib/analytics";
 
 type Status = "idle" | "loading" | "streaming" | "done" | "error";
 
@@ -47,6 +49,8 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
   const [summary, setSummary] = useState("");
   const [open, setOpen] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+  const { data: session } = useSession();
+  const authenticated = !!session?.user;
 
   async function generate() {
     if (status === "loading" || status === "streaming") return;
@@ -60,6 +64,7 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
       // Fetch context data client-side — avoids self-referencing in edge runtime
       const contextData = await fetchContext(kommunenummer, lat, lon);
 
+      track("ai_summary_requested", { authenticated });
       const res = await fetch("/api/ai-summary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -67,7 +72,11 @@ export default function AISummary({ address, kommunenummer, lat, lon }: Props) {
         signal: abortRef.current.signal,
       });
 
-      if (!res.ok) { setStatus("error"); return; }
+      if (!res.ok) {
+        if (res.status === 429) track("ai_summary_quota_hit", { authenticated });
+        setStatus("error");
+        return;
+      }
       if (!res.body) { setStatus("error"); return; }
 
       setStatus("streaming");

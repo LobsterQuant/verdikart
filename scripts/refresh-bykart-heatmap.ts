@@ -38,8 +38,10 @@
  * after every batch; re-runs resume where the previous run stopped. Pass
  * --fresh to ignore the checkpoint.
  *
- * Exits 0 on success. Exits 1 if Entur fails for > 5 % of cells in any city
+ * Exits 0 on success. Exits 2 if Entur fails for > 5 % of cells in any city
  * (outage — do not overwrite the cached data with a mostly-broken snapshot).
+ * A per-city failure is logged and skipped so the remaining cities still
+ * refresh; the non-zero exit code surfaces at the end.
  *
  * Manual refresh / weekly cadence. Not part of CI.
  */
@@ -489,9 +491,21 @@ async function main() {
     elapsedMs: number;
     histogram: string;
   }> = [];
+  const failures: Array<{ id: WorkCenterId; error: Error }> = [];
 
   for (const spec of cities) {
-    const result = await scoreCity(spec, { limit: args.limit, fresh: args.fresh });
+    // Per-city try/catch: an Entur outage that trips the 5 % failure threshold
+    // on one city should not abort the remaining cities. Checkpoints for the
+    // failing city are preserved by scoreCity so the next run resumes.
+    let result: ScoreResult;
+    try {
+      result = await scoreCity(spec, { limit: args.limit, fresh: args.fresh });
+    } catch (err) {
+      const e = err instanceof Error ? err : new Error(String(err));
+      console.error(`  ✗ ${spec.id} failed: ${e.message}`);
+      failures.push({ id: spec.id, error: e });
+      continue;
+    }
     const { overridden } = applyWorkCenterOverride(result.cells, spec.id);
     if (overridden > 0) {
       console.log(
@@ -539,8 +553,17 @@ async function main() {
     );
     console.log(`               ${s.histogram}`);
   }
+  if (failures.length > 0) {
+    console.log(`\n  ✗ ${failures.length} city/cities failed:`);
+    for (const f of failures) {
+      console.log(`    - ${f.id}: ${f.error.message}`);
+    }
+  }
   console.log(`  total time: ${totalElapsedMin.toFixed(1)} min`);
-  process.exit(0);
+  // Exit 2 when any city failed — matches the header doc and distinguishes an
+  // upstream Entur outage from a script-level crash (also 2 via the top-level
+  // .catch). The operator can diagnose via the failure log above.
+  process.exit(failures.length > 0 ? 2 : 0);
 }
 
 main().catch((err) => {

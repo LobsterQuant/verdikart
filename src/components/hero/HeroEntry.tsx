@@ -7,8 +7,8 @@ import { fadeUp, staggerParent } from "@/lib/motion";
 
 const EXAMPLES: ReadonlyArray<readonly [string, string]> = [
   ["Karl Johans gate 1, Oslo", "karl-johans-gate-1--599114-107494-0301"],
-  ["Bryggen 1, Bergen", "bryggen-1-bergen--603893-53320-4601"],
-  ["Torget 2, Trondheim", "torget-2-trondheim--633436-103892-5001"],
+  ["Bryggen 1, Bergen", "bryggen-1-bergen--603971-53215-4601"],
+  ["Torget 2, Trondheim", "torget-2-trondheim--634306-103952-5001"],
 ];
 
 /**

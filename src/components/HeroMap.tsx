@@ -2,19 +2,21 @@
 
 import dynamic from "next/dynamic";
 
-/** One entry in the rotating address carousel rendered on the homepage hero. */
+/** Single demo address rendered on the homepage hero map. */
 export interface HeroMapAddress {
   address: string;
   lat: number;
   lon: number;
 }
 
-/** Demo addresses matching the example chips rendered below the hero search. */
-export const HERO_MAP_ADDRESSES: readonly HeroMapAddress[] = [
-  { address: "Karl Johans gate 1, Oslo",  lat: 59.9114, lon: 10.7494 },
-  { address: "Bryggen 1, Bergen",          lat: 60.3971, lon:  5.3215 },
-  { address: "Torget 2, Trondheim",        lat: 63.4306, lon: 10.3952 },
-];
+// Karl Johans gate 1, Oslo — pinned so the map stays consistent with
+// ProductMockup's Oslo-only data fetch and with the first example chip slug
+// in HeroEntry. Lat/lon match `karl-johans-gate-1--599114-107494-0301`.
+export const HERO_MAP_ADDRESS: HeroMapAddress = {
+  address: "Karl Johans gate 1, Oslo",
+  lat: 59.9114,
+  lon: 10.7494,
+};
 
 const HeroMapInner = dynamic(() => import("./HeroMapInner"), {
   ssr: false,
@@ -37,5 +39,5 @@ interface HeroMapProps {
 }
 
 export default function HeroMap({ height = 180 }: HeroMapProps) {
-  return <HeroMapInner addresses={HERO_MAP_ADDRESSES} height={height} />;
+  return <HeroMapInner address={HERO_MAP_ADDRESS} height={height} />;
 }

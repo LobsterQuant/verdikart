@@ -554,6 +554,47 @@ input::placeholder {
   animation: glow-pulse 2.5s ease-in-out infinite;
 }
 
+/* ── Hero map pulsing marker ──
+   Concentric teal rings around a solid core. Rendered via Leaflet divIcon
+   (HeroMapInner.tsx); the className lands on the outer icon div so everything
+   below is positioned relative to a 32x32 canvas anchored at its centre. */
+.hero-map-pulse-marker {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+}
+.hero-map-pulse-core,
+.hero-map-pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-top: -5px;
+  margin-left: -5px;
+  border-radius: 50%;
+}
+.hero-map-pulse-core {
+  background: var(--accent);
+  box-shadow: 0 0 0 2px rgba(14, 16, 22, 0.9), 0 0 12px rgb(var(--accent-rgb) / 0.6);
+}
+.hero-map-pulse-ring {
+  background: rgb(var(--accent-rgb) / 0.45);
+  animation: hero-map-pulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  will-change: transform, opacity;
+}
+.hero-map-pulse-ring-delay {
+  animation-delay: 1s;
+}
+@keyframes hero-map-pulse {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(3.2); opacity: 0;   }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-map-pulse-ring { animation: none; opacity: 0; }
+}
+
 /* ── Unified button system ──
    Base: consistent typography, transitions, focus ring, disabled state.
    Variants layer on color/elevation. Use with explicit padding utility. */

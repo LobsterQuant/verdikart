@@ -390,6 +390,13 @@ export default function HomePage() {
               "radial-gradient(ellipse at 50% 50%, transparent 30%, #080810 80%)",
           }}
         />
+        {/* 2.5. Aurora drift — two blurred teal blobs, GPU-only transform/opacity
+            loop. Sits above the vignette so the glow bleeds into the dark edges
+            and reads as atmosphere rather than a centered spotlight. */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div className="aurora-blob aurora-blob-1" />
+          <div className="aurora-blob aurora-blob-2" />
+        </div>
         {/* 3. Primary accent glow — top-center */}
         <div
           aria-hidden

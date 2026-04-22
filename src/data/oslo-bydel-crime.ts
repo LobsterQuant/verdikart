@@ -1,7 +1,7 @@
 /**
  * Oslo bydel-level crime estimates — anmeldelser per 1000 innbyggere (2023).
  *
- * Kommune-snittet for Oslo (SSB table 08484) er 93,2 per 1000. Dette
+ * Kommune-snittet for Oslo (SSB table 08487) er 97,8 per 1000. Dette
  * gjennomsnittet skjuler stor variasjon mellom bydeler: Sentrum har svært
  * høye tall (sentrumsanmeldelser klynges geografisk), mens Vestre Aker og
  * Ullern ligger langt under. Kildene bak ratene her er Oslo politidistrikts
@@ -34,7 +34,7 @@ export interface OsloBydelCrime {
  * Oslo kommunesnitt — referanseverdien bydel-nivå sammenlignes mot i UI.
  * Skal holdes i synk med KOMMUNE_CRIME["0301"].rate i src/data/crime.ts.
  */
-export const OSLO_KOMMUNE_AVG = 93.2;
+export const OSLO_KOMMUNE_AVG = 97.8;
 
 export const OSLO_BYDEL_CRIME: Record<string, OsloBydelCrime> = {
   // Sentrum: anmeldelser klynges her pga. natteliv/handel/transitt
@@ -81,7 +81,7 @@ export interface OsloBydelCrimeLookup {
  * kommunenummer "0301" er tilgjengelig, brukes closest-centroid-oppslag
  * fra bydelFromCoordinates. Dette fanger direkte-lenker, sitemap-crawlere
  * og interne navigasjoner som ikke bærer ?pnr= i URL-en — disse landet
- * tidligere alltid på kommunesnittet (93,2) i stedet for faktisk bydel.
+ * tidligere alltid på kommunesnittet (97,8) i stedet for faktisk bydel.
  *
  * Returnerer null når hverken postnummer eller koordinater kan mappes til
  * en kjent Oslo-bydel (f.eks. adresser utenfor Oslo kommune).

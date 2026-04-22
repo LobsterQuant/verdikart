@@ -142,7 +142,7 @@ function KommuneCrimeView({ kommunenummer, kommuneName }: { kommunenummer: strin
           Kriminalitetsdata er ikke tilgjengelig for denne kommunen. Vi dekker ca. 175 kommuner som representerer de fleste norske byer og tettsteder.
         </p>
         <p className="mt-1 text-xs text-text-secondary">
-          Kilde: SSB: Kriminalstatistikk 2023. Bydels- og nabolagsnivå er ikke tilgjengelig.
+          Kilde: SSB tabell 08487 — 2-årig snitt 2023–2024. Bydels- og nabolagsnivå er ikke tilgjengelig.
         </p>
       </div>
     );

@@ -469,14 +469,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 ...(latNum && lonNum ? [
                   <CardErrorBoundary key="summary" fallbackTitle="Oppsummering feilet">
                     <KeyDataBullets bullets={keyDataBullets}>
-                      <AISummary
-                        slug={params.slug}
-                        address={displayAddress}
-                        kommunenummer={kommunenummer}
-                        postnummer={postnummer}
-                        lat={latNum}
-                        lon={lonNum}
-                      />
+                      <AISummary slug={params.slug} />
                     </KeyDataBullets>
                   </CardErrorBoundary>,
                 ] : []),

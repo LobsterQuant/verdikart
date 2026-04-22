@@ -7,11 +7,6 @@ type Status = "loading" | "done" | "error";
 
 interface Props {
   slug: string;
-  address: string;
-  kommunenummer: string;
-  postnummer?: string;
-  lat: number;
-  lon: number;
 }
 
 /**
@@ -19,15 +14,12 @@ interface Props {
  * no opt-in. The API route is cached per address so repeat visitors get an
  * instant KV hit; only the first visitor to a given address pays the LLM
  * latency.
+ *
+ * Only the slug is sent — the server derives trusted lat/lon/kommunenummer
+ * and reverse-geocodes the address from the slug suffix, so a crafted body
+ * cannot poison the per-slug cache entry with attacker-chosen prose.
  */
-export default function AISummary({
-  slug,
-  address,
-  kommunenummer,
-  postnummer,
-  lat,
-  lon,
-}: Props) {
+export default function AISummary({ slug }: Props) {
   const [status, setStatus] = useState<Status>("loading");
   const [summary, setSummary] = useState("");
   const abortRef = useRef<AbortController | null>(null);
@@ -41,7 +33,7 @@ export default function AISummary({
         const res = await fetch("/api/ai-summary", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slug, address, kommunenummer, postnummer, lat, lon }),
+          body: JSON.stringify({ slug }),
           signal: controller.signal,
         });
         if (!res.ok) {
@@ -62,7 +54,7 @@ export default function AISummary({
     })();
 
     return () => controller.abort();
-  }, [slug, address, kommunenummer, postnummer, lat, lon]);
+  }, [slug]);
 
   if (status === "error") {
     // Swallow the section silently when the backend is unreachable. The

@@ -52,14 +52,14 @@ describe("resolveKommuneCategory", () => {
     expect(resolveKommuneCategory("4601")).toBe("storby"); // Bergen
     expect(resolveKommuneCategory("5001")).toBe("storby"); // Trondheim
     expect(resolveKommuneCategory("1103")).toBe("storby"); // Stavanger
-    expect(resolveKommuneCategory("3005")).toBe("storby"); // Drammen
+    expect(resolveKommuneCategory("3301")).toBe("storby"); // Drammen
     expect(resolveKommuneCategory("4204")).toBe("storby"); // Kristiansand
-    expect(resolveKommuneCategory("3004")).toBe("storby"); // Fredrikstad (<100k pop)
-    expect(resolveKommuneCategory("5401")).toBe("storby"); // Tromsø (<100k pop)
+    expect(resolveKommuneCategory("3107")).toBe("storby"); // Fredrikstad (<100k pop)
+    expect(resolveKommuneCategory("5501")).toBe("storby"); // Tromsø (<100k pop)
   });
 
   it("returns mellomby for medium kommunes in population file", () => {
-    expect(resolveKommuneCategory("1507")).toBe("mellomby"); // Ålesund ~67k
+    expect(resolveKommuneCategory("1508")).toBe("mellomby"); // Ålesund ~60k (renumbered 2024)
     expect(resolveKommuneCategory("3403")).toBe("mellomby"); // Hamar ~32k
   });
 

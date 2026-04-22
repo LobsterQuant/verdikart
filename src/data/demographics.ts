@@ -39,8 +39,8 @@ export const demographicsData: Record<string, DemographicData> = {
     medianIncome: 714000, higherEducationPct: 49.3, childrenPct: 21.6, elderlyPct: 12.9,
     populationGrowthPct: 2.1, year: 2023,
   },
-  "5401": {
-    kommunenummer: "5401", name: "Tromsø",
+  "5501": {
+    kommunenummer: "5501", name: "Tromsø",
     medianIncome: 582000, higherEducationPct: 46.7, childrenPct: 20.2, elderlyPct: 11.8,
     populationGrowthPct: 4.2, year: 2023,
   },
@@ -49,13 +49,13 @@ export const demographicsData: Record<string, DemographicData> = {
     medianIncome: 596000, higherEducationPct: 44.8, childrenPct: 22.1, elderlyPct: 13.4,
     populationGrowthPct: 2.7, year: 2023,
   },
-  "3004": {
-    kommunenummer: "3004", name: "Fredrikstad",
+  "3107": {
+    kommunenummer: "3107", name: "Fredrikstad",
     medianIncome: 541000, higherEducationPct: 36.2, childrenPct: 21.8, elderlyPct: 15.6,
     populationGrowthPct: 1.8, year: 2023,
   },
-  "3005": {
-    kommunenummer: "3005", name: "Drammen",
+  "3301": {
+    kommunenummer: "3301", name: "Drammen",
     medianIncome: 572000, higherEducationPct: 39.4, childrenPct: 23.2, elderlyPct: 13.1,
     populationGrowthPct: 2.3, year: 2023,
   },
@@ -69,13 +69,13 @@ export const demographicsData: Record<string, DemographicData> = {
     medianIncome: 578000, higherEducationPct: 38.6, childrenPct: 20.9, elderlyPct: 14.7,
     populationGrowthPct: 1.4, year: 2023,
   },
-  "3024": {
-    kommunenummer: "3024", name: "Bærum",
+  "3201": {
+    kommunenummer: "3201", name: "Bærum",
     medianIncome: 842000, higherEducationPct: 62.8, childrenPct: 22.4, elderlyPct: 14.2,
     populationGrowthPct: 1.9, year: 2023,
   },
-  "3025": {
-    kommunenummer: "3025", name: "Asker",
+  "3203": {
+    kommunenummer: "3203", name: "Asker",
     medianIncome: 796000, higherEducationPct: 58.4, childrenPct: 23.1, elderlyPct: 13.8,
     populationGrowthPct: 2.1, year: 2023,
   },
@@ -89,18 +89,18 @@ export const demographicsData: Record<string, DemographicData> = {
     medianIncome: 548000, higherEducationPct: 37.9, childrenPct: 20.6, elderlyPct: 16.2,
     populationGrowthPct: 1.2, year: 2023,
   },
-  "3803": {
-    kommunenummer: "3803", name: "Sandefjord",
+  "3907": {
+    kommunenummer: "3907", name: "Sandefjord",
     medianIncome: 612000, higherEducationPct: 41.2, childrenPct: 21.3, elderlyPct: 15.1,
     populationGrowthPct: 1.6, year: 2023,
   },
-  "3003": {
-    kommunenummer: "3003", name: "Sarpsborg",
+  "3105": {
+    kommunenummer: "3105", name: "Sarpsborg",
     medianIncome: 524000, higherEducationPct: 31.4, childrenPct: 22.6, elderlyPct: 15.8,
     populationGrowthPct: 1.4, year: 2023,
   },
-  "3807": {
-    kommunenummer: "3807", name: "Skien",
+  "4003": {
+    kommunenummer: "4003", name: "Skien",
     medianIncome: 536000, higherEducationPct: 33.8, childrenPct: 21.4, elderlyPct: 16.4,
     populationGrowthPct: 0.8, year: 2023,
   },

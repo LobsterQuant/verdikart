@@ -34,16 +34,16 @@ export const environmentalRiskData: Record<string, EnvironmentalRisk> = {
     floodRisk: "Moderat",
     floodNote: "Noe flomrisiko i lavereliggende kyststrøk og langs Gandsfjorden.",
   },
-  "5401": { kommunenummer: "5401", radonRisk: "Lav", floodRisk: "Lav" },
+  "5501": { kommunenummer: "5501", radonRisk: "Lav", floodRisk: "Lav" },
   "4204": { kommunenummer: "4204", radonRisk: "Lav", floodRisk: "Moderat" },
-  "3004": {
-    kommunenummer: "3004",
+  "3107": {
+    kommunenummer: "3107",
     radonRisk: "Høy",
     radonNote: "Østfold er et av Norges høyeste risikoområder for radon på grunn av granittgrunn.",
     floodRisk: "Moderat",
   },
-  "3005": {
-    kommunenummer: "3005",
+  "3301": {
+    kommunenummer: "3301",
     radonRisk: "Høy",
     radonNote: "Drammen og Buskerud har mye granittgrunn med høy radongassforekomst.",
     floodRisk: "Høy",
@@ -51,14 +51,14 @@ export const environmentalRiskData: Record<string, EnvironmentalRisk> = {
   },
   "1108": { kommunenummer: "1108", radonRisk: "Lav", floodRisk: "Lav" },
   "1507": { kommunenummer: "1507", radonRisk: "Lav", floodRisk: "Moderat" },
-  "3024": {
-    kommunenummer: "3024",
+  "3201": {
+    kommunenummer: "3201",
     radonRisk: "Høy",
     radonNote: "Bærum har alunskifer- og granittgrunn. Radon er en reell risiko: mål alltid ved kjøp.",
     floodRisk: "Lav",
   },
-  "3025": {
-    kommunenummer: "3025",
+  "3203": {
+    kommunenummer: "3203",
     radonRisk: "Høy",
     radonNote: "Asker har granittrik grunn. Radonnivåer bør alltid måles.",
     floodRisk: "Lav",
@@ -71,16 +71,16 @@ export const environmentalRiskData: Record<string, EnvironmentalRisk> = {
     floodRisk: "Høy",
     floodNote: "Hamar ligger ved Mjøsa: historisk flomrisiko ved snøsmelting og ekstremnedbør.",
   },
-  "3803": { kommunenummer: "3803", radonRisk: "Moderat", floodRisk: "Lav" },
-  "3003": {
-    kommunenummer: "3003",
+  "3907": { kommunenummer: "3907", radonRisk: "Moderat", floodRisk: "Lav" },
+  "3105": {
+    kommunenummer: "3105",
     radonRisk: "Høy",
     radonNote: "Sarpsborg ligger i Østfold med granittgrunn: høy radonrisiko.",
     floodRisk: "Moderat",
     floodNote: "Noe flomrisiko langs Glomma.",
   },
-  "3807": {
-    kommunenummer: "3807",
+  "4003": {
+    kommunenummer: "4003",
     radonRisk: "Moderat",
     floodRisk: "Moderat",
     floodNote: "Noe flomrisiko langs Porsgrunnselva og Hjellevannet.",

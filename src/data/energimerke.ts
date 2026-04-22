@@ -67,8 +67,8 @@ export const energimerkeData: Record<string, EnergimerkeData> = {
     avgBuildYear: 1975,
     note: "Mye gjenoppbygging etter krigen og nyere utbygging på Mørkved.",
   },
-  "3003": {
-    kommunenummer: "3003",
+  "3105": {
+    kommunenummer: "3105",
     name: "Sarpsborg",
     dominantLabel: "E",
     goodPct: 16,
@@ -77,8 +77,8 @@ export const energimerkeData: Record<string, EnergimerkeData> = {
     avgBuildYear: 1955,
     note: "Eldre industribybebyggelse med lavt renoveringstempo.",
   },
-  "3004": {
-    kommunenummer: "3004",
+  "3107": {
+    kommunenummer: "3107",
     name: "Fredrikstad",
     dominantLabel: "F",
     goodPct: 14,
@@ -87,8 +87,8 @@ export const energimerkeData: Record<string, EnergimerkeData> = {
     avgBuildYear: 1948,
     note: "Gammel Fredrikstad-bebyggelse med høy andel uisolerte trehus.",
   },
-  "3005": {
-    kommunenummer: "3005",
+  "3301": {
+    kommunenummer: "3301",
     name: "Drammen",
     dominantLabel: "E",
     goodPct: 20,
@@ -96,8 +96,8 @@ export const energimerkeData: Record<string, EnergimerkeData> = {
     poorPct: 41,
     avgBuildYear: 1960,
   },
-  "3024": {
-    kommunenummer: "3024",
+  "3201": {
+    kommunenummer: "3201",
     name: "Bærum",
     dominantLabel: "D",
     goodPct: 29,
@@ -106,8 +106,8 @@ export const energimerkeData: Record<string, EnergimerkeData> = {
     avgBuildYear: 1970,
     note: "Høy andel eneboliger med gjennomført energioppgradering. Fornebu-utbyggingen bidrar med nye A/B-boliger.",
   },
-  "3025": {
-    kommunenummer: "3025",
+  "3203": {
+    kommunenummer: "3203",
     name: "Asker",
     dominantLabel: "D",
     goodPct: 28,
@@ -125,8 +125,8 @@ export const energimerkeData: Record<string, EnergimerkeData> = {
     poorPct: 46,
     avgBuildYear: 1956,
   },
-  "3803": {
-    kommunenummer: "3803",
+  "3907": {
+    kommunenummer: "3907",
     name: "Sandefjord",
     dominantLabel: "E",
     goodPct: 19,
@@ -134,8 +134,8 @@ export const energimerkeData: Record<string, EnergimerkeData> = {
     poorPct: 43,
     avgBuildYear: 1962,
   },
-  "3807": {
-    kommunenummer: "3807",
+  "4003": {
+    kommunenummer: "4003",
     name: "Skien",
     dominantLabel: "F",
     goodPct: 15,
@@ -182,8 +182,8 @@ export const energimerkeData: Record<string, EnergimerkeData> = {
     avgBuildYear: 1965,
     note: "Blanding av gamle trehusbydeler og nyere studentby- og NTNU-næringsutbygging.",
   },
-  "5401": {
-    kommunenummer: "5401",
+  "5501": {
+    kommunenummer: "5501",
     name: "Tromsø",
     dominantLabel: "E",
     goodPct: 21,

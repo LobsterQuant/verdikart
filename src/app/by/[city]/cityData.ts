@@ -109,7 +109,7 @@ const cities: Record<string, CityData> = {
   },
 
   baerum: {
-    slug: "baerum", name: "Bærum", county: "Akershus", kommunenummer: "3024", population: "127 000",
+    slug: "baerum", name: "Bærum", county: "Akershus", kommunenummer: "3201", population: "127 000",
     avgSqmPrice: 72_500, avgSqmPriceYoY: 4.8, medianPrice: 4_800_000, avgCommute: 28,
     topNeighbourhoods: ["Sandvika", "Bekkestua", "Lysaker", "Jar", "Fornebu"],
     metaTitle: "Boligpriser i Bærum 2026 – Kjøpe bolig i Bærum | Verdikart",
@@ -151,7 +151,7 @@ const cities: Record<string, CityData> = {
   },
 
   fredrikstad: {
-    slug: "fredrikstad", name: "Fredrikstad", county: "Østfold", kommunenummer: "3004", population: "83 000",
+    slug: "fredrikstad", name: "Fredrikstad", county: "Østfold", kommunenummer: "3107", population: "83 000",
     avgSqmPrice: 36_900, avgSqmPriceYoY: 6.1, medianPrice: 2_600_000, avgCommute: 15,
     topNeighbourhoods: ["Gamlebyen", "Sentrum", "Rolvsøy", "Østsiden", "Kråkerøy"],
     metaTitle: "Boligpriser i Fredrikstad 2026 – Kjøpe bolig i Fredrikstad | Verdikart",
@@ -193,7 +193,7 @@ const cities: Record<string, CityData> = {
   },
 
   drammen: {
-    slug: "drammen", name: "Drammen", county: "Buskerud", kommunenummer: "3005", population: "101 000",
+    slug: "drammen", name: "Drammen", county: "Buskerud", kommunenummer: "3301", population: "101 000",
     avgSqmPrice: 44_700, avgSqmPriceYoY: 5.3, medianPrice: 3_000_000, avgCommute: 24,
     topNeighbourhoods: ["Bragernes", "Strømsø", "Fjell", "Konnerud", "Åssiden"],
     metaTitle: "Boligpriser i Drammen 2026 – Kjøpe bolig i Drammen | Verdikart",
@@ -214,7 +214,7 @@ const cities: Record<string, CityData> = {
   },
 
   tromso: {
-    slug: "tromso", name: "Tromsø", county: "Troms", kommunenummer: "5401", population: "77 000",
+    slug: "tromso", name: "Tromsø", county: "Troms", kommunenummer: "5501", population: "77 000",
     avgSqmPrice: 52_300, avgSqmPriceYoY: 4.1, medianPrice: 3_100_000, avgCommute: 16,
     topNeighbourhoods: ["Tromsøya sentrum", "Tromsdalen", "Kvaløysletta", "Langnes", "Kroken"],
     metaTitle: "Boligpriser i Tromsø 2026 – Kjøpe bolig i Tromsø | Verdikart",
@@ -235,7 +235,7 @@ const cities: Record<string, CityData> = {
   },
 
   sarpsborg: {
-    slug: "sarpsborg", name: "Sarpsborg", county: "Østfold", kommunenummer: "3003", population: "62 000",
+    slug: "sarpsborg", name: "Sarpsborg", county: "Østfold", kommunenummer: "3105", population: "62 000",
     avgSqmPrice: 32_400, avgSqmPriceYoY: 5.7, medianPrice: 2_400_000, avgCommute: 14,
     topNeighbourhoods: ["Sentrum", "Kurland", "Borgen", "Opsund", "Hafslundsøy"],
     metaTitle: "Boligpriser i Sarpsborg 2026 – Kjøpe bolig i Sarpsborg | Verdikart",
@@ -256,7 +256,7 @@ const cities: Record<string, CityData> = {
   },
 
   skien: {
-    slug: "skien", name: "Skien", county: "Telemark", kommunenummer: "3807", population: "55 000",
+    slug: "skien", name: "Skien", county: "Telemark", kommunenummer: "4003", population: "55 000",
     avgSqmPrice: 28_900, avgSqmPriceYoY: 4.9, medianPrice: 2_100_000, avgCommute: 15,
     topNeighbourhoods: ["Sentrum", "Gulset", "Gjerpen", "Moflag", "Brekkeby"],
     metaTitle: "Boligpriser i Skien 2026 – Kjøpe bolig i Skien | Verdikart",

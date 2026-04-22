@@ -4,12 +4,20 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
-import { ChevronRight, TrendingUp } from "lucide-react";
+import dynamic from "next/dynamic";
+import { ChevronRight, TrendingUp, Info } from "lucide-react";
 import { formatPct } from "@/lib/format";
 import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from "react-leaflet";
-import { useEffect } from "react";
+import type { WorkCenterId } from "@/lib/scoring/work-centers";
+import { HEATMAP_BUCKETS } from "@/lib/heatmapColor";
+
+const BykartHeatmapLayer = dynamic(
+  () => import("@/components/BykartHeatmapLayer"),
+  { ssr: false, loading: () => null },
+);
 
 interface City {
   slug: string;
@@ -76,25 +84,178 @@ function MapReady() {
   return null;
 }
 
+/* ── Heatmap view config ─────────────────────────────────────────────────
+ * Add new entries here when PR 4b ships Bergen/Trondheim/Stavanger/Tromsø/
+ * Kristiansand. Each needs: data in src/data/bykart-heatmap-data.ts, and
+ * a matching { center, zoom } tuned to show the full 15-25 km radius.
+ */
+interface HeatmapView {
+  id: WorkCenterId;
+  label: string;
+  center: [number, number];
+  zoom: number;
+}
+
+const AVAILABLE_HEATMAPS: ReadonlyArray<HeatmapView> = [
+  { id: "oslo", label: "Oslo", center: [59.9109, 10.7527], zoom: 11 },
+];
+
+const UPCOMING_HEATMAPS: ReadonlyArray<{ id: WorkCenterId; label: string }> = [
+  { id: "bergen", label: "Bergen" },
+  { id: "trondheim", label: "Trondheim" },
+  { id: "stavanger", label: "Stavanger" },
+  { id: "kristiansand", label: "Kristiansand" },
+  { id: "tromso", label: "Tromsø" },
+];
+
+const NATIONAL_VIEW = { center: [64.5, 17] as [number, number], zoom: 4 };
+
+// Fly the map to the target view when the selection changes. No-op on first
+// render (the MapContainer is already centred on the initial view).
+function MapViewController({ view }: { view: "oversikt" | WorkCenterId }) {
+  const map = useMap();
+  const firstMount = useRef(true);
+  useEffect(() => {
+    if (firstMount.current) {
+      firstMount.current = false;
+      return;
+    }
+    if (view === "oversikt") {
+      map.flyTo(NATIONAL_VIEW.center, NATIONAL_VIEW.zoom, { duration: 0.9 });
+    } else {
+      const target = AVAILABLE_HEATMAPS.find((h) => h.id === view);
+      if (target) map.flyTo(target.center, target.zoom, { duration: 0.9 });
+    }
+  }, [map, view]);
+  return null;
+}
+
+function isWorkCenterView(
+  v: string | null,
+): v is WorkCenterId {
+  return AVAILABLE_HEATMAPS.some((h) => h.id === v);
+}
+
 export default function CityOverviewMapInner() {
   const [selected, setSelected] = useState<City | null>(null);
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // view is the source of truth; URL mirrors it via ?view=.
+  const initialView = (() => {
+    const raw = searchParams.get("view");
+    return isWorkCenterView(raw) ? raw : ("oversikt" as const);
+  })();
+  const [view, setView] = useState<"oversikt" | WorkCenterId>(initialView);
+
+  // Push view changes into the URL as ?view=<city>; "oversikt" clears the param.
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (view === "oversikt") params.delete("view");
+    else params.set("view", view);
+    const next = params.toString();
+    const url = next ? `${pathname}?${next}` : pathname;
+    router.replace(url, { scroll: false });
+    // searchParams/pathname/router identity changes shouldn't retrigger this.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view]);
+
+  // Sync from URL → state for back/forward navigation.
+  useEffect(() => {
+    const raw = searchParams.get("view");
+    const next: "oversikt" | WorkCenterId = isWorkCenterView(raw) ? raw : "oversikt";
+    setView((prev) => (prev === next ? prev : next));
+  }, [searchParams]);
+
+  // Plausible: fire once per city transition. No event for "oversikt" — the
+  // homepage map already has national-view analytics.
+  const lastTracked = useRef<string | null>(null);
+  useEffect(() => {
+    if (view === "oversikt" || lastTracked.current === view) return;
+    lastTracked.current = view;
+    const plausible = (window as unknown as {
+      plausible?: (
+        event: string,
+        options?: { props?: Record<string, string | number | boolean> },
+      ) => void;
+    }).plausible;
+    if (typeof plausible !== "function") return;
+    try {
+      plausible("bykart_heatmap_viewed", { props: { city: view } });
+    } catch {
+      // Analytics must never break the render.
+    }
+  }, [view]);
+
+  const initialMapCenter: [number, number] =
+    initialView === "oversikt"
+      ? NATIONAL_VIEW.center
+      : AVAILABLE_HEATMAPS.find((h) => h.id === initialView)?.center ?? NATIONAL_VIEW.center;
+  const initialMapZoom =
+    initialView === "oversikt"
+      ? NATIONAL_VIEW.zoom
+      : AVAILABLE_HEATMAPS.find((h) => h.id === initialView)?.zoom ?? NATIONAL_VIEW.zoom;
+
+  const isHeatmap = view !== "oversikt";
+
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+    <div className="space-y-4">
+      {/* View selector */}
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          onClick={() => setView("oversikt")}
+          className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+            view === "oversikt"
+              ? "border-accent bg-accent text-accent-ink"
+              : "border-card-border bg-card-bg text-text-secondary hover:border-accent/40 hover:text-foreground"
+          }`}
+        >
+          Oversikt
+        </button>
+        {AVAILABLE_HEATMAPS.map((h) => (
+          <button
+            key={h.id}
+            onClick={() => setView(h.id)}
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+              view === h.id
+                ? "border-accent bg-accent text-accent-ink"
+                : "border-card-border bg-card-bg text-text-secondary hover:border-accent/40 hover:text-foreground"
+            }`}
+          >
+            {h.label} — Pendlings-poeng
+          </button>
+        ))}
+        {UPCOMING_HEATMAPS.map((h) => (
+          <button
+            key={h.id}
+            disabled
+            title="Kommer snart"
+            className="rounded-full border border-card-border/50 bg-card-bg px-3 py-1.5 text-xs font-medium text-text-tertiary cursor-not-allowed"
+          >
+            {h.label} <span className="ml-1 text-[10px]">(snart)</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
       {/* Map */}
       <div
         className="relative rounded-xl border border-card-border bg-card-bg overflow-hidden"
         style={{ minHeight: 480 }}
       >
         <MapContainer
-          center={[64.5, 17]}
-          zoom={4}
+          center={initialMapCenter}
+          zoom={initialMapZoom}
           className="h-[480px] w-full"
           zoomControl={true}
           scrollWheelZoom={false}
           attributionControl={true}
+          preferCanvas={true}
         >
           <MapReady />
+          <MapViewController view={view} />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
             url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
@@ -102,7 +263,8 @@ export default function CityOverviewMapInner() {
             maxZoom={20}
           />
 
-          {CITIES.map((city) => {
+          {!isHeatmap &&
+            CITIES.map((city) => {
             const r = bubbleRadius(city.avgSqmPrice);
             const color = priceColor(city.avgSqmPrice);
             const isSelected = selected?.slug === city.slug;
@@ -133,29 +295,60 @@ export default function CityOverviewMapInner() {
               </CircleMarker>
             );
           })}
+
+          {isHeatmap && <BykartHeatmapLayer city={view as WorkCenterId} />}
         </MapContainer>
 
         {/* Legend */}
-        <div className="absolute bottom-3 left-3 z-[400] rounded-lg border border-card-border bg-background/90 p-3 backdrop-blur-sm text-xs">
-          <p className="mb-1.5 font-semibold text-text-secondary">Kvadratmeterpris</p>
-          <div className="flex items-center gap-2">
-            <div
-              className="h-3 w-16 rounded-full"
-              style={{
-                background: "linear-gradient(to right, #22c55e, #fbbf24, #ef4444)",
-              }}
-            />
-            <span className="text-text-tertiary">
-              {MIN_PRICE.toLocaleString("nb-NO")}
-            </span>
-            <span className="text-text-tertiary ml-auto">
-              {MAX_PRICE.toLocaleString("nb-NO")}
-            </span>
+        {!isHeatmap ? (
+          <div className="absolute bottom-3 left-3 z-[400] rounded-lg border border-card-border bg-background/90 p-3 backdrop-blur-sm text-xs">
+            <p className="mb-1.5 font-semibold text-text-secondary">Kvadratmeterpris</p>
+            <div className="flex items-center gap-2">
+              <div
+                className="h-3 w-16 rounded-full"
+                style={{
+                  background: "linear-gradient(to right, #22c55e, #fbbf24, #ef4444)",
+                }}
+              />
+              <span className="text-text-tertiary">
+                {MIN_PRICE.toLocaleString("nb-NO")}
+              </span>
+              <span className="text-text-tertiary ml-auto">
+                {MAX_PRICE.toLocaleString("nb-NO")}
+              </span>
+            </div>
+            <p className="mt-1 text-[10px] text-text-tertiary">
+              kr/m² · klikk for detaljer
+            </p>
           </div>
-          <p className="mt-1 text-[10px] text-text-tertiary">
-            kr/m² · klikk for detaljer
-          </p>
-        </div>
+        ) : (
+          <div className="absolute bottom-3 left-3 z-[400] rounded-lg border border-card-border bg-background/90 p-3 backdrop-blur-sm text-xs">
+            <div className="mb-1.5 flex items-center gap-1.5">
+              <p className="font-semibold text-text-secondary">Pendlings-poeng</p>
+              <Link
+                href="/pendlings-poeng"
+                className="text-text-tertiary hover:text-accent"
+                title="Les metodikken"
+              >
+                <Info className="h-3 w-3" strokeWidth={2} />
+              </Link>
+            </div>
+            <div className="space-y-0.5">
+              {HEATMAP_BUCKETS.map((b) => (
+                <div key={b.label} className="flex items-center gap-2">
+                  <div
+                    className="h-2.5 w-4 rounded-sm"
+                    style={{ background: b.color, opacity: 0.85 }}
+                  />
+                  <span className="text-text-tertiary tabular-nums">{b.label}</span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-1.5 text-[10px] text-text-tertiary">
+              hover for verdi · klikk på en hex for detaljer
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Side panel */}
@@ -232,6 +425,7 @@ export default function CityOverviewMapInner() {
         >
           Sammenlign to adresser →
         </Link>
+      </div>
       </div>
     </div>
   );

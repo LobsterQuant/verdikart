@@ -161,12 +161,11 @@ export default function PendlingsPoengCard({ result }: PendlingsPoengCardProps) 
 
       <p className="mt-5 text-xs text-text-tertiary">
         <Link
-          href="/pendlings-poeng"
+          href="/pendlings-poeng#metodologi"
           className="text-accent transition-colors hover:text-accent-hover"
         >
           Hvordan beregnes dette?
         </Link>
-        <span className="ml-1">Metodologi kommer snart.</span>
       </p>
 
       <PendlingsPoengTracker

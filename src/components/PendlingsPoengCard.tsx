@@ -95,15 +95,13 @@ export default function PendlingsPoengCard({ result }: PendlingsPoengCardProps) 
 
       <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
         <div
-          className="text-6xl font-bold tracking-tight tabular-nums sm:text-8xl"
+          className="text-5xl font-bold leading-none tracking-tight tabular-nums sm:text-7xl"
           style={{
             background:
               "linear-gradient(135deg, var(--accent-hover) 0%, var(--accent) 50%, var(--warm) 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
-            fontSize: "clamp(4rem, 12vw, 6.25rem)",
-            lineHeight: 1,
           }}
           aria-label={`Pendlings-poeng ${total} av 100, ${band}`}
         >

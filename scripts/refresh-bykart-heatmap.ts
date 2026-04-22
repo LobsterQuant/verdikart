@@ -1,43 +1,47 @@
 /**
- * Refresh the /bykart heatmap-overlay data cache.
+ * Refresh the /bykart Pendlings-poeng heatmap data cache — 6 Norwegian work
+ * centers (Oslo, Bergen, Trondheim, Stavanger, Kristiansand, Tromsø).
  *
- * Builds an H3 resolution-8 hex grid covering one or more Norwegian work
- * centers (Oslo only in v1), scores Pendlings-poeng at each hex center via
- * Entur, and writes the resulting cells to src/data/bykart-heatmap-data.ts.
+ * For each city the script:
+ *   1. Enumerates an H3 resolution-8 hex grid covering the city's scoring
+ *      radius (see CITIES below).
+ *   2. Drops any hex whose center falls over water, using the Kartverket N50
+ *      water mask (src/data/kartverket-n50-coastline.json via
+ *      scripts/lib/water-mask.ts). Water hexes never appear in the output.
+ *   3. Scores every remaining hex via Entur (calculatePendlingsPoeng) and
+ *      writes a per-city data file at src/data/bykart-heatmap-<city>.ts.
  *
- * Per cell stored:
- *   - h3:       H3 index (res 8, ~1 km across)
- *   - lat/lon:  hex center
- *   - score:    Pendlings-poeng 0-100
- *   - boundary: 6 [lat, lon] pairs forming the polygon (rounded to 5 dp)
+ * Per cell stored: h3, lat, lon, score, boundary (pre-computed so the client
+ * does not need h3-js at ~190 kB).
  *
- * Boundaries are pre-computed server-side so the client does not have to
- * bundle h3-js (~190 kB minified). The data file is imported lazily by the
- * heatmap layer only when the user activates that view.
+ * Data sources:
+ *   - Entur Journey Planner v3 (through calculatePendlingsPoeng)
+ *   - Kartverket N50 Kartdata Arealdekke (water mask)
  *
- * Data source: Entur Journey Planner v3, shared through calculatePendlingsPoeng.
  * Throttle: CONCURRENCY × 1.1 s batches ≈ 5.4 Entur req/s ceiling.
- * For Oslo at 25 km radius, expect ~2 600 cells ≈ 16 min.
- *
- * Hexes over Oslofjorden (no transit coverage) score 0 — rendered but muted
- * by the UI. No water-masking in v1.
+ * Expected sizes (post-water-filter):
+ *   oslo         25 km ≈ 2 600 cells, 16 min
+ *   bergen       20 km ≈ 1 800 cells, 11 min
+ *   stavanger    20 km ≈ 1 800 cells, 11 min
+ *   trondheim    15 km ≈ 1 000 cells,  6 min
+ *   kristiansand 15 km ≈ 1 000 cells,  6 min
+ *   tromso       15 km ≈ 1 000 cells,  6 min
  *
  * Required env vars: NONE.
  *
  * How to run:
- *   npx tsx scripts/refresh-bykart-heatmap.ts
- *   npx tsx scripts/refresh-bykart-heatmap.ts --city oslo     # explicit
- *   npx tsx scripts/refresh-bykart-heatmap.ts --limit 50      # smoke test
+ *   npx tsx scripts/refresh-bykart-heatmap.ts              # all 6 cities
+ *   npx tsx scripts/refresh-bykart-heatmap.ts --city oslo  # one city
+ *   npx tsx scripts/refresh-bykart-heatmap.ts --limit 50   # smoke test
  *
- * Checkpointing: the script writes a running JSON checkpoint to
- * .cache/bykart-heatmap-<city>.json after every batch. A re-run picks up
- * where the previous run stopped, so a crash halfway through does not waste
- * the prior 8 min of Entur calls. Pass --fresh to ignore the checkpoint.
+ * Checkpointing: JSON checkpoint written to .cache/bykart-heatmap-<city>.json
+ * after every batch; re-runs resume where the previous run stopped. Pass
+ * --fresh to ignore the checkpoint.
  *
- * Exits 0 on success. Exits 1 if Entur fails for more than 5 % of cells
+ * Exits 0 on success. Exits 1 if Entur fails for > 5 % of cells in any city
  * (outage — do not overwrite the cached data with a mostly-broken snapshot).
  *
- * Manual refresh / weekly cadence. Not part of CI — CI must not hit Entur.
+ * Manual refresh / weekly cadence. Not part of CI.
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -51,6 +55,7 @@ import {
 import { calculatePendlingsPoeng } from "../src/lib/scoring/pendlings-poeng";
 import { getWorkCenter, type WorkCenterId } from "../src/lib/scoring/work-centers";
 import { haversineKm } from "../src/lib/geo";
+import { isOnLand } from "./lib/water-mask";
 
 /* ── Config ──────────────────────────────────────────────────────────── */
 
@@ -62,8 +67,12 @@ interface CitySpec {
 }
 
 const CITIES: ReadonlyArray<CitySpec> = [
-  { id: "oslo", radiusKm: 25, gridK: 32 },
-  // Bergen/Trondheim/Stavanger/Tromsø/Kristiansand follow in PR 4b.
+  { id: "oslo",         radiusKm: 25, gridK: 32 },
+  { id: "bergen",       radiusKm: 20, gridK: 26 },
+  { id: "stavanger",    radiusKm: 20, gridK: 26 },
+  { id: "trondheim",    radiusKm: 15, gridK: 20 },
+  { id: "kristiansand", radiusKm: 15, gridK: 20 },
+  { id: "tromso",       radiusKm: 15, gridK: 20 },
 ];
 
 const H3_RES = 8;
@@ -71,7 +80,7 @@ const CONCURRENCY = 3;
 const INTER_BATCH_DELAY_MS = 1100;
 const FAILURE_THRESHOLD = 0.05; // abort if > 5 % of cells fail
 
-const OUTPUT_PATH = resolve(process.cwd(), "src/data/bykart-heatmap-data.ts");
+const DATA_DIR = resolve(process.cwd(), "src/data");
 const CHECKPOINT_DIR = resolve(process.cwd(), ".cache");
 
 /* ── CLI args ────────────────────────────────────────────────────────── */
@@ -93,7 +102,7 @@ function parseArgs(argv: string[]): {
   return { cityFilter, limit, fresh };
 }
 
-/* ── Throttled runner (same shape as refresh-pendlings-poeng-landing.ts) */
+/* ── Throttled runner ────────────────────────────────────────────────── */
 
 interface Task<T> {
   label: string;
@@ -127,7 +136,7 @@ function isFailure<T>(v: T | Error): v is Error {
   return v instanceof Error;
 }
 
-/* ── H3 grid ─────────────────────────────────────────────────────────── */
+/* ── H3 grid + water mask ────────────────────────────────────────────── */
 
 function round5(n: number): number {
   return Math.round(n * 1e5) / 1e5;
@@ -140,16 +149,29 @@ interface HexSeed {
   boundary: Array<[number, number]>;
 }
 
-function buildHexGrid(spec: CitySpec): HexSeed[] {
+interface GridResult {
+  seeds: HexSeed[];
+  totalInDisk: number;
+  waterFiltered: number;
+}
+
+function buildHexGrid(spec: CitySpec): GridResult {
   const center = getWorkCenter(spec.id);
   const originCell = latLngToCell(center.lat, center.lon, H3_RES);
   const disk = gridDisk(originCell, spec.gridK);
 
   const seeds: HexSeed[] = [];
+  let totalInDisk = 0;
+  let waterFiltered = 0;
   for (const h3 of disk) {
     const [lat, lon] = cellToLatLng(h3);
     const distKm = haversineKm(lat, lon, center.lat, center.lon);
     if (distKm > spec.radiusKm) continue;
+    totalInDisk++;
+    if (!isOnLand(lat, lon)) {
+      waterFiltered++;
+      continue;
+    }
     const boundary = cellToBoundary(h3) as Array<[number, number]>;
     seeds.push({
       h3,
@@ -158,7 +180,7 @@ function buildHexGrid(spec: CitySpec): HexSeed[] {
       boundary: boundary.map(([bLat, bLon]) => [round5(bLat), round5(bLon)]),
     });
   }
-  return seeds;
+  return { seeds, totalInDisk, waterFiltered };
 }
 
 /* ── Checkpointing ───────────────────────────────────────────────────── */
@@ -201,18 +223,30 @@ function saveCheckpoint(cp: Checkpoint): void {
 
 /* ── Per-city run ────────────────────────────────────────────────────── */
 
+interface ScoreResult {
+  cells: HeatmapCell[];
+  totalInDisk: number;
+  waterFiltered: number;
+  elapsedMs: number;
+}
+
 async function scoreCity(
   spec: CitySpec,
   opts: { limit: number | null; fresh: boolean },
-): Promise<HeatmapCell[]> {
+): Promise<ScoreResult> {
   const center = getWorkCenter(spec.id);
-  const allSeeds = buildHexGrid(spec);
+  const grid = buildHexGrid(spec);
+  const allSeeds = grid.seeds;
   const seeds = opts.limit ? allSeeds.slice(0, opts.limit) : allSeeds;
 
   console.log(
     `\n── ${center.name} (${spec.radiusKm} km, res ${H3_RES}) ──`,
   );
-  console.log(`  grid: ${allSeeds.length} cells (from k=${spec.gridK} disk)`);
+  console.log(
+    `  grid: ${grid.totalInDisk} cells in ${spec.radiusKm} km disk, ` +
+      `${grid.waterFiltered} dropped by water mask (${((grid.waterFiltered / grid.totalInDisk) * 100).toFixed(1)}%), ` +
+      `${allSeeds.length} land cells to score`,
+  );
   if (opts.limit) console.log(`  limit: ${opts.limit}`);
 
   const cp: Checkpoint = opts.fresh
@@ -224,6 +258,13 @@ async function scoreCity(
         completed: {},
       };
 
+  // Drop any checkpointed cells that are no longer in the seed set (e.g.
+  // after a radius change or water-mask update).
+  const seedIds = new Set(allSeeds.map((s) => s.h3));
+  for (const h3 of Object.keys(cp.completed)) {
+    if (!seedIds.has(h3)) delete cp.completed[h3];
+  }
+
   const priorDone = Object.keys(cp.completed).length;
   if (priorDone > 0) {
     console.log(`  checkpoint: resuming with ${priorDone} cells already scored`);
@@ -232,7 +273,13 @@ async function scoreCity(
   const todo = seeds.filter((s) => !cp.completed[s.h3]);
   if (todo.length === 0) {
     console.log(`  all cells already in checkpoint — skipping Entur calls`);
-    return seeds.map((s) => cp.completed[s.h3]).filter(Boolean);
+    const completed = seeds.map((s) => cp.completed[s.h3]).filter(Boolean);
+    return {
+      cells: completed,
+      totalInDisk: grid.totalInDisk,
+      waterFiltered: grid.waterFiltered,
+      elapsedMs: 0,
+    };
   }
 
   const t0 = Date.now();
@@ -257,7 +304,6 @@ async function scoreCity(
     );
     lastLogged = done;
 
-    // Flush checkpoint every log interval.
     for (const r of acc) {
       if (isFailure(r)) continue;
       const [seed, score] = r;
@@ -286,7 +332,6 @@ async function scoreCity(
     );
   }
 
-  // Final checkpoint flush.
   for (const r of results) {
     if (isFailure(r)) continue;
     const [seed, score] = r;
@@ -300,9 +345,16 @@ async function scoreCity(
   }
   saveCheckpoint(cp);
 
-  return seeds
+  const cells = seeds
     .map((s) => cp.completed[s.h3])
     .filter((c): c is HeatmapCell => Boolean(c));
+
+  return {
+    cells,
+    totalInDisk: grid.totalInDisk,
+    waterFiltered: grid.waterFiltered,
+    elapsedMs: Date.now() - t0,
+  };
 }
 
 /* ── Post-processing ─────────────────────────────────────────────────── */
@@ -341,32 +393,22 @@ function applyWorkCenterOverride(
   return { overridden, total: cells.length };
 }
 
-/* ── Output file ─────────────────────────────────────────────────────── */
+/* ── Output files ────────────────────────────────────────────────────── */
 
-interface HeatmapData {
-  generatedAt: string;
-  h3Res: number;
-  cities: Record<string, { radiusKm: number; cells: HeatmapCell[] }>;
-}
-
-function renderDataFile(data: HeatmapData): string {
-  // JSON.stringify with no whitespace inside arrays — keeps the file compact
-  // while still readable at the top-level city keys.
-  const cityLines = Object.entries(data.cities)
-    .map(
-      ([id, { radiusKm, cells }]) =>
-        `  ${JSON.stringify(id)}: {\n    radiusKm: ${radiusKm},\n    cells: ${JSON.stringify(cells)},\n  }`,
-    )
-    .join(",\n");
-
+function renderCityFile(
+  cityId: WorkCenterId,
+  radiusKm: number,
+  generatedAt: string,
+  cells: HeatmapCell[],
+): string {
   return `/**
- * Pre-computed /bykart Pendlings-poeng heatmap cells.
+ * Pre-computed /bykart Pendlings-poeng heatmap cells for ${getWorkCenter(cityId).name}.
  *
- * Regenerated by \`scripts/refresh-bykart-heatmap.ts\`, which builds an H3
- * resolution-8 hex grid per city, queries Entur at each hex center, and writes
- * the results here. The heatmap layer on /bykart lazy-imports this file only
- * when a city view is activated.
+ * Regenerated by \`scripts/refresh-bykart-heatmap.ts\`. The heatmap layer on
+ * /bykart lazy-imports this file when the ${cityId} view is activated.
  *
+ * Hexes over water (Kartverket N50 Havflate + Innsjø polygons) are excluded
+ * entirely — they are dropped before scoring and never appear in this file.
  * Boundaries are pre-computed so the client does not need to bundle h3-js.
  *
  * DO NOT edit manually — re-run the refresh script instead.
@@ -381,25 +423,26 @@ export interface BykartHeatmapCell {
   boundary: ReadonlyArray<readonly [number, number]>;
 }
 
-export interface BykartHeatmapCity {
+export interface BykartHeatmapCityData {
+  id: WorkCenterId;
+  generatedAt: string;
+  h3Res: number;
   radiusKm: number;
   cells: ReadonlyArray<BykartHeatmapCell>;
 }
 
-export interface BykartHeatmapData {
-  generatedAt: string;
-  h3Res: number;
-  cities: Partial<Record<WorkCenterId, BykartHeatmapCity>>;
-}
-
-export const BYKART_HEATMAP_DATA: BykartHeatmapData = {
-  generatedAt: ${JSON.stringify(data.generatedAt)},
-  h3Res: ${data.h3Res},
-  cities: {
-${cityLines},
-  },
+export const BYKART_HEATMAP_CITY: BykartHeatmapCityData = {
+  id: ${JSON.stringify(cityId)},
+  generatedAt: ${JSON.stringify(generatedAt)},
+  h3Res: ${H3_RES},
+  radiusKm: ${radiusKm},
+  cells: ${JSON.stringify(cells)},
 };
 `;
+}
+
+function cityFilePath(cityId: WorkCenterId): string {
+  return resolve(DATA_DIR, `bykart-heatmap-${cityId}.ts`);
 }
 
 /* ── Entry point ─────────────────────────────────────────────────────── */
@@ -431,38 +474,72 @@ async function main() {
     process.exit(1);
   }
 
-  console.log("Refreshing /bykart heatmap data (Entur live)");
+  console.log("Refreshing /bykart heatmap data (Entur live + N50 water mask)");
   console.log(`H3 resolution: ${H3_RES}`);
   console.log(`Cities: ${cities.map((c) => c.id).join(", ")}`);
   if (args.fresh) console.log("Mode: --fresh (ignoring checkpoints)");
 
   const t0 = Date.now();
-  const cityResults: HeatmapData["cities"] = {};
+  const summary: Array<{
+    id: WorkCenterId;
+    cells: number;
+    totalInDisk: number;
+    waterFiltered: number;
+    fileBytes: number;
+    elapsedMs: number;
+    histogram: string;
+  }> = [];
 
   for (const spec of cities) {
-    const cells = await scoreCity(spec, { limit: args.limit, fresh: args.fresh });
-    const { overridden, total } = applyWorkCenterOverride(cells, spec.id);
+    const result = await scoreCity(spec, { limit: args.limit, fresh: args.fresh });
+    const { overridden } = applyWorkCenterOverride(result.cells, spec.id);
     if (overridden > 0) {
       console.log(
-        `  work-center override: promoted ${overridden}/${total} score-0 cells within ${ORIGIN_CELL_RADIUS_KM} km of ${spec.id} sentrum to 100`,
+        `  work-center override: promoted ${overridden} score-0 cells within ${ORIGIN_CELL_RADIUS_KM} km of ${spec.id} sentrum to 100`,
       );
     }
-    cityResults[spec.id] = { radiusKm: spec.radiusKm, cells };
-    console.log(`  ${spec.id} score distribution — ${scoreHistogram(cells)}`);
+
+    const generatedAt = new Date().toISOString();
+    const fileContent = renderCityFile(
+      spec.id,
+      spec.radiusKm,
+      generatedAt,
+      result.cells,
+    );
+    const outPath = cityFilePath(spec.id);
+    writeFileSync(outPath, fileContent, "utf8");
+    const fileBytes = Buffer.byteLength(fileContent, "utf8");
+    console.log(
+      `  wrote ${outPath} — ${(fileBytes / 1024).toFixed(1)} kB, ${result.cells.length} cells`,
+    );
+    console.log(`  score distribution — ${scoreHistogram(result.cells)}`);
+
+    summary.push({
+      id: spec.id,
+      cells: result.cells.length,
+      totalInDisk: result.totalInDisk,
+      waterFiltered: result.waterFiltered,
+      fileBytes,
+      elapsedMs: result.elapsedMs,
+      histogram: scoreHistogram(result.cells),
+    });
   }
 
-  const generatedAt = new Date().toISOString();
-  const data: HeatmapData = { generatedAt, h3Res: H3_RES, cities: cityResults };
-  const fileContent = renderDataFile(data);
-  writeFileSync(OUTPUT_PATH, fileContent, "utf8");
-
-  const elapsedMin = (Date.now() - t0) / 60000;
-  const fileBytes = Buffer.byteLength(fileContent, "utf8");
-  console.log(
-    `\nWrote ${OUTPUT_PATH} (${(fileBytes / 1024).toFixed(1)} kB)`,
-  );
-  console.log(`Total time: ${elapsedMin.toFixed(1)} min`);
-  console.log(`Generated at: ${generatedAt}`);
+  // ── Final summary ────────────────────────────────────────────────
+  const totalElapsedMin = (Date.now() - t0) / 60000;
+  console.log("\n════════════ SUMMARY ════════════");
+  for (const s of summary) {
+    console.log(
+      `  ${s.id.padEnd(12)} ` +
+        `${String(s.cells).padStart(5)} cells ` +
+        `(${String(s.totalInDisk).padStart(5)} in disk, ` +
+        `${String(s.waterFiltered).padStart(4)} water) ` +
+        `${(s.fileBytes / 1024).toFixed(0).padStart(4)} kB ` +
+        `${(s.elapsedMs / 60000).toFixed(1).padStart(5)} min`,
+    );
+    console.log(`               ${s.histogram}`);
+  }
+  console.log(`  total time: ${totalElapsedMin.toFixed(1)} min`);
   process.exit(0);
 }
 

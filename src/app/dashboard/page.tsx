@@ -1,9 +1,9 @@
-import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { savedProperties, priceAlerts } from "@/lib/schema";
 import { eq, desc } from "drizzle-orm";
 import DashboardClient from "./DashboardClient";
+import { demoSavedProperties, demoPriceAlerts } from "@/lib/dashboard-demo-data";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,25 +14,24 @@ export const metadata: Metadata = {
 
 export default async function DashboardPage() {
   const session = await auth();
+  const userId = session?.user?.id;
 
-  if (!session?.user?.id) {
-    redirect("/api/auth/signin?callbackUrl=/dashboard");
-  }
-
-  const [properties, alerts] = await Promise.all([
-    db
-      .select()
-      .from(savedProperties)
-      .where(eq(savedProperties.userId, session.user.id))
-      .orderBy(desc(savedProperties.savedAt))
-      .limit(50),
-    db
-      .select()
-      .from(priceAlerts)
-      .where(eq(priceAlerts.userId, session.user.id))
-      .orderBy(desc(priceAlerts.createdAt))
-      .limit(50),
-  ]);
+  const [properties, alerts] = userId
+    ? await Promise.all([
+        db
+          .select()
+          .from(savedProperties)
+          .where(eq(savedProperties.userId, userId))
+          .orderBy(desc(savedProperties.savedAt))
+          .limit(50),
+        db
+          .select()
+          .from(priceAlerts)
+          .where(eq(priceAlerts.userId, userId))
+          .orderBy(desc(priceAlerts.createdAt))
+          .limit(50),
+      ])
+    : [demoSavedProperties, demoPriceAlerts];
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
@@ -49,6 +48,7 @@ export default async function DashboardPage() {
         <DashboardClient
           initialProperties={JSON.parse(JSON.stringify(properties))}
           initialAlerts={JSON.parse(JSON.stringify(alerts))}
+          isDemo={!userId}
         />
       </div>
     </div>

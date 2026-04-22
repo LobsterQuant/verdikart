@@ -11,8 +11,10 @@ import {
   Check,
   X,
   TrendingUp,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 import { useToast } from "@/components/Toast";
 import { formatPct } from "@/lib/format";
 
@@ -40,12 +42,18 @@ interface PriceAlert {
 
 type Tab = "properties" | "alerts";
 
+function signInWithDashboardCallback() {
+  signIn("google", { callbackUrl: "/dashboard" });
+}
+
 export default function DashboardClient({
   initialProperties,
   initialAlerts,
+  isDemo = false,
 }: {
   initialProperties: SavedProperty[];
   initialAlerts: PriceAlert[];
+  isDemo?: boolean;
 }) {
   const [tab, setTab] = useState<Tab>("properties");
   const [properties, setProperties] = useState(initialProperties);
@@ -55,6 +63,7 @@ export default function DashboardClient({
   const toast = useToast();
 
   async function removeProperty(slug: string) {
+    if (isDemo) return signInWithDashboardCallback();
     try {
       const res = await fetch("/api/saved-properties", {
         method: "DELETE",
@@ -70,11 +79,13 @@ export default function DashboardClient({
   }
 
   function startEditNote(p: SavedProperty) {
+    if (isDemo) return signInWithDashboardCallback();
     setEditingNote(p.slug);
     setNoteText(p.notes ?? "");
   }
 
   async function saveNote(slug: string) {
+    if (isDemo) return signInWithDashboardCallback();
     try {
       const res = await fetch("/api/saved-properties", {
         method: "PATCH",
@@ -94,6 +105,7 @@ export default function DashboardClient({
   }
 
   async function removeAlert(id: string) {
+    if (isDemo) return signInWithDashboardCallback();
     try {
       const res = await fetch("/api/alerts", {
         method: "DELETE",
@@ -110,6 +122,8 @@ export default function DashboardClient({
 
   return (
     <div>
+      {isDemo && <DemoBanner />}
+
       {/* Tab bar */}
       <div className="mb-6 flex gap-1 rounded-lg border border-card-border bg-card-bg p-1 w-fit">
         <button
@@ -146,11 +160,44 @@ export default function DashboardClient({
           startEditNote={startEditNote}
           saveNote={saveNote}
           removeProperty={removeProperty}
+          isDemo={isDemo}
         />
       ) : (
-        <AlertsTab alerts={alerts} onDelete={removeAlert} />
+        <AlertsTab alerts={alerts} onDelete={removeAlert} isDemo={isDemo} />
       )}
     </div>
+  );
+}
+
+function DemoBanner() {
+  return (
+    <div className="mb-6 flex flex-col gap-3 rounded-xl border border-accent/40 bg-accent/5 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+      <div className="flex items-start gap-3">
+        <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-accent" strokeWidth={1.75} />
+        <div>
+          <p className="text-sm font-semibold text-foreground">
+            Dette er en demo
+          </p>
+          <p className="mt-0.5 text-sm text-text-secondary">
+            Logg inn for å lagre dine egne adresser og få prisvarsler når markedet endrer seg.
+          </p>
+        </div>
+      </div>
+      <button
+        onClick={signInWithDashboardCallback}
+        className="btn-base btn-primary shrink-0 px-4 py-2 text-sm"
+      >
+        Logg inn med Google
+      </button>
+    </div>
+  );
+}
+
+function DemoPill() {
+  return (
+    <span className="absolute right-3 top-3 z-10 rounded-full border border-card-border bg-background px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-text-tertiary">
+      Demo
+    </span>
   );
 }
 
@@ -163,6 +210,7 @@ function PropertiesTab({
   startEditNote,
   saveNote,
   removeProperty,
+  isDemo,
 }: {
   properties: SavedProperty[];
   editingNote: string | null;
@@ -172,6 +220,7 @@ function PropertiesTab({
   startEditNote: (p: SavedProperty) => void;
   saveNote: (slug: string) => Promise<void>;
   removeProperty: (slug: string) => Promise<void>;
+  isDemo: boolean;
 }) {
   if (properties.length === 0) {
     return (
@@ -190,15 +239,9 @@ function PropertiesTab({
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {properties.map((p) => (
-        <div
-          key={p.id}
-          className="group relative rounded-xl border border-card-border bg-card-bg p-4 transition-colors hover:border-accent/30"
-        >
-          <Link
-            href={`/eiendom/${p.slug}?adresse=${encodeURIComponent(p.address)}`}
-            className="block"
-          >
+      {properties.map((p) => {
+        const cardBody = (
+          <>
             <h3 className="mb-1 truncate pr-16 text-sm font-semibold group-hover:text-accent">
               {p.address}
             </h3>
@@ -210,78 +253,105 @@ function PropertiesTab({
                 month: "short",
               })}
             </p>
-          </Link>
+          </>
+        );
 
-          {editingNote === p.slug ? (
-            <div className="mt-3" onClick={(e) => e.stopPropagation()}>
-              <textarea
-                value={noteText}
-                onChange={(e) => setNoteText(e.target.value)}
-                placeholder="Skriv et notat om denne eiendommen…"
-                maxLength={1000}
-                rows={3}
-                className="w-full rounded-lg border border-card-border bg-background px-3 py-2 text-xs placeholder:text-text-tertiary focus:border-accent focus:outline-none"
-                autoFocus
-              />
-              <div className="mt-1.5 flex gap-1.5">
-                <button
-                  onClick={() => saveNote(p.slug)}
-                  className="flex items-center gap-1 rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-accent-ink"
+        return (
+          <div
+            key={p.id}
+            className="group relative rounded-xl border border-card-border bg-card-bg p-4 transition-colors hover:border-accent/30"
+          >
+            {isDemo && <DemoPill />}
+
+            {isDemo ? (
+              <button
+                onClick={signInWithDashboardCallback}
+                className="block w-full text-left"
+              >
+                {cardBody}
+              </button>
+            ) : (
+              <Link
+                href={`/eiendom/${p.slug}?adresse=${encodeURIComponent(p.address)}`}
+                className="block"
+              >
+                {cardBody}
+              </Link>
+            )}
+
+            {editingNote === p.slug ? (
+              <div className="mt-3" onClick={(e) => e.stopPropagation()}>
+                <textarea
+                  value={noteText}
+                  onChange={(e) => setNoteText(e.target.value)}
+                  placeholder="Skriv et notat om denne eiendommen…"
+                  maxLength={1000}
+                  rows={3}
+                  className="w-full rounded-lg border border-card-border bg-background px-3 py-2 text-xs placeholder:text-text-tertiary focus:border-accent focus:outline-none"
+                  autoFocus
+                />
+                <div className="mt-1.5 flex gap-1.5">
+                  <button
+                    onClick={() => saveNote(p.slug)}
+                    className="flex items-center gap-1 rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-accent-ink"
+                  >
+                    <Check className="h-3 w-3" /> Lagre
+                  </button>
+                  <button
+                    onClick={() => setEditingNote(null)}
+                    className="flex items-center gap-1 rounded-md px-2.5 py-1 text-xs text-text-secondary hover:text-foreground"
+                  >
+                    <X className="h-3 w-3" /> Avbryt
+                  </button>
+                </div>
+              </div>
+            ) : p.notes ? (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  startEditNote(p);
+                }}
+                className="mt-2 w-full rounded-lg bg-background p-2 text-left text-xs text-text-secondary hover:text-foreground"
+              >
+                {p.notes}
+              </button>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  startEditNote(p);
+                }}
+                className="mt-2 flex items-center gap-1 text-xs text-text-tertiary hover:text-accent"
+              >
+                <StickyNote className="h-3 w-3" />
+                Legg til notat
+              </button>
+            )}
+
+            {!isDemo && (
+              <div className="absolute right-3 top-3 flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                <Link
+                  href={`/eiendom/${p.slug}?adresse=${encodeURIComponent(p.address)}`}
+                  className="rounded-md p-1.5 text-text-tertiary hover:bg-background hover:text-foreground"
+                  title="Åpne rapport"
                 >
-                  <Check className="h-3 w-3" /> Lagre
-                </button>
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </Link>
                 <button
-                  onClick={() => setEditingNote(null)}
-                  className="flex items-center gap-1 rounded-md px-2.5 py-1 text-xs text-text-secondary hover:text-foreground"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    removeProperty(p.slug);
+                  }}
+                  className="rounded-md p-1.5 text-text-tertiary hover:bg-red-500/10 hover:text-red-400"
+                  title="Fjern"
                 >
-                  <X className="h-3 w-3" /> Avbryt
+                  <Trash2 className="h-3.5 w-3.5" />
                 </button>
               </div>
-            </div>
-          ) : p.notes ? (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                startEditNote(p);
-              }}
-              className="mt-2 w-full rounded-lg bg-background p-2 text-left text-xs text-text-secondary hover:text-foreground"
-            >
-              {p.notes}
-            </button>
-          ) : (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                startEditNote(p);
-              }}
-              className="mt-2 flex items-center gap-1 text-xs text-text-tertiary hover:text-accent"
-            >
-              <StickyNote className="h-3 w-3" />
-              Legg til notat
-            </button>
-          )}
-
-          <div className="absolute right-3 top-3 flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-            <Link
-              href={`/eiendom/${p.slug}?adresse=${encodeURIComponent(p.address)}`}
-              className="rounded-md p-1.5 text-text-tertiary hover:bg-background hover:text-foreground"
-              title="Åpne rapport"
-            >
-              <ExternalLink className="h-3.5 w-3.5" />
-            </Link>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                removeProperty(p.slug);
-              }}
-              className="rounded-md p-1.5 text-text-tertiary hover:bg-red-500/10 hover:text-red-400"
-              title="Fjern"
-            >
-              <Trash2 className="h-3.5 w-3.5" />
-            </button>
+            )}
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -289,9 +359,11 @@ function PropertiesTab({
 function AlertsTab({
   alerts,
   onDelete,
+  isDemo,
 }: {
   alerts: PriceAlert[];
   onDelete: (id: string) => Promise<void>;
+  isDemo: boolean;
 }) {
   if (alerts.length === 0) {
     return (
@@ -324,11 +396,12 @@ function AlertsTab({
             key={a.id}
             className="group relative rounded-xl border border-card-border bg-card-bg p-4"
           >
+            {isDemo && <DemoPill />}
             <div className="mb-2 flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <MapPin className="h-3.5 w-3.5 shrink-0 text-accent" strokeWidth={1.5} />
-                  <h3 className="truncate text-sm font-semibold">
+                  <h3 className="truncate pr-16 text-sm font-semibold">
                     Kommune {a.kommunenummer}
                     {a.postnummer && ` · ${a.postnummer}`}
                   </h3>
@@ -342,13 +415,15 @@ function AlertsTab({
                   })}
                 </p>
               </div>
-              <button
-                onClick={() => onDelete(a.id)}
-                className="rounded-md p-1.5 text-text-tertiary opacity-0 transition-opacity hover:bg-red-500/10 hover:text-red-400 group-hover:opacity-100"
-                aria-label="Slett varsel"
-              >
-                <Trash2 className="h-3.5 w-3.5" />
-              </button>
+              {!isDemo && (
+                <button
+                  onClick={() => onDelete(a.id)}
+                  className="rounded-md p-1.5 text-text-tertiary opacity-0 transition-opacity hover:bg-red-500/10 hover:text-red-400 group-hover:opacity-100"
+                  aria-label="Slett varsel"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
+              )}
             </div>
 
             <div className="mt-3 flex items-center gap-3 rounded-lg bg-background px-3 py-2">

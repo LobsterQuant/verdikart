@@ -21,10 +21,10 @@ export const STORBY_KOMMUNER: ReadonlySet<string> = new Set([
   "4601", // Bergen
   "5001", // Trondheim
   "1103", // Stavanger
-  "3005", // Drammen
+  "3301", // Drammen
   "4204", // Kristiansand
-  "3004", // Fredrikstad
-  "5401", // Tromsø
+  "3107", // Fredrikstad
+  "5501", // Tromsø
 ]);
 
 const DEFAULT_AREA_BY_TYPE: Record<BuildingType, number> = {

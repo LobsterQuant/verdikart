@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { getCityData } from "@/app/by/[city]/cityData";
+import { cities, getCityData } from "@/app/by/[city]/cityData";
 
 export const runtime = "edge";
 export const alt = "Verdikart eiendomsrapport";
@@ -23,21 +23,15 @@ function parseSlug(slug: string): { address: string; knr: string | null } {
   return { address, knr };
 }
 
-// Known kommunenummer → { slug, displayName } so we can resolve the city label
-// from the slug without an external fetch. Only kommuner covered by cityData
-// appear here; others render without a city subtitle.
-const KNR_TO_CITY: Record<string, { slug: string; name: string }> = {
-  "0301": { slug: "oslo", name: "Oslo" },
-  "4601": { slug: "bergen", name: "Bergen" },
-  "5001": { slug: "trondheim", name: "Trondheim" },
-  "1103": { slug: "stavanger", name: "Stavanger" },
-  "3020": { slug: "baerum", name: "Bærum" },
-  "3005": { slug: "drammen", name: "Drammen" },
-  "3004": { slug: "fredrikstad", name: "Fredrikstad" },
-  "1108": { slug: "sandnes", name: "Sandnes" },
-  "4204": { slug: "kristiansand", name: "Kristiansand" },
-  "1804": { slug: "bodo", name: "Bodø" },
-};
+// Derived from cityData — single source of truth. Kommuner not covered by
+// cityData simply render without a city subtitle.
+const KNR_TO_CITY: Record<string, { slug: string; name: string }> =
+  Object.fromEntries(
+    Object.values(cities).map((c) => [
+      c.kommunenummer,
+      { slug: c.slug, name: c.name },
+    ]),
+  );
 
 export default function OgImage({ params }: { params: { slug: string } }) {
   const { address, knr } = parseSlug(params.slug);

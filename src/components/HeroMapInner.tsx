@@ -4,29 +4,11 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
-import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import type { HeroMapAddress } from "./HeroMap";
 
-const ROTATE_INTERVAL_MS = 4000;
-const FLY_DURATION_S = 1.5;
 const MAP_ZOOM = 15;
-
-// Smoothly pans between rotating addresses. Skips animation on the first mount
-// since the MapContainer is already centred on addresses[0].
-function FlyToTarget({ target }: { target: HeroMapAddress }) {
-  const map = useMap();
-  const firstMount = useRef(true);
-  useEffect(() => {
-    if (firstMount.current) {
-      firstMount.current = false;
-      return;
-    }
-    map.flyTo([target.lat, target.lon], MAP_ZOOM, { duration: FLY_DURATION_S });
-  }, [map, target.lat, target.lon]);
-  return null;
-}
 
 // Fix narrow-width bug: fires invalidateSize after mount (matches CityOverviewMapInner).
 function MapReady() {
@@ -43,24 +25,11 @@ function MapReady() {
 }
 
 interface HeroMapInnerProps {
-  addresses: readonly HeroMapAddress[];
+  address: HeroMapAddress;
   height: number;
 }
 
-export default function HeroMapInner({ addresses, height }: HeroMapInnerProps) {
-  const reduceMotion = useReducedMotion();
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (reduceMotion || paused) return;
-    const id = setInterval(
-      () => setIndex((i) => (i + 1) % addresses.length),
-      ROTATE_INTERVAL_MS,
-    );
-    return () => clearInterval(id);
-  }, [reduceMotion, paused, addresses.length]);
-
+export default function HeroMapInner({ address, height }: HeroMapInnerProps) {
   // Pulsing teal divIcon — built once, after the dynamic-import chunk has
   // loaded Leaflet's runtime. CSS for the rings lives in globals.css.
   const iconRef = useRef<L.DivIcon | null>(null);
@@ -78,19 +47,15 @@ export default function HeroMapInner({ addresses, height }: HeroMapInnerProps) {
     });
   }
 
-  const current = addresses[index];
-
   return (
     <div
       className="relative overflow-hidden rounded-lg border border-border"
       style={{ height, background: "#0E1016" }}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
       role="img"
-      aria-label="Verdikart-kartforhåndsvisning med eksempeladresser"
+      aria-label="Verdikart-kartforhåndsvisning med eksempeladresse"
     >
       <MapContainer
-        center={[addresses[0].lat, addresses[0].lon]}
+        center={[address.lat, address.lon]}
         zoom={MAP_ZOOM}
         className="absolute inset-0 h-full w-full"
         zoomControl={false}
@@ -104,13 +69,12 @@ export default function HeroMapInner({ addresses, height }: HeroMapInnerProps) {
         style={{ background: "#0E1016" }}
       >
         <MapReady />
-        <FlyToTarget target={current} />
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
           subdomains="abcd"
           maxZoom={20}
         />
-        <Marker position={[current.lat, current.lon]} icon={iconRef.current} />
+        <Marker position={[address.lat, address.lon]} icon={iconRef.current} />
       </MapContainer>
 
       {/* CARTO attribution — tiny, bottom-right, per Leaflet licence. */}
@@ -134,25 +98,18 @@ export default function HeroMapInner({ addresses, height }: HeroMapInnerProps) {
         </a>
       </div>
 
-      {/* Caption — crossfades 300ms on address change. */}
+      {/* Static caption. */}
       <div className="pointer-events-none absolute bottom-2 left-2 right-2 z-[400] flex items-center justify-center">
-        <AnimatePresence mode="wait" initial={false}>
-          <m.span
-            key={current.address}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="rounded-md px-2.5 py-1 text-[11px] font-medium text-text"
-            style={{
-              background: "rgb(14 16 22 / 0.82)",
-              backdropFilter: "blur(8px)",
-              border: "0.5px solid rgb(255 255 255 / 0.08)",
-            }}
-          >
-            {current.address}
-          </m.span>
-        </AnimatePresence>
+        <span
+          className="rounded-md px-2.5 py-1 text-[11px] font-medium text-text"
+          style={{
+            background: "rgb(14 16 22 / 0.82)",
+            backdropFilter: "blur(8px)",
+            border: "0.5px solid rgb(255 255 255 / 0.08)",
+          }}
+        >
+          {address.address}
+        </span>
       </div>
     </div>
   );

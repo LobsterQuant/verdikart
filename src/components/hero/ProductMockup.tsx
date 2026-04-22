@@ -32,7 +32,8 @@ export async function ProductMockup() {
   // wrapper, which orchestrates the scroll-triggered reveal (Package 5).
   return (
     <ProductMockupAnimated>
-      {/* Top: live rotating map — Karl Johans → Bryggen → Torget, flyTo every 4s. */}
+      {/* Top: static hero map pinned to Karl Johans gate 1 — matches the
+          Oslo-only data fetched below so caption, pin and panel agree. */}
       <TopographicHover className="rounded-lg">
         <HeroMap height={180} />
       </TopographicHover>

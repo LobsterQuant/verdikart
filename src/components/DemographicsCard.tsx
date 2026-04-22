@@ -35,7 +35,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <Users className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <h3 className="text-lg font-semibold">Befolkningsprofil</h3>
-        <DataAgeChip source="SSB" date="2024" className="ml-auto" />
+        <DataAgeChip source="SSB" date="2024–26" className="ml-auto" />
       </div>
 
       {/* Income + Education row */}
@@ -52,7 +52,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
           <p className="text-lg font-bold text-foreground tabular-nums">
             {nb(data.higherEducationPct)} %
           </p>
-          <p className="text-xs text-text-secondary">av befolkn. 25–66 år</p>
+          <p className="text-xs text-text-secondary">av befolkn. 16+ år</p>
         </div>
       </div>
 
@@ -127,7 +127,7 @@ export default function DemographicsCard({ kommunenummer }: { kommunenummer: str
       </div>
 
       <p className="mt-3 text-xs text-text-secondary">
-        Kilde: SSB: Befolkningsstatistikk {data.year}, kommunenivå.
+        Kilde: SSB tabell 07459 (befolkning, 1.1.2026), 06944 (inntekt, 2024), 09429 (utdanning, 2024).
       </p>
     </TopographicHover>
   );

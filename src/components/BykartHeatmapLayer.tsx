@@ -1,13 +1,48 @@
 // NOTE: must only be imported via next/dynamic with ssr: false — it pulls in
-// react-leaflet and the ~605 kB pre-computed heatmap data file.
+// react-leaflet and lazy-loads a per-city data chunk (~30–110 kB gzipped each).
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Polygon, Tooltip } from "react-leaflet";
-import { BYKART_HEATMAP_DATA } from "@/data/bykart-heatmap-data";
 import type { WorkCenterId } from "@/lib/scoring/work-centers";
 import { heatmapColor, HEATMAP_FILL_OPACITY } from "@/lib/heatmapColor";
+
+interface BykartHeatmapCell {
+  h3: string;
+  lat: number;
+  lon: number;
+  score: number;
+  boundary: ReadonlyArray<readonly [number, number]>;
+}
+
+// Explicit switch — webpack statically detects each import() call and emits
+// one chunk per city. A template-literal import would work at runtime but
+// opts out of that guarantee.
+async function loadCityCells(
+  city: WorkCenterId,
+): Promise<ReadonlyArray<BykartHeatmapCell>> {
+  switch (city) {
+    case "oslo":
+      return (await import("@/data/bykart-heatmap-oslo")).BYKART_HEATMAP_CITY
+        .cells;
+    case "bergen":
+      return (await import("@/data/bykart-heatmap-bergen")).BYKART_HEATMAP_CITY
+        .cells;
+    case "trondheim":
+      return (await import("@/data/bykart-heatmap-trondheim"))
+        .BYKART_HEATMAP_CITY.cells;
+    case "stavanger":
+      return (await import("@/data/bykart-heatmap-stavanger"))
+        .BYKART_HEATMAP_CITY.cells;
+    case "kristiansand":
+      return (await import("@/data/bykart-heatmap-kristiansand"))
+        .BYKART_HEATMAP_CITY.cells;
+    case "tromso":
+      return (await import("@/data/bykart-heatmap-tromso")).BYKART_HEATMAP_CITY
+        .cells;
+  }
+}
 
 interface Props {
   city: WorkCenterId;
@@ -15,9 +50,17 @@ interface Props {
 
 export default function BykartHeatmapLayer({ city }: Props) {
   const router = useRouter();
-  const cells = useMemo(() => {
-    const c = BYKART_HEATMAP_DATA.cities[city];
-    return c?.cells ?? [];
+  const [cells, setCells] = useState<ReadonlyArray<BykartHeatmapCell>>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    setCells([]);
+    loadCityCells(city).then((next) => {
+      if (!cancelled) setCells(next);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [city]);
 
   return (

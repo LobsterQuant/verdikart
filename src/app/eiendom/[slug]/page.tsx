@@ -18,6 +18,8 @@ import CardsCascade from "@/components/CardsCascade";
 import PropertyShareBar from "@/components/PropertyShareBar";
 import NearbyProperties from "@/components/NearbyProperties";
 import AISummary from "@/components/AISummary";
+import KeyDataBullets from "@/components/KeyDataBullets";
+import { getKeyDataBullets } from "@/lib/buildKeyDataBullets";
 import ValuationCard from "@/components/ValuationCard";
 import ManedskostnadKort from "@/components/cards/ManedskostnadKort";
 import ManedskostnadHero from "@/components/ManedskostnadHero";
@@ -280,6 +282,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
     getPendlingsPoengCached(latNum, lonNum, kommunenummer || null).catch(() => null),
   ]);
   const mobileSummary = reportResult.sections;
+  const keyDataBullets = getKeyDataBullets(mobileSummary);
   const classification = reportResult.classification;
   const isCommercial = classification === "commercial";
   const isMixedUse = classification === "mixed-use";
@@ -463,7 +466,20 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                 <CardErrorBoundary key="transit" fallbackTitle="Kollektivtransport feilet"><TransitCard lat={latNum} lon={lonNum} address={displayAddress} /></CardErrorBoundary>,
                 ...(latNum && lonNum ? [<CardErrorBoundary key="schools" fallbackTitle="Skoler feilet"><SchoolsCard lat={latNum} lon={lonNum} kommunenummer={kommunenummer} /></CardErrorBoundary>] : []),
                 ...(latNum && lonNum ? [<CardErrorBoundary key="amenities" fallbackTitle="Fasiliteter feilet"><AmenitiesCard lat={latNum} lon={lonNum} /></CardErrorBoundary>] : []),
-                ...(latNum && lonNum ? [<CardErrorBoundary key="ai" fallbackTitle="AI-oppsummering feilet"><AISummary address={displayAddress} kommunenummer={kommunenummer} lat={latNum} lon={lonNum} /></CardErrorBoundary>] : []),
+                ...(latNum && lonNum ? [
+                  <CardErrorBoundary key="summary" fallbackTitle="Oppsummering feilet">
+                    <KeyDataBullets bullets={keyDataBullets}>
+                      <AISummary
+                        slug={params.slug}
+                        address={displayAddress}
+                        kommunenummer={kommunenummer}
+                        postnummer={postnummer}
+                        lat={latNum}
+                        lon={lonNum}
+                      />
+                    </KeyDataBullets>
+                  </CardErrorBoundary>,
+                ] : []),
                 <CardErrorBoundary key="reviews" fallbackTitle="Nabolagsvurderinger feilet"><NeighborhoodReviewsCard kommunenummer={kommunenummer} postnummer={searchParams.pnr} /></CardErrorBoundary>,
               ]}
             </CardsCascade>

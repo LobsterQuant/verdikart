@@ -32,6 +32,7 @@ const reportLinks = [
 
 // Mobile-only: all links including city pages
 const mobileLinks = [
+  { href: "/dashboard",       label: "Mine eiendommer" },
   { href: "/sammenlign-adresser", label: "Sammenlign adresser" },
   { href: "/sammenlign",           label: "Sammenlign byer" },
   { href: "/kalkulator",      label: "Boligkalkulator" },

@@ -240,8 +240,11 @@ export async function POST(req: NextRequest) {
 
   // Cache only genuine LLM output. A fallback summary means the upstream was
   // unreachable or unconfigured — we want the next request to retry, not to
-  // pin 30 days of deterministic prose into the cache.
-  if (generated) void putCached(slug, generated);
+  // pin 30 days of deterministic prose into the cache. Awaited because this
+  // route runs on the edge: a fire-and-forget promise can be terminated with
+  // the isolate before the Upstash HTTP write completes. putCached swallows
+  // errors internally, so awaiting it cannot fail the response.
+  if (generated) await putCached(slug, generated);
 
   const summary = generated ?? buildFallbackSummary(address, ctx);
 

@@ -1,6 +1,6 @@
 import { getHeroPropertyData } from "@/lib/property";
 import { TopographicHover } from "@/components/motion/TopographicHover";
-import { MapCrop } from "./mockup/MapCrop";
+import HeroMap from "@/components/HeroMap";
 import { ValueEstimate } from "./mockup/ValueEstimate";
 import { PriceTrendSpark } from "./mockup/PriceTrendSpark";
 import { TransitPill } from "./mockup/TransitPill";
@@ -32,13 +32,9 @@ export async function ProductMockup() {
   // wrapper, which orchestrates the scroll-triggered reveal (Package 5).
   return (
     <ProductMockupAnimated>
-      {/* Top: map spans full width */}
+      {/* Top: live rotating map — Karl Johans → Bryggen → Torget, flyTo every 4s. */}
       <TopographicHover className="rounded-lg">
-        <MapCrop
-          coords={data.coordinates}
-          address={data.address}
-          height={180}
-        />
+        <HeroMap height={180} />
       </TopographicHover>
 
       {/* Middle: value + sparkline side-by-side on ≥sm, stacked below */}

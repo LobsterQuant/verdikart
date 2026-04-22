@@ -21,6 +21,8 @@ import AISummary from "@/components/AISummary";
 import ValuationCard from "@/components/ValuationCard";
 import ManedskostnadKort from "@/components/cards/ManedskostnadKort";
 import ManedskostnadHero from "@/components/ManedskostnadHero";
+import PendlingsPoengCard from "@/components/PendlingsPoengCard";
+import { getPendlingsPoengCached } from "@/lib/scoring/pendlings-poeng-cached";
 import AmenitiesCard from "@/components/AmenitiesCard";
 import SidebarDataCluster from "@/components/SidebarDataCluster";
 
@@ -267,13 +269,16 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
 
   // Mobile sheet previews — one parallel server fetch instead of 12 client waterfalls.
   const postnummer = searchParams.pnr ?? "";
-  const reportResult = await getPropertyReportSummary({
-    lat: latNum,
-    lon: lonNum,
-    kommunenummer,
-    postnummer,
-    adresse: displayAddress,
-  });
+  const [reportResult, pendlingsPoengResult] = await Promise.all([
+    getPropertyReportSummary({
+      lat: latNum,
+      lon: lonNum,
+      kommunenummer,
+      postnummer,
+      adresse: displayAddress,
+    }),
+    getPendlingsPoengCached(latNum, lonNum, kommunenummer || null).catch(() => null),
+  ]);
   const mobileSummary = reportResult.sections;
   const classification = reportResult.classification;
   const isCommercial = classification === "commercial";
@@ -421,6 +426,14 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
                   />
                 </CardErrorBoundary>
               </div>
+
+              {/* ── PENDLINGS-POENG (parallel hero — composite commute score) ────── */}
+              <div className="mb-4">
+                <CardErrorBoundary fallbackTitle="Pendlings-poeng feilet">
+                  <PendlingsPoengCard result={pendlingsPoengResult} />
+                </CardErrorBoundary>
+              </div>
+
               <div className="mb-8">
                 <CardErrorBoundary fallbackTitle="Månedskostnad feilet">
                   <ManedskostnadKort

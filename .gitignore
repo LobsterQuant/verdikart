@@ -31,6 +31,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# refresh-script checkpoints (raw Entur data; heavy; regenerated per run)
+/.cache/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

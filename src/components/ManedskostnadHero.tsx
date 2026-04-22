@@ -153,10 +153,6 @@ export default async function ManedskostnadHero({
       <p className="mt-1 text-xs text-text-tertiary">
         Felleskostnader ikke inkludert. Legg dem til nedenfor hvis aktuelt.
       </p>
-
-      <p className="mt-4 text-xs font-medium text-accent">
-        Justér tallene for din situasjon ↓
-      </p>
     </TopographicHover>
   );
 }

@@ -13,6 +13,7 @@ import {
   STRESSTEST_RATE,
 } from "@/lib/economics/monthly-cost";
 import { classifyCategory, type PropertyClassification } from "@/lib/enova/category";
+import { getPendlingsPoengCached } from "@/lib/scoring/pendlings-poeng-cached";
 
 /**
  * Server-side aggregator for the mobile property-report bottom sheet.
@@ -324,6 +325,8 @@ export interface PropertyReportResult {
   sections: PropertyReportSummary;
   classification: PropertyClassification;
   bygningskategori: string | null;
+  /** 0-100 commute composite. Null when scoring call failed. */
+  pendlingsPoeng: number | null;
 }
 
 export async function getPropertyReportSummary(
@@ -336,7 +339,7 @@ export async function getPropertyReportSummary(
   const HOUR = 60 * 60;
   const WEEK = DAY * 7;
 
-  const [priceTrend, energi, transit, transitStops, schools, climate, noise, air, broadband] = await Promise.all([
+  const [priceTrend, energi, transit, transitStops, schools, climate, noise, air, broadband, pendlings] = await Promise.all([
     safeFetch<PriceTrendShape>(`${origin}/api/price-trend?${qs({ kommunenummer, postnummer })}`, DAY),
     safeFetch<EnergimerkeShape>(`${origin}/api/energimerke?${qs({ postnummer, adresse })}`, DAY),
     safeFetch<TransitShape>(`${origin}/api/transit?${qs({ lat, lon })}`, HOUR),
@@ -352,6 +355,7 @@ export async function getPropertyReportSummary(
     safeFetch<NoiseShape>(`${origin}/api/noise?${qs({ lat, lon })}`, DAY),
     safeFetch<AirQualityShape>(`${origin}/api/air-quality?${qs({ lat, lon })}`, HOUR),
     safeFetch<BroadbandShape>(`${origin}/api/broadband?${qs({ lat, lon })}`, WEEK),
+    getPendlingsPoengCached(lat, lon, kommunenummer || null).catch(() => null),
   ]);
 
   const sections: PropertyReportSummary = {
@@ -374,5 +378,6 @@ export async function getPropertyReportSummary(
     sections,
     classification: classifyCategory(energi?.bygningskategori),
     bygningskategori: energi?.bygningskategori ?? null,
+    pendlingsPoeng: pendlings ? pendlings.total : null,
   };
 }

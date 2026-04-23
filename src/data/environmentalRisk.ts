@@ -1,5 +1,24 @@
 export type RiskLevel = "Høy" | "Moderat" | "Lav" | "Ukjent";
 
+/**
+ * Radon resolution caveat:
+ *
+ * The authoritative radon-aktsomhetskart (NGU + DSA, 1:50,000 geological
+ * raster) classifies by grunnforhold, not by kommune. Oslo, for example, has
+ * significant intra-kommune variation: eastern bydeler on alunskifer are
+ * genuinely "Høy aktsomhet", while western areas on granite/moraine are
+ * typically "Moderat". Our per-kommune labels here collapse that raster into
+ * the dominant level — defensible for a composite score, but any single
+ * Oslo address may be over- or under-stated relative to its actual grunnforhold.
+ *
+ * Users should always verify with an actual radonmåling (DSA recommendation).
+ * Point-resolution radon scoring would require ingesting the NGU raster —
+ * scoped out of Klima-poeng v1.
+ *
+ * Coverage: ~18 kommuner today. Absent kommuner flip the Klima-poeng
+ * composite to the no-radon weight schedule rather than imputing a neutral
+ * value.
+ */
 export interface EnvironmentalRisk {
   kommunenummer: string;
   radonRisk: RiskLevel;

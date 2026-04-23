@@ -7,6 +7,7 @@ import {
   bandForScore,
   bucketForScore,
   quickClayLabel,
+  skredLabel,
   stormSurgeLabel,
 } from "@/lib/scoring/klima-poeng-display";
 import { KlimaPoengTracker } from "./KlimaPoengTracker";
@@ -46,6 +47,12 @@ export default function KlimaPoengCard({ result }: KlimaPoengCardProps) {
       value: quickClayLabel(components.quickClay),
       score: components.quickClayScore,
       ariaLabel: `Kvikkleire: ${components.quickClayScore} av 100`,
+    },
+    {
+      label: "Skred",
+      value: skredLabel(components.skred),
+      score: components.skredScore,
+      ariaLabel: `Skred: ${components.skredScore} av 100`,
     },
     {
       label: "Stormflo (2100)",

@@ -233,3 +233,8 @@ main().catch((err) => {
   console.error("Script failed:", err);
   process.exit(1);
 });
+
+// Marker: forces TypeScript to treat this file as a module rather than a
+// global script, so `main()` doesn't collide with other top-level `main()`
+// declarations elsewhere in the project (see research/tvangssalg/).
+export {};

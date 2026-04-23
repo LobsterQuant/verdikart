@@ -1,0 +1,11 @@
+-- Baseline migration. Existing tables (users, accounts, sessions,
+-- saved_properties, price_alerts, subscriptions, neighborhood_reviews,
+-- verification_tokens) are already present in production Neon — this
+-- repo had no `drizzle/` directory prior to this migration, so they
+-- are not re-created here. Only the new column for price alert
+-- notifications is added.
+--
+-- Run once against prod before merging this PR (via Neon SQL editor
+-- or psql). From this migration forward, `drizzle-kit generate` +
+-- `drizzle-kit migrate` is the canonical workflow.
+ALTER TABLE "price_alerts" ADD COLUMN "last_known_value" integer;

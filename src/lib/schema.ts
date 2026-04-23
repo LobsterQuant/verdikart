@@ -6,6 +6,7 @@ import {
   timestamp,
   boolean,
   doublePrecision,
+  integer,
   smallint,
   bigint,
   primaryKey,
@@ -89,6 +90,11 @@ export const priceAlerts = pgTable("price_alerts", {
   kommunenummer: varchar("kommunenummer", { length: 4 }).notNull(),
   postnummer: varchar("postnummer", { length: 4 }),
   thresholdPct: doublePrecision("threshold_pct").default(5.0),
+  // Last SSB price index (kr/m²) we notified on. Null before the first check —
+  // the first run sets it as a baseline without sending an email. Thereafter,
+  // we only update it when we actually send a notification, so the threshold
+  // is measured against the last-notified value, not a drifting reference.
+  lastKnownValue: integer("last_known_value"),
   lastNotifiedAt: timestamp("last_notified_at", { withTimezone: true }),
   active: boolean("active").default(true),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),

@@ -302,14 +302,51 @@ export function composeTotal(c: KlimaPoengComponents): number {
 
 /* ── Upstream WMS fetchers ─────────────────────────────────────────────── */
 
-const NVE_BASE = "https://gis3.nve.no/map/services";
-const NVE_KART_BASE = "https://kart.nve.no/enterprise/services";
+/**
+ * NVE consolidated their map services on kart.nve.no/enterprise; the old
+ * gis3.nve.no/map host was retired without redirects. Every service we hit
+ * (flom-aktsomhet, flom-sone, kvikkleire-faresone, jord-/flomskred,
+ * steinsprang, snøskred) now lives under this single base.
+ */
+const NVE_BASE = "https://kart.nve.no/enterprise/services";
 const KARTVERKET_WMS = "https://wms.geonorge.no/skwms1/wms.stormflo_havniva";
 const WMS_TIMEOUT_MS = 6000;
 
 /**
- * NVE GetFeatureInfo returns JSON. Point-query = tiny bbox centred on
- * (lat, lon); any returned feature means the point is inside the layer.
+ * Thrown by `queryNveWms` on any outcome that is NOT "valid empty response
+ * from the WMS". Callers catch at the component-fetcher boundary
+ * (fetchFlood / fetchQuickClay / fetchSkred) and translate to
+ * `dataSource.X = "none"` + a user-visible warning. The old silent-false
+ * path (any error → "outside zone") is gone: it masked a host-migration
+ * outage for hours without anyone noticing.
+ */
+export class NveWmsError extends Error {
+  constructor(
+    public readonly kind: "http" | "service" | "network",
+    public readonly detail: string,
+    public readonly url: string,
+  ) {
+    super(`NVE WMS ${kind}: ${detail}`);
+    this.name = "NveWmsError";
+  }
+}
+
+/**
+ * NVE GetFeatureInfo. All services on kart.nve.no/enterprise serve ESRI's
+ * `FeatureInfoResponse` XML regardless of requested `INFO_FORMAT`, so we
+ * request text/xml and parse with one detector.
+ *
+ * Response shapes we recognise:
+ *   - Vector hit:   `<FIELDS OBJECTID="…" objType="…" …/>`
+ *   - Raster hit:   `<FIELDS UniqueValue.PixelValue="2" Raster.objectid="…"/>`
+ *   - Raster miss:  `<FIELDS UniqueValue.PixelValue="NoData"/>`
+ *   - Empty:        `<FeatureInfoResponse …/>` (self-closing, no FIELDS)
+ *   - Error:        `<ServiceExceptionReport>…</ServiceExceptionReport>`
+ *                   (returned with HTTP 200 for things like LayerNotDefined)
+ *
+ * Throws on HTTP 4xx/5xx, ServiceException, and network/timeout errors so
+ * an outage no longer looks identical to "the point is outside the zone".
+ * Returns false only for validly-empty FeatureInfoResponse payloads.
  */
 async function queryNveWms(
   lat: number,
@@ -326,7 +363,7 @@ async function queryNveWms(
     REQUEST: "GetFeatureInfo",
     LAYERS: layer,
     QUERY_LAYERS: layer,
-    INFO_FORMAT: "application/json",
+    INFO_FORMAT: "text/xml",
     SRS: "EPSG:4326",
     WIDTH: "101",
     HEIGHT: "101",
@@ -334,17 +371,35 @@ async function queryNveWms(
     Y: "50",
     BBOX: bbox,
   });
+  const url = `${serviceUrl}?${params}`;
+  let res: Response;
   try {
-    const res = await fetchFn(`${serviceUrl}?${params}`, {
-      signal: AbortSignal.timeout(WMS_TIMEOUT_MS),
-    });
-    if (!res.ok) return false;
-    const data = (await res.json()) as { features?: unknown[]; Features?: unknown[] };
-    const features = data.features ?? data.Features ?? [];
-    return features.length > 0;
-  } catch {
-    return false;
+    res = await fetchFn(url, { signal: AbortSignal.timeout(WMS_TIMEOUT_MS) });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    throw new NveWmsError("network", msg, url);
   }
+  if (!res.ok) {
+    throw new NveWmsError("http", `status ${res.status}`, url);
+  }
+  const body = await res.text();
+  // ArcGIS occasionally returns HTTP 200 with a ServiceExceptionReport body
+  // (e.g., LayerNotDefined for a service that still exists but renamed its
+  // layers). This must fail loudly — it would otherwise look like "empty".
+  if (body.includes("<ServiceException")) {
+    const match = body.match(/<ServiceException[^>]*>\s*([^<]+?)\s*<\/ServiceException>/);
+    const detail = match?.[1]?.trim() ?? "unspecified";
+    throw new NveWmsError("service", detail, url);
+  }
+  // Require a recognisable FeatureInfoResponse envelope. Anything else (HTML
+  // login page, JSON shape from a rewritten service, empty body, etc.) is a
+  // wiring regression — refuse to guess at "outside zone".
+  if (!body.includes("<FeatureInfoResponse")) {
+    throw new NveWmsError("service", "unrecognised response body", url);
+  }
+  if (/PixelValue="NoData"/.test(body)) return false;
+  if (/<FIELDS\s+[A-Za-z]/.test(body)) return true;
+  return false;
 }
 
 /**
@@ -390,6 +445,17 @@ async function queryKartverketStormflo(
 
 interface FloodRaw { high: boolean; medium: boolean }
 
+/**
+ * Flood exposure = two overlapping NVE surfaces:
+ *   - Flomsoner2 / `Flomsone_200arsflom_klima` — modelled 200-year storm
+ *     zones under 2100 climate projections. Sparse nationally (only studied
+ *     watercourses), but authoritative when present. Matches this score's
+ *     2100 horizon.
+ *   - Flomaktsomhet / `Flom_aktsomhetsomrade` — terrain-derived aktsomhets-
+ *     områder. Broader national coverage; lower positional accuracy.
+ * "High" = inside the 200-year-klima sone; "Moderate" = only in the
+ * aktsomhet polygon.
+ */
 async function fetchFlood(
   lat: number,
   lon: number,
@@ -397,8 +463,20 @@ async function fetchFlood(
 ): Promise<{ result: FloodRaw; ok: boolean }> {
   try {
     const [high, medium] = await Promise.all([
-      queryNveWms(lat, lon, "Flomsone", `${NVE_BASE}/Flomsone1/MapServer/WMSServer`, fetchFn),
-      queryNveWms(lat, lon, "Aktsomhet", `${NVE_BASE}/FlomAktsomhet1/MapServer/WMSServer`, fetchFn),
+      queryNveWms(
+        lat,
+        lon,
+        "Flomsone_200arsflom_klima",
+        `${NVE_BASE}/Flomsoner2/MapServer/WMSServer`,
+        fetchFn,
+      ),
+      queryNveWms(
+        lat,
+        lon,
+        "Flom_aktsomhetsomrade",
+        `${NVE_BASE}/Flomaktsomhet/MapServer/WMSServer`,
+        fetchFn,
+      ),
     ]);
     return { result: { high, medium }, ok: true };
   } catch {
@@ -406,6 +484,12 @@ async function fetchFlood(
   }
 }
 
+/**
+ * Kvikkleire faresone — binary "inside a classified faregrad polygon".
+ * A future refinement could parse the `faregrad` attribute on the returned
+ * FIELDS element ("Lav" / "Middels" / "Høy") for a graded score, but the
+ * binary semantics match the legacy Kvikkleire2 behaviour.
+ */
 async function fetchQuickClay(
   lat: number,
   lon: number,
@@ -415,8 +499,8 @@ async function fetchQuickClay(
     const inside = await queryNveWms(
       lat,
       lon,
-      "KvijointFaresone",
-      `${NVE_BASE}/Kvikkleire2/MapServer/WMSServer`,
+      "KvikkleireFaregrad",
+      `${NVE_BASE}/SkredKvikkleire2/MapServer/WMSServer`,
       fetchFn,
     );
     return { inside, ok: true };
@@ -426,51 +510,14 @@ async function fetchQuickClay(
 }
 
 /**
- * NVE skred aktsomhetskart are published on kart.nve.no as ArcGIS MapServer
- * WMS but in a mixed raster/vector layout: JordFlomskred and SteinAkt return
- * raster `<FIELDS UniqueValue.PixelValue="…"/>` (with "NoData" for outside);
- * S3 snøskred returns a vector `<FIELDS OBJECTID=… sikkerhetsklasse=…/>`
- * element for inside and empty otherwise. Unified predicate: any FIELDS
- * element with attributes, excluding the explicit NoData raster case.
- *
- * application/json is not offered; we request text/xml and string-match.
+ * Three aktsomhetskart, each on the same NVE host:
+ *   - Jord-/flomskred:  raster `<FIELDS UniqueValue.PixelValue="…"/>`
+ *     ("NoData" = outside).
+ *   - Steinsprang:      raster, same shape.
+ *   - Snøskred S3:      mixed — vector `<FIELDS OBJECTID=… sikkerhetsklasse=…/>`
+ *     for inside, self-closing FeatureInfoResponse for outside.
+ * queryNveWms handles all three shapes uniformly.
  */
-async function queryNveSkredWms(
-  lat: number,
-  lon: number,
-  layer: string,
-  serviceUrl: string,
-  fetchFn: typeof fetch,
-): Promise<boolean> {
-  const delta = 0.0005;
-  const bbox = `${lon - delta},${lat - delta},${lon + delta},${lat + delta}`;
-  const params = new URLSearchParams({
-    SERVICE: "WMS",
-    VERSION: "1.1.1",
-    REQUEST: "GetFeatureInfo",
-    LAYERS: layer,
-    QUERY_LAYERS: layer,
-    INFO_FORMAT: "text/xml",
-    SRS: "EPSG:4326",
-    WIDTH: "101",
-    HEIGHT: "101",
-    X: "50",
-    Y: "50",
-    BBOX: bbox,
-  });
-  try {
-    const res = await fetchFn(`${serviceUrl}?${params}`, {
-      signal: AbortSignal.timeout(WMS_TIMEOUT_MS),
-    });
-    if (!res.ok) return false;
-    const body = await res.text();
-    if (/PixelValue="NoData"/.test(body)) return false;
-    return /<FIELDS\s+[A-Za-z]/.test(body);
-  } catch {
-    return false;
-  }
-}
-
 async function fetchSkred(
   lat: number,
   lon: number,
@@ -478,25 +525,25 @@ async function fetchSkred(
 ): Promise<{ layers: SkredLayers; ok: boolean }> {
   try {
     const [jordflom, steinsprang, snoskred] = await Promise.all([
-      queryNveSkredWms(
+      queryNveWms(
         lat,
         lon,
         "Jord_flomskred_aktsomhetsomrader",
-        `${NVE_KART_BASE}/JordFlomskredAktsomhet/MapServer/WMSServer`,
+        `${NVE_BASE}/JordFlomskredAktsomhet/MapServer/WMSServer`,
         fetchFn,
       ),
-      queryNveSkredWms(
+      queryNveWms(
         lat,
         lon,
         "Steinsprang-AktsomhetOmrader",
-        `${NVE_KART_BASE}/SkredSteinAktR/MapServer/WMSServer`,
+        `${NVE_BASE}/SkredSteinAktR/MapServer/WMSServer`,
         fetchFn,
       ),
-      queryNveSkredWms(
+      queryNveWms(
         lat,
         lon,
         "S3_snoskred_Aktsomhetsomrade",
-        `${NVE_KART_BASE}/SnoskredAktsomhet/MapServer/WMSServer`,
+        `${NVE_BASE}/SnoskredAktsomhet/MapServer/WMSServer`,
         fetchFn,
       ),
     ]);

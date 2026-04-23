@@ -385,8 +385,9 @@ function AlertsTab({
       <div className="mb-4 rounded-lg border border-card-border bg-card-bg/60 p-4 text-xs text-text-secondary">
         <p className="font-medium text-foreground">Hvordan prisvarsler fungerer</p>
         <p className="mt-1">
-          Vi sjekker SSB&apos;s boligprisindeks for hver kommune hvert kvartal. Hvis gjennomsnittet
-          beveger seg mer enn terskelen din (opp eller ned), sender vi deg en e-post. Ingen spam.
+          Vi sjekker SSBs boligprisindeks ukentlig og sender e-post når endringene
+          overskrider din terskel. Terskelen måles mot prisen forrige gang du fikk varsel,
+          så én bevegelse utløser bare ett varsel. Ingen spam.
         </p>
       </div>
 

@@ -11,6 +11,7 @@ import {
   scoreKlimaprofil,
   composeTotal,
   calculateKlimaPoeng,
+  NveWmsError,
   WEIGHTS,
   WEIGHTS_NO_RADON,
   type KlimaPoengComponents,
@@ -435,7 +436,7 @@ describe("resolveKlimaprofilKey", () => {
  * ═══════════════════════════════════════════════════════════════════════ */
 
 describe("calculateKlimaPoeng (all upstreams fail)", () => {
-  it("returns neutral-ish score with warnings when every WMS errors", async () => {
+  it("flips every NVE dataSource to 'none' and pushes warnings when the network fails", async () => {
     const failFetch = async () => {
       throw new Error("simulated network failure");
     };
@@ -445,40 +446,44 @@ describe("calculateKlimaPoeng (all upstreams fail)", () => {
       fetchFn: failFetch as unknown as typeof fetch,
     });
 
-    // Flom/kvikkleire/skred/stormflo all resolve to "not in zone" fallback
-    // (each upstream's internal swallow-and-return-false keeps the outer
-    // fetchSkred/fetchFlood/... branch "ok" at the aggregate level).
-    expect(result.components.floodScore).toBe(100); // defaults to Lav
-    expect(result.components.quickClayScore).toBe(100); // defaults to outside
-    expect(result.components.skredScore).toBe(100); // defaults to outside all 3 layers
-    expect(result.components.stormSurgeScore).toBe(100); // defaults to outside
-    // Radon from static table for 0301 Oslo (Høy).
+    // Component defaults (not-in-zone) still flow through to the scores so
+    // the composite stays computable — but dataSource flips to "none" and
+    // the warnings surface the outage. This is the loud-failure contract:
+    // a user-visible signal that flom/kvikkleire/skred couldn't be checked
+    // rather than the old silent 100/100/100.
+    expect(result.components.floodScore).toBe(100);
+    expect(result.components.quickClayScore).toBe(100);
+    expect(result.components.skredScore).toBe(100);
+    expect(result.components.stormSurgeScore).toBe(100);
+    expect(result.dataSource.flood).toBe("none");
+    expect(result.dataSource.quickClay).toBe("none");
+    expect(result.dataSource.skred).toBe("none");
+    // Kartverket stormflo catches internally (separate upstream, not in
+    // this PR's scope); it still reports "kartverket" when fetches throw.
+    expect(result.dataSource.stormSurge).toBe("kartverket");
+    expect(result.meta.warnings).toEqual(
+      expect.arrayContaining([
+        "NVE flom-data utilgjengelig",
+        "NVE kvikkleire-data utilgjengelig",
+        "NVE skred-data utilgjengelig",
+      ]),
+    );
+    // Radon + klimaprofil still resolve from static tables.
     expect(result.components.radon.assessed).toBe(true);
-    if (result.components.radon.assessed) {
-      expect(result.components.radon.level).toBe("Høy");
-      expect(result.components.radon.score).toBe(20);
-    }
     expect(result.weights).toBe(WEIGHTS);
-    // Klimaprofil resolves (static), oslo-og-akershus.
     expect(result.meta.fylkesprofil).toBe("oslo-og-akershus");
-    // Total should reflect the radon drag.
     expect(result.total).toBeGreaterThan(0);
     expect(result.total).toBeLessThan(100);
-    // Data source markers flip to "none" for each WMS.
-    // (queryNveWms and queryKartverketStormflo swallow errors internally and
-    // return false, so dataSource still marks "nve"/"kartverket" — the outer
-    // try/catch didn't trip. That's expected: individual feature queries
-    // failing is not the same as the whole fetch branch erroring.)
   });
 });
 
 describe("calculateKlimaPoeng (unknown kommune)", () => {
   it("falls back to neutral radon and null klimaprofil", async () => {
     const emptyFetch = async () =>
-      new Response(JSON.stringify({ features: [] }), {
-        status: 200,
-        headers: { "content-type": "application/json" },
-      });
+      new Response(
+        `<?xml version="1.0"?><FeatureInfoResponse xmlns="http://www.esri.com/wms"/>`,
+        { status: 200, headers: { "content-type": "text/xml" } },
+      );
 
     const result = await calculateKlimaPoeng(59.9127, 10.7461, {
       kommunenummer: null,
@@ -519,11 +524,11 @@ describe("calculateKlimaPoeng (unknown kommune)", () => {
           { status: 200, headers: { "content-type": "text/xml" } },
         );
       }
-      // All non-skred upstreams: empty features JSON (→ not in zone).
-      return new Response(JSON.stringify({ features: [] }), {
-        status: 200,
-        headers: { "content-type": "application/json" },
-      });
+      // All non-skred upstreams: valid empty FeatureInfoResponse (→ not in zone).
+      return new Response(
+        `<?xml version="1.0"?><FeatureInfoResponse xmlns="http://www.esri.com/wms"/>`,
+        { status: 200, headers: { "content-type": "text/xml" } },
+      );
     };
 
     const result = await calculateKlimaPoeng(60.397, 5.324, {
@@ -542,10 +547,10 @@ describe("calculateKlimaPoeng (unknown kommune)", () => {
 
   it("unknown kommune (not in static table) → radon not assessed, no-radon weights", async () => {
     const emptyFetch = async () =>
-      new Response(JSON.stringify({ features: [] }), {
-        status: 200,
-        headers: { "content-type": "application/json" },
-      });
+      new Response(
+        `<?xml version="1.0"?><FeatureInfoResponse xmlns="http://www.esri.com/wms"/>`,
+        { status: 200, headers: { "content-type": "text/xml" } },
+      );
 
     const result = await calculateKlimaPoeng(63.5844, 10.0167, {
       kommunenummer: "5055", // Indre Fosen — not in environmentalRiskData
@@ -558,6 +563,122 @@ describe("calculateKlimaPoeng (unknown kommune)", () => {
     // Fylke mapping still works even when radon doesn't.
     expect(result.meta.fylkesprofil).toBe("trondelag");
     expect(result.meta.warnings.some((w) => w.includes("5055"))).toBe(true);
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════════════
+ * queryNveWms loud-error semantics (via calculateKlimaPoeng fetch injection)
+ *
+ * Pre-2026-04 the NVE WMS wrapper caught every error and returned false,
+ * making a host-migration outage identical to "point outside the zone".
+ * These tests pin the new contract: any HTTP 4xx/5xx, ServiceExceptionReport,
+ * network error, or unrecognised body must flip dataSource to "none" and
+ * surface a warning. Only a valid empty FeatureInfoResponse counts as
+ * "outside zone".
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+const XML_EMPTY = `<?xml version="1.0"?><FeatureInfoResponse xmlns="http://www.esri.com/wms"/>`;
+const XML_FIELDS_VECTOR = `<?xml version="1.0"?><FeatureInfoResponse xmlns="http://www.esri.com/wms"><FIELDS OBJECTID="1" objType="UtlosningOmr" faregrad="Middels"/></FeatureInfoResponse>`;
+const XML_PIXEL_NODATA = `<?xml version="1.0"?><FeatureInfoResponse xmlns="http://www.esri.com/wms"><FIELDS UniqueValue.PixelValue="NoData"/></FeatureInfoResponse>`;
+const XML_SERVICE_EXCEPTION = `<?xml version="1.0" encoding="UTF-8"?><ServiceExceptionReport version="1.1.1"><ServiceException code="LayerNotDefined">Parameter 'layers' contains unacceptable layer names.</ServiceException></ServiceExceptionReport>`;
+
+function xmlResponse(body: string, status = 200): Response {
+  return new Response(body, {
+    status,
+    headers: { "content-type": "text/xml" },
+  });
+}
+
+/** Serves `body` to NVE upstreams, XML-empty to Kartverket stormflo. */
+function nveOnly(body: string, status = 200): typeof fetch {
+  const fn = async (input: RequestInfo | URL) => {
+    const url = String(input);
+    if (url.includes("stormflo_havniva")) return xmlResponse(XML_EMPTY);
+    return xmlResponse(body, status);
+  };
+  return fn as unknown as typeof fetch;
+}
+
+describe("queryNveWms — loud-failure contract", () => {
+  it("HTTP 404 on an NVE service → dataSource flips to 'none' and warning fires", async () => {
+    const result = await calculateKlimaPoeng(59.9127, 10.7461, {
+      kommunenummer: "0301",
+      fetchFn: nveOnly("Not Found", 404),
+    });
+    expect(result.dataSource.flood).toBe("none");
+    expect(result.dataSource.quickClay).toBe("none");
+    expect(result.dataSource.skred).toBe("none");
+    expect(result.meta.warnings).toEqual(
+      expect.arrayContaining([
+        "NVE flom-data utilgjengelig",
+        "NVE kvikkleire-data utilgjengelig",
+        "NVE skred-data utilgjengelig",
+      ]),
+    );
+  });
+
+  it("ServiceExceptionReport body at HTTP 200 → dataSource 'none' (not silently false)", async () => {
+    const result = await calculateKlimaPoeng(59.9127, 10.7461, {
+      kommunenummer: "0301",
+      fetchFn: nveOnly(XML_SERVICE_EXCEPTION),
+    });
+    expect(result.dataSource.flood).toBe("none");
+    expect(result.dataSource.quickClay).toBe("none");
+    expect(result.dataSource.skred).toBe("none");
+  });
+
+  it("unrecognised response body (e.g. HTML login page) → dataSource 'none'", async () => {
+    const result = await calculateKlimaPoeng(59.9127, 10.7461, {
+      kommunenummer: "0301",
+      fetchFn: nveOnly("<html><body>Sign in</body></html>"),
+    });
+    expect(result.dataSource.flood).toBe("none");
+    expect(result.dataSource.quickClay).toBe("none");
+    expect(result.dataSource.skred).toBe("none");
+  });
+
+  it("valid empty FeatureInfoResponse → dataSource 'nve', point scored as outside", async () => {
+    const result = await calculateKlimaPoeng(59.9127, 10.7461, {
+      kommunenummer: "0301",
+      fetchFn: nveOnly(XML_EMPTY),
+    });
+    expect(result.dataSource.flood).toBe("nve");
+    expect(result.dataSource.quickClay).toBe("nve");
+    expect(result.dataSource.skred).toBe("nve");
+    expect(result.components.quickClay).toBe(false);
+    expect(result.components.floodRisk).toBe("Lav");
+  });
+
+  it("populated FIELDS (vector hit) → component flips to inside", async () => {
+    const result = await calculateKlimaPoeng(60.0767, 11.0586, {
+      kommunenummer: "3230",
+      fetchFn: nveOnly(XML_FIELDS_VECTOR),
+    });
+    // Every NVE endpoint returns the same vector-hit XML, so flom-høy +
+    // flom-aktsomhet (→ Høy), kvikkleire, and all three skred layers flip.
+    expect(result.components.floodRisk).toBe("Høy");
+    expect(result.components.quickClay).toBe(true);
+    expect(result.components.skred.jordflom).toBe(true);
+    expect(result.components.skred.steinsprang).toBe(true);
+    expect(result.components.skred.snoskred).toBe(true);
+  });
+
+  it("PixelValue='NoData' (raster miss) → component stays outside", async () => {
+    const result = await calculateKlimaPoeng(59.9127, 10.7461, {
+      kommunenummer: "0301",
+      fetchFn: nveOnly(XML_PIXEL_NODATA),
+    });
+    expect(result.components.skred.jordflom).toBe(false);
+    expect(result.components.skred.steinsprang).toBe(false);
+    // quickClay also reads NoData → stays outside.
+    expect(result.components.quickClay).toBe(false);
+  });
+
+  it("NveWmsError is exported with the three documented kinds", () => {
+    const e = new NveWmsError("http", "status 404", "https://example");
+    expect(e.name).toBe("NveWmsError");
+    expect(e.kind).toBe("http");
+    expect(e).toBeInstanceOf(Error);
   });
 });
 

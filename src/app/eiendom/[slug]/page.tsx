@@ -25,6 +25,8 @@ import ManedskostnadKort from "@/components/cards/ManedskostnadKort";
 import ManedskostnadHero from "@/components/ManedskostnadHero";
 import PendlingsPoengCard from "@/components/PendlingsPoengCard";
 import { getPendlingsPoengCached } from "@/lib/scoring/pendlings-poeng-cached";
+import KlimaPoengCard from "@/components/KlimaPoengCard";
+import { getKlimaPoengCached } from "@/lib/scoring/klima-poeng-cached";
 import AmenitiesCard from "@/components/AmenitiesCard";
 import SidebarDataCluster from "@/components/SidebarDataCluster";
 
@@ -271,7 +273,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
 
   // Mobile sheet previews — one parallel server fetch instead of 12 client waterfalls.
   const postnummer = searchParams.pnr ?? "";
-  const [reportResult, pendlingsPoengResult] = await Promise.all([
+  const [reportResult, pendlingsPoengResult, klimaPoengResult] = await Promise.all([
     getPropertyReportSummary({
       lat: latNum,
       lon: lonNum,
@@ -280,6 +282,7 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
       adresse: displayAddress,
     }),
     getPendlingsPoengCached(latNum, lonNum, kommunenummer || null).catch(() => null),
+    getKlimaPoengCached(latNum, lonNum, kommunenummer || null).catch(() => null),
   ]);
   const mobileSummary = reportResult.sections;
   const keyDataBullets = getKeyDataBullets(mobileSummary);
@@ -434,6 +437,13 @@ export default async function EiendomPage({ params, searchParams }: PageProps) {
               <div className="mb-4">
                 <CardErrorBoundary fallbackTitle="Pendlings-poeng feilet">
                   <PendlingsPoengCard result={pendlingsPoengResult} />
+                </CardErrorBoundary>
+              </div>
+
+              {/* ── KLIMA-POENG (parallel hero — composite climate/risk score) ───── */}
+              <div className="mb-4">
+                <CardErrorBoundary fallbackTitle="Klima-poeng feilet">
+                  <KlimaPoengCard result={klimaPoengResult} />
                 </CardErrorBoundary>
               </div>
 

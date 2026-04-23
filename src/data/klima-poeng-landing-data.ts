@@ -80,7 +80,7 @@ export interface KlimaPoengLandingData {
 }
 
 export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
-  generatedAt: "2026-04-23T17:16:01.018Z",
+  generatedAt: "2026-04-23T18:45:12.472Z",
   candidatesScored: 357,
   candidatesTotal: 357,
   topSafe: [
@@ -200,82 +200,6 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
   },
   {
     "rank": 4,
-    "kommunenummer": "3205",
-    "kommunenavn": "Lillestrøm",
-    "slug": "lillestrom",
-    "total": 94,
-    "band": "Utmerket",
-    "centerNote": "Lillestrøm stasjon",
-    "population": 96771,
-    "fylkesnavn": "Oslo og Akershus",
-    "components": {
-      "flood": {
-        "value": "Lav",
-        "score": 100
-      },
-      "quickClay": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "skred": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "stormSurge": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "radon": {
-        "value": "Ikke vurdert",
-        "score": null,
-        "assessed": false
-      },
-      "klimaprofil": {
-        "value": "Oslo og Akershus",
-        "score": 64
-      }
-    }
-  },
-  {
-    "rank": 5,
-    "kommunenummer": "1108",
-    "kommunenavn": "Sandnes",
-    "slug": "sandnes",
-    "total": 94,
-    "band": "Utmerket",
-    "centerNote": "Sandnes sentrum",
-    "population": 85785,
-    "fylkesnavn": "Rogaland",
-    "components": {
-      "flood": {
-        "value": "Lav",
-        "score": 100
-      },
-      "quickClay": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "skred": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "stormSurge": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "radon": {
-        "value": "Lav",
-        "score": 100,
-        "assessed": true
-      },
-      "klimaprofil": {
-        "value": "Rogaland",
-        "score": 58
-      }
-    }
-  },
-  {
-    "rank": 6,
     "kommunenummer": "3207",
     "kommunenavn": "Nordre Follo",
     "slug": "nordre-follo",
@@ -313,7 +237,7 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
     }
   },
   {
-    "rank": 7,
+    "rank": 5,
     "kommunenummer": "3103",
     "kommunenavn": "Moss",
     "slug": "moss",
@@ -351,7 +275,7 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
     }
   },
   {
-    "rank": 8,
+    "rank": 6,
     "kommunenummer": "3222",
     "kommunenavn": "Lørenskog",
     "slug": "lorenskog",
@@ -389,7 +313,7 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
     }
   },
   {
-    "rank": 9,
+    "rank": 7,
     "kommunenummer": "3118",
     "kommunenavn": "Indre Østfold",
     "slug": "indre-ostfold",
@@ -427,14 +351,90 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
     }
   },
   {
-    "rank": 10,
-    "kommunenummer": "3209",
-    "kommunenavn": "Ullensaker",
-    "slug": "ullensaker",
+    "rank": 8,
+    "kommunenummer": "3101",
+    "kommunenavn": "Halden",
+    "slug": "halden",
     "total": 94,
     "band": "Utmerket",
-    "centerNote": "Jessheim",
-    "population": 45982,
+    "centerNote": "Halden sentrum",
+    "population": 32082,
+    "fylkesnavn": "Østfold",
+    "components": {
+      "flood": {
+        "value": "Lav",
+        "score": 100
+      },
+      "quickClay": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "skred": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "stormSurge": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "radon": {
+        "value": "Ikke vurdert",
+        "score": null,
+        "assessed": false
+      },
+      "klimaprofil": {
+        "value": "Østfold",
+        "score": 67
+      }
+    }
+  },
+  {
+    "rank": 9,
+    "kommunenummer": "3303",
+    "kommunenavn": "Kongsberg",
+    "slug": "kongsberg",
+    "total": 94,
+    "band": "Utmerket",
+    "centerNote": "Kongsberg sentrum",
+    "population": 29169,
+    "fylkesnavn": "Buskerud",
+    "components": {
+      "flood": {
+        "value": "Lav",
+        "score": 100
+      },
+      "quickClay": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "skred": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "stormSurge": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "radon": {
+        "value": "Ikke vurdert",
+        "score": null,
+        "assessed": false
+      },
+      "klimaprofil": {
+        "value": "Buskerud",
+        "score": 64
+      }
+    }
+  },
+  {
+    "rank": 10,
+    "kommunenummer": "3232",
+    "kommunenavn": "Nittedal",
+    "slug": "nittedal",
+    "total": 94,
+    "band": "Utmerket",
+    "centerNote": "Rotnes",
+    "population": 26032,
     "fylkesnavn": "Oslo og Akershus",
     "components": {
       "flood": {
@@ -468,6 +468,196 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
   bottomExposed: [
   {
     "rank": 1,
+    "kommunenummer": "4651",
+    "kommunenavn": "Stryn",
+    "slug": "stryn",
+    "total": 40,
+    "band": "Svak",
+    "centerNote": "Kommunesentrum",
+    "population": 0,
+    "fylkesnavn": "Sogn og Fjordane",
+    "components": {
+      "flood": {
+        "value": "Moderat",
+        "score": 40
+      },
+      "quickClay": {
+        "value": "Faresone",
+        "score": 0
+      },
+      "skred": {
+        "value": "Innenfor 3 aktsomhetsområder",
+        "score": 20
+      },
+      "stormSurge": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "radon": {
+        "value": "Ikke vurdert",
+        "score": null,
+        "assessed": false
+      },
+      "klimaprofil": {
+        "value": "Sogn og Fjordane",
+        "score": 60
+      }
+    }
+  },
+  {
+    "rank": 2,
+    "kommunenummer": "1506",
+    "kommunenavn": "Molde",
+    "slug": "molde",
+    "total": 49,
+    "band": "Svak",
+    "centerNote": "Molde sentrum",
+    "population": 33291,
+    "fylkesnavn": "Møre og Romsdal",
+    "components": {
+      "flood": {
+        "value": "Høy",
+        "score": 0
+      },
+      "quickClay": {
+        "value": "Faresone",
+        "score": 0
+      },
+      "skred": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "stormSurge": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "radon": {
+        "value": "Ikke vurdert",
+        "score": null,
+        "assessed": false
+      },
+      "klimaprofil": {
+        "value": "Møre og Romsdal",
+        "score": 60
+      }
+    }
+  },
+  {
+    "rank": 3,
+    "kommunenummer": "3107",
+    "kommunenavn": "Fredrikstad",
+    "slug": "fredrikstad",
+    "total": 51,
+    "band": "Svak",
+    "centerNote": "Fredrikstad stasjon",
+    "population": 86243,
+    "fylkesnavn": "Østfold",
+    "components": {
+      "flood": {
+        "value": "Moderat",
+        "score": 40
+      },
+      "quickClay": {
+        "value": "Faresone",
+        "score": 0
+      },
+      "skred": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "stormSurge": {
+        "value": "Ekstremtilfelle",
+        "score": 70
+      },
+      "radon": {
+        "value": "Høy",
+        "score": 20,
+        "assessed": true
+      },
+      "klimaprofil": {
+        "value": "Østfold",
+        "score": 67
+      }
+    }
+  },
+  {
+    "rank": 4,
+    "kommunenummer": "4641",
+    "kommunenavn": "Aurland",
+    "slug": "aurland",
+    "total": 52,
+    "band": "Svak",
+    "centerNote": "Aurlandsvangen",
+    "population": 0,
+    "fylkesnavn": "Sogn og Fjordane",
+    "components": {
+      "flood": {
+        "value": "Moderat",
+        "score": 40
+      },
+      "quickClay": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "skred": {
+        "value": "Innenfor snøskred",
+        "score": 50
+      },
+      "stormSurge": {
+        "value": "Flomutsatt i dag",
+        "score": 0
+      },
+      "radon": {
+        "value": "Ikke vurdert",
+        "score": null,
+        "assessed": false
+      },
+      "klimaprofil": {
+        "value": "Sogn og Fjordane",
+        "score": 60
+      }
+    }
+  },
+  {
+    "rank": 5,
+    "kommunenummer": "3312",
+    "kommunenavn": "Lier",
+    "slug": "lier",
+    "total": 59,
+    "band": "OK",
+    "centerNote": "Lierbyen",
+    "population": 28797,
+    "fylkesnavn": "Buskerud",
+    "components": {
+      "flood": {
+        "value": "Moderat",
+        "score": 40
+      },
+      "quickClay": {
+        "value": "Faresone",
+        "score": 0
+      },
+      "skred": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "stormSurge": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "radon": {
+        "value": "Ikke vurdert",
+        "score": null,
+        "assessed": false
+      },
+      "klimaprofil": {
+        "value": "Buskerud",
+        "score": 64
+      }
+    }
+  },
+  {
+    "rank": 6,
     "kommunenummer": "4617",
     "kommunenavn": "Kvinnherad",
     "slug": "kvinnherad",
@@ -505,31 +695,31 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
     }
   },
   {
-    "rank": 2,
-    "kommunenummer": "4624",
-    "kommunenavn": "Bjørnafjorden",
-    "slug": "bjornafjorden",
-    "total": 65,
+    "rank": 7,
+    "kommunenummer": "1824",
+    "kommunenavn": "Vefsn",
+    "slug": "vefsn",
+    "total": 61,
     "band": "OK",
-    "centerNote": "Osøyro",
-    "population": 26753,
-    "fylkesnavn": "Hordaland",
+    "centerNote": "Mosjøen",
+    "population": 13481,
+    "fylkesnavn": "Nordland",
     "components": {
       "flood": {
-        "value": "Lav",
-        "score": 100
+        "value": "Moderat",
+        "score": 40
       },
       "quickClay": {
         "value": "Utenfor",
         "score": 100
       },
       "skred": {
-        "value": "Innenfor jord-/flomskred",
-        "score": 50
+        "value": "Innenfor 2 aktsomhetsområder",
+        "score": 20
       },
       "stormSurge": {
-        "value": "Flomutsatt i dag",
-        "score": 0
+        "value": "Utenfor",
+        "score": 100
       },
       "radon": {
         "value": "Ikke vurdert",
@@ -537,75 +727,75 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
         "assessed": false
       },
       "klimaprofil": {
-        "value": "Hordaland",
-        "score": 60
+        "value": "Nordland",
+        "score": 51
       }
     }
   },
   {
-    "rank": 3,
-    "kommunenummer": "4614",
-    "kommunenavn": "Stord",
-    "slug": "stord",
-    "total": 65,
+    "rank": 8,
+    "kommunenummer": "5542",
+    "kommunenavn": "Skjervøy",
+    "slug": "skjervoy",
+    "total": 61,
     "band": "OK",
-    "centerNote": "Leirvik",
-    "population": 19276,
-    "fylkesnavn": "Hordaland",
-    "components": {
-      "flood": {
-        "value": "Lav",
-        "score": 100
-      },
-      "quickClay": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "skred": {
-        "value": "Innenfor jord-/flomskred",
-        "score": 50
-      },
-      "stormSurge": {
-        "value": "Flomutsatt i dag",
-        "score": 0
-      },
-      "radon": {
-        "value": "Ikke vurdert",
-        "score": null,
-        "assessed": false
-      },
-      "klimaprofil": {
-        "value": "Hordaland",
-        "score": 60
-      }
-    }
-  },
-  {
-    "rank": 4,
-    "kommunenummer": "4641",
-    "kommunenavn": "Aurland",
-    "slug": "aurland",
-    "total": 65,
-    "band": "OK",
-    "centerNote": "Aurlandsvangen",
+    "centerNote": "Kommunesentrum",
     "population": 0,
+    "fylkesnavn": "Troms",
+    "components": {
+      "flood": {
+        "value": "Moderat",
+        "score": 40
+      },
+      "quickClay": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "skred": {
+        "value": "Innenfor 2 aktsomhetsområder",
+        "score": 20
+      },
+      "stormSurge": {
+        "value": "Utenfor",
+        "score": 100
+      },
+      "radon": {
+        "value": "Ikke vurdert",
+        "score": null,
+        "assessed": false
+      },
+      "klimaprofil": {
+        "value": "Troms",
+        "score": 54
+      }
+    }
+  },
+  {
+    "rank": 9,
+    "kommunenummer": "4647",
+    "kommunenavn": "Sunnfjord",
+    "slug": "sunnfjord",
+    "total": 62,
+    "band": "OK",
+    "centerNote": "Førde",
+    "population": 22804,
     "fylkesnavn": "Sogn og Fjordane",
     "components": {
       "flood": {
-        "value": "Lav",
-        "score": 100
+        "value": "Moderat",
+        "score": 40
       },
       "quickClay": {
         "value": "Utenfor",
         "score": 100
       },
       "skred": {
-        "value": "Innenfor snøskred",
-        "score": 50
+        "value": "Innenfor 2 aktsomhetsområder",
+        "score": 20
       },
       "stormSurge": {
-        "value": "Flomutsatt i dag",
-        "score": 0
+        "value": "Utenfor",
+        "score": 100
       },
       "radon": {
         "value": "Ikke vurdert",
@@ -619,221 +809,31 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
     }
   },
   {
-    "rank": 5,
-    "kommunenummer": "5031",
-    "kommunenavn": "Malvik",
-    "slug": "malvik",
-    "total": 74,
-    "band": "Bra",
-    "centerNote": "Hommelvik",
-    "population": 14961,
-    "fylkesnavn": "Trøndelag",
-    "components": {
-      "flood": {
-        "value": "Lav",
-        "score": 100
-      },
-      "quickClay": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "skred": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "stormSurge": {
-        "value": "Flomutsatt i dag",
-        "score": 0
-      },
-      "radon": {
-        "value": "Ikke vurdert",
-        "score": null,
-        "assessed": false
-      },
-      "klimaprofil": {
-        "value": "Trøndelag",
-        "score": 48
-      }
-    }
-  },
-  {
-    "rank": 6,
-    "kommunenummer": "1824",
-    "kommunenavn": "Vefsn",
-    "slug": "vefsn",
-    "total": 74,
-    "band": "Bra",
-    "centerNote": "Mosjøen",
-    "population": 13481,
-    "fylkesnavn": "Nordland",
-    "components": {
-      "flood": {
-        "value": "Lav",
-        "score": 100
-      },
-      "quickClay": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "skred": {
-        "value": "Innenfor 2 aktsomhetsområder",
-        "score": 20
-      },
-      "stormSurge": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "radon": {
-        "value": "Ikke vurdert",
-        "score": null,
-        "assessed": false
-      },
-      "klimaprofil": {
-        "value": "Nordland",
-        "score": 51
-      }
-    }
-  },
-  {
-    "rank": 7,
-    "kommunenummer": "5057",
-    "kommunenavn": "Ørland",
-    "slug": "orland",
-    "total": 74,
-    "band": "Bra",
-    "centerNote": "Brekstad",
-    "population": 10706,
-    "fylkesnavn": "Trøndelag",
-    "components": {
-      "flood": {
-        "value": "Lav",
-        "score": 100
-      },
-      "quickClay": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "skred": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "stormSurge": {
-        "value": "Flomutsatt i dag",
-        "score": 0
-      },
-      "radon": {
-        "value": "Ikke vurdert",
-        "score": null,
-        "assessed": false
-      },
-      "klimaprofil": {
-        "value": "Trøndelag",
-        "score": 48
-      }
-    }
-  },
-  {
-    "rank": 8,
-    "kommunenummer": "1841",
-    "kommunenavn": "Fauske",
-    "slug": "fauske",
-    "total": 74,
-    "band": "Bra",
-    "centerNote": "Kommunesentrum",
-    "population": 0,
-    "fylkesnavn": "Nordland",
-    "components": {
-      "flood": {
-        "value": "Lav",
-        "score": 100
-      },
-      "quickClay": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "skred": {
-        "value": "Innenfor 2 aktsomhetsområder",
-        "score": 20
-      },
-      "stormSurge": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "radon": {
-        "value": "Ikke vurdert",
-        "score": null,
-        "assessed": false
-      },
-      "klimaprofil": {
-        "value": "Nordland",
-        "score": 51
-      }
-    }
-  },
-  {
-    "rank": 9,
-    "kommunenummer": "5049",
-    "kommunenavn": "Flatanger",
-    "slug": "flatanger",
-    "total": 74,
-    "band": "Bra",
-    "centerNote": "Kommunesentrum",
-    "population": 0,
-    "fylkesnavn": "Trøndelag",
-    "components": {
-      "flood": {
-        "value": "Lav",
-        "score": 100
-      },
-      "quickClay": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "skred": {
-        "value": "Utenfor",
-        "score": 100
-      },
-      "stormSurge": {
-        "value": "Flomutsatt i dag",
-        "score": 0
-      },
-      "radon": {
-        "value": "Ikke vurdert",
-        "score": null,
-        "assessed": false
-      },
-      "klimaprofil": {
-        "value": "Trøndelag",
-        "score": 48
-      }
-    }
-  },
-  {
     "rank": 10,
-    "kommunenummer": "5014",
-    "kommunenavn": "Frøya",
-    "slug": "froya",
-    "total": 74,
-    "band": "Bra",
+    "kommunenummer": "1557",
+    "kommunenavn": "Gjemnes",
+    "slug": "gjemnes",
+    "total": 62,
+    "band": "OK",
     "centerNote": "Kommunesentrum",
     "population": 0,
-    "fylkesnavn": "Trøndelag",
+    "fylkesnavn": "Møre og Romsdal",
     "components": {
       "flood": {
-        "value": "Lav",
-        "score": 100
+        "value": "Moderat",
+        "score": 40
       },
       "quickClay": {
         "value": "Utenfor",
         "score": 100
       },
       "skred": {
-        "value": "Utenfor",
-        "score": 100
+        "value": "Innenfor 2 aktsomhetsområder",
+        "score": 20
       },
       "stormSurge": {
-        "value": "Flomutsatt i dag",
-        "score": 0
+        "value": "Utenfor",
+        "score": 100
       },
       "radon": {
         "value": "Ikke vurdert",
@@ -841,8 +841,8 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
         "assessed": false
       },
       "klimaprofil": {
-        "value": "Trøndelag",
-        "score": 48
+        "value": "Møre og Romsdal",
+        "score": 60
       }
     }
   }
@@ -1074,17 +1074,17 @@ export const KLIMA_POENG_LANDING_DATA: KlimaPoengLandingData = {
     "left": {
       "label": "Flåm sentrum",
       "kommunenavn": "Aurland",
-      "total": 71,
-      "band": "Bra",
+      "total": 27,
+      "band": "Svært svak",
       "fylkesnavn": "Sogn og Fjordane",
       "components": {
         "flood": {
-          "value": "Lav",
-          "score": 100
+          "value": "Høy",
+          "score": 0
         },
         "quickClay": {
-          "value": "Utenfor",
-          "score": 100
+          "value": "Faresone",
+          "score": 0
         },
         "skred": {
           "value": "Innenfor 2 aktsomhetsområder",

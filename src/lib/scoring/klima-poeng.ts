@@ -3,15 +3,20 @@
  * how exposed the location is to physical climate hazards (today and by 2100).
  * Second composite score after Pendlings-poeng; same architectural pattern.
  *
- * Five weighted components (high score = low risk = safe):
- *   - Flom          25%  NVE WMS (aktsomhetsområde + flomsone)
- *   - Kvikkleire    25%  NVE WMS (faresone)
- *   - Stormflo 2100 20%  Kartverket WMS (20-år nå, 200-år og 1000-år år 2100)
- *   - Radon         15%  Static per-kommune lookup (DSA / NGU summary)
+ * Six weighted components (high score = low risk = safe):
+ *   - Flom          20%  NVE WMS (aktsomhetsområde + flomsone)
+ *   - Kvikkleire    20%  NVE WMS (faresone)
+ *   - Skred         20%  NVE WMS (jord-/flomskred + snøskred S3 + steinsprang)
+ *   - Stormflo 2100 15%  Kartverket WMS (20-år nå, 200-år og 1000-år år 2100)
+ *   - Radon         10%  Static per-kommune lookup (DSA / NGU summary)
  *   - Klimaprofil   15%  Static per-fylke Norsk Klimaservicesenter profile
  *
- * v1 scope notes:
- *   - NGU skred (jord/flom/stein/snø) deferred to PR 2.
+ * Skred is a composite binary flag across three NVE aktsomhetskart. Each
+ * layer is yes/no at the point; the combined score drops with the number of
+ * hits (0→100, 1→50, 2+→20). Urban addresses almost never hit these, so a
+ * hit is a real signal rather than noise.
+ *
+ * Scope notes:
  *   - Skogbrann deferred to later PR (needs proximity to forest, not FWI).
  *   - Luftkvalitet-trend dropped; no historical NILU data.
  *   - Radon is kommune-resolution; point-level API not publicly available.
@@ -33,6 +38,15 @@ export interface StormSurgeZones {
   in1000Year2100: boolean;
 }
 
+export interface SkredLayers {
+  /** Aktsomhetsområde jord- og flomskred (NVE 2025). */
+  jordflom: boolean;
+  /** Aktsomhetsområde steinsprang (NVE SkredSteinAktR). */
+  steinsprang: boolean;
+  /** Aktsomhetsområde snøskred S3 (NVE/NGI SnoskredAktsomhet). */
+  snoskred: boolean;
+}
+
 /** Known-level radon assessment, or an explicit "not assessed" signal. */
 export type AssessedRadonLevel = Exclude<RiskLevel, "Ukjent">;
 export type RadonAssessment =
@@ -44,11 +58,13 @@ export interface KlimaPoengComponents {
   floodScore: number;
   quickClay: boolean;
   quickClayScore: number;
+  skred: SkredLayers;
+  skredScore: number;
   stormSurge: StormSurgeZones;
   stormSurgeScore: number;
   /**
-   * Discriminated union. When `assessed: false`, the radon weight (0.15) is
-   * redistributed across the other 4 components instead of imputing a neutral
+   * Discriminated union. When `assessed: false`, the radon weight (0.10) is
+   * redistributed across the other 5 components instead of imputing a neutral
    * score — ~95% of Norwegian kommuner fall outside our static table, and
    * pretending to measure absent data would mislead.
    */
@@ -58,18 +74,20 @@ export interface KlimaPoengComponents {
 }
 
 export interface KlimaPoengWeights {
-  flood: 0.25;
-  quickClay: 0.25;
-  stormSurge: 0.20;
-  radon: 0.15;
+  flood: 0.20;
+  quickClay: 0.20;
+  skred: 0.20;
+  stormSurge: 0.15;
+  radon: 0.10;
   klimaprofil: 0.15;
 }
 
 export interface KlimaPoengWeightsNoRadon {
-  flood: 0.30;
-  quickClay: 0.30;
-  stormSurge: 0.225;
-  klimaprofil: 0.175;
+  flood: 0.22;
+  quickClay: 0.22;
+  skred: 0.22;
+  stormSurge: 0.17;
+  klimaprofil: 0.17;
 }
 
 export interface KlimaPoengResult {
@@ -80,6 +98,7 @@ export interface KlimaPoengResult {
   dataSource: {
     flood: "nve" | "none";
     quickClay: "nve" | "none";
+    skred: "nve" | "none";
     stormSurge: "kartverket" | "none";
     radon: "static-kommune" | "ikke-vurdert";
     klimaprofil: "kss-2021" | "none";
@@ -99,23 +118,25 @@ export interface KlimaPoengOptions {
 }
 
 export const WEIGHTS: KlimaPoengWeights = {
-  flood: 0.25,
-  quickClay: 0.25,
-  stormSurge: 0.20,
-  radon: 0.15,
+  flood: 0.20,
+  quickClay: 0.20,
+  skred: 0.20,
+  stormSurge: 0.15,
+  radon: 0.10,
   klimaprofil: 0.15,
 };
 
 /**
- * Weights used when radon is not assessed. Redistributed proportionally-ish
- * from radon's 0.15 (exact proportional would yield .294/.294/.235/.176 — these
- * are cleaner numbers that still sum to 1.0).
+ * Weights used when radon is not assessed. Radon's 0.10 spread roughly evenly
+ * (+0.02 each) across the remaining 5 components, producing clean numbers
+ * that still sum to 1.0.
  */
 export const WEIGHTS_NO_RADON: KlimaPoengWeightsNoRadon = {
-  flood: 0.30,
-  quickClay: 0.30,
-  stormSurge: 0.225,
-  klimaprofil: 0.175,
+  flood: 0.22,
+  quickClay: 0.22,
+  skred: 0.22,
+  stormSurge: 0.17,
+  klimaprofil: 0.17,
 };
 
 /* ── Shared primitives ─────────────────────────────────────────────────── */
@@ -152,6 +173,22 @@ export function scoreFlom(level: RiskLevel): number {
 /** Binary: inside faresone → 0, outside → 100. */
 export function scoreKvikkleire(inside: boolean): number {
   return inside ? 0 : 100;
+}
+
+/**
+ * Composite of three aktsomhetskart (jord-/flomskred, steinsprang, snøskred).
+ * "Inside" means any one layer flags the point. Scoring reflects cumulative
+ * hits so a single-layer brush-up doesn't dominate a radon-clean address,
+ * but multiple hits (a genuine slope-foot location) pull the component hard.
+ */
+export function scoreSkred(layers: SkredLayers): number {
+  const count =
+    (layers.jordflom ? 1 : 0) +
+    (layers.steinsprang ? 1 : 0) +
+    (layers.snoskred ? 1 : 0);
+  if (count === 0) return 100;
+  if (count === 1) return 50;
+  return 20;
 }
 
 /**
@@ -248,6 +285,7 @@ export function composeTotal(c: KlimaPoengComponents): number {
     const weighted =
       WEIGHTS.flood * c.floodScore +
       WEIGHTS.quickClay * c.quickClayScore +
+      WEIGHTS.skred * c.skredScore +
       WEIGHTS.stormSurge * c.stormSurgeScore +
       WEIGHTS.radon * c.radon.score +
       WEIGHTS.klimaprofil * c.klimaprofilScore;
@@ -256,6 +294,7 @@ export function composeTotal(c: KlimaPoengComponents): number {
   const weighted =
     WEIGHTS_NO_RADON.flood * c.floodScore +
     WEIGHTS_NO_RADON.quickClay * c.quickClayScore +
+    WEIGHTS_NO_RADON.skred * c.skredScore +
     WEIGHTS_NO_RADON.stormSurge * c.stormSurgeScore +
     WEIGHTS_NO_RADON.klimaprofil * c.klimaprofilScore;
   return Math.round(clamp100(weighted));
@@ -264,6 +303,7 @@ export function composeTotal(c: KlimaPoengComponents): number {
 /* ── Upstream WMS fetchers ─────────────────────────────────────────────── */
 
 const NVE_BASE = "https://gis3.nve.no/map/services";
+const NVE_KART_BASE = "https://kart.nve.no/enterprise/services";
 const KARTVERKET_WMS = "https://wms.geonorge.no/skwms1/wms.stormflo_havniva";
 const WMS_TIMEOUT_MS = 6000;
 
@@ -385,6 +425,90 @@ async function fetchQuickClay(
   }
 }
 
+/**
+ * NVE skred aktsomhetskart are published on kart.nve.no as ArcGIS MapServer
+ * WMS but in a mixed raster/vector layout: JordFlomskred and SteinAkt return
+ * raster `<FIELDS UniqueValue.PixelValue="…"/>` (with "NoData" for outside);
+ * S3 snøskred returns a vector `<FIELDS OBJECTID=… sikkerhetsklasse=…/>`
+ * element for inside and empty otherwise. Unified predicate: any FIELDS
+ * element with attributes, excluding the explicit NoData raster case.
+ *
+ * application/json is not offered; we request text/xml and string-match.
+ */
+async function queryNveSkredWms(
+  lat: number,
+  lon: number,
+  layer: string,
+  serviceUrl: string,
+  fetchFn: typeof fetch,
+): Promise<boolean> {
+  const delta = 0.0005;
+  const bbox = `${lon - delta},${lat - delta},${lon + delta},${lat + delta}`;
+  const params = new URLSearchParams({
+    SERVICE: "WMS",
+    VERSION: "1.1.1",
+    REQUEST: "GetFeatureInfo",
+    LAYERS: layer,
+    QUERY_LAYERS: layer,
+    INFO_FORMAT: "text/xml",
+    SRS: "EPSG:4326",
+    WIDTH: "101",
+    HEIGHT: "101",
+    X: "50",
+    Y: "50",
+    BBOX: bbox,
+  });
+  try {
+    const res = await fetchFn(`${serviceUrl}?${params}`, {
+      signal: AbortSignal.timeout(WMS_TIMEOUT_MS),
+    });
+    if (!res.ok) return false;
+    const body = await res.text();
+    if (/PixelValue="NoData"/.test(body)) return false;
+    return /<FIELDS\s+[A-Za-z]/.test(body);
+  } catch {
+    return false;
+  }
+}
+
+async function fetchSkred(
+  lat: number,
+  lon: number,
+  fetchFn: typeof fetch,
+): Promise<{ layers: SkredLayers; ok: boolean }> {
+  try {
+    const [jordflom, steinsprang, snoskred] = await Promise.all([
+      queryNveSkredWms(
+        lat,
+        lon,
+        "Jord_flomskred_aktsomhetsomrader",
+        `${NVE_KART_BASE}/JordFlomskredAktsomhet/MapServer/WMSServer`,
+        fetchFn,
+      ),
+      queryNveSkredWms(
+        lat,
+        lon,
+        "Steinsprang-AktsomhetOmrader",
+        `${NVE_KART_BASE}/SkredSteinAktR/MapServer/WMSServer`,
+        fetchFn,
+      ),
+      queryNveSkredWms(
+        lat,
+        lon,
+        "S3_snoskred_Aktsomhetsomrade",
+        `${NVE_KART_BASE}/SnoskredAktsomhet/MapServer/WMSServer`,
+        fetchFn,
+      ),
+    ]);
+    return { layers: { jordflom, steinsprang, snoskred }, ok: true };
+  } catch {
+    return {
+      layers: { jordflom: false, steinsprang: false, snoskred: false },
+      ok: false,
+    };
+  }
+}
+
 async function fetchStormSurge(
   lat: number,
   lon: number,
@@ -419,14 +543,16 @@ export async function calculateKlimaPoeng(
   const kommunenummer = options.kommunenummer ?? null;
   const warnings: string[] = [];
 
-  const [floodRaw, quickClayRaw, stormSurgeRaw] = await Promise.all([
+  const [floodRaw, quickClayRaw, skredRaw, stormSurgeRaw] = await Promise.all([
     fetchFlood(lat, lon, fetchFn),
     fetchQuickClay(lat, lon, fetchFn),
+    fetchSkred(lat, lon, fetchFn),
     fetchStormSurge(lat, lon, fetchFn),
   ]);
 
   if (!floodRaw.ok) warnings.push("NVE flom-data utilgjengelig");
   if (!quickClayRaw.ok) warnings.push("NVE kvikkleire-data utilgjengelig");
+  if (!skredRaw.ok) warnings.push("NVE skred-data utilgjengelig");
   if (!stormSurgeRaw.ok) warnings.push("Kartverket stormflo-data utilgjengelig");
 
   let floodRisk: RiskLevel = "Lav";
@@ -462,6 +588,8 @@ export async function calculateKlimaPoeng(
     floodScore: scoreFlom(floodRisk),
     quickClay: quickClayRaw.inside,
     quickClayScore: scoreKvikkleire(quickClayRaw.inside),
+    skred: skredRaw.layers,
+    skredScore: scoreSkred(skredRaw.layers),
     stormSurge: stormSurgeRaw.zones,
     stormSurgeScore: scoreStormflo(stormSurgeRaw.zones),
     radon,
@@ -476,6 +604,7 @@ export async function calculateKlimaPoeng(
     dataSource: {
       flood: floodRaw.ok ? "nve" : "none",
       quickClay: quickClayRaw.ok ? "nve" : "none",
+      skred: skredRaw.ok ? "nve" : "none",
       stormSurge: stormSurgeRaw.ok ? "kartverket" : "none",
       radon: radon.assessed ? "static-kommune" : "ikke-vurdert",
       klimaprofil: klimaprofil ? "kss-2021" : "none",

@@ -3,7 +3,7 @@
  * env, no JSX) can test them. Bands match Pendlings-poeng so the two hero
  * cards read as a consistent family.
  */
-import type { StormSurgeZones } from "./klima-poeng";
+import type { SkredLayers, StormSurgeZones } from "./klima-poeng";
 
 export type PoengBand = "Utmerket" | "Bra" | "OK" | "Svak" | "Svært svak";
 export type PoengBucket = "0-34" | "35-54" | "55-69" | "70-84" | "85-100";
@@ -41,4 +41,18 @@ export function stormSurgeLabel(zones: StormSurgeZones): string {
 
 export function klimaprofilLabel(fylkesnavn: string | null): string {
   return fylkesnavn ?? "Ingen profil";
+}
+
+/**
+ * One-line summary of the three skred aktsomhetskart. Single-layer hits name
+ * the layer for the reader; multi-hits bucket as "N aktsomhetsområder".
+ */
+export function skredLabel(layers: SkredLayers): string {
+  const names: string[] = [];
+  if (layers.jordflom) names.push("jord-/flomskred");
+  if (layers.steinsprang) names.push("steinsprang");
+  if (layers.snoskred) names.push("snøskred");
+  if (names.length === 0) return "Utenfor";
+  if (names.length === 1) return `Innenfor ${names[0]}`;
+  return `Innenfor ${names.length} aktsomhetsområder`;
 }

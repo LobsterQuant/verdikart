@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   scoreFlom,
   scoreKvikkleire,
+  scoreSkred,
   scoreStormflo,
   scoreRadon,
   scoreTemperaturendring,
@@ -13,6 +14,7 @@ import {
   WEIGHTS,
   WEIGHTS_NO_RADON,
   type KlimaPoengComponents,
+  type SkredLayers,
   type StormSurgeZones,
 } from "./klima-poeng";
 import { klimaprofilByFylke } from "@/data/klimaprofil";
@@ -35,6 +37,30 @@ describe("scoreKvikkleire", () => {
   it("binary flip between inside and outside", () => {
     expect(scoreKvikkleire(false)).toBe(100);
     expect(scoreKvikkleire(true)).toBe(0);
+  });
+});
+
+describe("scoreSkred", () => {
+  const none: SkredLayers = { jordflom: false, steinsprang: false, snoskred: false };
+
+  it("zero layers inside → 100", () => {
+    expect(scoreSkred(none)).toBe(100);
+  });
+
+  it("exactly one layer inside → 50 (regardless of which)", () => {
+    expect(scoreSkred({ ...none, jordflom: true })).toBe(50);
+    expect(scoreSkred({ ...none, steinsprang: true })).toBe(50);
+    expect(scoreSkred({ ...none, snoskred: true })).toBe(50);
+  });
+
+  it("two layers inside → 20", () => {
+    expect(scoreSkred({ jordflom: true, steinsprang: true, snoskred: false })).toBe(20);
+    expect(scoreSkred({ jordflom: true, steinsprang: false, snoskred: true })).toBe(20);
+    expect(scoreSkred({ jordflom: false, steinsprang: true, snoskred: true })).toBe(20);
+  });
+
+  it("three layers inside → 20 (same floor as two)", () => {
+    expect(scoreSkred({ jordflom: true, steinsprang: true, snoskred: true })).toBe(20);
   });
 });
 
@@ -169,21 +195,28 @@ const ZERO_STORM: StormSurgeZones = {
   in200Year2100: false,
   in1000Year2100: false,
 };
+const ZERO_SKRED: SkredLayers = {
+  jordflom: false,
+  steinsprang: false,
+  snoskred: false,
+};
 
-describe("composeTotal — radon assessed (5-component path)", () => {
-  it("uses the documented 25/25/20/15/15 weights", () => {
+describe("composeTotal — radon assessed (6-component path)", () => {
+  it("uses the documented 20/20/20/15/10/15 weights", () => {
     expect(WEIGHTS).toEqual({
-      flood: 0.25,
-      quickClay: 0.25,
-      stormSurge: 0.20,
-      radon: 0.15,
+      flood: 0.20,
+      quickClay: 0.20,
+      skred: 0.20,
+      stormSurge: 0.15,
+      radon: 0.10,
       klimaprofil: 0.15,
     });
   });
 
   it("weights sum to 1.0", () => {
-    const sum = WEIGHTS.flood + WEIGHTS.quickClay + WEIGHTS.stormSurge +
-                WEIGHTS.radon + WEIGHTS.klimaprofil;
+    const sum =
+      WEIGHTS.flood + WEIGHTS.quickClay + WEIGHTS.skred +
+      WEIGHTS.stormSurge + WEIGHTS.radon + WEIGHTS.klimaprofil;
     expect(sum).toBeCloseTo(1.0, 10);
   });
 
@@ -191,6 +224,7 @@ describe("composeTotal — radon assessed (5-component path)", () => {
     const all100: KlimaPoengComponents = {
       floodRisk: "Lav", floodScore: 100,
       quickClay: false, quickClayScore: 100,
+      skred: ZERO_SKRED, skredScore: 100,
       stormSurge: ZERO_STORM, stormSurgeScore: 100,
       radon: { assessed: true, level: "Lav", score: 100 },
       klimaprofil: null, klimaprofilScore: 100,
@@ -198,53 +232,60 @@ describe("composeTotal — radon assessed (5-component path)", () => {
     expect(composeTotal(all100)).toBe(100);
   });
 
-  it("worst components → 3 (radon floor at 20)", () => {
+  it("worst components → 2 (radon floor at 20 × 0.10)", () => {
     const all0: KlimaPoengComponents = {
       floodRisk: "Høy", floodScore: 0,
       quickClay: true, quickClayScore: 0,
+      skred: { jordflom: true, steinsprang: true, snoskred: true }, skredScore: 20,
       stormSurge: { in20YearCurrent: true, in200Year2100: true, in1000Year2100: true },
       stormSurgeScore: 0,
       radon: { assessed: true, level: "Høy", score: 20 },
       klimaprofil: null, klimaprofilScore: 0,
     };
-    // 0.25*0 + 0.25*0 + 0.20*0 + 0.15*20 + 0.15*0 = 3
-    expect(composeTotal(all0)).toBe(3);
+    // 0.20*0 + 0.20*0 + 0.20*20 + 0.15*0 + 0.10*20 + 0.15*0 = 4 + 2 = 6
+    expect(composeTotal(all0)).toBe(6);
   });
 
   it("known mixed case", () => {
-    // 0.25*100 + 0.25*100 + 0.20*50 + 0.15*60 + 0.15*64 = 78.6 → 79
+    // 0.20*100 + 0.20*100 + 0.20*50 + 0.15*50 + 0.10*60 + 0.15*64
+    //   = 20 + 20 + 10 + 7.5 + 6 + 9.6 = 73.1 → 73
     const mixed: KlimaPoengComponents = {
       floodRisk: "Lav", floodScore: 100,
       quickClay: false, quickClayScore: 100,
+      skred: { jordflom: true, steinsprang: false, snoskred: false }, skredScore: 50,
       stormSurge: { in20YearCurrent: false, in200Year2100: true, in1000Year2100: true },
       stormSurgeScore: 50,
       radon: { assessed: true, level: "Moderat", score: 60 },
       klimaprofil: klimaprofilByFylke["oslo-og-akershus"], klimaprofilScore: 64,
     };
-    expect(composeTotal(mixed)).toBe(79);
+    expect(composeTotal(mixed)).toBe(73);
   });
 });
 
-describe("composeTotal — radon not assessed (4-component path)", () => {
-  it("uses the documented 30/30/22.5/17.5 redistributed weights", () => {
+describe("composeTotal — radon not assessed (5-component path)", () => {
+  it("uses the documented 22/22/22/17/17 redistributed weights", () => {
     expect(WEIGHTS_NO_RADON).toEqual({
-      flood: 0.30,
-      quickClay: 0.30,
-      stormSurge: 0.225,
-      klimaprofil: 0.175,
+      flood: 0.22,
+      quickClay: 0.22,
+      skred: 0.22,
+      stormSurge: 0.17,
+      klimaprofil: 0.17,
     });
   });
 
   it("no-radon weights sum to 1.0", () => {
-    const sum = WEIGHTS_NO_RADON.flood + WEIGHTS_NO_RADON.quickClay +
-                WEIGHTS_NO_RADON.stormSurge + WEIGHTS_NO_RADON.klimaprofil;
+    const sum =
+      WEIGHTS_NO_RADON.flood + WEIGHTS_NO_RADON.quickClay +
+      WEIGHTS_NO_RADON.skred + WEIGHTS_NO_RADON.stormSurge +
+      WEIGHTS_NO_RADON.klimaprofil;
     expect(sum).toBeCloseTo(1.0, 10);
   });
 
-  it("perfect 4 components → 100 (no radon contribution)", () => {
+  it("perfect 5 components → 100 (no radon contribution)", () => {
     const all100: KlimaPoengComponents = {
       floodRisk: "Lav", floodScore: 100,
       quickClay: false, quickClayScore: 100,
+      skred: ZERO_SKRED, skredScore: 100,
       stormSurge: ZERO_STORM, stormSurgeScore: 100,
       radon: { assessed: false },
       klimaprofil: null, klimaprofilScore: 100,
@@ -252,39 +293,43 @@ describe("composeTotal — radon not assessed (4-component path)", () => {
     expect(composeTotal(all100)).toBe(100);
   });
 
-  it("worst 4 components → 0", () => {
+  it("worst 5 components → 4 (skred floor at 20 × 0.22)", () => {
     const all0: KlimaPoengComponents = {
       floodRisk: "Høy", floodScore: 0,
       quickClay: true, quickClayScore: 0,
+      skred: { jordflom: true, steinsprang: true, snoskred: true }, skredScore: 20,
       stormSurge: { in20YearCurrent: true, in200Year2100: true, in1000Year2100: true },
       stormSurgeScore: 0,
       radon: { assessed: false },
       klimaprofil: null, klimaprofilScore: 0,
     };
-    expect(composeTotal(all0)).toBe(0);
+    // 0.22*20 = 4.4 → 4
+    expect(composeTotal(all0)).toBe(4);
   });
 
   it("known mixed case with redistributed weights", () => {
-    // 0.30*100 + 0.30*100 + 0.225*50 + 0.175*64 = 30 + 30 + 11.25 + 11.2 = 82.45 → 82
+    // 0.22*100 + 0.22*100 + 0.22*50 + 0.17*50 + 0.17*64
+    //   = 22 + 22 + 11 + 8.5 + 10.88 = 74.38 → 74
     const mixed: KlimaPoengComponents = {
       floodRisk: "Lav", floodScore: 100,
       quickClay: false, quickClayScore: 100,
+      skred: { jordflom: true, steinsprang: false, snoskred: false }, skredScore: 50,
       stormSurge: { in20YearCurrent: false, in200Year2100: true, in1000Year2100: true },
       stormSurgeScore: 50,
       radon: { assessed: false },
       klimaprofil: klimaprofilByFylke["oslo-og-akershus"], klimaprofilScore: 64,
     };
-    expect(composeTotal(mixed)).toBe(82);
+    expect(composeTotal(mixed)).toBe(74);
   });
 
-  it("identical 4-component inputs score higher in no-radon path than radon-Moderat path", () => {
-    // Same inputs, but one has radon Moderat (score 60), the other has no radon.
-    // Redistribution means the missing 60 is effectively replaced by the
-    // weighted avg of the other 4, which is higher (here 100/100/50/64), so
-    // the no-radon total should exceed the radon-moderat total.
+  it("identical 5-component inputs score higher in no-radon path than radon-Moderat path", () => {
+    // Same inputs, radon Moderat (60) vs not assessed. Redistribution means
+    // the missing 60 is effectively replaced by the weighted avg of the
+    // other 5, which is higher here — so the no-radon total exceeds.
     const shared = {
       floodRisk: "Lav" as const, floodScore: 100,
       quickClay: false, quickClayScore: 100,
+      skred: ZERO_SKRED, skredScore: 100,
       stormSurge: { in20YearCurrent: false, in200Year2100: true, in1000Year2100: true },
       stormSurgeScore: 50,
       klimaprofil: klimaprofilByFylke["oslo-og-akershus"],
@@ -308,6 +353,7 @@ describe("composeTotal — integer-in-[0,100] invariant", () => {
       {
         floodRisk: "Moderat", floodScore: 40,
         quickClay: false, quickClayScore: 100,
+        skred: ZERO_SKRED, skredScore: 100,
         stormSurge: ZERO_STORM, stormSurgeScore: 100,
         radon: { assessed: true, level: "Høy", score: 20 },
         klimaprofil: null, klimaprofilScore: 52,
@@ -315,6 +361,7 @@ describe("composeTotal — integer-in-[0,100] invariant", () => {
       {
         floodRisk: "Ukjent", floodScore: 60,
         quickClay: false, quickClayScore: 100,
+        skred: { jordflom: true, steinsprang: false, snoskred: true }, skredScore: 20,
         stormSurge: { in20YearCurrent: false, in200Year2100: false, in1000Year2100: true },
         stormSurgeScore: 70,
         radon: { assessed: false },
@@ -398,9 +445,12 @@ describe("calculateKlimaPoeng (all upstreams fail)", () => {
       fetchFn: failFetch as unknown as typeof fetch,
     });
 
-    // Flom/kvikkleire/stormflo all resolve to "not in zone" fallback (100 each).
+    // Flom/kvikkleire/skred/stormflo all resolve to "not in zone" fallback
+    // (each upstream's internal swallow-and-return-false keeps the outer
+    // fetchSkred/fetchFlood/... branch "ok" at the aggregate level).
     expect(result.components.floodScore).toBe(100); // defaults to Lav
     expect(result.components.quickClayScore).toBe(100); // defaults to outside
+    expect(result.components.skredScore).toBe(100); // defaults to outside all 3 layers
     expect(result.components.stormSurgeScore).toBe(100); // defaults to outside
     // Radon from static table for 0301 Oslo (Høy).
     expect(result.components.radon.assessed).toBe(true);
@@ -441,6 +491,53 @@ describe("calculateKlimaPoeng (unknown kommune)", () => {
     expect(result.components.klimaprofil).toBeNull();
     expect(result.components.klimaprofilScore).toBe(60);
     expect(result.meta.fylkesprofil).toBeNull();
+  });
+
+  it("skred XML parser: FIELDS with attrs → inside; NoData PixelValue → outside", async () => {
+    // Inside-hit FIELDS (both vector and raster), NoData for one, empty for the
+    // rest. Exercises the unified FIELDS+PixelValue detector end-to-end.
+    const skredFetch = async (input: RequestInfo | URL) => {
+      const url = String(input);
+      if (url.includes("JordFlomskredAktsomhet")) {
+        // Raster hit
+        return new Response(
+          `<?xml version="1.0"?><FeatureInfoResponse xmlns="http://www.esri.com/wms"><FIELDS UniqueValue.PixelValue="1"/></FeatureInfoResponse>`,
+          { status: 200, headers: { "content-type": "text/xml" } },
+        );
+      }
+      if (url.includes("SnoskredAktsomhet")) {
+        // Vector hit
+        return new Response(
+          `<?xml version="1.0"?><FeatureInfoResponse xmlns="http://www.esri.com/wms"><FIELDS OBJECTID="123" sikkerhetsklasse="S3"/></FeatureInfoResponse>`,
+          { status: 200, headers: { "content-type": "text/xml" } },
+        );
+      }
+      if (url.includes("SkredSteinAktR")) {
+        // Raster miss
+        return new Response(
+          `<?xml version="1.0"?><FeatureInfoResponse xmlns="http://www.esri.com/wms"><FIELDS UniqueValue.PixelValue="NoData"/></FeatureInfoResponse>`,
+          { status: 200, headers: { "content-type": "text/xml" } },
+        );
+      }
+      // All non-skred upstreams: empty features JSON (→ not in zone).
+      return new Response(JSON.stringify({ features: [] }), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      });
+    };
+
+    const result = await calculateKlimaPoeng(60.397, 5.324, {
+      kommunenummer: "4601",
+      fetchFn: skredFetch as unknown as typeof fetch,
+    });
+
+    expect(result.components.skred).toEqual({
+      jordflom: true,
+      steinsprang: false,
+      snoskred: true,
+    });
+    expect(result.components.skredScore).toBe(20); // 2 hits
+    expect(result.dataSource.skred).toBe("nve");
   });
 
   it("unknown kommune (not in static table) → radon not assessed, no-radon weights", async () => {

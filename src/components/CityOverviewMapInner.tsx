@@ -13,11 +13,43 @@ import { formatPct } from "@/lib/format";
 import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from "react-leaflet";
 import type { WorkCenterId } from "@/lib/scoring/work-centers";
 import { HEATMAP_BUCKETS } from "@/lib/heatmapColor";
+import type { HeatmapMode } from "@/components/BykartHeatmapLayer";
 
 const BykartHeatmapLayer = dynamic(
   () => import("@/components/BykartHeatmapLayer"),
   { ssr: false, loading: () => null },
 );
+
+const DEFAULT_MODE: HeatmapMode = "pendling";
+
+function isHeatmapMode(v: string | null): v is HeatmapMode {
+  return v === "pendling" || v === "klima";
+}
+
+interface ModeLegend {
+  title: string;
+  href: string;
+  blurb: (radiusKm: number) => string;
+}
+
+const MODE_LEGEND: Record<HeatmapMode, ModeLegend> = {
+  pendling: {
+    title: "Pendlings-poeng",
+    href: "/pendlings-poeng",
+    blurb: (km) =>
+      `Radiusen dekker ${km} km rundt sentrum og inkluderer både urbane og ` +
+      `spredtbygde områder. Røde områder betyr at pendling til sentrum tar ` +
+      `tid, ikke at stedet er dårlig.`,
+  },
+  klima: {
+    title: "Klima-poeng",
+    href: "/klima-poeng",
+    blurb: (km) =>
+      `Radiusen dekker ${km} km rundt sentrum. Lave scorer kan reflektere ` +
+      `iboende geografi (fjord, skredfare, kvikkleire), ikke dårlig ` +
+      `infrastruktur.`,
+  },
+};
 
 interface City {
   slug: string;
@@ -142,38 +174,57 @@ export default function CityOverviewMapInner() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // view is the source of truth; URL mirrors it via ?view=.
+  // view and mode are the source of truth; URL mirrors both via ?view= & ?mode=.
   const initialView = (() => {
     const raw = searchParams.get("view");
     return isWorkCenterView(raw) ? raw : ("oversikt" as const);
   })();
+  const initialMode: HeatmapMode = (() => {
+    const raw = searchParams.get("mode");
+    return isHeatmapMode(raw) ? raw : DEFAULT_MODE;
+  })();
   const [view, setView] = useState<"oversikt" | WorkCenterId>(initialView);
+  const [mode, setMode] = useState<HeatmapMode>(initialMode);
 
-  // Push view changes into the URL as ?view=<city>; "oversikt" clears the param.
+  // Push view + mode changes into the URL. "oversikt" clears both view and
+  // mode (the mode axis is meaningless without a city selected); otherwise
+  // ?view=<city>, and ?mode=klima only when non-default (keeps existing
+  // pendling-only links clean).
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
-    if (view === "oversikt") params.delete("view");
-    else params.set("view", view);
+    if (view === "oversikt") {
+      params.delete("view");
+      params.delete("mode");
+    } else {
+      params.set("view", view);
+      if (mode === DEFAULT_MODE) params.delete("mode");
+      else params.set("mode", mode);
+    }
     const next = params.toString();
     const url = next ? `${pathname}?${next}` : pathname;
     router.replace(url, { scroll: false });
     // searchParams/pathname/router identity changes shouldn't retrigger this.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view]);
+  }, [view, mode]);
 
   // Sync from URL → state for back/forward navigation.
   useEffect(() => {
-    const raw = searchParams.get("view");
-    const next: "oversikt" | WorkCenterId = isWorkCenterView(raw) ? raw : "oversikt";
-    setView((prev) => (prev === next ? prev : next));
+    const rawView = searchParams.get("view");
+    const nextView: "oversikt" | WorkCenterId = isWorkCenterView(rawView) ? rawView : "oversikt";
+    setView((prev) => (prev === nextView ? prev : nextView));
+    const rawMode = searchParams.get("mode");
+    const nextMode: HeatmapMode = isHeatmapMode(rawMode) ? rawMode : DEFAULT_MODE;
+    setMode((prev) => (prev === nextMode ? prev : nextMode));
   }, [searchParams]);
 
-  // Plausible: fire once per city transition. No event for "oversikt" — the
-  // homepage map already has national-view analytics.
+  // Plausible: fire once per (city, mode) transition. No event for "oversikt"
+  // — the homepage map already has national-view analytics.
   const lastTracked = useRef<string | null>(null);
   useEffect(() => {
-    if (view === "oversikt" || lastTracked.current === view) return;
-    lastTracked.current = view;
+    if (view === "oversikt") return;
+    const key = `${view}:${mode}`;
+    if (lastTracked.current === key) return;
+    lastTracked.current = key;
     const plausible = (window as unknown as {
       plausible?: (
         event: string,
@@ -182,11 +233,11 @@ export default function CityOverviewMapInner() {
     }).plausible;
     if (typeof plausible !== "function") return;
     try {
-      plausible("bykart_heatmap_viewed", { props: { city: view } });
+      plausible("bykart_heatmap_viewed", { props: { city: view, mode } });
     } catch {
       // Analytics must never break the render.
     }
-  }, [view]);
+  }, [view, mode]);
 
   const initialMapCenter: [number, number] =
     initialView === "oversikt"
@@ -205,6 +256,31 @@ export default function CityOverviewMapInner() {
 
   return (
     <div className="space-y-4">
+      {/* Mode toggle — hidden on oversikt where no heatmap is active */}
+      {isHeatmap && (
+        <div
+          className="flex flex-wrap items-center gap-2"
+          role="radiogroup"
+          aria-label="Poeng-type"
+        >
+          {(["pendling", "klima"] as const).map((m) => (
+            <button
+              key={m}
+              role="radio"
+              aria-checked={mode === m}
+              onClick={() => setMode(m)}
+              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                mode === m
+                  ? "border-accent bg-accent text-accent-ink"
+                  : "border-card-border bg-card-bg text-text-secondary hover:border-accent/40 hover:text-foreground"
+              }`}
+            >
+              {m === "pendling" ? "Pendling" : "Klima"}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* View selector */}
       <div className="flex flex-wrap items-center gap-2">
         <button
@@ -289,7 +365,7 @@ export default function CityOverviewMapInner() {
             );
           })}
 
-          {isHeatmap && <BykartHeatmapLayer city={view as WorkCenterId} />}
+          {isHeatmap && <BykartHeatmapLayer city={view as WorkCenterId} mode={mode} />}
         </MapContainer>
 
         {/* Legend */}
@@ -317,9 +393,9 @@ export default function CityOverviewMapInner() {
         ) : (
           <div className="absolute bottom-3 left-3 z-[400] rounded-lg border border-card-border bg-background/90 p-3 backdrop-blur-sm text-xs">
             <div className="mb-1.5 flex items-center gap-1.5">
-              <p className="font-semibold text-text-secondary">Pendlings-poeng</p>
+              <p className="font-semibold text-text-secondary">{MODE_LEGEND[mode].title}</p>
               <Link
-                href="/pendlings-poeng"
+                href={MODE_LEGEND[mode].href}
                 className="text-text-tertiary hover:text-accent"
                 title="Les metodikken"
               >
@@ -339,10 +415,7 @@ export default function CityOverviewMapInner() {
             </div>
             {currentView && (
               <p className="mt-2 max-w-[200px] text-[10px] leading-snug text-text-tertiary">
-                Radiusen dekker {currentView.radiusKm} km rundt sentrum og
-                inkluderer både urbane og spredtbygde områder. Røde områder
-                betyr at pendling til sentrum tar tid, ikke at stedet er
-                dårlig.
+                {MODE_LEGEND[mode].blurb(currentView.radiusKm)}
               </p>
             )}
             <p className="mt-1.5 text-[10px] text-text-tertiary">

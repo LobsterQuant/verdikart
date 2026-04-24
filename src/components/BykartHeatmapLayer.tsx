@@ -8,6 +8,8 @@ import { Polygon, Tooltip } from "react-leaflet";
 import type { WorkCenterId } from "@/lib/scoring/work-centers";
 import { heatmapColor, HEATMAP_FILL_OPACITY } from "@/lib/heatmapColor";
 
+export type HeatmapMode = "pendling" | "klima";
+
 interface BykartHeatmapCell {
   h3: string;
   lat: number;
@@ -16,52 +18,74 @@ interface BykartHeatmapCell {
   boundary: ReadonlyArray<readonly [number, number]>;
 }
 
-// Explicit switch — webpack statically detects each import() call and emits
-// one chunk per city. A template-literal import would work at runtime but
-// opts out of that guarantee.
+// Explicit 12-arm switch — webpack statically detects each import() call and
+// emits one chunk per (city, mode) combination. Template-literal imports would
+// work at runtime but opt out of that guarantee.
 async function loadCityCells(
   city: WorkCenterId,
+  mode: HeatmapMode,
 ): Promise<ReadonlyArray<BykartHeatmapCell>> {
+  if (mode === "klima") {
+    switch (city) {
+      case "oslo":
+        return (await import("@/data/bykart-klima-oslo")).BYKART_KLIMA_CITY.cells;
+      case "bergen":
+        return (await import("@/data/bykart-klima-bergen")).BYKART_KLIMA_CITY.cells;
+      case "trondheim":
+        return (await import("@/data/bykart-klima-trondheim")).BYKART_KLIMA_CITY.cells;
+      case "stavanger":
+        return (await import("@/data/bykart-klima-stavanger")).BYKART_KLIMA_CITY.cells;
+      case "kristiansand":
+        return (await import("@/data/bykart-klima-kristiansand")).BYKART_KLIMA_CITY.cells;
+      case "tromso":
+        return (await import("@/data/bykart-klima-tromso")).BYKART_KLIMA_CITY.cells;
+    }
+  }
   switch (city) {
     case "oslo":
-      return (await import("@/data/bykart-heatmap-oslo")).BYKART_HEATMAP_CITY
-        .cells;
+      return (await import("@/data/bykart-heatmap-oslo")).BYKART_HEATMAP_CITY.cells;
     case "bergen":
-      return (await import("@/data/bykart-heatmap-bergen")).BYKART_HEATMAP_CITY
-        .cells;
+      return (await import("@/data/bykart-heatmap-bergen")).BYKART_HEATMAP_CITY.cells;
     case "trondheim":
-      return (await import("@/data/bykart-heatmap-trondheim"))
-        .BYKART_HEATMAP_CITY.cells;
+      return (await import("@/data/bykart-heatmap-trondheim")).BYKART_HEATMAP_CITY.cells;
     case "stavanger":
-      return (await import("@/data/bykart-heatmap-stavanger"))
-        .BYKART_HEATMAP_CITY.cells;
+      return (await import("@/data/bykart-heatmap-stavanger")).BYKART_HEATMAP_CITY.cells;
     case "kristiansand":
-      return (await import("@/data/bykart-heatmap-kristiansand"))
-        .BYKART_HEATMAP_CITY.cells;
+      return (await import("@/data/bykart-heatmap-kristiansand")).BYKART_HEATMAP_CITY.cells;
     case "tromso":
-      return (await import("@/data/bykart-heatmap-tromso")).BYKART_HEATMAP_CITY
-        .cells;
+      return (await import("@/data/bykart-heatmap-tromso")).BYKART_HEATMAP_CITY.cells;
   }
 }
 
+const MODE_LABEL: Record<HeatmapMode, string> = {
+  pendling: "Pendlings-poeng",
+  klima: "Klima-poeng",
+};
+
+const MODE_DEEPLINK: Record<HeatmapMode, string> = {
+  pendling: "/pendlings-poeng",
+  klima: "/klima-poeng",
+};
+
 interface Props {
   city: WorkCenterId;
+  mode: HeatmapMode;
 }
 
-export default function BykartHeatmapLayer({ city }: Props) {
+export default function BykartHeatmapLayer({ city, mode }: Props) {
   const router = useRouter();
   const [cells, setCells] = useState<ReadonlyArray<BykartHeatmapCell>>([]);
 
   useEffect(() => {
     let cancelled = false;
     setCells([]);
-    loadCityCells(city).then((next) => {
+    loadCityCells(city, mode).then((next) => {
       if (!cancelled) setCells(next);
     });
     return () => {
       cancelled = true;
     };
-  }, [city]);
+  }, [city, mode]);
 
   return (
     <>
@@ -76,12 +100,12 @@ export default function BykartHeatmapLayer({ city }: Props) {
             fillOpacity: HEATMAP_FILL_OPACITY,
           }}
           eventHandlers={{
-            click: () => router.push("/pendlings-poeng"),
+            click: () => router.push(MODE_DEEPLINK[mode]),
           }}
         >
           <Tooltip direction="top" offset={[0, -2]} opacity={1} sticky>
             <span style={{ color: "#111", fontWeight: 600 }}>
-              Pendlings-poeng {cell.score}/100
+              {MODE_LABEL[mode]} {cell.score}/100
             </span>
           </Tooltip>
         </Polygon>
